@@ -32,6 +32,60 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_log: {
+        Row: {
+          action: string
+          actor_email: string | null
+          actor_id: string | null
+          created_at: string | null
+          id: string
+          ip_address: string | null
+          metadata: Json | null
+          target_id: string | null
+          target_type: string
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          target_id?: string | null
+          target_type: string
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string | null
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          target_id?: string | null
+          target_type?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audit_log_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
+          },
+        ]
+      }
       badges: {
         Row: {
           description: string | null
@@ -727,6 +781,8 @@ export type Database = {
           email: string
           id: string
           leaderboard_opt_out: boolean | null
+          mfa_enabled: boolean | null
+          mfa_enforced_at: string | null
           name: string | null
           role: Database["public"]["Enums"]["user_role"]
         }
@@ -735,6 +791,8 @@ export type Database = {
           email: string
           id: string
           leaderboard_opt_out?: boolean | null
+          mfa_enabled?: boolean | null
+          mfa_enforced_at?: string | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
         }
@@ -743,6 +801,8 @@ export type Database = {
           email?: string
           id?: string
           leaderboard_opt_out?: boolean | null
+          mfa_enabled?: boolean | null
+          mfa_enforced_at?: string | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
         }
