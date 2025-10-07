@@ -538,6 +538,51 @@ export type Database = {
           },
         ]
       }
+      onboarding_progress: {
+        Row: {
+          completed_at: string | null
+          completed_steps: Json | null
+          created_at: string | null
+          current_step: string | null
+          patient_id: string
+          skipped: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          completed_steps?: Json | null
+          created_at?: string | null
+          current_step?: string | null
+          patient_id: string
+          skipped?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          completed_steps?: Json | null
+          created_at?: string | null
+          current_step?: string | null
+          patient_id?: string
+          skipped?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_progress_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: true
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "onboarding_progress_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: true
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
+          },
+        ]
+      }
       patient_week_progress: {
         Row: {
           ai_summary: string | null
