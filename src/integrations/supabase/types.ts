@@ -206,6 +206,8 @@ export type Database = {
         Row: {
           assigned_therapist_id: string | null
           consent_accepted_at: string | null
+          consent_payload: Json | null
+          consent_signature: string | null
           created_at: string | null
           id: string
           program_variant: Database["public"]["Enums"]["program_variant"] | null
@@ -215,6 +217,8 @@ export type Database = {
         Insert: {
           assigned_therapist_id?: string | null
           consent_accepted_at?: string | null
+          consent_payload?: Json | null
+          consent_signature?: string | null
           created_at?: string | null
           id?: string
           program_variant?:
@@ -226,6 +230,8 @@ export type Database = {
         Update: {
           assigned_therapist_id?: string | null
           consent_accepted_at?: string | null
+          consent_payload?: Json | null
+          consent_signature?: string | null
           created_at?: string | null
           id?: string
           program_variant?:
@@ -279,6 +285,7 @@ export type Database = {
           id: string
           kind: Database["public"]["Enums"]["upload_kind"] | null
           patient_id: string | null
+          thumb_failed: boolean | null
           thumb_url: string | null
           week_id: string | null
         }
@@ -288,6 +295,7 @@ export type Database = {
           id?: string
           kind?: Database["public"]["Enums"]["upload_kind"] | null
           patient_id?: string | null
+          thumb_failed?: boolean | null
           thumb_url?: string | null
           week_id?: string | null
         }
@@ -297,6 +305,7 @@ export type Database = {
           id?: string
           kind?: Database["public"]["Enums"]["upload_kind"] | null
           patient_id?: string | null
+          thumb_failed?: boolean | null
           thumb_url?: string | null
           week_id?: string | null
         }
@@ -390,7 +399,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      calc_week_progress: {
+        Args: { _patient_id: string; _week_id: string }
+        Returns: Json
+      }
     }
     Enums: {
       exercise_type: "active" | "passive" | "breathing" | "posture" | "test"
