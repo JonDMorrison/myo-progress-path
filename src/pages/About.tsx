@@ -1,9 +1,11 @@
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { NavPublic } from "@/components/public/NavPublic";
 import { FooterPublic } from "@/components/public/FooterPublic";
 import { SkipToContent } from "@/components/public/SkipToContent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, Users, Lock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Heart, MessageSquare, Award, Activity, Clock, Phone, Mail } from "lucide-react";
 import { getPageTitle } from "@/lib/seo";
 
 const About = () => {
@@ -13,12 +15,12 @@ const About = () => {
         <title>{getPageTitle("About")}</title>
         <meta 
           name="description" 
-          content="Built with clinicians, for better adherence. Learn about MyoCoach's mission to simplify therapy delivery and improve patient outcomes." 
+          content="Built with clinicians. Focused on families. MyoCoach is created by Montrose Dental Centre to help patients follow through at home." 
         />
         <meta property="og:title" content={getPageTitle("About")} />
         <meta 
           property="og:description" 
-          content="Built with clinicians, for better adherence. Learn about MyoCoach's mission to simplify therapy delivery and improve patient outcomes." 
+          content="Built with clinicians. Focused on families. MyoCoach is created by Montrose Dental Centre to help patients follow through at home." 
         />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/placeholder.svg" />
@@ -31,59 +33,107 @@ const About = () => {
         
         <main id="main-content" className="flex-1">
           {/* Header */}
-          <section className="py-16 md:py-24">
+          <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-secondary/5">
             <div className="container max-w-4xl text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                Built with Clinicians, for Better Adherence
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                Built with clinicians. Focused on families.
               </h1>
               <p className="text-xl text-muted-foreground">
-                Our mission is to simplify therapy delivery and strengthen feedback loops, 
-                helping clinics achieve better patient outcomes through structured, engaging programs.
+                MyoCoach is created by Montrose Dental Centre to help patients follow through 
+                at home — with clarity, compassion, and modern tools.
               </p>
             </div>
           </section>
 
           {/* Our Story */}
-          <section className="py-16 bg-muted/50">
+          <section className="py-16 bg-background">
             <div className="container">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                   <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Story</h2>
                   <div className="space-y-4 text-lg text-muted-foreground">
                     <p>
-                      MyoCoach was born from a simple observation: therapists were spending hours 
-                      creating PDF exercise sheets, patients struggled to stay on track, and meaningful 
-                      feedback was limited to occasional in-person visits.
+                      Montrose Dental Centre has served Abbotsford families for over thirty years. 
+                      The team blends a relaxed, friendly environment with up-to-date techniques — 
+                      earning trust through attention to detail and genuine care.
                     </p>
                     <p>
-                      We knew there had to be a better way. By working directly with myofunctional 
-                      therapists, we built a platform that structures programs into manageable weekly 
-                      steps, enables asynchronous video review, and motivates patients through 
-                      engagement features.
-                    </p>
-                    <p>
-                      The result? Therapists save time, patients stay engaged, and outcomes improve. 
-                      That's what drives us every day.
+                      We built this program because great results need great habits. Patients told 
+                      us they wanted simple steps, reminders, and a way to share progress between 
+                      visits. That's why we turned our 24-week myofunctional approach into a guided, 
+                      online experience.
                     </p>
                   </div>
                 </div>
                 
                 <div className="bg-muted rounded-2xl aspect-video flex items-center justify-center">
-                  <p className="text-muted-foreground">Team Photo / Office Space</p>
+                  <p className="text-muted-foreground">Montrose Dental Centre Photo</p>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* What We Believe */}
-          <section className="py-16">
+          {/* Meet the Team */}
+          <section className="py-16 bg-muted/50">
             <div className="container">
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">What We Believe</h2>
-                <p className="text-xl text-muted-foreground">The principles that guide our work</p>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet the Team</h2>
+                <p className="text-xl text-muted-foreground">
+                  The Montrose team bringing this program to life
+                </p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="max-w-4xl mx-auto">
+                {/* Dr. Matt */}
+                <Card className="mb-8 border-2">
+                  <CardContent className="pt-6">
+                    <div className="grid md:grid-cols-3 gap-6 items-center">
+                      <div className="bg-muted rounded-2xl aspect-square flex items-center justify-center">
+                        <p className="text-muted-foreground text-center px-4">Dr. Matt Francisco</p>
+                      </div>
+                      <div className="md:col-span-2">
+                        <h3 className="text-2xl font-bold mb-2">Dr. Matt Francisco</h3>
+                        <p className="text-muted-foreground text-lg mb-4">
+                          Dr. Matt empowers his patients to achieve excellent oral health. He combines 
+                          best-in-class techniques and tools with a calm, comfortable experience for 
+                          every age. He and his wife Sylvia are raising their three boys here in 
+                          Abbotsford — you'll often see them around town.
+                        </p>
+                        <p className="text-muted-foreground">
+                          With a background in competitive basketball, Dr. Matt is especially passionate 
+                          about healthy mechanics, protection, and recovery for athletes.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Care Team */}
+                <Card className="border-2">
+                  <CardHeader>
+                    <CardTitle className="text-2xl">Your Montrose Care Team</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-lg text-muted-foreground">
+                      An experienced, energetic group that loves helping families. From admin to 
+                      chairside, our goal is a smooth, supportive experience from first login to 
+                      final week.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+
+          {/* How We Care */}
+          <section className="py-16 bg-background">
+            <div className="container">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">How We Care</h2>
+                <p className="text-xl text-muted-foreground">Three pillars of the Montrose approach</p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 <Card className="border-2">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
@@ -93,8 +143,8 @@ const About = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Simple, structured steps beat lengthy instruction manuals. Patients succeed 
-                      when they know exactly what to do next.
+                      Weekly plans with step-by-step guidance and checklists. You always know what 
+                      comes next.
                     </p>
                   </CardContent>
                 </Card>
@@ -102,14 +152,14 @@ const About = () => {
                 <Card className="border-2">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <Users className="w-6 h-6 text-primary" />
+                      <MessageSquare className="w-6 h-6 text-primary" />
                     </div>
                     <CardTitle className="text-2xl">Connection</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Feedback is the difference between trying and improving. Our platform makes 
-                      therapist-patient connection seamless and effective.
+                      Secure messaging and therapist feedback when you need it. We're here to support 
+                      your progress.
                     </p>
                   </CardContent>
                 </Card>
@@ -117,14 +167,14 @@ const About = () => {
                 <Card className="border-2">
                   <CardHeader>
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <Lock className="w-6 h-6 text-primary" />
+                      <Award className="w-6 h-6 text-primary" />
                     </div>
-                    <CardTitle className="text-2xl">Privacy</CardTitle>
+                    <CardTitle className="text-2xl">Modern care</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Patient data deserves the highest protection. We implement patient-first 
-                      practices at every level of our platform.
+                      Techniques that range from orthodontic expansion and aligners to breathing and 
+                      posture coaching.
                     </p>
                   </CardContent>
                 </Card>
@@ -132,44 +182,99 @@ const About = () => {
             </div>
           </section>
 
-          {/* Team/Advisors */}
-          <section className="py-16 bg-muted/50">
-            <div className="container">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Team</h2>
-                <p className="text-xl text-muted-foreground">
-                  Healthcare professionals and technologists working together
-                </p>
-              </div>
-
-              {/* TODO: Add team member avatars and bios */}
-              <div className="grid md:grid-cols-4 gap-6">
-                {[1, 2, 3, 4].map((i) => (
-                  <Card key={i}>
-                    <CardContent className="pt-6 text-center">
-                      <div className="w-24 h-24 rounded-full bg-muted mx-auto mb-4" />
-                      <h3 className="font-semibold mb-1">Team Member {i}</h3>
-                      <p className="text-sm text-muted-foreground">Role Title</p>
-                    </CardContent>
-                  </Card>
-                ))}
+          {/* Athletes Callout */}
+          <section className="py-16 bg-primary text-primary-foreground">
+            <div className="container max-w-4xl">
+              <div className="flex flex-col md:flex-row gap-8 items-center">
+                <div className="flex-shrink-0">
+                  <Activity className="w-20 h-20" />
+                </div>
+                <div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                    For Athletes & Active Patients
+                  </h2>
+                  <p className="text-xl opacity-90 mb-4">
+                    We love the Fraser Valley's active culture. With a background in competitive 
+                    basketball, Dr. Matt's especially passionate about healthy mechanics, protection, 
+                    and recovery — including custom sports guards.
+                  </p>
+                  <p className="text-lg opacity-80">
+                    Whether you're on the field, court, or trail, proper breathing and oral health 
+                    are foundational to peak performance.
+                  </p>
+                </div>
               </div>
             </div>
           </section>
 
-          {/* Contact */}
-          <section className="py-16">
-            <div className="container max-w-2xl text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
+          {/* Where to Find Us */}
+          <section className="py-16 bg-muted/50">
+            <div className="container max-w-3xl">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Where to Find Us</h2>
+                <p className="text-xl text-muted-foreground">
+                  Visit us in Abbotsford or reach out anytime
+                </p>
+              </div>
+
+              <Card className="border-2">
+                <CardContent className="pt-6">
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                        <Clock className="w-5 h-5 text-primary" />
+                        Office Hours
+                      </h3>
+                      <div className="space-y-1 text-muted-foreground ml-7">
+                        <p>Monday: 8:00 AM – 12:00 PM (admin)</p>
+                        <p>Tuesday – Thursday: 7:30 AM – 4:00 PM</p>
+                        <p>Friday: 7:30 AM – 2:30 PM</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                        <Phone className="w-5 h-5 text-primary" />
+                        Contact
+                      </h3>
+                      <div className="space-y-1 ml-7">
+                        <p className="text-muted-foreground">
+                          Phone:{" "}
+                          <a href="tel:604-853-5677" className="text-foreground hover:text-primary transition-colors">
+                            604-853-5677
+                          </a>
+                        </p>
+                        <p className="text-muted-foreground">
+                          Email:{" "}
+                          <a href="mailto:info@montrosedentalcentre.com" className="text-foreground hover:text-primary transition-colors">
+                            info@montrosedentalcentre.com
+                          </a>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* CTA */}
+          <section className="py-16 bg-gradient-to-br from-primary/10 to-secondary/10">
+            <div className="container text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                Ready to get started?
+              </h2>
               <p className="text-xl text-muted-foreground mb-8">
-                Interested in a demo or have questions about MyoCoach? We'd love to hear from you.
+                Join the Montrose family in building healthier habits
               </p>
-              <a 
-                href="mailto:demo@myocoach.com"
-                className="text-lg text-primary hover:underline font-semibold"
-              >
-                demo@myocoach.com
-              </a>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button asChild size="lg">
+                  <Link to="/auth">Get Started</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link to="/how-it-works">How It Works</Link>
+                </Button>
+              </div>
             </div>
           </section>
         </main>

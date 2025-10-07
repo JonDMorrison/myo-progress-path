@@ -56,8 +56,21 @@ export const FooterPublic = () => {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-          <p>&copy; {currentYear} MyoCoach. All rights reserved.</p>
+        <div className="mt-8 pt-8 border-t">
+          <div className="text-center mb-6">
+            <h3 className="font-semibold text-lg mb-2">Montrose Dental Centre</h3>
+            <p className="text-sm text-muted-foreground">Abbotsford, BC</p>
+            <p className="text-sm text-muted-foreground">
+              <a href="tel:604-853-5677" className="hover:text-foreground transition-colors">604-853-5677</a>
+              {" • "}
+              <a href="mailto:info@montrosedentalcentre.com" className="hover:text-foreground transition-colors">
+                info@montrosedentalcentre.com
+              </a>
+            </p>
+          </div>
+          <div className="text-center text-sm text-muted-foreground">
+            <p>&copy; {currentYear} MyoCoach by Montrose Dental Centre. All rights reserved.</p>
+          </div>
         </div>
       </div>
     </footer>

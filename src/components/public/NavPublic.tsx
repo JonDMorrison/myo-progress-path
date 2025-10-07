@@ -19,7 +19,9 @@ export const NavPublic = () => {
       <nav className="container flex h-16 items-center justify-between" aria-label="Main navigation">
         <div className="flex items-center gap-6 md:gap-10">
           <Link to="/" className="flex items-center space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
-            <span className="font-bold text-xl text-primary">MyoCoach</span>
+            <span className="font-bold text-xl text-primary">
+              MyoCoach <span className="text-muted-foreground font-normal">• by Montrose Dental Centre</span>
+            </span>
           </Link>
           
           <div className="hidden md:flex gap-6">
