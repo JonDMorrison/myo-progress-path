@@ -8,6 +8,7 @@ import { Check, Heart, Award, TrendingUp, Video, Phone, Mail, MapPin } from "luc
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPageTitle, getSchemaOrgData } from "@/lib/seo";
+import montroseTeamPhoto from "@/assets/montrose-team-photo.jpg";
 
 const Home = () => {
   const schemaData = getSchemaOrgData();
@@ -262,8 +263,12 @@ const Home = () => {
           <section className="py-16 bg-background">
             <div className="container">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div className="bg-muted rounded-2xl aspect-square flex items-center justify-center order-2 lg:order-1">
-                  <p className="text-muted-foreground">Dr. Matt Francisco Photo</p>
+                <div className="rounded-2xl overflow-hidden shadow-lg order-2 lg:order-1">
+                  <img 
+                    src={montroseTeamPhoto} 
+                    alt="Dr. Matt Francisco and Montrose Dental Centre team" 
+                    className="w-full h-full object-cover aspect-square"
+                  />
                 </div>
                 
                 <div className="order-1 lg:order-2">
