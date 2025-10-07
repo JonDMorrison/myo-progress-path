@@ -96,6 +96,13 @@ export type Database = {
             referencedRelation: "patients"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "challenge_progress_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
+          },
         ]
       }
       challenges: {
@@ -142,6 +149,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "clinics"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "challenges_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["clinic_id"]
           },
         ]
       }
@@ -200,6 +214,13 @@ export type Database = {
             referencedRelation: "patients"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "earned_badges_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
+          },
         ]
       }
       events: {
@@ -231,6 +252,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "patients"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "events_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
           },
         ]
       }
@@ -322,11 +350,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "gamification_stats_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["clinic_id"]
+          },
+          {
             foreignKeyName: "gamification_stats_patient_id_fkey"
             columns: ["patient_id"]
             isOneToOne: true
             referencedRelation: "patients"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gamification_stats_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: true
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
           },
         ]
       }
@@ -364,11 +406,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "messages_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
+          },
+          {
             foreignKeyName: "messages_therapist_id_fkey"
             columns: ["therapist_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_therapist_id_fkey"
+            columns: ["therapist_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
           },
           {
             foreignKeyName: "messages_week_id_fkey"
@@ -419,6 +475,13 @@ export type Database = {
             referencedRelation: "patients"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "notifications_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
+          },
         ]
       }
       patient_week_progress: {
@@ -462,6 +525,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "patients"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_week_progress_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
           },
           {
             foreignKeyName: "patient_week_progress_week_id_fkey"
@@ -529,6 +599,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "patients_assigned_therapist_id_fkey"
+            columns: ["assigned_therapist_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
+          },
+          {
             foreignKeyName: "patients_clinic_id_fkey"
             columns: ["clinic_id"]
             isOneToOne: false
@@ -536,11 +613,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "patients_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["clinic_id"]
+          },
+          {
             foreignKeyName: "patients_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
           },
         ]
       }
@@ -606,6 +697,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "patients"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uploads_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
           },
           {
             foreignKeyName: "uploads_week_id_fkey"
@@ -696,6 +794,42 @@ export type Database = {
       }
     }
     Views: {
+      v_master_patient_list: {
+        Row: {
+          adherence_14d: number | null
+          clinic_id: string | null
+          clinic_name: string | null
+          current_week_number: number | null
+          current_week_status: Database["public"]["Enums"]["week_status"] | null
+          enrolled_at: string | null
+          last_activity: string | null
+          patient_email: string | null
+          patient_id: string | null
+          patient_name: string | null
+          patient_status: Database["public"]["Enums"]["patient_status"] | null
+          program_variant: Database["public"]["Enums"]["program_variant"] | null
+          therapist_email: string | null
+          therapist_id: string | null
+          therapist_name: string | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patients_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
+          },
+        ]
+      }
       v_weekly_metrics: {
         Row: {
           assigned_therapist_id: string | null
@@ -722,8 +856,29 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "patient_week_progress_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
+          },
+          {
             foreignKeyName: "patients_assigned_therapist_id_fkey"
             columns: ["assigned_therapist_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_assigned_therapist_id_fkey"
+            columns: ["assigned_therapist_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
+          },
+          {
+            foreignKeyName: "patients_user_id_fkey"
+            columns: ["patient_user_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -732,8 +887,8 @@ export type Database = {
             foreignKeyName: "patients_user_id_fkey"
             columns: ["patient_user_id"]
             isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
           },
         ]
       }
@@ -785,6 +940,10 @@ export type Database = {
           count: number
           status: Database["public"]["Enums"]["week_status"]
         }[]
+      }
+      is_super_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
       }
     }
     Enums: {
