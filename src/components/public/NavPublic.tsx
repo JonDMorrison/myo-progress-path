@@ -39,9 +39,9 @@ export const NavPublic = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button asChild className="hidden md:inline-flex">
-            <Link to="/auth">Login</Link>
-          </Button>
+          <Link to="/auth" className="hidden md:inline-flex">
+            <Button>Login</Button>
+          </Link>
 
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild className="md:hidden">
