@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { PhoneMockup } from "./PhoneMockup";
 
 export const Hero = () => {
   return (
@@ -27,8 +28,8 @@ export const Hero = () => {
             </div>
           </div>
           
-          <div className="bg-muted rounded-2xl aspect-video flex items-center justify-center">
-            <p className="text-muted-foreground">Dashboard Preview</p>
+          <div className="flex items-center justify-center">
+            <PhoneMockup />
           </div>
         </div>
       </div>
