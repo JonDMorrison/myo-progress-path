@@ -792,7 +792,7 @@ export type Database = {
       patient_status: "active" | "inactive" | "completed"
       program_variant: "standard" | "frenectomy"
       upload_kind: "first_attempt" | "last_attempt" | "progress"
-      user_role: "patient" | "therapist" | "admin"
+      user_role: "patient" | "therapist" | "admin" | "super_admin"
       week_status: "locked" | "open" | "submitted" | "approved" | "needs_more"
     }
     CompositeTypes: {
@@ -925,7 +925,7 @@ export const Constants = {
       patient_status: ["active", "inactive", "completed"],
       program_variant: ["standard", "frenectomy"],
       upload_kind: ["first_attempt", "last_attempt", "progress"],
-      user_role: ["patient", "therapist", "admin"],
+      user_role: ["patient", "therapist", "admin", "super_admin"],
       week_status: ["locked", "open", "submitted", "approved", "needs_more"],
     },
   },
