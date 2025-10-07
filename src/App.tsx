@@ -18,6 +18,7 @@ import AdminContent from "./pages/AdminContent";
 import ReviewWeek from "./pages/ReviewWeek";
 import Reports from "./pages/Reports";
 import TherapistAIAssist from "./pages/TherapistAIAssist";
+import MasterAdmin from "./pages/MasterAdmin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/patient" element={<PatientDashboard />} />
             <Route path="/therapist" element={<TherapistDashboard />} />
             <Route path="/admin/content" element={<AdminContent />} />
+            <Route path="/admin/master" element={<MasterAdmin />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/therapist/ai-assist" element={<TherapistAIAssist />} />
             <Route path="/week/:weekNumber" element={<WeekDetail />} />

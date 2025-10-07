@@ -11,6 +11,7 @@ const TherapistDashboard = () => {
   const [pendingReviews, setPendingReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -26,7 +27,7 @@ const TherapistDashboard = () => {
         return;
       }
 
-      // Check if user is admin
+      // Check if user is admin or super admin
       const { data: userData } = await supabase
         .from("users")
         .select("role")
@@ -35,6 +36,11 @@ const TherapistDashboard = () => {
 
       if (userData?.role === "admin") {
         setIsAdmin(true);
+      }
+      
+      if (userData?.role === "super_admin") {
+        setIsSuperAdmin(true);
+        setIsAdmin(true); // Super admin also has admin privileges
       }
 
       // Get therapist's assigned patients with submitted weeks
@@ -105,6 +111,12 @@ const TherapistDashboard = () => {
             <span className="mr-2">📊</span>
             Reports
           </Button>
+          {isSuperAdmin && (
+            <Button variant="outline" size="sm" onClick={() => navigate("/admin/master")}>
+              <span className="mr-2">👑</span>
+              Master Admin
+            </Button>
+          )}
           {isAdmin && (
             <Button variant="outline" size="sm" onClick={() => navigate("/admin/content")}>
               <span className="mr-2">⚙️</span>
