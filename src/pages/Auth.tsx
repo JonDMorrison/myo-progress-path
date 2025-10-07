@@ -14,6 +14,7 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [useMagicLink, setUseMagicLink] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -33,7 +34,23 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      if (isLogin) {
+      if (useMagicLink && isLogin) {
+        // Magic link login
+        const { error } = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: `${window.location.origin}/`,
+          },
+        });
+        
+        if (error) throw error;
+
+        toast({
+          title: "Check your email",
+          description: "We sent you a magic link to sign in.",
+        });
+      } else if (isLogin) {
+        // Password login
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -47,6 +64,7 @@ const Auth = () => {
         });
         navigate("/");
       } else {
+        // Sign up
         const { error } = await supabase.auth.signUp({
           email,
           password,
@@ -121,29 +139,72 @@ const Auth = () => {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                className="h-11"
-              />
-            </div>
+            {isLogin && !useMagicLink && (
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  className="h-11"
+                />
+              </div>
+            )}
+            
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  className="h-11"
+                />
+              </div>
+            )}
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full h-11" disabled={loading}>
-              {loading ? "Loading..." : isLogin ? "Sign In" : "Create Account"}
+              {loading ? "Loading..." : useMagicLink ? "Send Magic Link" : isLogin ? "Sign In" : "Create Account"}
             </Button>
+
+            {isLogin && (
+              <div className="flex flex-col gap-2 w-full">
+                <button
+                  type="button"
+                  onClick={() => setUseMagicLink(!useMagicLink)}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {useMagicLink ? "Use password instead" : "Use magic link instead"}
+                </button>
+                
+                {!useMagicLink && (
+                  <button
+                    type="button"
+                    onClick={() => navigate("/reset-password")}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Forgot password?
+                  </button>
+                )}
+              </div>
+            )}
 
             <button
               type="button"
-              onClick={() => setIsLogin(!isLogin)}
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setUseMagicLink(false);
+              }}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}

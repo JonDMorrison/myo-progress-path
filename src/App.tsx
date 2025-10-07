@@ -19,6 +19,9 @@ import ReviewWeek from "./pages/ReviewWeek";
 import Reports from "./pages/Reports";
 import TherapistAIAssist from "./pages/TherapistAIAssist";
 import MasterAdmin from "./pages/MasterAdmin";
+import ResetPassword from "./pages/ResetPassword";
+import UpdatePassword from "./pages/UpdatePassword";
+import SeedSuperAdmins from "./pages/SeedSuperAdmins";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +40,9 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
+            <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
             <Route path="/patient" element={<PatientDashboard />} />
             <Route path="/therapist" element={<TherapistDashboard />} />
             <Route path="/admin/content" element={<AdminContent />} />
