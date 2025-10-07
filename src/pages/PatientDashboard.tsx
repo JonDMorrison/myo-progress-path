@@ -47,6 +47,18 @@ const PatientDashboard = () => {
         return;
       }
 
+      // Check if onboarding is completed
+      const { data: onboarding } = await supabase
+        .from("onboarding_progress")
+        .select("completed_at")
+        .eq("patient_id", patientData.id)
+        .maybeSingle();
+
+      if (!onboarding?.completed_at) {
+        navigate("/onboarding");
+        return;
+      }
+
       // Get current week (for now, get week 1)
       const { data: weekData, error: weekError } = await supabase
         .from("weeks")

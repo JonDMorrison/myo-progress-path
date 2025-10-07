@@ -49,18 +49,52 @@ const Auth = () => {
         });
       } else {
         // Password login
-        const { error } = await supabase.auth.signInWithPassword({
+        const { error, data } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
         
         if (error) throw error;
 
+        // Get user role to redirect appropriately
+        const { data: userData } = await supabase
+          .from("users")
+          .select("role")
+          .eq("id", data.user.id)
+          .single();
+
         toast({
           title: "Welcome back!",
           description: "Successfully logged in.",
         });
-        navigate("/");
+
+        // Redirect based on role
+        if (userData?.role === "patient") {
+          // Check if patient needs onboarding
+          const { data: patient } = await supabase
+            .from("patients")
+            .select("id")
+            .eq("user_id", data.user.id)
+            .single();
+
+          if (patient) {
+            const { data: onboarding } = await supabase
+              .from("onboarding_progress")
+              .select("completed_at")
+              .eq("patient_id", patient.id)
+              .maybeSingle();
+
+            if (!onboarding?.completed_at) {
+              navigate("/onboarding");
+              return;
+            }
+          }
+          navigate("/patient");
+        } else if (userData?.role === "therapist" || userData?.role === "admin") {
+          navigate("/therapist");
+        } else {
+          navigate("/");
+        }
       }
     } catch (error: any) {
       toast({

@@ -1,5 +1,7 @@
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { NavPublic } from "@/components/public/NavPublic";
 import { FooterPublic } from "@/components/public/FooterPublic";
 import { SkipToContent } from "@/components/public/SkipToContent";
@@ -12,6 +14,29 @@ import montroseTeamPhoto from "@/assets/montrose-team-photo.jpg";
 
 const Home = () => {
   const schemaData = getSchemaOrgData();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    checkAuthAndRedirect();
+  }, []);
+
+  const checkAuthAndRedirect = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      // User is logged in, redirect to appropriate dashboard
+      const { data: userData } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", session.user.id)
+        .single();
+
+      if (userData?.role === "patient") {
+        navigate("/patient");
+      } else if (userData?.role === "therapist" || userData?.role === "admin") {
+        navigate("/therapist");
+      }
+    }
+  };
 
   const faqItems = [
     {
