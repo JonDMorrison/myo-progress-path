@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heart, MessageSquare, Award, Activity, Clock, Phone, Mail } from "lucide-react";
 import { getPageTitle } from "@/lib/seo";
+import montroseTeamPhoto from "@/assets/montrose-team-photo.jpg";
 
 const About = () => {
   return (
@@ -66,8 +67,12 @@ const About = () => {
                   </div>
                 </div>
                 
-                <div className="bg-muted rounded-2xl aspect-video flex items-center justify-center">
-                  <p className="text-muted-foreground">Montrose Dental Centre Photo</p>
+                <div className="rounded-2xl overflow-hidden shadow-lg">
+                  <img 
+                    src={montroseTeamPhoto} 
+                    alt="Montrose Dental Centre team" 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
             </div>
