@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice } from "@/lib/reviewActions";
 import { getAppFeatures } from "@/lib/appSettings";
@@ -24,6 +24,7 @@ const ReviewWeek = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [note, setNote] = useState("");
   const [premiumEnabled, setPremiumEnabled] = useState(false);
+  const [downloadingPDF, setDownloadingPDF] = useState(false);
 
   useEffect(() => {
     loadReviewData();
@@ -176,6 +177,35 @@ const ReviewWeek = () => {
     }
   };
 
+  const handleDownloadSummary = async () => {
+    if (!patientId) return;
+
+    setDownloadingPDF(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-patient-summary", {
+        body: { patientId },
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.open(data.url, "_blank");
+        toast({
+          title: "Summary Generated",
+          description: "Opening patient summary in a new tab.",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to generate patient summary.",
+        variant: "destructive",
+      });
+    } finally {
+      setDownloadingPDF(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -216,6 +246,15 @@ const ReviewWeek = () => {
                 <h1 className="text-2xl font-bold">{patient?.user?.name}</h1>
                 <p className="text-sm text-muted-foreground">{patient?.user?.email}</p>
               </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDownloadSummary}
+                disabled={downloadingPDF}
+              >
+                <FileDown className="mr-2 h-4 w-4" />
+                {downloadingPDF ? "Generating..." : "Patient Summary"}
+              </Button>
             </div>
             <div className="text-right">
               <div className="flex items-center gap-2 mb-1">
