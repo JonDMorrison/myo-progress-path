@@ -267,7 +267,7 @@ const Home = () => {
                   <img 
                     src={montroseTeamPhoto} 
                     alt="Montrose Dental Centre team" 
-                    className="w-full h-full object-cover aspect-square"
+                    className="w-full h-auto object-contain"
                   />
                 </div>
                 
