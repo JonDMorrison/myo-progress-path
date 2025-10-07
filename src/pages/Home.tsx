@@ -318,44 +318,6 @@ const Home = () => {
             </div>
           </section>
 
-          {/* About Montrose */}
-          <section className="py-16 bg-background">
-            <div className="container max-w-4xl">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  About Montrose Dental Centre
-                </h2>
-                <p className="text-xl text-muted-foreground mb-6">
-                  Serving Abbotsford families for over 30 years
-                </p>
-              </div>
-              
-              <Card className="border-2">
-                <CardContent className="pt-6">
-                  <div className="space-y-4 text-lg text-muted-foreground">
-                    <p>
-                      At Montrose Dental Centre, we've built our reputation on providing exceptional, 
-                      family-friendly dental care in a warm and welcoming environment. Our experienced 
-                      team combines the latest dental techniques with a genuine commitment to each 
-                      patient's comfort and well-being.
-                    </p>
-                    <p>
-                      We created MyoCoach because we saw our patients needed more than just in-office 
-                      visits. They needed a way to build healthy habits at home, track their progress, 
-                      and get guidance between appointments. This program brings over three decades of 
-                      clinical expertise directly to you.
-                    </p>
-                  </div>
-                  <div className="mt-6 pt-6 border-t">
-                    <p className="text-center text-muted-foreground">
-                      <strong>Trusted by families across Abbotsford and the Fraser Valley</strong>
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-
           {/* FAQ */}
           <section className="py-16 bg-muted/50">
             <div className="container max-w-3xl">
