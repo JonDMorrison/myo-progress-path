@@ -1,0 +1,519 @@
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "13.0.5"
+  }
+  public: {
+    Tables: {
+      events: {
+        Row: {
+          created_at: string | null
+          id: string
+          meta: Json | null
+          patient_id: string | null
+          type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          meta?: Json | null
+          patient_id?: string | null
+          type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          meta?: Json | null
+          patient_id?: string | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      exercises: {
+        Row: {
+          compensations: string | null
+          demo_video_url: string | null
+          id: string
+          instructions: string | null
+          props: string | null
+          title: string
+          type: Database["public"]["Enums"]["exercise_type"]
+          week_id: string | null
+        }
+        Insert: {
+          compensations?: string | null
+          demo_video_url?: string | null
+          id?: string
+          instructions?: string | null
+          props?: string | null
+          title: string
+          type: Database["public"]["Enums"]["exercise_type"]
+          week_id?: string | null
+        }
+        Update: {
+          compensations?: string | null
+          demo_video_url?: string | null
+          id?: string
+          instructions?: string | null
+          props?: string | null
+          title?: string
+          type?: Database["public"]["Enums"]["exercise_type"]
+          week_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercises_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
+            referencedRelation: "weeks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          body: string
+          created_at: string | null
+          id: string
+          patient_id: string | null
+          therapist_id: string | null
+          week_id: string | null
+        }
+        Insert: {
+          body: string
+          created_at?: string | null
+          id?: string
+          patient_id?: string | null
+          therapist_id?: string | null
+          week_id?: string | null
+        }
+        Update: {
+          body?: string
+          created_at?: string | null
+          id?: string
+          patient_id?: string | null
+          therapist_id?: string | null
+          week_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_therapist_id_fkey"
+            columns: ["therapist_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
+            referencedRelation: "weeks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patient_week_progress: {
+        Row: {
+          bolt_score: number | null
+          completed_at: string | null
+          id: string
+          nasal_breathing_pct: number | null
+          patient_id: string | null
+          status: Database["public"]["Enums"]["week_status"] | null
+          tongue_on_spot_pct: number | null
+          week_id: string | null
+        }
+        Insert: {
+          bolt_score?: number | null
+          completed_at?: string | null
+          id?: string
+          nasal_breathing_pct?: number | null
+          patient_id?: string | null
+          status?: Database["public"]["Enums"]["week_status"] | null
+          tongue_on_spot_pct?: number | null
+          week_id?: string | null
+        }
+        Update: {
+          bolt_score?: number | null
+          completed_at?: string | null
+          id?: string
+          nasal_breathing_pct?: number | null
+          patient_id?: string | null
+          status?: Database["public"]["Enums"]["week_status"] | null
+          tongue_on_spot_pct?: number | null
+          week_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_week_progress_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_week_progress_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
+            referencedRelation: "weeks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      patients: {
+        Row: {
+          assigned_therapist_id: string | null
+          consent_accepted_at: string | null
+          created_at: string | null
+          id: string
+          program_variant: Database["public"]["Enums"]["program_variant"] | null
+          status: Database["public"]["Enums"]["patient_status"] | null
+          user_id: string | null
+        }
+        Insert: {
+          assigned_therapist_id?: string | null
+          consent_accepted_at?: string | null
+          created_at?: string | null
+          id?: string
+          program_variant?:
+            | Database["public"]["Enums"]["program_variant"]
+            | null
+          status?: Database["public"]["Enums"]["patient_status"] | null
+          user_id?: string | null
+        }
+        Update: {
+          assigned_therapist_id?: string | null
+          consent_accepted_at?: string | null
+          created_at?: string | null
+          id?: string
+          program_variant?:
+            | Database["public"]["Enums"]["program_variant"]
+            | null
+          status?: Database["public"]["Enums"]["patient_status"] | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patients_assigned_therapist_id_fkey"
+            columns: ["assigned_therapist_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      programs: {
+        Row: {
+          description: string | null
+          id: string
+          title: string
+          weeks_count: number
+        }
+        Insert: {
+          description?: string | null
+          id?: string
+          title: string
+          weeks_count: number
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          title?: string
+          weeks_count?: number
+        }
+        Relationships: []
+      }
+      uploads: {
+        Row: {
+          created_at: string | null
+          file_url: string | null
+          id: string
+          kind: Database["public"]["Enums"]["upload_kind"] | null
+          patient_id: string | null
+          thumb_url: string | null
+          week_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          file_url?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["upload_kind"] | null
+          patient_id?: string | null
+          thumb_url?: string | null
+          week_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          file_url?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["upload_kind"] | null
+          patient_id?: string | null
+          thumb_url?: string | null
+          week_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "uploads_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "uploads_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
+            referencedRelation: "weeks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          name: string | null
+          role: Database["public"]["Enums"]["user_role"]
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id: string
+          name?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          name?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+        }
+        Relationships: []
+      }
+      weeks: {
+        Row: {
+          checklist_schema: Json | null
+          id: string
+          notes: string | null
+          number: number
+          program_id: string | null
+          requires_bolt: boolean | null
+          requires_video_first: boolean | null
+          requires_video_last: boolean | null
+          title: string | null
+        }
+        Insert: {
+          checklist_schema?: Json | null
+          id?: string
+          notes?: string | null
+          number: number
+          program_id?: string | null
+          requires_bolt?: boolean | null
+          requires_video_first?: boolean | null
+          requires_video_last?: boolean | null
+          title?: string | null
+        }
+        Update: {
+          checklist_schema?: Json | null
+          id?: string
+          notes?: string | null
+          number?: number
+          program_id?: string | null
+          requires_bolt?: boolean | null
+          requires_video_first?: boolean | null
+          requires_video_last?: boolean | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "weeks_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      exercise_type: "active" | "passive" | "breathing" | "posture" | "test"
+      patient_status: "active" | "inactive" | "completed"
+      program_variant: "standard" | "frenectomy"
+      upload_kind: "first_attempt" | "last_attempt" | "progress"
+      user_role: "patient" | "therapist" | "admin"
+      week_status: "locked" | "open" | "submitted" | "approved" | "needs_more"
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+}
+
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      exercise_type: ["active", "passive", "breathing", "posture", "test"],
+      patient_status: ["active", "inactive", "completed"],
+      program_variant: ["standard", "frenectomy"],
+      upload_kind: ["first_attempt", "last_attempt", "progress"],
+      user_role: ["patient", "therapist", "admin"],
+      week_status: ["locked", "open", "submitted", "approved", "needs_more"],
+    },
+  },
+} as const

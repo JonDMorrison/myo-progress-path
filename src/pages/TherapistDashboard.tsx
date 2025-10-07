@@ -1,0 +1,211 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { LogOut, UserCheck, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+
+const TherapistDashboard = () => {
+  const [pendingReviews, setPendingReviews] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    loadPendingReviews();
+  }, []);
+
+  const loadPendingReviews = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        navigate("/auth");
+        return;
+      }
+
+      // Get therapist's assigned patients with submitted weeks
+      const { data, error } = await supabase
+        .from("patient_week_progress")
+        .select(`
+          *,
+          patient:patients(
+            id,
+            user:users(name, email)
+          ),
+          week:weeks(number, title)
+        `)
+        .eq("status", "submitted")
+        .order("completed_at", { ascending: false });
+
+      if (error) throw error;
+
+      setPendingReviews(data || []);
+    } catch (error: any) {
+      console.error("Error loading reviews:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load pending reviews.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <Clock className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-card shadow-sm">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-hero rounded-lg flex items-center justify-center">
+              <UserCheck className="w-6 h-6 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">MyoCoach</h1>
+              <p className="text-sm text-muted-foreground">Therapist Portal</p>
+            </div>
+          </div>
+          <Button variant="ghost" size="sm" onClick={handleSignOut}>
+            <LogOut className="mr-2" />
+            Sign Out
+          </Button>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8 max-w-6xl">
+        {/* Stats Overview */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <Card className="shadow-card">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-bold text-warning">{pendingReviews.length}</p>
+                  <p className="text-sm text-muted-foreground">Pending Reviews</p>
+                </div>
+                <Clock className="w-10 h-10 text-warning" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-bold text-success">0</p>
+                  <p className="text-sm text-muted-foreground">Reviewed This Week</p>
+                </div>
+                <CheckCircle2 className="w-10 h-10 text-success" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-card">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-3xl font-bold text-primary">0</p>
+                  <p className="text-sm text-muted-foreground">Active Patients</p>
+                </div>
+                <UserCheck className="w-10 h-10 text-primary" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Pending Reviews */}
+        <Card className="shadow-card">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-warning" />
+              Pending Reviews
+            </CardTitle>
+            <CardDescription>Patients waiting for your feedback</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {pendingReviews.length === 0 ? (
+              <div className="text-center py-12">
+                <CheckCircle2 className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                <p className="text-lg font-medium mb-2">All caught up!</p>
+                <p className="text-muted-foreground">No pending reviews at the moment.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {pendingReviews.map((review) => (
+                  <Card key={review.id} className="border-2 hover:border-primary/50 transition-colors">
+                    <CardContent className="pt-6">
+                      <div className="flex items-center justify-between">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-3">
+                            <h3 className="font-semibold text-lg">
+                              {review.patient?.user?.name || "Unknown Patient"}
+                            </h3>
+                            <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
+                              Week {review.week?.number}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground">
+                            {review.patient?.user?.email}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Submitted: {new Date(review.completed_at).toLocaleDateString()}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                          {review.bolt_score && (
+                            <div className="text-center">
+                              <p className="text-2xl font-bold text-primary">{review.bolt_score}s</p>
+                              <p className="text-xs text-muted-foreground">BOLT</p>
+                            </div>
+                          )}
+                          {review.nasal_breathing_pct && (
+                            <div className="text-center">
+                              <p className="text-2xl font-bold text-success">{review.nasal_breathing_pct}%</p>
+                              <p className="text-xs text-muted-foreground">Nasal</p>
+                            </div>
+                          )}
+                          {review.tongue_on_spot_pct && (
+                            <div className="text-center">
+                              <p className="text-2xl font-bold text-secondary">{review.tongue_on_spot_pct}%</p>
+                              <p className="text-xs text-muted-foreground">Tongue</p>
+                            </div>
+                          )}
+                          <Button
+                            onClick={() => navigate(`/review/${review.patient?.id}/${review.week?.number}`)}
+                          >
+                            Review
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+};
+
+export default TherapistDashboard;
