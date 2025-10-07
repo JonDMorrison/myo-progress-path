@@ -1,0 +1,89 @@
+{
+  "program": "Myofunctional Therapy with Frenectomy - Sample",
+  "weeks": [
+    {
+      "week_start": 1,
+      "week_end": 2,
+      "exercises": [
+        {
+          "number": 1,
+          "title": "Clicks and Tick-Tocks",
+          "type": "active",
+          "instructions": "Place tongue tip on the spot and click. Then move tongue side to side like a metronome.",
+          "props": "Bite Block",
+          "compensations": "Watch for jaw movement - keep jaw still",
+          "demo_video_url": ""
+        },
+        {
+          "number": 2,
+          "title": "Brushing",
+          "type": "active",
+          "instructions": "Gently brush the roof of mouth with tongue in circular motions.",
+          "props": "Toothbrush",
+          "compensations": "Avoid pressing too hard",
+          "demo_video_url": ""
+        },
+        {
+          "number": 3,
+          "title": "Tongue Trace",
+          "type": "active",
+          "instructions": "Trace the upper teeth with tongue tip from left to right.",
+          "props": "Bite Block",
+          "compensations": "Keep tongue tip narrow and pointed",
+          "demo_video_url": ""
+        },
+        {
+          "number": 4,
+          "title": "BOLT Test",
+          "type": "test",
+          "instructions": "After normal breath, exhale and hold. Time how long until first urge to breathe.",
+          "props": "",
+          "compensations": "",
+          "demo_video_url": ""
+        },
+        {
+          "number": 5,
+          "title": "Tongue Tip – One Elastic Hold",
+          "type": "passive",
+          "instructions": "Place elastic around tongue tip and hold for 30 seconds.",
+          "props": "Elastic",
+          "compensations": "Do not let tongue pull back",
+          "demo_video_url": ""
+        }
+      ],
+      "checklist": {
+        "items": [
+          "Each active exercise 28 times",
+          "Passive 14 times",
+          "Breathing 14 times",
+          "% Time Nasal Breathing",
+          "% Time Tongue on Spot"
+        ]
+      }
+    },
+    {
+      "week_start": 3,
+      "week_end": 4,
+      "exercises": [
+        {
+          "number": 1,
+          "title": "Advanced Tongue Stretches",
+          "type": "active",
+          "instructions": "Extend tongue as far as possible, hold for 5 seconds.",
+          "props": "",
+          "compensations": "Avoid straining neck muscles",
+          "demo_video_url": ""
+        }
+      ],
+      "checklist": {
+        "items": [
+          "Each active exercise 28 times",
+          "Passive 14 times",
+          "Breathing 14 times",
+          "% Time Nasal Breathing",
+          "% Time Tongue on Spot"
+        ]
+      }
+    }
+  ]
+}

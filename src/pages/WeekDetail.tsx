@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { getAppFeatures } from "@/lib/appSettings";
+import { notifyTherapistSubmission } from "@/lib/notify";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -23,6 +25,7 @@ const WeekDetail = () => {
   const [progress, setProgress] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const [premiumEnabled, setPremiumEnabled] = useState(false);
 
   // Form state
   const [boltScore, setBoltScore] = useState("");
@@ -31,7 +34,13 @@ const WeekDetail = () => {
 
   useEffect(() => {
     loadWeekData();
+    loadFeatures();
   }, [weekNumber]);
+
+  const loadFeatures = async () => {
+    const features = await getAppFeatures();
+    setPremiumEnabled(features.premium_video);
+  };
 
   const loadWeekData = async () => {
     try {
@@ -151,10 +160,40 @@ const WeekDetail = () => {
     }
   };
 
+  const canSubmit = () => {
+    // Check basic data completion
+    const hasBasicData = nasalPct.trim() !== "" && tonguePct.trim() !== "";
+    
+    // Check BOLT if required
+    const boltComplete = !week?.requires_bolt || boltScore.trim() !== "";
+    
+    // Check premium video uploads if required
+    // For now, we'll skip video validation since it's not fully implemented
+    const videoComplete = true;
+    
+    // Check if already submitted or approved
+    const notYetReviewed = progress?.status === "open" || progress?.status === "needs_more";
+    
+    return hasBasicData && boltComplete && videoComplete && notYetReviewed;
+  };
+
   const handleSubmitForReview = async () => {
-    if (!progress) return;
+    if (!progress || !patient) return;
+
+    if (!canSubmit()) {
+      toast({
+        title: "Incomplete Data",
+        description: "Please complete all required fields before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     try {
+      // Save current data first
+      await handleSaveProgress();
+
+      // Then submit for review
       const { error } = await supabase
         .from("patient_week_progress")
         .update({
@@ -165,12 +204,39 @@ const WeekDetail = () => {
 
       if (error) throw error;
 
+      // Log event
+      await supabase.from("events").insert({
+        patient_id: patient.id,
+        type: "submitted_week",
+        meta: {
+          week_number: parseInt(weekNumber || "1"),
+          timestamp: new Date().toISOString(),
+        },
+      });
+
+      // Notify therapist
+      if (patient.assigned_therapist_id) {
+        const { data: therapist } = await supabase
+          .from("users")
+          .select("email, name")
+          .eq("id", patient.assigned_therapist_id)
+          .single();
+
+        if (therapist) {
+          await notifyTherapistSubmission(
+            therapist.email,
+            patient.user?.name || "Patient",
+            parseInt(weekNumber || "1")
+          );
+        }
+      }
+
       toast({
         title: "Submitted for review!",
         description: "Your therapist will review your progress soon.",
       });
 
-      navigate("/");
+      navigate("/patient");
     } catch (error: any) {
       toast({
         title: "Error",
@@ -378,13 +444,19 @@ const WeekDetail = () => {
                   <Button
                     variant="success"
                     onClick={handleSubmitForReview}
-                    disabled={progress?.status === "submitted" || progress?.status === "approved"}
+                    disabled={!canSubmit()}
                     className="flex-1"
                   >
                     <CheckCircle2 className="mr-2" />
                     Submit for Review
                   </Button>
                 </div>
+
+                {!canSubmit() && progress?.status !== "submitted" && progress?.status !== "approved" && (
+                  <div className="text-xs text-muted-foreground text-center bg-warning/10 border border-warning/20 rounded p-2">
+                    Complete all required fields to submit for review
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

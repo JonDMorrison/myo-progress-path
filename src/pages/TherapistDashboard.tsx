@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 const TherapistDashboard = () => {
   const [pendingReviews, setPendingReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -23,6 +24,17 @@ const TherapistDashboard = () => {
       if (!user) {
         navigate("/auth");
         return;
+      }
+
+      // Check if user is admin
+      const { data: userData } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      if (userData?.role === "admin") {
+        setIsAdmin(true);
       }
 
       // Get therapist's assigned patients with submitted weeks
@@ -79,15 +91,23 @@ const TherapistDashboard = () => {
             <div className="w-10 h-10 bg-gradient-hero rounded-lg flex items-center justify-center">
               <UserCheck className="w-6 h-6 text-primary-foreground" />
             </div>
-            <div>
-              <h1 className="text-2xl font-bold">MyoCoach</h1>
-              <p className="text-sm text-muted-foreground">Therapist Portal</p>
-            </div>
+          <div>
+            <h1 className="text-2xl font-bold">MyoCoach</h1>
+            <p className="text-sm text-muted-foreground">Therapist Portal</p>
           </div>
+        </div>
+        <div className="flex items-center gap-2">
+          {isAdmin && (
+            <Button variant="outline" size="sm" onClick={() => navigate("/admin/content")}>
+              <span className="mr-2">⚙️</span>
+              Admin
+            </Button>
+          )}
           <Button variant="ghost" size="sm" onClick={handleSignOut}>
             <LogOut className="mr-2" />
             Sign Out
           </Button>
+        </div>
         </div>
       </header>
 

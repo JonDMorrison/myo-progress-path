@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string | null
+          value: Json | null
+        }
+        Insert: {
+          key: string
+          updated_at?: string | null
+          value?: Json | null
+        }
+        Update: {
+          key?: string
+          updated_at?: string | null
+          value?: Json | null
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           created_at: string | null
