@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { NavPublic } from "@/components/public/NavPublic";
 import { FooterPublic } from "@/components/public/FooterPublic";
 import { SkipToContent } from "@/components/public/SkipToContent";
-import { Check } from "lucide-react";
+import { PhoneMockup } from "@/components/public/PhoneMockup";
+import { Check, Heart, Award, TrendingUp, Video, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, Award, TrendingUp, Video, Phone, Mail, MapPin } from "lucide-react";
 import { getPageTitle, getSchemaOrgData } from "@/lib/seo";
 
 const Home = () => {
@@ -83,8 +83,8 @@ const Home = () => {
                   </div>
                 </div>
                 
-                <div className="bg-muted rounded-2xl aspect-video flex items-center justify-center">
-                  <p className="text-muted-foreground">Dashboard Preview / App Mockup</p>
+                <div className="flex justify-center">
+                  <PhoneMockup />
                 </div>
               </div>
             </div>
