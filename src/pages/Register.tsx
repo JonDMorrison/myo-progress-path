@@ -84,12 +84,21 @@ const Register = () => {
 
       if (error) throw error;
 
+      // Auto-login after registration
+      const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (loginError) throw loginError;
+
       toast({
         title: "Account created!",
-        description: "You can now log in with your credentials.",
+        description: "Welcome to MyoCoach!",
       });
-      
-      navigate("/auth");
+
+      // Redirect to onboarding
+      navigate("/onboarding");
     } catch (error: any) {
       toast({
         title: "Registration failed",
