@@ -32,6 +32,176 @@ export type Database = {
         }
         Relationships: []
       }
+      badges: {
+        Row: {
+          description: string | null
+          icon: string | null
+          id: string
+          key: string
+          name: string
+        }
+        Insert: {
+          description?: string | null
+          icon?: string | null
+          id?: string
+          key: string
+          name: string
+        }
+        Update: {
+          description?: string | null
+          icon?: string | null
+          id?: string
+          key?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      challenge_progress: {
+        Row: {
+          challenge_id: string | null
+          completed: boolean | null
+          id: string
+          patient_id: string | null
+          progress: number
+          updated_at: string | null
+        }
+        Insert: {
+          challenge_id?: string | null
+          completed?: boolean | null
+          id?: string
+          patient_id?: string | null
+          progress?: number
+          updated_at?: string | null
+        }
+        Update: {
+          challenge_id?: string | null
+          completed?: boolean | null
+          id?: string
+          patient_id?: string | null
+          progress?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_progress_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "challenges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "challenge_progress_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      challenges: {
+        Row: {
+          active: boolean | null
+          clinic_id: string | null
+          description: string | null
+          ends_on: string
+          goal_key: string
+          goal_target: number
+          id: string
+          reward_points: number
+          starts_on: string
+          title: string
+        }
+        Insert: {
+          active?: boolean | null
+          clinic_id?: string | null
+          description?: string | null
+          ends_on: string
+          goal_key: string
+          goal_target: number
+          id?: string
+          reward_points?: number
+          starts_on: string
+          title: string
+        }
+        Update: {
+          active?: boolean | null
+          clinic_id?: string | null
+          description?: string | null
+          ends_on?: string
+          goal_key?: string
+          goal_target?: number
+          id?: string
+          reward_points?: number
+          starts_on?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenges_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clinics: {
+        Row: {
+          created_at: string | null
+          id: string
+          leaderboard_enabled: boolean | null
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          leaderboard_enabled?: boolean | null
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          leaderboard_enabled?: boolean | null
+          name?: string
+        }
+        Relationships: []
+      }
+      earned_badges: {
+        Row: {
+          badge_key: string | null
+          earned_at: string | null
+          id: string
+          patient_id: string | null
+        }
+        Insert: {
+          badge_key?: string | null
+          earned_at?: string | null
+          id?: string
+          patient_id?: string | null
+        }
+        Update: {
+          badge_key?: string | null
+          earned_at?: string | null
+          id?: string
+          patient_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "earned_badges_badge_key_fkey"
+            columns: ["badge_key"]
+            isOneToOne: false
+            referencedRelation: "badges"
+            referencedColumns: ["key"]
+          },
+          {
+            foreignKeyName: "earned_badges_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       events: {
         Row: {
           created_at: string | null
@@ -108,6 +278,54 @@ export type Database = {
             columns: ["week_id"]
             isOneToOne: false
             referencedRelation: "weeks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gamification_stats: {
+        Row: {
+          clinic_id: string
+          current_streak: number
+          last_activity_date: string | null
+          level: number
+          longest_streak: number
+          patient_id: string
+          points: number
+          updated_at: string | null
+        }
+        Insert: {
+          clinic_id: string
+          current_streak?: number
+          last_activity_date?: string | null
+          level?: number
+          longest_streak?: number
+          patient_id: string
+          points?: number
+          updated_at?: string | null
+        }
+        Update: {
+          clinic_id?: string
+          current_streak?: number
+          last_activity_date?: string | null
+          level?: number
+          longest_streak?: number
+          patient_id?: string
+          points?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gamification_stats_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gamification_stats_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: true
+            referencedRelation: "patients"
             referencedColumns: ["id"]
           },
         ]
@@ -264,6 +482,7 @@ export type Database = {
       patients: {
         Row: {
           assigned_therapist_id: string | null
+          clinic_id: string
           consent_accepted_at: string | null
           consent_payload: Json | null
           consent_signature: string | null
@@ -275,6 +494,7 @@ export type Database = {
         }
         Insert: {
           assigned_therapist_id?: string | null
+          clinic_id: string
           consent_accepted_at?: string | null
           consent_payload?: Json | null
           consent_signature?: string | null
@@ -288,6 +508,7 @@ export type Database = {
         }
         Update: {
           assigned_therapist_id?: string | null
+          clinic_id?: string
           consent_accepted_at?: string | null
           consent_payload?: Json | null
           consent_signature?: string | null
@@ -305,6 +526,13 @@ export type Database = {
             columns: ["assigned_therapist_id"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
             referencedColumns: ["id"]
           },
           {
@@ -400,6 +628,7 @@ export type Database = {
           created_at: string | null
           email: string
           id: string
+          leaderboard_opt_out: boolean | null
           name: string | null
           role: Database["public"]["Enums"]["user_role"]
         }
@@ -407,6 +636,7 @@ export type Database = {
           created_at?: string | null
           email: string
           id: string
+          leaderboard_opt_out?: boolean | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
         }
@@ -414,6 +644,7 @@ export type Database = {
           created_at?: string | null
           email?: string
           id?: string
+          leaderboard_opt_out?: boolean | null
           name?: string | null
           role?: Database["public"]["Enums"]["user_role"]
         }
