@@ -300,23 +300,6 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Sports Callout */}
-          <section className="py-16 bg-primary text-primary-foreground">
-            <div className="container max-w-4xl text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Designed for active families
-              </h2>
-              <p className="text-xl opacity-90 mb-4">
-                We know sports are a big part of Fraser Valley life. Dr. Matt even played 
-                collegiate basketball — so our guidance emphasizes safe performance habits, 
-                breathing, and recovery.
-              </p>
-              <p className="text-lg opacity-80">
-                From custom sports guards to proper breathing mechanics, we help athletes 
-                perform their best while protecting their health.
-              </p>
-            </div>
-          </section>
 
           {/* FAQ */}
           <section className="py-16 bg-muted/50">
