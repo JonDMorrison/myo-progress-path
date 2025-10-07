@@ -259,34 +259,37 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Meet Dr. Matt */}
+          {/* About Montrose */}
           <section className="py-16 bg-background">
             <div className="container">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div className="rounded-2xl overflow-hidden shadow-lg order-2 lg:order-1">
                   <img 
                     src={montroseTeamPhoto} 
-                    alt="Dr. Matt Francisco and Montrose Dental Centre team" 
+                    alt="Montrose Dental Centre team" 
                     className="w-full h-full object-cover aspect-square"
                   />
                 </div>
                 
                 <div className="order-1 lg:order-2">
-                  <h2 className="text-3xl md:text-4xl font-bold mb-6">Meet Dr. Matt Francisco</h2>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-2">
+                    About Montrose Dental Centre
+                  </h2>
+                  <p className="text-xl text-primary mb-6">
+                    Serving Abbotsford families for over 30 years
+                  </p>
                   <div className="space-y-4 text-lg text-muted-foreground">
                     <p>
-                      Dr. Matt has been helping Abbotsford families build healthier smiles for years. 
-                      He believes in combining modern dental techniques with a comfortable, friendly approach 
-                      that puts patients at ease.
+                      At Montrose Dental Centre, we've built our reputation on providing exceptional, 
+                      family-friendly dental care in a warm and welcoming environment. Our experienced 
+                      team combines the latest dental techniques with a genuine commitment to each 
+                      patient's comfort and well-being.
                     </p>
                     <p>
-                      Living in Abbotsford with his wife Sylvia and their three boys, Dr. Matt understands 
-                      the importance of busy family schedules — which is why he created this program to bring 
-                      professional myofunctional therapy right into your home.
-                    </p>
-                    <p>
-                      With his background in competitive basketball, he's especially passionate about helping 
-                      athletes and active families develop strong breathing habits for better performance and recovery.
+                      We created MyoCoach because we saw our patients needed more than just in-office 
+                      visits. They needed a way to build healthy habits at home, track their progress, 
+                      and get guidance between appointments. This program brings over three decades of 
+                      clinical expertise directly to you.
                     </p>
                   </div>
                   <Button asChild variant="outline" size="lg" className="mt-6">
