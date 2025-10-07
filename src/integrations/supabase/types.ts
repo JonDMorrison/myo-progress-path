@@ -100,6 +100,13 @@ export type Database = {
             foreignKeyName: "exercises_week_id_fkey"
             columns: ["week_id"]
             isOneToOne: false
+            referencedRelation: "v_weekly_metrics"
+            referencedColumns: ["week_id"]
+          },
+          {
+            foreignKeyName: "exercises_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
             referencedRelation: "weeks"
             referencedColumns: ["id"]
           },
@@ -149,6 +156,13 @@ export type Database = {
             foreignKeyName: "messages_week_id_fkey"
             columns: ["week_id"]
             isOneToOne: false
+            referencedRelation: "v_weekly_metrics"
+            referencedColumns: ["week_id"]
+          },
+          {
+            foreignKeyName: "messages_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
             referencedRelation: "weeks"
             referencedColumns: ["id"]
           },
@@ -192,6 +206,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "patients"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_week_progress_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
+            referencedRelation: "v_weekly_metrics"
+            referencedColumns: ["week_id"]
           },
           {
             foreignKeyName: "patient_week_progress_week_id_fkey"
@@ -321,6 +342,13 @@ export type Database = {
             foreignKeyName: "uploads_week_id_fkey"
             columns: ["week_id"]
             isOneToOne: false
+            referencedRelation: "v_weekly_metrics"
+            referencedColumns: ["week_id"]
+          },
+          {
+            foreignKeyName: "uploads_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
             referencedRelation: "weeks"
             referencedColumns: ["id"]
           },
@@ -396,12 +424,95 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      v_weekly_metrics: {
+        Row: {
+          assigned_therapist_id: string | null
+          bolt_score: number | null
+          completed_at: string | null
+          nasal_breathing_pct: number | null
+          patient_email: string | null
+          patient_id: string | null
+          patient_name: string | null
+          patient_user_id: string | null
+          program_variant: Database["public"]["Enums"]["program_variant"] | null
+          progress_id: string | null
+          status: Database["public"]["Enums"]["week_status"] | null
+          tongue_on_spot_pct: number | null
+          week_id: string | null
+          week_number: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_week_progress_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_assigned_therapist_id_fkey"
+            columns: ["assigned_therapist_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patients_user_id_fkey"
+            columns: ["patient_user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       calc_week_progress: {
         Args: { _patient_id: string; _week_id: string }
         Returns: Json
+      }
+      get_adherence_metrics: {
+        Args: {
+          _end_date?: string
+          _patient_ids?: string[]
+          _program_variant?: Database["public"]["Enums"]["program_variant"]
+          _start_date?: string
+          _therapist_id?: string
+        }
+        Returns: {
+          avg_nasal_pct: number
+          avg_tongue_pct: number
+          completed_count: number
+          total_patients: number
+          week_number: number
+        }[]
+      }
+      get_bolt_trends: {
+        Args: {
+          _end_date?: string
+          _patient_ids?: string[]
+          _start_date?: string
+          _therapist_id?: string
+        }
+        Returns: {
+          avg_bolt: number
+          max_bolt: number
+          min_bolt: number
+          sample_count: number
+          week_number: number
+        }[]
+      }
+      get_week_status_distribution: {
+        Args: {
+          _end_date?: string
+          _patient_ids?: string[]
+          _start_date?: string
+          _therapist_id?: string
+        }
+        Returns: {
+          count: number
+          status: Database["public"]["Enums"]["week_status"]
+        }[]
       }
     }
     Enums: {
