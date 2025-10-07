@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import myoCoachLogo from "@/assets/MyoCoach_Logo.png";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,10 +19,9 @@ export const NavPublic = () => {
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <nav className="container flex h-16 items-center justify-between" aria-label="Main navigation">
         <div className="flex items-center gap-6 md:gap-10">
-          <Link to="/" className="flex items-center space-x-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
-            <span className="font-bold text-xl text-primary">
-              MyoCoach <span className="text-muted-foreground font-normal">• by Montrose Dental Centre</span>
-            </span>
+          <Link to="/" className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
+            <img src={myoCoachLogo} alt="MyoCoach" className="h-10" />
+            <span className="text-muted-foreground font-normal ml-2">• by Montrose Dental Centre</span>
           </Link>
           
           <div className="hidden md:flex gap-6">
