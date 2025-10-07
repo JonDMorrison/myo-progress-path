@@ -45,7 +45,7 @@ const Privacy = () => {
                     </li>
                     <li>
                       <strong>Program data:</strong> exercise progress, checklist results, BOLT scores, 
-                      uploaded videos (Premium feature).
+                      and uploaded videos.
                     </li>
                     <li>
                       <strong>Technical data:</strong> IP address, device type, browser, and activity 

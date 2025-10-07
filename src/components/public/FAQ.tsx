@@ -7,8 +7,8 @@ import {
 
 const faqs = [
   {
-    question: "Can I start without video uploads?",
-    answer: "Yes! Our Lite plan provides all core features including structured weekly programs, therapist review workflow, and patient tracking—without video uploads.",
+    question: "Do I need to upload videos?",
+    answer: "Video uploads are required for certain weeks as determined by your therapist. Your weekly view will clearly show if uploads are needed.",
   },
   {
     question: "How do patients log in?",

@@ -16,7 +16,7 @@ const Home = () => {
   const faqItems = [
     {
       question: "Can I start without video uploads?",
-      answer: "Yes — begin on the Lite plan and upgrade to Premium anytime for video check-ins with your therapist."
+      answer: "You can complete weeks without video uploads if your therapist hasn't enabled them for that week."
     },
     {
       question: "How do I log in?",
@@ -31,8 +31,8 @@ const Home = () => {
       answer: "Your assigned Montrose therapist reviews your weekly submissions and provides personalized feedback."
     },
     {
-      question: "Can I switch to Premium later?",
-      answer: "Anytime! Upgrade to add video check-ins and get more detailed feedback from your therapist."
+      question: "How do video check-ins work?",
+      answer: "Upload videos of your exercise attempts and get detailed feedback from your therapist without extra visits."
     }
   ];
 
@@ -72,7 +72,7 @@ const Home = () => {
                   </h1>
                   <p className="text-xl text-muted-foreground mb-8">
                     Built by Dr. Matt Francisco and the Montrose Dental Centre team in Abbotsford, 
-                    this secure app turns weekly exercises into simple steps with feedback and (Premium) video check-ins.
+                    this secure app turns weekly exercises into simple steps with feedback and video check-ins.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button asChild size="lg">
@@ -139,7 +139,7 @@ const Home = () => {
                         <Check className="w-4 h-4 text-primary" />
                       </div>
                       <div>
-                        <p className="font-semibold">(Premium) Video check-ins</p>
+                        <p className="font-semibold">Video check-ins</p>
                         <p className="text-muted-foreground">Upload videos and get detailed feedback without extra visits</p>
                       </div>
                     </div>

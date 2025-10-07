@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { getAppFeatures } from "@/lib/appSettings";
+
 import { notifyTherapistSubmission } from "@/lib/notify";
 
 const WeekDetail = () => {
@@ -25,7 +25,7 @@ const WeekDetail = () => {
   const [progress, setProgress] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
-  const [premiumEnabled, setPremiumEnabled] = useState(false);
+  
 
   // Form state
   const [boltScore, setBoltScore] = useState("");
@@ -34,13 +34,8 @@ const WeekDetail = () => {
 
   useEffect(() => {
     loadWeekData();
-    loadFeatures();
   }, [weekNumber]);
 
-  const loadFeatures = async () => {
-    const features = await getAppFeatures();
-    setPremiumEnabled(features.premium_video);
-  };
 
   const loadWeekData = async () => {
     try {

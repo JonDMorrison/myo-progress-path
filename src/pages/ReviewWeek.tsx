@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice } from "@/lib/reviewActions";
-import { getAppFeatures } from "@/lib/appSettings";
+
 import AIFeedbackCard from "@/components/AIFeedbackCard";
 
 const ReviewWeek = () => {
@@ -24,19 +24,14 @@ const ReviewWeek = () => {
   const [progress, setProgress] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [note, setNote] = useState("");
-  const [premiumEnabled, setPremiumEnabled] = useState(false);
+  
   const [downloadingPDF, setDownloadingPDF] = useState(false);
   const [uploads, setUploads] = useState<any[]>([]);
 
   useEffect(() => {
     loadReviewData();
-    loadFeatures();
   }, [patientId, weekNumber]);
 
-  const loadFeatures = async () => {
-    const features = await getAppFeatures();
-    setPremiumEnabled(features.premium_video);
-  };
 
   const loadReviewData = async () => {
     try {
@@ -358,63 +353,50 @@ const ReviewWeek = () => {
 
           {/* Right: Review Actions */}
           <div className="space-y-6">
-            {!premiumEnabled && (
-              <Card className="border-primary/20 bg-primary/5">
-                <CardContent className="pt-6">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <AlertCircle className="w-4 h-4" />
-                    <p>Video uploads disabled (Lite mode)</p>
+            <Card className="shadow-card">
+              <CardHeader>
+                <CardTitle>Video Review</CardTitle>
+                <CardDescription>First and last attempt comparison</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {uploads.length === 0 ? (
+                  <div className="bg-muted rounded-lg p-8 text-center">
+                    <p className="text-sm text-muted-foreground">No videos uploaded yet</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Videos will appear here when patient uploads
+                    </p>
                   </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {premiumEnabled && (
-              <Card className="shadow-card">
-                <CardHeader>
-                  <CardTitle>Video Review</CardTitle>
-                  <CardDescription>First and last attempt comparison</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {uploads.length === 0 ? (
-                    <div className="bg-muted rounded-lg p-8 text-center">
-                      <p className="text-sm text-muted-foreground">No videos uploaded yet</p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Videos will appear here when patient uploads
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {uploads.map((upload: any) => (
-                        <div key={upload.id} className="space-y-3">
-                          <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                            <div>
-                              <p className="font-medium text-sm">
-                                {upload.kind === "first_attempt" ? "First Attempt" : "Last Attempt"}
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                {new Date(upload.created_at).toLocaleDateString()}
-                              </p>
-                            </div>
-                            {upload.thumb_url && (
-                              <img 
-                                src={upload.thumb_url} 
-                                alt="Video thumbnail" 
-                                className="w-16 h-16 object-cover rounded"
-                              />
-                            )}
+                ) : (
+                  <div className="space-y-4">
+                    {uploads.map((upload: any) => (
+                      <div key={upload.id} className="space-y-3">
+                        <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                          <div>
+                            <p className="font-medium text-sm">
+                              {upload.kind === "first_attempt" ? "First Attempt" : "Last Attempt"}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {new Date(upload.created_at).toLocaleDateString()}
+                            </p>
                           </div>
-                          
-                          {upload.ai_feedback && (
-                            <AIFeedbackCard feedback={upload.ai_feedback} compact />
+                          {upload.thumb_url && (
+                            <img 
+                              src={upload.thumb_url} 
+                              alt="Video thumbnail" 
+                              className="w-16 h-16 object-cover rounded"
+                            />
                           )}
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            )}
+                        
+                        {upload.ai_feedback && (
+                          <AIFeedbackCard feedback={upload.ai_feedback} compact />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
 
             {/* Review Form */}
             <Card className="shadow-card">

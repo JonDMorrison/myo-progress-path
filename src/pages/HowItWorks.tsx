@@ -72,7 +72,7 @@ const HowItWorks = () => {
                 <StepCard
                   stepNumber={3}
                   title="Review & Approve"
-                  description="Review submissions with one click to approve and unlock the next week. With Premium, compare first vs. last attempt videos side-by-side and receive AI-powered technique suggestions."
+                  description="Review submissions with one click to approve and unlock the next week. Compare first vs. last attempt videos side-by-side and receive AI-powered technique suggestions."
                 />
               </div>
             </div>
@@ -107,7 +107,7 @@ const HowItWorks = () => {
                 <FeatureCard
                   icon={Video}
                   title="Video Uploads & Thumbnails"
-                  description="Premium feature: Patients upload exercise attempts. Auto-generated thumbnails for quick review."
+                  description="Patients upload exercise attempts. Auto-generated thumbnails for quick review."
                 />
                 <FeatureCard
                   icon={BarChart3}
@@ -119,62 +119,6 @@ const HowItWorks = () => {
                   title="Gamification"
                   description="Streaks, points, badges, and optional leaderboards boost patient engagement and adherence."
                 />
-              </div>
-            </div>
-          </section>
-
-          {/* Lite vs Premium */}
-          <section className="py-16 bg-muted/50">
-            <div className="container max-w-5xl">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Lite vs Premium</h2>
-                <p className="text-xl text-muted-foreground">
-                  Choose the plan that fits your practice
-                </p>
-              </div>
-
-              <div className="bg-card rounded-2xl border-2 overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left p-4 font-semibold">Feature</th>
-                        <th className="text-center p-4 font-semibold">Lite</th>
-                        <th className="text-center p-4 font-semibold bg-primary/5">Premium</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {[
-                        { feature: "Program Delivery", lite: true, premium: true },
-                        { feature: "Messaging", lite: true, premium: true },
-                        { feature: "Checklists & Tracking", lite: true, premium: true },
-                        { feature: "Reporting", lite: true, premium: true },
-                        { feature: "Gamification", lite: true, premium: true },
-                        { feature: "Video Uploads", lite: false, premium: true },
-                        { feature: "Side-by-Side Review", lite: false, premium: true },
-                        { feature: "AI Feedback Suggestions", lite: false, premium: true },
-                      ].map((row, index) => (
-                        <tr key={index} className="border-b last:border-b-0">
-                          <td className="p-4">{row.feature}</td>
-                          <td className="text-center p-4">
-                            {row.lite ? (
-                              <Check className="w-5 h-5 text-success mx-auto" />
-                            ) : (
-                              <X className="w-5 h-5 text-muted-foreground mx-auto" />
-                            )}
-                          </td>
-                          <td className="text-center p-4 bg-primary/5">
-                            {row.premium ? (
-                              <Check className="w-5 h-5 text-success mx-auto" />
-                            ) : (
-                              <X className="w-5 h-5 text-muted-foreground mx-auto" />
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
               </div>
             </div>
           </section>

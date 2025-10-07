@@ -13,7 +13,7 @@ export const Hero = () => {
               Deliver Myofunctional Therapy Programs Your Patients Will Actually Follow
             </h1>
             <p className="text-xl text-muted-foreground">
-              One place for weekly exercises, therapist feedback, and (Premium) video reviews.
+              One place for weekly exercises, therapist feedback, and video reviews.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg">

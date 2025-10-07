@@ -10,20 +10,19 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Upload, Settings, Users, FileJson } from "lucide-react";
 import { importProgram } from "@/lib/importProgram";
-import { getAppFeatures, updateAppFeatures, clearFeaturesCache } from "@/lib/appSettings";
+
 
 const AdminContent = () => {
   const [loading, setLoading] = useState(true);
   const [importing, setImporting] = useState(false);
   const [jsonFile, setJsonFile] = useState<File | null>(null);
   const [jsonPreview, setJsonPreview] = useState<any>(null);
-  const [premiumVideo, setPremiumVideo] = useState(false);
+  
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
     checkAdminAccess();
-    loadFeatures();
   }, []);
 
   const checkAdminAccess = async () => {
@@ -52,10 +51,6 @@ const AdminContent = () => {
     setLoading(false);
   };
 
-  const loadFeatures = async () => {
-    const features = await getAppFeatures();
-    setPremiumVideo(features.premium_video);
-  };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -110,25 +105,6 @@ const AdminContent = () => {
     }
   };
 
-  const handleFeatureToggle = async (enabled: boolean) => {
-    setPremiumVideo(enabled);
-    const success = await updateAppFeatures({ premium_video: enabled });
-
-    if (success) {
-      clearFeaturesCache();
-      toast({
-        title: enabled ? "Premium Features Enabled" : "Premium Features Disabled",
-        description: `Video uploads are now ${enabled ? "available" : "hidden"}.`,
-      });
-    } else {
-      setPremiumVideo(!enabled);
-      toast({
-        title: "Update Failed",
-        description: "Could not update feature settings.",
-        variant: "destructive",
-      });
-    }
-  };
 
   const handleCreateDemoUsers = async () => {
     try {
@@ -235,35 +211,6 @@ const AdminContent = () => {
           </CardContent>
         </Card>
 
-        {/* Feature Flags */}
-        <Card className="shadow-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Settings className="w-5 h-5 text-primary" />
-              Feature Flags
-            </CardTitle>
-            <CardDescription>
-              Control which features are available in the application
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-accent rounded-lg">
-              <div className="space-y-1">
-                <Label htmlFor="premium-video" className="text-base font-medium">
-                  Premium Video Features
-                </Label>
-                <p className="text-sm text-muted-foreground">
-                  Enable video uploads, thumbnails, and side-by-side review
-                </p>
-              </div>
-              <Switch
-                id="premium-video"
-                checked={premiumVideo}
-                onCheckedChange={handleFeatureToggle}
-              />
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Consent Editor */}
         <Card className="shadow-card">
