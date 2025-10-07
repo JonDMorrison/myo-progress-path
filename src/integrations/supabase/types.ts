@@ -168,8 +168,44 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          body: string
+          created_at: string | null
+          id: string
+          patient_id: string | null
+          read: boolean | null
+          sent_email: boolean | null
+        }
+        Insert: {
+          body: string
+          created_at?: string | null
+          id?: string
+          patient_id?: string | null
+          read?: boolean | null
+          sent_email?: boolean | null
+        }
+        Update: {
+          body?: string
+          created_at?: string | null
+          id?: string
+          patient_id?: string | null
+          read?: boolean | null
+          sent_email?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       patient_week_progress: {
         Row: {
+          ai_summary: string | null
           bolt_score: number | null
           completed_at: string | null
           id: string
@@ -180,6 +216,7 @@ export type Database = {
           week_id: string | null
         }
         Insert: {
+          ai_summary?: string | null
           bolt_score?: number | null
           completed_at?: string | null
           id?: string
@@ -190,6 +227,7 @@ export type Database = {
           week_id?: string | null
         }
         Update: {
+          ai_summary?: string | null
           bolt_score?: number | null
           completed_at?: string | null
           id?: string
@@ -301,6 +339,7 @@ export type Database = {
       }
       uploads: {
         Row: {
+          ai_feedback: Json | null
           created_at: string | null
           file_url: string | null
           id: string
@@ -311,6 +350,7 @@ export type Database = {
           week_id: string | null
         }
         Insert: {
+          ai_feedback?: Json | null
           created_at?: string | null
           file_url?: string | null
           id?: string
@@ -321,6 +361,7 @@ export type Database = {
           week_id?: string | null
         }
         Update: {
+          ai_feedback?: Json | null
           created_at?: string | null
           file_url?: string | null
           id?: string

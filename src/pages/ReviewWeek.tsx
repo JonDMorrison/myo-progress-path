@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice } from "@/lib/reviewActions";
 import { getAppFeatures } from "@/lib/appSettings";
+import AIFeedbackCard from "@/components/AIFeedbackCard";
 
 const ReviewWeek = () => {
   const { patientId, weekNumber } = useParams();
@@ -25,6 +26,7 @@ const ReviewWeek = () => {
   const [note, setNote] = useState("");
   const [premiumEnabled, setPremiumEnabled] = useState(false);
   const [downloadingPDF, setDownloadingPDF] = useState(false);
+  const [uploads, setUploads] = useState<any[]>([]);
 
   useEffect(() => {
     loadReviewData();
@@ -84,6 +86,21 @@ const ReviewWeek = () => {
         .order("created_at", { ascending: true });
 
       setMessages(messagesData || []);
+
+      // Get uploads with AI feedback
+      const { data: uploadsData } = await supabase
+        .from("uploads")
+        .select("*")
+        .eq("patient_id", patientId)
+        .eq("week_id", weekData.id)
+        .order("created_at", { ascending: true });
+
+      setUploads(uploadsData || []);
+
+      // Set AI summary as default note if available
+      if (progressData?.ai_summary && !note) {
+        setNote(progressData.ai_summary);
+      }
     } catch (error: any) {
       console.error("Error loading review data:", error);
       toast({
@@ -359,14 +376,42 @@ const ReviewWeek = () => {
                   <CardDescription>First and last attempt comparison</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
+                  {uploads.length === 0 ? (
                     <div className="bg-muted rounded-lg p-8 text-center">
                       <p className="text-sm text-muted-foreground">No videos uploaded yet</p>
                       <p className="text-xs text-muted-foreground mt-1">
                         Videos will appear here when patient uploads
                       </p>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {uploads.map((upload: any) => (
+                        <div key={upload.id} className="space-y-3">
+                          <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                            <div>
+                              <p className="font-medium text-sm">
+                                {upload.kind === "first_attempt" ? "First Attempt" : "Last Attempt"}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {new Date(upload.created_at).toLocaleDateString()}
+                              </p>
+                            </div>
+                            {upload.thumb_url && (
+                              <img 
+                                src={upload.thumb_url} 
+                                alt="Video thumbnail" 
+                                className="w-16 h-16 object-cover rounded"
+                              />
+                            )}
+                          </div>
+                          
+                          {upload.ai_feedback && (
+                            <AIFeedbackCard feedback={upload.ai_feedback} compact />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )}
@@ -380,6 +425,12 @@ const ReviewWeek = () => {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="note">Note for Patient (optional for approval, required for needs more)</Label>
+                  {progress?.ai_summary && (
+                    <div className="flex items-center gap-2 mb-2 p-2 bg-primary/10 rounded text-sm">
+                      <Sparkles className="h-4 w-4 text-primary" />
+                      <span className="text-muted-foreground">AI-generated note (editable)</span>
+                    </div>
+                  )}
                   <Textarea
                     id="note"
                     value={note}

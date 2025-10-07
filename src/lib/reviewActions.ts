@@ -8,6 +8,31 @@ export async function approveWeek(
   note?: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    // Get week data
+    const { data: progressData } = await supabase
+      .from("patient_week_progress")
+      .select("week_id")
+      .eq("id", progressId)
+      .single();
+
+    if (!progressData) {
+      throw new Error("Progress not found");
+    }
+
+    // Generate AI progress note if no note provided
+    if (!note || note.trim().length === 0) {
+      const { data: aiNote } = await supabase.functions.invoke("generate-progress-note", {
+        body: {
+          patientId,
+          weekId: progressData.week_id,
+        },
+      });
+      
+      if (aiNote?.note) {
+        note = aiNote.note;
+      }
+    }
+
     // Update current week to approved
     const { error: updateError } = await supabase
       .from("patient_week_progress")
@@ -17,6 +42,17 @@ export async function approveWeek(
       .eq("id", progressId);
 
     if (updateError) throw updateError;
+
+    // Save therapist note if provided
+    if (note && note.trim().length > 0) {
+      const { data: { user } } = await supabase.auth.getUser();
+      await supabase.from("messages").insert({
+        patient_id: patientId,
+        week_id: progressData.week_id,
+        therapist_id: user?.id,
+        body: note,
+      });
+    }
 
     // Log event
     await supabase.from("events").insert({
@@ -103,6 +139,17 @@ export async function requestMorePractice(
   }
 
   try {
+    // Get week data
+    const { data: progressData } = await supabase
+      .from("patient_week_progress")
+      .select("week_id")
+      .eq("id", progressId)
+      .single();
+
+    if (!progressData) {
+      throw new Error("Progress not found");
+    }
+
     // Update status
     const { error: updateError } = await supabase
       .from("patient_week_progress")
@@ -112,6 +159,15 @@ export async function requestMorePractice(
       .eq("id", progressId);
 
     if (updateError) throw updateError;
+
+    // Save therapist comment
+    const { data: { user } } = await supabase.auth.getUser();
+    await supabase.from("messages").insert({
+      patient_id: patientId,
+      week_id: progressData.week_id,
+      therapist_id: user?.id,
+      body: comment,
+    });
 
     // Log event
     await supabase.from("events").insert({

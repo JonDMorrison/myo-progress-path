@@ -97,6 +97,10 @@ const TherapistDashboard = () => {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => navigate("/therapist/ai-assist")}>
+            <span className="mr-2">✨</span>
+            AI Assistant
+          </Button>
           <Button variant="outline" size="sm" onClick={() => navigate("/reports")}>
             <span className="mr-2">📊</span>
             Reports
