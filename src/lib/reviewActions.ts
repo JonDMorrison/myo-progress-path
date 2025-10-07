@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { notifyPatientApproval, notifyPatientNeedsMore } from "./notify";
 
 export async function approveWeek(
   progressId: string,
@@ -64,8 +65,25 @@ export async function approveWeek(
       }
     }
 
-    // TODO: Send notification email to patient
-    console.log("TODO: Send approval notification to patient");
+    // Get patient data for email
+    const { data: patientData } = await supabase
+      .from("patients")
+      .select("user_id")
+      .eq("id", patientId)
+      .single();
+
+    // Send notification email to patient
+    if (patientData?.user_id) {
+      const { data: userData } = await supabase
+        .from("users")
+        .select("email, name")
+        .eq("id", patientData.user_id)
+        .single();
+      
+      if (userData?.email) {
+        await notifyPatientApproval(userData.email, userData.name || "there", currentWeekNumber);
+      }
+    }
 
     return { success: true };
   } catch (error: any) {
@@ -106,8 +124,25 @@ export async function requestMorePractice(
       },
     });
 
-    // TODO: Send notification email to patient
-    console.log("TODO: Send needs-more notification to patient");
+    // Get patient data for email
+    const { data: patientData } = await supabase
+      .from("patients")
+      .select("user_id")
+      .eq("id", patientId)
+      .single();
+
+    // Send notification email to patient
+    if (patientData?.user_id) {
+      const { data: userData } = await supabase
+        .from("users")
+        .select("email, name")
+        .eq("id", patientData.user_id)
+        .single();
+      
+      if (userData?.email) {
+        await notifyPatientNeedsMore(userData.email, userData.name || "there", weekNumber, comment);
+      }
+    }
 
     return { success: true };
   } catch (error: any) {

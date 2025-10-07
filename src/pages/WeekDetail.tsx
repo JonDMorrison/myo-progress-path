@@ -160,30 +160,47 @@ const WeekDetail = () => {
     }
   };
 
-  const canSubmit = () => {
-    // Check basic data completion
-    const hasBasicData = nasalPct.trim() !== "" && tonguePct.trim() !== "";
-    
-    // Check BOLT if required
-    const boltComplete = !week?.requires_bolt || boltScore.trim() !== "";
-    
-    // Check premium video uploads if required
-    // For now, we'll skip video validation since it's not fully implemented
-    const videoComplete = true;
+  const canSubmit = async () => {
+    if (!patient || !week || !progress) return false;
+
+    // Call server-side validation
+    const { data, error } = await supabase.rpc('calc_week_progress', {
+      _patient_id: patient.id,
+      _week_id: week.id
+    });
+
+    if (error) {
+      console.error('Progress calculation error:', error);
+      return false;
+    }
+
+    // Check if 100% complete
+    const progressData = data as { percent_complete: number; missing: string[] };
+    const isComplete = progressData?.percent_complete === 100;
     
     // Check if already submitted or approved
     const notYetReviewed = progress?.status === "open" || progress?.status === "needs_more";
     
-    return hasBasicData && boltComplete && videoComplete && notYetReviewed;
+    return isComplete && notYetReviewed;
   };
 
   const handleSubmitForReview = async () => {
     if (!progress || !patient) return;
 
-    if (!canSubmit()) {
+    const canSubmitNow = await canSubmit();
+    if (!canSubmitNow) {
+      // Get missing items
+      const { data } = await supabase.rpc('calc_week_progress', {
+        _patient_id: patient.id,
+        _week_id: week.id
+      });
+
+      const progressData = data as { missing: string[] };
+      const missing = progressData?.missing || ['Unknown requirements'];
+      
       toast({
         title: "Incomplete Data",
-        description: "Please complete all required fields before submitting.",
+        description: `Missing: ${missing.join(', ')}`,
         variant: "destructive",
       });
       return;
@@ -225,7 +242,9 @@ const WeekDetail = () => {
         if (therapist) {
           await notifyTherapistSubmission(
             therapist.email,
+            therapist.name || "Therapist",
             patient.user?.name || "Patient",
+            patient.id,
             parseInt(weekNumber || "1")
           );
         }

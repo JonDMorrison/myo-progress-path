@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Upload, Settings, Users, FileJson } from "lucide-react";
@@ -261,6 +262,38 @@ const AdminContent = () => {
                 onCheckedChange={handleFeatureToggle}
               />
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Consent Editor */}
+        <Card className="shadow-card">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileJson className="w-5 h-5 text-primary" />
+              Consent Form Text
+            </CardTitle>
+            <CardDescription>
+              Edit the consent form shown to patients on first login
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="consent-text">Consent Text (Markdown supported)</Label>
+              <Textarea
+                id="consent-text"
+                rows={10}
+                defaultValue="# Consent to Treatment
+
+I understand and agree to participate in the myofunctional therapy program."
+                className="font-mono text-sm"
+              />
+            </div>
+            <Button variant="outline" className="w-full" disabled>
+              Save Consent Text (Coming Soon)
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              Consent version will auto-increment when changed
+            </p>
           </CardContent>
         </Card>
 

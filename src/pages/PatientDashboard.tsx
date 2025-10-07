@@ -7,12 +7,14 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { LogOut, Calendar, CheckCircle2, Clock, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ConsentDialog } from "@/components/ConsentDialog";
 
 const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
   const [currentWeek, setCurrentWeek] = useState<any>(null);
   const [progress, setProgress] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [showConsent, setShowConsent] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -37,6 +39,13 @@ const PatientDashboard = () => {
 
       if (patientError) throw patientError;
       setPatient(patientData);
+
+      // Check consent
+      if (!patientData.consent_accepted_at) {
+        setShowConsent(true);
+        setLoading(false);
+        return;
+      }
 
       // Get current week (for now, get week 1)
       const { data: weekData, error: weekError } = await supabase
@@ -82,6 +91,20 @@ const PatientDashboard = () => {
           <p className="text-muted-foreground">Loading your dashboard...</p>
         </div>
       </div>
+    );
+  }
+
+  // Show consent dialog if not accepted
+  if (showConsent && patient) {
+    return (
+      <ConsentDialog
+        open={showConsent}
+        patientId={patient.id}
+        onConsent={() => {
+          setShowConsent(false);
+          loadPatientData();
+        }}
+      />
     );
   }
 
