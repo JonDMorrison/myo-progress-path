@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { NavPublic } from "@/components/public/NavPublic";
 import { FooterPublic } from "@/components/public/FooterPublic";
 import { SkipToContent } from "@/components/public/SkipToContent";
-import { FAQ } from "@/components/public/FAQ";
+import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart, Award, TrendingUp, Video, Phone, Mail, MapPin } from "lucide-react";
@@ -90,8 +90,108 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Why Montrose */}
+          {/* How It Helps You */}
           <section className="py-16 bg-background">
+            <div className="container">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Your Path to Better Breathing and Oral Health
+                </h2>
+                <p className="text-xl text-muted-foreground">
+                  A structured program that fits into your life
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-bold mb-4">What you'll get:</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Weekly guided exercises</p>
+                        <p className="text-muted-foreground">Clear instructions for each week's focus, from tongue posture to breathing techniques</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Simple checklists to stay on track</p>
+                        <p className="text-muted-foreground">Check off your daily progress and build healthy habits</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Therapist feedback on your progress</p>
+                        <p className="text-muted-foreground">Get personalized guidance from the Montrose team</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">(Premium) Video check-ins</p>
+                        <p className="text-muted-foreground">Upload videos and get detailed feedback without extra visits</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-bold mb-4">How it helps:</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-success" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Improve breathing patterns</p>
+                        <p className="text-muted-foreground">Learn to breathe through your nose naturally, day and night</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-success" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Strengthen oral muscles</p>
+                        <p className="text-muted-foreground">Build proper tongue posture and jaw positioning</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-success" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Support orthodontic treatment</p>
+                        <p className="text-muted-foreground">Get better, longer-lasting results from braces or aligners</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-6 h-6 rounded-full bg-success/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-4 h-4 text-success" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Feel more energized</p>
+                        <p className="text-muted-foreground">Better sleep quality and daytime energy from improved breathing</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Why Montrose */}
+          <section className="py-16 bg-muted/50">
             <div className="container">
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Montrose</h2>
@@ -104,11 +204,11 @@ const Home = () => {
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                       <Heart className="w-6 h-6 text-primary" />
                     </div>
-                    <CardTitle>Family-first dentistry</CardTitle>
+                    <CardTitle>Family-first care</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <CardDescription>
-                      Calm, patient-centred care guided by a friendly, experienced team.
+                      Over 30 years serving Abbotsford families with calm, patient-centred dentistry
                     </CardDescription>
                   </CardContent>
                 </Card>
@@ -122,7 +222,7 @@ const Home = () => {
                   </CardHeader>
                   <CardContent>
                     <CardDescription>
-                      From orthodontic expansion to aligners, we bring the best tools to your care.
+                      From expansion to aligners, we use the latest tools for your best results
                     </CardDescription>
                   </CardContent>
                 </Card>
@@ -132,11 +232,11 @@ const Home = () => {
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                       <TrendingUp className="w-6 h-6 text-primary" />
                     </div>
-                    <CardTitle>Real progress</CardTitle>
+                    <CardTitle>Clear progress tracking</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <CardDescription>
-                      Clear weekly plans, checklists, and approvals keep you moving forward.
+                      See your improvement week by week with easy-to-follow plans and check-ins
                     </CardDescription>
                   </CardContent>
                 </Card>
@@ -146,11 +246,11 @@ const Home = () => {
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                       <Video className="w-6 h-6 text-primary" />
                     </div>
-                    <CardTitle>(Premium) Video reviews</CardTitle>
+                    <CardTitle>Convenient care</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <CardDescription>
-                      Share attempt videos and get therapist feedback without the commute.
+                      Follow your program at home and get feedback without extra office visits
                     </CardDescription>
                   </CardContent>
                 </Card>
@@ -159,25 +259,33 @@ const Home = () => {
           </section>
 
           {/* Meet Dr. Matt */}
-          <section className="py-16 bg-muted/50">
+          <section className="py-16 bg-background">
             <div className="container">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div className="bg-muted rounded-2xl aspect-square flex items-center justify-center">
+                <div className="bg-muted rounded-2xl aspect-square flex items-center justify-center order-2 lg:order-1">
                   <p className="text-muted-foreground">Dr. Matt Francisco Photo</p>
                 </div>
                 
-                <div>
+                <div className="order-1 lg:order-2">
                   <h2 className="text-3xl md:text-4xl font-bold mb-6">Meet Dr. Matt Francisco</h2>
                   <div className="space-y-4 text-lg text-muted-foreground">
                     <p>
-                      Dr. Matt empowers patients to build excellent oral health using modern 
-                      techniques in a comfortable, friendly environment. He lives in Abbotsford 
-                      with his wife Sylvia and their three boys — and brings the same care and 
-                      energy into this program.
+                      Dr. Matt has been helping Abbotsford families build healthier smiles for years. 
+                      He believes in combining modern dental techniques with a comfortable, friendly approach 
+                      that puts patients at ease.
+                    </p>
+                    <p>
+                      Living in Abbotsford with his wife Sylvia and their three boys, Dr. Matt understands 
+                      the importance of busy family schedules — which is why he created this program to bring 
+                      professional myofunctional therapy right into your home.
+                    </p>
+                    <p>
+                      With his background in competitive basketball, he's especially passionate about helping 
+                      athletes and active families develop strong breathing habits for better performance and recovery.
                     </p>
                   </div>
                   <Button asChild variant="outline" size="lg" className="mt-6">
-                    <Link to="/about">Learn more</Link>
+                    <Link to="/about">Learn more about our team</Link>
                   </Button>
                 </div>
               </div>
@@ -202,24 +310,41 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Social Proof */}
+          {/* About Montrose */}
           <section className="py-16 bg-background">
-            <div className="container text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8">
-                Trusted by families across Abbotsford
-              </h2>
-              
-              <div className="flex flex-wrap justify-center gap-8 opacity-50">
-                <div className="w-32 h-16 bg-muted rounded flex items-center justify-center text-sm">
-                  Fraser Valley
-                </div>
-                <div className="w-32 h-16 bg-muted rounded flex items-center justify-center text-sm">
-                  Community
-                </div>
-                <div className="w-32 h-16 bg-muted rounded flex items-center justify-center text-sm">
-                  Excellence
-                </div>
+            <div className="container max-w-4xl">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  About Montrose Dental Centre
+                </h2>
+                <p className="text-xl text-muted-foreground mb-6">
+                  Serving Abbotsford families for over 30 years
+                </p>
               </div>
+              
+              <Card className="border-2">
+                <CardContent className="pt-6">
+                  <div className="space-y-4 text-lg text-muted-foreground">
+                    <p>
+                      At Montrose Dental Centre, we've built our reputation on providing exceptional, 
+                      family-friendly dental care in a warm and welcoming environment. Our experienced 
+                      team combines the latest dental techniques with a genuine commitment to each 
+                      patient's comfort and well-being.
+                    </p>
+                    <p>
+                      We created MyoCoach because we saw our patients needed more than just in-office 
+                      visits. They needed a way to build healthy habits at home, track their progress, 
+                      and get guidance between appointments. This program brings over three decades of 
+                      clinical expertise directly to you.
+                    </p>
+                  </div>
+                  <div className="mt-6 pt-6 border-t">
+                    <p className="text-center text-muted-foreground">
+                      <strong>Trusted by families across Abbotsford and the Fraser Valley</strong>
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </section>
 
