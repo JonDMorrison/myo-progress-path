@@ -336,7 +336,7 @@ const Home = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg">
-                  <Link to="/auth">Get Started</Link>
+                  <Link to="/register">Get Started</Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
                   <Link to="/how-it-works">How It Works</Link>
