@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,10 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Stethoscope } from "lucide-react";
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [useMagicLink, setUseMagicLink] = useState(false);
   const navigate = useNavigate();
@@ -34,7 +32,7 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      if (useMagicLink && isLogin) {
+      if (useMagicLink) {
         // Magic link login
         const { error } = await supabase.auth.signInWithOtp({
           email,
@@ -49,7 +47,7 @@ const Auth = () => {
           title: "Check your email",
           description: "We sent you a magic link to sign in.",
         });
-      } else if (isLogin) {
+      } else {
         // Password login
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -63,27 +61,6 @@ const Auth = () => {
           description: "Successfully logged in.",
         });
         navigate("/");
-      } else {
-        // Sign up
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/`,
-            data: {
-              name,
-              role: "patient",
-            },
-          },
-        });
-
-        if (error) throw error;
-
-        toast({
-          title: "Account created!",
-          description: "You can now log in with your credentials.",
-        });
-        setIsLogin(true);
       }
     } catch (error: any) {
       toast({
@@ -105,27 +82,12 @@ const Auth = () => {
           </div>
           <CardTitle className="text-3xl font-bold">MyoCoach</CardTitle>
           <CardDescription className="text-base">
-            {isLogin ? "Welcome back to your therapy journey" : "Start your myofunctional therapy journey"}
+            Welcome back to your therapy journey
           </CardDescription>
         </CardHeader>
 
         <form onSubmit={handleAuth}>
           <CardContent className="space-y-4">
-            {!isLogin && (
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="John Doe"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required={!isLogin}
-                  className="h-11"
-                />
-              </div>
-            )}
-
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -139,23 +101,7 @@ const Auth = () => {
               />
             </div>
 
-            {isLogin && !useMagicLink && (
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  minLength={6}
-                  className="h-11"
-                />
-              </div>
-            )}
-            
-            {!isLogin && (
+            {!useMagicLink && (
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
@@ -174,41 +120,36 @@ const Auth = () => {
 
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full h-11" disabled={loading}>
-              {loading ? "Loading..." : useMagicLink ? "Send Magic Link" : isLogin ? "Sign In" : "Create Account"}
+              {loading ? "Loading..." : useMagicLink ? "Send Magic Link" : "Sign In"}
             </Button>
 
-            {isLogin && (
-              <div className="flex flex-col gap-2 w-full">
+            <div className="flex flex-col gap-2 w-full">
+              <button
+                type="button"
+                onClick={() => setUseMagicLink(!useMagicLink)}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {useMagicLink ? "Use password instead" : "Use magic link instead"}
+              </button>
+              
+              {!useMagicLink && (
                 <button
                   type="button"
-                  onClick={() => setUseMagicLink(!useMagicLink)}
+                  onClick={() => navigate("/reset-password")}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {useMagicLink ? "Use password instead" : "Use magic link instead"}
+                  Forgot password?
                 </button>
-                
-                {!useMagicLink && (
-                  <button
-                    type="button"
-                    onClick={() => navigate("/reset-password")}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    Forgot password?
-                  </button>
-                )}
-              </div>
-            )}
+              )}
+            </div>
 
-            <button
-              type="button"
-              onClick={() => {
-                setIsLogin(!isLogin);
-                setUseMagicLink(false);
-              }}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
-            </button>
+            <div className="text-center text-sm text-muted-foreground pt-4 border-t">
+              Need access?{" "}
+              <Link to="/register" className="text-primary hover:underline font-medium">
+                Get your passcode
+              </Link>
+              {" "}from Montrose Dental Centre
+            </div>
           </CardFooter>
         </form>
       </Card>

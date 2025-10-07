@@ -17,7 +17,7 @@ export const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg">
-                <Link to="/auth">
+                <Link to="/register">
                   Get Started
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
@@ -26,6 +26,12 @@ export const Hero = () => {
                 <Link to="/how-it-works">How It Works</Link>
               </Button>
             </div>
+            <p className="text-sm text-muted-foreground">
+              Existing patients:{" "}
+              <Link to="/auth" className="text-primary hover:underline">
+                Sign in here
+              </Link>
+            </p>
           </div>
           
           <div className="flex items-center justify-center">

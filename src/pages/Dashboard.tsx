@@ -34,6 +34,26 @@ const Index = () => {
 
       // Redirect based on role
       if (userData.role === "patient") {
+        // Check if patient needs to complete onboarding
+        const { data: patient } = await supabase
+          .from("patients")
+          .select("id")
+          .eq("user_id", session.user.id)
+          .single();
+
+        if (patient) {
+          const { data: onboarding } = await supabase
+            .from("onboarding_progress")
+            .select("completed_at")
+            .eq("patient_id", patient.id)
+            .maybeSingle();
+
+          if (!onboarding?.completed_at) {
+            navigate("/onboarding");
+            return;
+          }
+        }
+        
         navigate("/patient");
       } else if (userData.role === "therapist" || userData.role === "admin") {
         navigate("/therapist");

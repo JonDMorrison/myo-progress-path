@@ -11,6 +11,8 @@ import HowItWorks from "./pages/HowItWorks";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Auth from "./pages/Auth";
+import Register from "./pages/Register";
+import { OnboardingWizard } from "./components/onboarding/OnboardingWizard";
 import PatientDashboard from "./pages/PatientDashboard";
 import WeekDetail from "./pages/WeekDetail";
 import TherapistDashboard from "./pages/TherapistDashboard";
@@ -40,6 +42,8 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/onboarding" element={<OnboardingWizard />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/update-password" element={<UpdatePassword />} />
             <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
