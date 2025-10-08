@@ -401,10 +401,7 @@ const WeekDetail = () => {
             {/* Overview & Objectives */}
             {(week?.overview || week?.objectives) && (
               <Card className="shadow-card">
-                <CardHeader>
-                  <CardTitle>This Week's Focus</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-4 pt-6">
                   {week.overview && (
                     <div>
                       <h3 className="font-semibold mb-2">Overview</h3>
