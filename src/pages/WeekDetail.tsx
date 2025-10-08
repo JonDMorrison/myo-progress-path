@@ -373,7 +373,7 @@ const WeekDetail = () => {
           </Button>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold">Week {weekNumber}: {week?.title}</h1>
+              <h1 className="text-2xl font-bold">{week?.title}</h1>
             </div>
             {progress && (
               <Badge
