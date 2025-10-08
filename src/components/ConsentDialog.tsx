@@ -84,7 +84,11 @@ export function ConsentDialog({ open, patientId, onConsent }: ConsentDialogProps
         </DialogHeader>
         
         <ScrollArea className="h-[400px] rounded-md border p-4">
-          <div className="prose prose-sm" dangerouslySetInnerHTML={{ __html: consentText.replace(/\n/g, '<br>') }} />
+          <div className="prose prose-sm" dangerouslySetInnerHTML={{ 
+            __html: consentText
+              .replace(/^# (.+)$/gm, '<strong>$1</strong>')
+              .replace(/\n/g, '<br>') 
+          }} />
         </ScrollArea>
 
         <div className="space-y-4">
