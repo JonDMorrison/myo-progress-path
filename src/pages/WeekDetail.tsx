@@ -56,13 +56,22 @@ const WeekDetail = () => {
       setPatient(patientData);
 
       // Get week
-      const { data: weekData, error: weekError } = await supabase
+      const { data: weekData } = await supabase
         .from("weeks")
         .select("*")
         .eq("number", parseInt(weekNumber || "1"))
-        .single();
+        .maybeSingle();
 
-      if (weekError) throw weekError;
+      if (!weekData) {
+        toast({
+          title: "Week Not Available",
+          description: "This week's content hasn't been set up yet.",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
       setWeek(weekData);
 
       // Get exercises
