@@ -60,24 +60,25 @@ const PatientDashboard = () => {
       }
 
       // Get current week (for now, get week 1)
-      const { data: weekData, error: weekError } = await supabase
+      const { data: weekData } = await supabase
         .from("weeks")
         .select("*")
         .eq("number", 1)
-        .single();
-
-      if (weekError) throw weekError;
-      setCurrentWeek(weekData);
-
-      // Get progress for current week
-      const { data: progressData } = await supabase
-        .from("patient_week_progress")
-        .select("*")
-        .eq("patient_id", patientData.id)
-        .eq("week_id", weekData.id)
         .maybeSingle();
 
-      setProgress(progressData);
+      setCurrentWeek(weekData);
+
+      // Get progress for current week if week exists
+      if (weekData) {
+        const { data: progressData } = await supabase
+          .from("patient_week_progress")
+          .select("*")
+          .eq("patient_id", patientData.id)
+          .eq("week_id", weekData.id)
+          .maybeSingle();
+
+        setProgress(progressData);
+      }
     } catch (error: any) {
       console.error("Error loading patient data:", error);
       toast({
@@ -161,7 +162,17 @@ const PatientDashboard = () => {
         </div>
 
         {/* Current Week Card */}
-        {currentWeek && (
+        {!currentWeek ? (
+          <Card className="mb-6 shadow-card">
+            <CardContent className="py-12 text-center">
+              <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">No Weeks Available Yet</h3>
+              <p className="text-muted-foreground">
+                Your program content will be available soon. Please check back later.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
           <Card className="mb-6 shadow-card hover:shadow-elevated transition-shadow">
             <CardHeader>
               <div className="flex items-center justify-between">
