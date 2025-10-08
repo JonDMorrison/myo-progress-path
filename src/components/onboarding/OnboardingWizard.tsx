@@ -9,6 +9,7 @@ import { ArrowRight, ArrowLeft } from "lucide-react";
 import { WelcomeStep } from "./steps/WelcomeStep";
 import { ProgramOverviewStep } from "./steps/ProgramOverviewStep";
 import { HowItWorksStep } from "./steps/HowItWorksStep";
+import { BOLTInstructionsStep } from "./steps/BOLTInstructionsStep";
 import { VideoGuideStep } from "./steps/VideoGuideStep";
 import { GoalsStep } from "./steps/GoalsStep";
 import { ConsentStep } from "./steps/ConsentStep";
@@ -18,6 +19,7 @@ const steps = [
   { id: 'welcome', component: WelcomeStep, title: 'Welcome' },
   { id: 'program', component: ProgramOverviewStep, title: 'Program Overview' },
   { id: 'how-it-works', component: HowItWorksStep, title: 'How It Works' },
+  { id: 'bolt-instructions', component: BOLTInstructionsStep, title: 'BOLT Test' },
   { id: 'videos', component: VideoGuideStep, title: 'Video Uploads' },
   { id: 'goals', component: GoalsStep, title: 'Your Goals' },
   { id: 'consent', component: ConsentStep, title: 'Consent' },

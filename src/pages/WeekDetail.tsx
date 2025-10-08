@@ -9,8 +9,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { ArrowLeft, Send, CheckCircle2, AlertCircle, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { BOLTHelpContent } from "@/components/BOLTHelpContent";
 
 import { notifyTherapistSubmission } from "@/lib/notify";
 
@@ -412,19 +418,31 @@ const WeekDetail = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3">
-                  {week?.requires_bolt && (
-                    <div className="space-y-2">
+                {week?.requires_bolt && (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
                       <Label htmlFor="bolt">BOLT Score (seconds)</Label>
-                      <Input
-                        id="bolt"
-                        type="number"
-                        value={boltScore}
-                        onChange={(e) => setBoltScore(e.target.value)}
-                        placeholder="Enter your BOLT score"
-                        disabled={progress?.status === "submitted" || progress?.status === "approved"}
-                      />
+                      <HoverCard>
+                        <HoverCardTrigger asChild>
+                          <button className="text-muted-foreground hover:text-foreground transition-colors">
+                            <HelpCircle className="h-4 w-4" />
+                          </button>
+                        </HoverCardTrigger>
+                        <HoverCardContent className="w-96">
+                          <BOLTHelpContent />
+                        </HoverCardContent>
+                      </HoverCard>
                     </div>
-                  )}
+                    <Input
+                      id="bolt"
+                      type="number"
+                      value={boltScore}
+                      onChange={(e) => setBoltScore(e.target.value)}
+                      placeholder="Enter your BOLT score"
+                      disabled={progress?.status === "submitted" || progress?.status === "approved"}
+                    />
+                  </div>
+                )}
 
                   <div className="space-y-2">
                     <Label htmlFor="nasal">% Time Nasal Breathing</Label>
