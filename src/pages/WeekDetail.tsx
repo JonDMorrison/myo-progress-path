@@ -17,6 +17,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { BOLTHelpContent } from "@/components/BOLTHelpContent";
+import { WeekIntroductionModal } from "@/components/WeekIntroductionModal";
 
 import { notifyTherapistSubmission } from "@/lib/notify";
 
@@ -31,7 +32,7 @@ const WeekDetail = () => {
   const [progress, setProgress] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
-  
+  const [showIntroduction, setShowIntroduction] = useState(false);
 
   // Form state
   const [boltScore, setBoltScore] = useState("");
@@ -130,6 +131,11 @@ const WeekDetail = () => {
         .order("created_at", { ascending: true });
 
       setMessages(messagesData || []);
+
+      // Show introduction modal if not viewed yet
+      if (weekData?.introduction && progressData && !progressData.introduction_viewed) {
+        setShowIntroduction(true);
+      }
     } catch (error: any) {
       console.error("Error loading week data:", error);
       toast({
@@ -275,6 +281,28 @@ const WeekDetail = () => {
     }
   };
 
+  const handleIntroductionContinue = async () => {
+    if (!progress?.id) return;
+    
+    try {
+      const { error } = await supabase
+        .from('patient_week_progress')
+        .update({ introduction_viewed: true })
+        .eq('id', progress.id);
+
+      if (error) throw error;
+      
+      setShowIntroduction(false);
+    } catch (error: any) {
+      console.error('Error marking introduction as viewed:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save your progress. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !patient || !week) return;
 
@@ -327,8 +355,16 @@ const WeekDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      {/* Header */}
+    <>
+      <WeekIntroductionModal
+        open={showIntroduction}
+        weekNumber={week?.number || 0}
+        introduction={week?.introduction || ""}
+        onContinue={handleIntroductionContinue}
+      />
+
+      <div className="min-h-screen bg-background pb-20">
+        {/* Header */}
       <header className="sticky top-0 z-10 border-b bg-card/95 backdrop-blur shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <Button variant="ghost" onClick={() => navigate("/")} className="mb-3">
@@ -595,7 +631,8 @@ const WeekDetail = () => {
           </div>
         </div>
       </main>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -589,6 +589,7 @@ export type Database = {
           bolt_score: number | null
           completed_at: string | null
           id: string
+          introduction_viewed: boolean | null
           nasal_breathing_pct: number | null
           patient_id: string | null
           status: Database["public"]["Enums"]["week_status"] | null
@@ -600,6 +601,7 @@ export type Database = {
           bolt_score?: number | null
           completed_at?: string | null
           id?: string
+          introduction_viewed?: boolean | null
           nasal_breathing_pct?: number | null
           patient_id?: string | null
           status?: Database["public"]["Enums"]["week_status"] | null
@@ -611,6 +613,7 @@ export type Database = {
           bolt_score?: number | null
           completed_at?: string | null
           id?: string
+          introduction_viewed?: boolean | null
           nasal_breathing_pct?: number | null
           patient_id?: string | null
           status?: Database["public"]["Enums"]["week_status"] | null
