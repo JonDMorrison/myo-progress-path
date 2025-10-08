@@ -260,21 +260,32 @@ const PatientDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-6 gap-3">
-              {Array.from({ length: 24 }, (_, i) => i + 1).map((weekNum) => (
-                <button
-                  key={weekNum}
-                  className={`
-                    aspect-square rounded-lg border-2 font-semibold text-sm
-                    transition-all hover:scale-105
-                    ${weekNum === 1 
-                      ? "bg-primary text-primary-foreground border-primary shadow-sm" 
-                      : "bg-muted/50 text-muted-foreground border-border"
-                    }
-                  `}
-                >
-                  {weekNum}
-                </button>
-              ))}
+              {Array.from({ length: 24 }, (_, i) => i + 1).map((weekNum) => {
+                const isCurrentWeek = weekNum === 1;
+                const isLocked = weekNum > 1;
+                
+                return (
+                  <button
+                    key={weekNum}
+                    onClick={() => {
+                      if (isCurrentWeek) {
+                        navigate(`/week/${weekNum}`);
+                      }
+                    }}
+                    disabled={isLocked}
+                    className={`
+                      aspect-square rounded-lg border-2 font-semibold text-sm
+                      transition-all
+                      ${isCurrentWeek 
+                        ? "bg-primary text-primary-foreground border-primary shadow-sm hover:scale-105 cursor-pointer" 
+                        : "bg-muted/50 text-muted-foreground border-border opacity-50 cursor-not-allowed"
+                      }
+                    `}
+                  >
+                    {weekNum}
+                  </button>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
