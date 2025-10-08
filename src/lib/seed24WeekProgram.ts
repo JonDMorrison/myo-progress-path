@@ -11,6 +11,8 @@ interface WeekData {
   introduction: string;
   overview: string;
   objectives: string[];
+  video_title?: string;
+  video_url?: string;
   exercises: Exercise[];
   tracking: {
     nasal_breathing_percent?: boolean;
@@ -45,6 +47,8 @@ export async function seed24WeekProgram(
             introduction: weekData.introduction,
             overview: weekData.overview,
             objectives: weekData.objectives,
+            video_title: weekData.video_title || null,
+            video_url: weekData.video_url || null,
             requires_bolt: weekData.tracking.BOLT_score || false,
             requires_video_first: weekData.requires_video_first || false,
             requires_video_last: weekData.requires_video_last || false,

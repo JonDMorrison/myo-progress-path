@@ -870,6 +870,8 @@ export type Database = {
           requires_video_first: boolean | null
           requires_video_last: boolean | null
           title: string | null
+          video_title: string | null
+          video_url: string | null
         }
         Insert: {
           checklist_schema?: Json | null
@@ -884,6 +886,8 @@ export type Database = {
           requires_video_first?: boolean | null
           requires_video_last?: boolean | null
           title?: string | null
+          video_title?: string | null
+          video_url?: string | null
         }
         Update: {
           checklist_schema?: Json | null
@@ -898,6 +902,8 @@ export type Database = {
           requires_video_first?: boolean | null
           requires_video_last?: boolean | null
           title?: string | null
+          video_title?: string | null
+          video_url?: string | null
         }
         Relationships: [
           {

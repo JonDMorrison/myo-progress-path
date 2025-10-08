@@ -425,6 +425,33 @@ const WeekDetail = () => {
               </Card>
             )}
 
+            {/* Video Section */}
+            {week?.video_title && (
+              <Card className="shadow-card">
+                <CardHeader>
+                  <CardTitle>{week.video_title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {week.video_url ? (
+                    <div className="aspect-video rounded-lg overflow-hidden bg-muted">
+                      <iframe
+                        src={week.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
+                        className="w-full h-full"
+                        frameBorder="0"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                        title={week.video_title}
+                      />
+                    </div>
+                  ) : (
+                    <div className="aspect-video rounded-lg bg-muted flex items-center justify-center">
+                      <p className="text-muted-foreground text-sm">Video coming soon</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
             {/* Exercises */}
             <Card className="shadow-card">
               <CardHeader>
