@@ -857,8 +857,11 @@ export type Database = {
         Row: {
           checklist_schema: Json | null
           id: string
+          introduction: string | null
           notes: string | null
           number: number
+          objectives: Json | null
+          overview: string | null
           program_id: string | null
           requires_bolt: boolean | null
           requires_video_first: boolean | null
@@ -868,8 +871,11 @@ export type Database = {
         Insert: {
           checklist_schema?: Json | null
           id?: string
+          introduction?: string | null
           notes?: string | null
           number: number
+          objectives?: Json | null
+          overview?: string | null
           program_id?: string | null
           requires_bolt?: boolean | null
           requires_video_first?: boolean | null
@@ -879,8 +885,11 @@ export type Database = {
         Update: {
           checklist_schema?: Json | null
           id?: string
+          introduction?: string | null
           notes?: string | null
           number?: number
+          objectives?: Json | null
+          overview?: string | null
           program_id?: string | null
           requires_bolt?: boolean | null
           requires_video_first?: boolean | null

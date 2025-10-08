@@ -362,6 +362,47 @@ const WeekDetail = () => {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Introduction */}
+            {week?.introduction && (
+              <Card className="shadow-card border-l-4 border-l-primary">
+                <CardContent className="pt-6">
+                  <p className="text-lg leading-relaxed text-foreground">
+                    {week.introduction}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Overview & Objectives */}
+            {(week?.overview || week?.objectives) && (
+              <Card className="shadow-card">
+                <CardHeader>
+                  <CardTitle>This Week's Focus</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {week.overview && (
+                    <div>
+                      <h3 className="font-semibold mb-2">Overview</h3>
+                      <p className="text-muted-foreground">{week.overview}</p>
+                    </div>
+                  )}
+                  {week.objectives && Array.isArray(week.objectives) && week.objectives.length > 0 && (
+                    <div>
+                      <h3 className="font-semibold mb-2">Learning Objectives</h3>
+                      <ul className="space-y-2">
+                        {week.objectives.map((objective: string, idx: number) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                            <span className="text-muted-foreground">{objective}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
             {/* Exercises */}
             <Card className="shadow-card">
               <CardHeader>

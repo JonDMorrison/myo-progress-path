@@ -24,6 +24,7 @@ import MasterAdmin from "./pages/MasterAdmin";
 import ResetPassword from "./pages/ResetPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import SeedSuperAdmins from "./pages/SeedSuperAdmins";
+import SeedProgram from "./pages/admin/SeedProgram";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="/therapist" element={<TherapistDashboard />} />
             <Route path="/admin/content" element={<AdminContent />} />
             <Route path="/admin/master" element={<MasterAdmin />} />
+            <Route path="/admin/seed-program" element={<SeedProgram />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/therapist/ai-assist" element={<TherapistAIAssist />} />
             <Route path="/week/:weekNumber" element={<WeekDetail />} />
