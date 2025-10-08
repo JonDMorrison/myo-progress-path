@@ -398,16 +398,6 @@ const WeekDetail = () => {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Introduction */}
-            {week?.introduction && (
-              <Card className="shadow-card border-l-4 border-l-primary">
-                <CardContent className="pt-6">
-                  <p className="text-lg leading-relaxed text-foreground">
-                    {week.introduction}
-                  </p>
-                </CardContent>
-              </Card>
-            )}
 
             {/* Overview & Objectives */}
             {(week?.overview || week?.objectives) && (
