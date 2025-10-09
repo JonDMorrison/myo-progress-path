@@ -1,9 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ProgressBar } from "@/components/ui/progress";
+import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, CheckCircle2, Clock, Play } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ArrowRight, CheckCircle2, Clock } from "lucide-react";
 
 interface ProgramCardProps {
   firstName?: string;
@@ -12,8 +11,6 @@ interface ProgramCardProps {
   status?: string;
   completedWeeks: number;
   totalWeeks: number;
-  hasWeekVideo?: boolean;
-  videoUrl?: string;
   onContinue: () => void;
 }
 
@@ -24,12 +21,9 @@ export function ProgramCard({
   status = "open",
   completedWeeks,
   totalWeeks,
-  hasWeekVideo = false,
-  videoUrl,
   onContinue,
 }: ProgramCardProps) {
-  const progressPercent = Math.round((completedWeeks / totalWeeks) * 100);
-  const navigate = useNavigate();
+  const progressPercent = (completedWeeks / totalWeeks) * 100;
 
   const getStatusDisplay = () => {
     switch (status) {
@@ -46,14 +40,13 @@ export function ProgramCard({
   const StatusIcon = statusDisplay.icon;
 
   return (
-    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col bg-white/90 dark:bg-card/90 backdrop-blur">
+    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
       <CardHeader className="space-y-4 pb-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
+        <div className="flex items-start justify-between">
+          <div>
             <CardTitle className="text-2xl mb-1">Welcome back, {firstName} 👋</CardTitle>
             <p className="text-muted-foreground">
-              You're on <span className="font-medium">Week {weekNumber}</span>
-              {weekTitle && <span> — {weekTitle}</span>}
+              You're on Week {weekNumber} {weekTitle && `— ${weekTitle}`}
             </p>
           </div>
           {status && status !== "open" && (
@@ -73,29 +66,17 @@ export function ProgramCard({
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Program Progress</span>
             <span className="font-medium">
-              {completedWeeks} / {totalWeeks} weeks • {progressPercent}%
+              {completedWeeks} / {totalWeeks} weeks
             </span>
           </div>
-          <ProgressBar value={progressPercent} />
+          <Progress value={progressPercent} className="h-2 rounded-full" />
         </div>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col gap-4">
-        {hasWeekVideo && videoUrl && (
-          <div className="aspect-video rounded-xl border overflow-hidden bg-muted relative group cursor-pointer"
-               onClick={onContinue}>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 shadow-lg group-hover:scale-105 transition-transform">
-                <Play className="h-4 w-4" />
-                <span className="text-sm font-medium">Play preview</span>
-              </div>
-            </div>
-          </div>
-        )}
-        <div className="mt-auto">
+      <CardContent className="flex-1 flex items-end">
+        <div className="w-full">
           <Button onClick={onContinue} className="w-full h-12 rounded-xl" size="lg">
-            <StatusIcon className="mr-2 h-5 w-5" />
-            {statusDisplay.text} {weekNumber}
+          <StatusIcon className="mr-2 h-5 w-5" />
+          {statusDisplay.text} {weekNumber}
           </Button>
         </div>
       </CardContent>

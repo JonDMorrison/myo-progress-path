@@ -20,25 +20,4 @@ const Progress = React.forwardRef<
 ));
 Progress.displayName = ProgressPrimitive.Root.displayName;
 
-// Modern thin progress bar
-interface ProgressBarProps {
-  value: number;
-  className?: string;
-}
-
-export function ProgressBar({ value, className = "" }: ProgressBarProps) {
-  return (
-    <div className={cn("h-2 rounded-full bg-black/10 overflow-hidden", className)}>
-      <div
-        className="h-2 rounded-full bg-primary transition-all duration-500"
-        style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
-        role="progressbar"
-        aria-valuenow={value}
-        aria-valuemin={0}
-        aria-valuemax={100}
-      />
-    </div>
-  );
-}
-
 export { Progress };

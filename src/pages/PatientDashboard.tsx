@@ -12,7 +12,6 @@ import { TimelineCard } from "@/components/dashboard/TimelineCard";
 import { HabitsCard } from "@/components/dashboard/HabitsCard";
 import { MessagesCard } from "@/components/dashboard/MessagesCard";
 import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
@@ -145,26 +144,13 @@ const PatientDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
-        <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
-          <div className="container mx-auto px-6 py-4 flex items-center justify-between max-w-7xl">
-            <div className="flex items-center gap-3">
-              <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
-            </div>
-            <Button variant="ghost" size="sm" onClick={handleSignOut} className="rounded-xl">
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign Out
-            </Button>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 mx-auto">
+            <div className="w-full h-full border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
           </div>
-        </header>
-        <main className="container mx-auto px-6 py-8 max-w-7xl">
-          <div className="grid gap-6 md:grid-cols-2 md:auto-rows-fr">
-            <Skeleton className="h-80 rounded-2xl" />
-            <Skeleton className="h-80 rounded-2xl" />
-            <Skeleton className="h-80 rounded-2xl" />
-            <Skeleton className="h-80 rounded-2xl" />
-          </div>
-        </main>
+          <p className="text-muted-foreground">Loading your dashboard...</p>
+        </div>
       </div>
     );
   }
@@ -204,9 +190,9 @@ const PatientDashboard = () => {
       <main className="container mx-auto px-6 py-8 max-w-7xl">
         {!currentWeek ? (
           <Section>
-            <Card className="rounded-2xl border shadow-sm bg-white/90 dark:bg-card/90 backdrop-blur">
+            <Card className="rounded-2xl border shadow-sm">
               <CardContent className="py-16 text-center">
-                <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+                <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold mb-2">No Weeks Available Yet</h3>
                 <p className="text-muted-foreground">
                   Your program content will be available soon. Please check back later.
@@ -226,8 +212,6 @@ const PatientDashboard = () => {
                   status={progress?.status}
                   completedWeeks={completedWeeks}
                   totalWeeks={24}
-                  hasWeekVideo={!!currentWeek.video_url}
-                  videoUrl={currentWeek.video_url}
                   onContinue={() => navigate(`/week/${currentWeek.number}`)}
                 />
               </Section>
