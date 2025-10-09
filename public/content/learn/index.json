@@ -1,0 +1,12 @@
+{
+  "articles": [
+    { "slug": "intro-to-myofunctional-therapy", "title": "Introduction to Myofunctional Therapy", "tags": ["overview"] },
+    { "slug": "four-goals", "title": "The Four Goals of Myofunctional Therapy", "tags": ["nasal-breathing","lip-seal","chewing-swallowing","tongue-posture"] },
+    { "slug": "expectations", "title": "Expectations for Myofunctional Therapy", "tags": ["program"] },
+    { "slug": "structural-changes", "title": "Structural Changes Caused by Myofunctional Disorders", "tags": ["oral","facial"] },
+    { "slug": "health-effects", "title": "Health/Systemic Effects Associated with Myofunctional Disorders", "tags": ["systemic"] },
+    { "slug": "sleep-apnea", "title": "How Myofunctional Therapy Improves Sleep Apnea", "tags": ["sleep"] },
+    { "slug": "children-signs", "title": "Signs of Sleep-Disordered Breathing in Children", "tags": ["pediatrics"] },
+    { "slug": "causes-in-infancy", "title": "Causes of Myofunctional Disorders During Infancy", "tags": ["infancy"] }
+  ]
+}

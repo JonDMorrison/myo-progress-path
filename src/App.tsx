@@ -26,6 +26,9 @@ import UpdatePassword from "./pages/UpdatePassword";
 import SeedSuperAdmins from "./pages/SeedSuperAdmins";
 import SeedProgram from "./pages/admin/SeedProgram";
 import NotFound from "./pages/NotFound";
+import Week0 from "./pages/Week0";
+import Learn from "./pages/Learn";
+import LearnArticle from "./pages/LearnArticle";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +48,9 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/register" element={<Register />} />
             <Route path="/onboarding" element={<OnboardingWizard />} />
+            <Route path="/week-0" element={<Week0 />} />
+            <Route path="/learn" element={<Learn />} />
+            <Route path="/learn/:slug" element={<LearnArticle />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/update-password" element={<UpdatePassword />} />
             <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />

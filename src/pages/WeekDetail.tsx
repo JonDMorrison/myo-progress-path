@@ -21,6 +21,8 @@ import { BOLTHelpContent } from "@/components/BOLTHelpContent";
 import { WeekIntroductionModal } from "@/components/WeekIntroductionModal";
 
 import { notifyTherapistSubmission } from "@/lib/notify";
+import { learnLinksByWeek, loadLearnIndex, LearnArticle } from "@/lib/learn";
+import { RelatedWeeks } from "@/components/learn/RelatedWeeks";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -37,6 +39,7 @@ const WeekDetail = () => {
   const [uploads, setUploads] = useState<any[]>([]);
   const [uploadingFirst, setUploadingFirst] = useState(false);
   const [uploadingLast, setUploadingLast] = useState(false);
+  const [learnArticles, setLearnArticles] = useState<LearnArticle[]>([]);
 
   // Form state
   const [boltScore, setBoltScore] = useState("");
@@ -45,6 +48,7 @@ const WeekDetail = () => {
 
   useEffect(() => {
     loadWeekData();
+    loadLearnIndex().then(setLearnArticles);
   }, [weekNumber]);
 
 
