@@ -142,7 +142,6 @@ const PatientDashboard = () => {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
-            <h1 className="text-2xl font-bold">MyoCoach</h1>
           </div>
           <Button variant="ghost" size="sm" onClick={handleSignOut}>
             <LogOut className="mr-2" />
