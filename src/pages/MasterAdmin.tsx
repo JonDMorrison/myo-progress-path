@@ -5,10 +5,11 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Shield, Search, Download } from "lucide-react";
+import { Shield, Search, Download, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { MasterPatientTable } from "@/components/admin/MasterPatientTable";
 import { fetchMasterPatientList, fetchAllClinics, type MasterPatientFilters } from "@/lib/masterAdmin";
+import { exportPatientsToCSV } from "@/lib/exportCSV";
 import { toast } from "sonner";
 
 const MasterAdmin = () => {
@@ -24,6 +25,11 @@ const MasterAdmin = () => {
     clinicId: undefined,
     patientStatus: undefined,
     weekStatus: undefined,
+    weekNumber: undefined,
+    minCompletion: undefined,
+    maxCompletion: undefined,
+    startDate: undefined,
+    endDate: undefined,
     page: 1,
     pageSize: 50
   });
@@ -99,32 +105,42 @@ const MasterAdmin = () => {
     }
   }, [filters, isAuthorized]);
 
-  const handleExportCSV = async () => {
+  const handleExportCSV = () => {
     try {
       toast.info('Preparing export...');
-      const { data, error } = await supabase.functions.invoke('export-master-patients', {
-        body: filters
-      });
-
-      if (error) throw error;
-
-      // Create download link
-      const blob = new Blob([data], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `master-patients-${new Date().toISOString().split('T')[0]}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-
+      exportPatientsToCSV(patients);
       toast.success('Export complete');
     } catch (error) {
       console.error('Export error:', error);
       toast.error('Failed to export data');
     }
   };
+
+  const clearFilters = () => {
+    setFilters({
+      search: '',
+      clinicId: undefined,
+      patientStatus: undefined,
+      weekStatus: undefined,
+      weekNumber: undefined,
+      minCompletion: undefined,
+      maxCompletion: undefined,
+      startDate: undefined,
+      endDate: undefined,
+      page: 1,
+      pageSize: 50
+    });
+  };
+
+  // Calculate average completion
+  const avgCompletion = patients.length > 0
+    ? Math.round(
+        patients
+          .filter(p => p.adherence_14d !== null)
+          .reduce((sum, p) => sum + (p.adherence_14d || 0), 0) /
+        patients.filter(p => p.adherence_14d !== null).length
+      )
+    : 0;
 
   if (!isAuthorized) {
     return null;
@@ -152,69 +168,134 @@ const MasterAdmin = () => {
         </div>
 
         {/* Filters */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search patients..."
+                value={filters.search}
+                onChange={(e) => setFilters({ ...filters, search: e.target.value, page: 1 })}
+                className="pl-9"
+              />
+            </div>
+
+            <Select
+              value={filters.clinicId}
+              onValueChange={(value) => setFilters({ ...filters, clinicId: value === 'all' ? undefined : value, page: 1 })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="All Clinics" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Clinics</SelectItem>
+                {clinics.map((clinic) => (
+                  <SelectItem key={clinic.id} value={clinic.id}>
+                    {clinic.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select
+              value={filters.patientStatus}
+              onValueChange={(value) => setFilters({ ...filters, patientStatus: value === 'all' ? undefined : value, page: 1 })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="All Statuses" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select
+              value={filters.weekStatus}
+              onValueChange={(value) => setFilters({ ...filters, weekStatus: value === 'all' ? undefined : value, page: 1 })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="All Week Statuses" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Week Statuses</SelectItem>
+                <SelectItem value="open">Open</SelectItem>
+                <SelectItem value="submitted">Submitted</SelectItem>
+                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="needs_more">Needs More</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Advanced Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Select
+              value={filters.weekNumber?.toString()}
+              onValueChange={(value) => setFilters({ ...filters, weekNumber: value === 'all' ? undefined : parseInt(value), page: 1 })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="All Weeks" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Weeks</SelectItem>
+                {Array.from({ length: 24 }, (_, i) => i + 1).map((week) => (
+                  <SelectItem key={week} value={week.toString()}>
+                    Week {week}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <div className="flex gap-2">
+              <Input
+                type="number"
+                placeholder="Min %"
+                min="0"
+                max="100"
+                value={filters.minCompletion ?? ''}
+                onChange={(e) => setFilters({ ...filters, minCompletion: e.target.value ? parseInt(e.target.value) : undefined, page: 1 })}
+                className="w-24"
+              />
+              <Input
+                type="number"
+                placeholder="Max %"
+                min="0"
+                max="100"
+                value={filters.maxCompletion ?? ''}
+                onChange={(e) => setFilters({ ...filters, maxCompletion: e.target.value ? parseInt(e.target.value) : undefined, page: 1 })}
+                className="w-24"
+              />
+            </div>
+
             <Input
-              placeholder="Search patients..."
-              value={filters.search}
-              onChange={(e) => setFilters({ ...filters, search: e.target.value, page: 1 })}
-              className="pl-9"
+              type="date"
+              placeholder="From Date"
+              value={filters.startDate ?? ''}
+              onChange={(e) => setFilters({ ...filters, startDate: e.target.value || undefined, page: 1 })}
+            />
+
+            <Input
+              type="date"
+              placeholder="To Date"
+              value={filters.endDate ?? ''}
+              onChange={(e) => setFilters({ ...filters, endDate: e.target.value || undefined, page: 1 })}
             />
           </div>
 
-          <Select
-            value={filters.clinicId}
-            onValueChange={(value) => setFilters({ ...filters, clinicId: value === 'all' ? undefined : value, page: 1 })}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="All Clinics" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Clinics</SelectItem>
-              {clinics.map((clinic) => (
-                <SelectItem key={clinic.id} value={clinic.id}>
-                  {clinic.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <Select
-            value={filters.patientStatus}
-            onValueChange={(value) => setFilters({ ...filters, patientStatus: value === 'all' ? undefined : value, page: 1 })}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="All Statuses" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
-              <SelectItem value="completed">Completed</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select
-            value={filters.weekStatus}
-            onValueChange={(value) => setFilters({ ...filters, weekStatus: value === 'all' ? undefined : value, page: 1 })}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="All Week Statuses" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Week Statuses</SelectItem>
-              <SelectItem value="open">Open</SelectItem>
-              <SelectItem value="submitted">Submitted</SelectItem>
-              <SelectItem value="approved">Approved</SelectItem>
-              <SelectItem value="needs_more">Needs More</SelectItem>
-            </SelectContent>
-          </Select>
+          {/* Clear Filters Button */}
+          {(filters.search || filters.clinicId || filters.patientStatus || filters.weekStatus || filters.weekNumber || filters.minCompletion || filters.maxCompletion || filters.startDate || filters.endDate) && (
+            <Button variant="outline" size="sm" onClick={clearFilters}>
+              <X className="mr-2 h-4 w-4" />
+              Clear Filters
+            </Button>
+          )}
         </div>
 
         {/* Stats */}
         <div className="bg-muted/50 rounded-lg p-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <div className="text-2xl font-bold">{totalCount}</div>
               <div className="text-sm text-muted-foreground">Total Patients</div>
@@ -228,6 +309,10 @@ const MasterAdmin = () => {
                 {patients.filter(p => p.patient_status === 'active').length}
               </div>
               <div className="text-sm text-muted-foreground">Active Patients</div>
+            </div>
+            <div>
+              <div className="text-2xl font-bold">{avgCompletion}%</div>
+              <div className="text-sm text-muted-foreground">Avg Completion</div>
             </div>
           </div>
         </div>

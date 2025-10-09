@@ -24,6 +24,11 @@ export interface MasterPatientFilters {
   clinicId?: string;
   patientStatus?: string;
   weekStatus?: string;
+  weekNumber?: number;
+  minCompletion?: number;
+  maxCompletion?: number;
+  startDate?: string;
+  endDate?: string;
   page?: number;
   pageSize?: number;
 }
@@ -36,6 +41,11 @@ export async function fetchMasterPatientList(
     clinicId,
     patientStatus,
     weekStatus,
+    weekNumber,
+    minCompletion,
+    maxCompletion,
+    startDate,
+    endDate,
     page = 1,
     pageSize = 50
   } = filters;
@@ -59,6 +69,26 @@ export async function fetchMasterPatientList(
 
   if (weekStatus) {
     query = query.eq('current_week_status', weekStatus as any);
+  }
+
+  if (weekNumber !== undefined) {
+    query = query.eq('current_week_number', weekNumber);
+  }
+
+  if (minCompletion !== undefined) {
+    query = query.gte('adherence_14d', minCompletion);
+  }
+
+  if (maxCompletion !== undefined) {
+    query = query.lte('adherence_14d', maxCompletion);
+  }
+
+  if (startDate) {
+    query = query.gte('last_activity', startDate);
+  }
+
+  if (endDate) {
+    query = query.lte('last_activity', endDate);
   }
 
   // Pagination
