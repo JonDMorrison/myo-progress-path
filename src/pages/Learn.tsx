@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
 import { LearnCard } from "@/components/learn/LearnCard";
+import { SearchBar } from "@/components/learn/SearchBar";
 import { loadLearnIndex, LearnArticle } from "@/lib/learn";
-import { Search } from "lucide-react";
+import { fuzzySearch } from "@/lib/searchLearn";
 
 export default function Learn() {
   const [articles, setArticles] = useState<LearnArticle[]>([]);
@@ -12,10 +12,7 @@ export default function Learn() {
     loadLearnIndex().then(setArticles);
   }, []);
 
-  const filtered = articles.filter(article =>
-    article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    article.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filtered = fuzzySearch(articles, searchTerm);
 
   return (
     <div className="min-h-screen bg-background">
@@ -26,15 +23,11 @@ export default function Learn() {
         </div>
 
         <div className="mb-8 max-w-md mx-auto">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="Search articles..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
+          <SearchBar
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder="Search by title, tag, or keyword..."
+          />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

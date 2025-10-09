@@ -481,9 +481,19 @@ const WeekDetail = () => {
               </Section>
             )}
 
+            {/* Recommended Reading */}
+            {learnLinksByWeek[parseInt(weekNumber || "0")] && (
+              <Section delay={200}>
+                <RelatedWeeks 
+                  slugs={learnLinksByWeek[parseInt(weekNumber || "0")]} 
+                  articles={learnArticles}
+                />
+              </Section>
+            )}
+
             {/* Coaching Video */}
             {week?.video_title && (
-              <Section delay={200}>
+              <Section delay={300}>
                 <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow overflow-hidden">
                   <CardHeader className="bg-gradient-to-r from-primary/5 to-transparent">
                     <CardTitle className="text-lg flex items-center gap-2">

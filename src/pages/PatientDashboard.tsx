@@ -11,6 +11,7 @@ import { ProgramCard } from "@/components/dashboard/ProgramCard";
 import { TimelineCard } from "@/components/dashboard/TimelineCard";
 import { HabitsCard } from "@/components/dashboard/HabitsCard";
 import { MessagesCard } from "@/components/dashboard/MessagesCard";
+import { StreakBadge } from "@/components/dashboard/StreakBadge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
 import { Progress } from "@/components/ui/progress";
@@ -282,6 +283,13 @@ const PatientDashboard = () => {
                 />
               </Section>
             </div>
+
+            {/* Gamification Section - Full Width Below Grid */}
+            {patient && (
+              <Section delay={400}>
+                <StreakBadge patientId={patient.id} />
+              </Section>
+            )}
           </div>
         )}
       </main>
