@@ -11,9 +11,12 @@ interface ConsentStepProps {
 export const ConsentStep = ({ onConsentChange }: ConsentStepProps) => {
   const [accepted, setAccepted] = useState(false);
   const [patientId, setPatientId] = useState<string | null>(null);
+  const [consentText, setConsentText] = useState("");
+  const [consentVersion, setConsentVersion] = useState("1.0");
 
   useEffect(() => {
     loadPatientId();
+    loadConsent();
   }, []);
 
   const loadPatientId = async () => {
@@ -31,6 +34,20 @@ export const ConsentStep = ({ onConsentChange }: ConsentStepProps) => {
     }
   };
 
+  const loadConsent = async () => {
+    const { data } = await supabase
+      .from("app_settings")
+      .select("value")
+      .eq("key", "consent_latest")
+      .single();
+    
+    if (data?.value && typeof data.value === 'object' && data.value !== null) {
+      const consentData = data.value as { version?: string; md?: string };
+      setConsentVersion(consentData.version || "1.0");
+      setConsentText(consentData.md || "# Consent to Treatment\n\nI understand and agree to participate in the myofunctional therapy program.");
+    }
+  };
+
   const handleAcceptChange = async (checked: boolean) => {
     setAccepted(checked);
     onConsentChange?.(checked);
@@ -44,7 +61,8 @@ export const ConsentStep = ({ onConsentChange }: ConsentStepProps) => {
           consent_payload: {
             accepted: true,
             timestamp: new Date().toISOString(),
-            version: '1.0'
+            version: consentVersion,
+            text_excerpt: consentText.substring(0, 500)
           }
         })
         .eq('id', patientId);
@@ -63,52 +81,15 @@ export const ConsentStep = ({ onConsentChange }: ConsentStepProps) => {
         </p>
       </div>
 
-      <ScrollArea className="h-[300px] w-full border rounded-lg p-6 bg-muted/30">
-        <div className="space-y-4 text-sm">
-          <h3 className="font-semibold text-base">MyoCoach Program Consent</h3>
-          
-          <p>
-            By accepting this consent form, you acknowledge and agree to participate in the MyoCoach myofunctional therapy program under the supervision of Montrose Dental Centre.
-          </p>
-
-          <h4 className="font-semibold">Program Overview</h4>
-          <p>
-            The MyoCoach program is a 24-week structured myofunctional therapy program designed to improve breathing patterns, tongue posture, and oral muscle function. You will receive weekly exercises, track your progress, and submit regular check-ins for therapist review.
-          </p>
-
-          <h4 className="font-semibold">Your Responsibilities</h4>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Complete daily exercises as instructed</li>
-            <li>Submit accurate weekly check-in data</li>
-            <li>Upload video recordings when required</li>
-            <li>Communicate with your therapist about any concerns</li>
-            <li>Follow safety guidelines for all exercises</li>
-          </ul>
-
-          <h4 className="font-semibold">Privacy & Data</h4>
-          <p>
-            Your personal information, progress data, and video submissions are stored securely and are only accessible to your assigned therapist and authorized clinic staff. We comply with all applicable privacy regulations.
-          </p>
-
-          <h4 className="font-semibold">Video Recording Consent</h4>
-          <p>
-            You consent to record and submit videos of yourself performing exercises. These videos are used solely for therapeutic assessment and feedback. They will not be shared outside of your care team without explicit consent.
-          </p>
-
-          <h4 className="font-semibold">Risks & Limitations</h4>
-          <p>
-            Myofunctional therapy is generally safe when performed correctly. However, if you experience pain, discomfort, or any adverse effects, stop the exercises immediately and contact your therapist. This program does not replace medical treatment and should be used in conjunction with appropriate medical care.
-          </p>
-
-          <h4 className="font-semibold">Withdrawal</h4>
-          <p>
-            You may withdraw from the program at any time by contacting your therapist or clinic administrator. Your data will be retained according to our privacy policy and legal requirements.
-          </p>
-
-          <p className="text-muted-foreground italic">
-            Last updated: October 2025
-          </p>
-        </div>
+      <ScrollArea className="h-[400px] w-full border rounded-lg p-6 bg-muted/30">
+        <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ 
+          __html: consentText
+            .replace(/^# (.+)$/gm, '<h1 class="text-xl font-bold mt-4 mb-2">$1</h1>')
+            .replace(/^## (.+)$/gm, '<h2 class="text-lg font-semibold mt-4 mb-2">$1</h2>')
+            .replace(/^### (.+)$/gm, '<h3 class="text-base font-semibold mt-3 mb-1">$1</h3>')
+            .replace(/\n\n/g, '</p><p class="mb-2">')
+            .replace(/^(.+)$/gm, '<p class="mb-2">$1</p>')
+        }} />
       </ScrollArea>
 
       <div className="flex items-start space-x-3 p-4 bg-primary/5 border border-primary/20 rounded-lg">
@@ -121,7 +102,7 @@ export const ConsentStep = ({ onConsentChange }: ConsentStepProps) => {
           htmlFor="consent-accept"
           className="text-sm leading-relaxed cursor-pointer"
         >
-          I have read and understood the consent form above. I agree to participate in the MyoCoach program and consent to the collection and use of my data as described.
+          I acknowledge that I have read and fully understand the treatment considerations presented in this form. I consent to the Myofunctional Therapy program provided by Matt Francisco, DDS and Samantha Raniak, RDH, OMT at Montrose Dental Centre.
         </label>
       </div>
     </div>

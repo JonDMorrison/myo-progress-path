@@ -84,10 +84,13 @@ export function ConsentDialog({ open, patientId, onConsent }: ConsentDialogProps
         </DialogHeader>
         
         <ScrollArea className="h-[400px] rounded-md border p-4">
-          <div className="prose prose-sm" dangerouslySetInnerHTML={{ 
+          <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ 
             __html: consentText
-              .replace(/^# (.+)$/gm, '<strong>$1</strong>')
-              .replace(/\n/g, '<br>') 
+              .replace(/^# (.+)$/gm, '<h1 class="text-xl font-bold mt-4 mb-2">$1</h1>')
+              .replace(/^## (.+)$/gm, '<h2 class="text-lg font-semibold mt-4 mb-2">$1</h2>')
+              .replace(/^### (.+)$/gm, '<h3 class="text-base font-semibold mt-3 mb-1">$1</h3>')
+              .replace(/\n\n/g, '</p><p class="mb-2">')
+              .replace(/^(.+)$/gm, '<p class="mb-2">$1</p>')
           }} />
         </ScrollArea>
 
