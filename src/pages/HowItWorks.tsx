@@ -140,6 +140,53 @@ const HowItWorks = () => {
               </div>
             </div>
           </section>
+
+          {/* Learn More Section */}
+          <section className="py-16 bg-muted/50">
+            <div className="container max-w-4xl">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Learn More About Myofunctional Therapy</h2>
+                <p className="text-xl text-muted-foreground">
+                  Explore our educational resources
+                </p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6 mb-8">
+                <Link to="/learn/intro-to-myofunctional-therapy" className="block">
+                  <FeatureCard
+                    icon={FileText}
+                    title="Introduction to Myofunctional Therapy"
+                    description="Learn the fundamentals of myofunctional therapy and how it can improve breathing, sleep, and overall health."
+                  />
+                </Link>
+                <Link to="/learn/four-goals" className="block">
+                  <FeatureCard
+                    icon={Check}
+                    title="The Four Goals"
+                    description="Discover the four primary goals of myofunctional therapy: nasal breathing, lip seal, proper swallowing, and tongue posture."
+                  />
+                </Link>
+                <Link to="/learn/expectations" className="block">
+                  <FeatureCard
+                    icon={FileText}
+                    title="Expectations"
+                    description="Understand what to expect from your myofunctional therapy journey, including time commitment and practice guidelines."
+                  />
+                </Link>
+                <Link to="/learn/sleep-apnea" className="block">
+                  <FeatureCard
+                    icon={Award}
+                    title="Sleep Apnea & Myofunctional Therapy"
+                    description="Learn how myofunctional therapy can significantly improve sleep apnea symptoms and sleep quality."
+                  />
+                </Link>
+              </div>
+              <div className="text-center">
+                <Button asChild size="lg">
+                  <Link to="/learn">View All Articles</Link>
+                </Button>
+              </div>
+            </div>
+          </section>
         </main>
 
         <FooterPublic />

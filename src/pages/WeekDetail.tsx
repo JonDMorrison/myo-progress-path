@@ -798,6 +798,16 @@ const WeekDetail = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Learn More Links */}
+            {learnLinksByWeek[parseInt(weekNumber || "0")] && (
+              <Section delay={450}>
+                <RelatedWeeks 
+                  slugs={learnLinksByWeek[parseInt(weekNumber || "0")]} 
+                  articles={learnArticles}
+                />
+              </Section>
+            )}
+
             {/* Messages */}
             <Section delay={500}>
               <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow sticky top-24">
