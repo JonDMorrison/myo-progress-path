@@ -91,6 +91,36 @@ export default function Week0() {
 
         <OnboardingQuiz onComplete={handleQuizComplete} />
 
+        <Card className="rounded-2xl mt-8">
+          <CardHeader>
+            <CardTitle>Program Basics</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <div>
+              <h3 className="font-semibold mb-2">Daily Format</h3>
+              <p className="text-muted-foreground">
+                Each day includes <strong>3 active exercises</strong>, <strong>1 passive exercise</strong>, and <strong>1 breathing/posture exercise</strong> (some weeks may vary).
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-2">Use a Mirror</h3>
+              <p className="text-muted-foreground">
+                Active exercises require a mirror to ensure proper form and minimize compensations.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-2">Supporting Materials</h3>
+              <p className="text-muted-foreground">
+                Videos and photos guide each exercise. Charts help track your nasal breathing % and tongue-on-spot %.
+              </p>
+            </div>
+            <Button variant="outline" className="w-full" onClick={() => navigate("/learn/program-specifics")}>
+              <BookOpen className="w-4 h-4 mr-2" />
+              Read Full Program Specifics
+            </Button>
+          </CardContent>
+        </Card>
+
         {quizCompleted && (
           <div className="mt-8 text-center">
             <Button size="lg" onClick={() => navigate("/week/1")}>

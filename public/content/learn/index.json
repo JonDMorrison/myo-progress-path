@@ -7,6 +7,10 @@
     { "slug": "health-effects", "title": "Health/Systemic Effects Associated with Myofunctional Disorders", "tags": ["systemic"] },
     { "slug": "sleep-apnea", "title": "How Myofunctional Therapy Improves Sleep Apnea", "tags": ["sleep"] },
     { "slug": "children-signs", "title": "Signs of Sleep-Disordered Breathing in Children", "tags": ["pediatrics"] },
-    { "slug": "causes-in-infancy", "title": "Causes of Myofunctional Disorders During Infancy", "tags": ["infancy"] }
+    { "slug": "causes-in-infancy", "title": "Causes of Myofunctional Disorders During Infancy", "tags": ["infancy"] },
+    { "slug": "program-specifics", "title": "Myofunctional Therapy Program Specifics", "tags": ["program","format"] },
+    { "slug": "compensations", "title": "Compensations to Limit (with photos)", "tags": ["technique","breathing"] },
+    { "slug": "frenectomy-pathway", "title": "Frenectomy Pathway (Readiness & Timeline)", "tags": ["frenectomy"] },
+    { "slug": "therapy-kit", "title": "Your Myofunctional Therapy Kit", "tags": ["kit"] }
   ]
 }

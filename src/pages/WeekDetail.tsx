@@ -23,6 +23,8 @@ import { WeekIntroductionModal } from "@/components/WeekIntroductionModal";
 import { notifyTherapistSubmission } from "@/lib/notify";
 import { learnLinksByWeek, loadLearnIndex, LearnArticle } from "@/lib/learn";
 import { RelatedWeeks } from "@/components/learn/RelatedWeeks";
+import { LearnChips } from "@/components/week/LearnChips";
+import { NasalUnblockModal } from "@/components/learn/NasalUnblockModal";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -514,7 +516,7 @@ const WeekDetail = () => {
                   <CardHeader>
                     <CardTitle className="text-lg">Learning Objectives</CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="space-y-4">
                     <ul className="space-y-3">
                       {week.objectives.map((objective: string, idx: number) => (
                         <li key={idx} className="flex items-start gap-3">
@@ -523,6 +525,16 @@ const WeekDetail = () => {
                         </li>
                       ))}
                     </ul>
+                    
+                    {/* Learn More Chips */}
+                    <div className="pt-4 border-t">
+                      <LearnChips weekNumber={parseInt(weekNumber || "0")} />
+                    </div>
+                    
+                    {/* Quick Help for Congestion */}
+                    <div className="flex justify-end">
+                      <NasalUnblockModal />
+                    </div>
                   </CardContent>
                 </Card>
               </Section>
