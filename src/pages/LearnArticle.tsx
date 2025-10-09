@@ -21,17 +21,18 @@ export default function LearnArticle() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-6 py-12 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 max-w-7xl">
         <Button variant="ghost" onClick={() => navigate("/learn")} className="mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Learn Hub
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-12">
-          <article className="prose prose-sm max-w-prose mx-auto lg:mx-0">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-8 lg:gap-12">
+          <article className="prose prose-sm max-w-prose mx-auto lg:mx-0 px-4 sm:px-0">
             <ReactMarkdown>{article.content}</ReactMarkdown>
           </article>
           
+          {/* TOC is hidden on mobile, shown as sticky on desktop */}
           <StickyTOC content={article.content} />
         </div>
       </div>

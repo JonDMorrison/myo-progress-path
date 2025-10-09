@@ -15,6 +15,8 @@ import { StreakBadge } from "@/components/dashboard/StreakBadge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
 import { Progress } from "@/components/ui/progress";
+import { BottomNav } from "@/components/layout/BottomNav";
+import { MobileContainer } from "@/components/layout/MobileContainer";
 
 const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
@@ -200,7 +202,7 @@ const PatientDashboard = () => {
     <div className="min-h-screen bg-background">
       {/* Modern Header */}
       <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
               <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
@@ -231,7 +233,8 @@ const PatientDashboard = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-6 py-8 max-w-7xl">
+      <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-7xl">
+        <MobileContainer>
         {!currentWeek ? (
           <Section>
             <Card className="rounded-2xl border shadow-sm">
@@ -245,9 +248,9 @@ const PatientDashboard = () => {
             </Card>
           </Section>
         ) : (
-          <div className="space-y-6 flex flex-col">
-            {/* Dashboard Grid - 2x2 on desktop, stacked on mobile */}
-            <div className="grid gap-6 md:grid-cols-2 md:auto-rows-fr">
+          <div className="space-y-4 sm:space-y-6 flex flex-col">
+            {/* Dashboard Grid - single column on mobile, 2x2 on desktop */}
+            <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 md:auto-rows-fr">
               <Section delay={0}>
                 <ProgramCard
                   firstName={firstName}
@@ -292,7 +295,11 @@ const PatientDashboard = () => {
             )}
           </div>
         )}
+        </MobileContainer>
       </main>
+      
+      {/* Mobile Bottom Navigation */}
+      <BottomNav />
     </div>
   );
 };

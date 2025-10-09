@@ -92,7 +92,7 @@ const TherapistDashboard = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-card shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-hero rounded-lg flex items-center justify-center">
               <UserCheck className="w-6 h-6 text-primary-foreground" />
@@ -102,7 +102,7 @@ const TherapistDashboard = () => {
             <p className="text-sm text-muted-foreground">Therapist Portal</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
           <Button variant="outline" size="sm" onClick={() => navigate("/therapist/ai-assist")}>
             <span className="mr-2">✨</span>
             AI Assistant
@@ -131,9 +131,9 @@ const TherapistDashboard = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 max-w-6xl">
+      <main className="container mx-auto px-4 py-6 sm:py-8 max-w-6xl">
         {/* Stats Overview */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <Card className="shadow-card">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">

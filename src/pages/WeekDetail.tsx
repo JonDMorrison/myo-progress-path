@@ -26,6 +26,10 @@ import { learnLinksByWeek, loadLearnIndex, LearnArticle } from "@/lib/learn";
 import { RelatedWeeks } from "@/components/learn/RelatedWeeks";
 import { LearnChips } from "@/components/week/LearnChips";
 import { NasalUnblockModal } from "@/components/learn/NasalUnblockModal";
+import { ResponsiveVideo } from "@/components/week/ResponsiveVideo";
+import { SubmitBar } from "@/components/week/SubmitBar";
+import { BottomNav } from "@/components/layout/BottomNav";
+import { MobileContainer } from "@/components/layout/MobileContainer";
 
 import { isWeekAccessible } from "@/lib/userProgress";
 
@@ -401,10 +405,10 @@ const WeekDetail = () => {
         onContinue={handleIntroductionContinue}
       />
 
-      <div className="min-h-screen bg-background pb-20">
+      <div className="min-h-screen bg-background pb-24 sm:pb-8">
         {/* Modern Header */}
       <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between mb-4">
             <Button variant="ghost" onClick={() => navigate("/patient")} className="rounded-xl -ml-2">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -432,8 +436,9 @@ const WeekDetail = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-6 py-8 max-w-7xl">
-        <div className="grid lg:grid-cols-3 gap-6">
+      <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-7xl">
+        <MobileContainer>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
 
@@ -450,7 +455,7 @@ const WeekDetail = () => {
               </Section>
             )}
 
-            {/* Objectives */}
+            {/* Objectives - Single column on mobile, 2-col on desktop */}
             {week?.objectives && Array.isArray(week.objectives) && week.objectives.length > 0 && (
               <Section delay={100}>
                 <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
@@ -491,8 +496,8 @@ const WeekDetail = () => {
               </Section>
             )}
 
-            {/* Coaching Video */}
-            {week?.video_title && (
+            {/* Coaching Video - Responsive 16:9 */}
+            {week?.video_title && week?.video_url && (
               <Section delay={300}>
                 <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow overflow-hidden">
                   <CardHeader className="bg-gradient-to-r from-primary/5 to-transparent">
@@ -502,25 +507,10 @@ const WeekDetail = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-0">
-                    {week.video_url ? (
-                      <div className="aspect-video bg-muted">
-                        <iframe
-                          src={week.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
-                          className="w-full h-full"
-                          frameBorder="0"
-                          allow="autoplay; fullscreen; picture-in-picture"
-                          allowFullScreen
-                          title={week.video_title}
-                        />
-                      </div>
-                    ) : (
-                      <div className="aspect-video bg-muted flex items-center justify-center">
-                        <div className="text-center">
-                          <Play className="h-12 w-12 text-muted-foreground mx-auto mb-2 opacity-50" />
-                          <p className="text-muted-foreground text-sm">Video coming soon</p>
-                        </div>
-                      </div>
-                    )}
+                    <ResponsiveVideo 
+                      src={week.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
+                      title={week.video_title}
+                    />
                   </CardContent>
                 </Card>
               </Section>
@@ -717,8 +707,8 @@ const WeekDetail = () => {
             </Section>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
+          {/* Sidebar - becomes full width on mobile */}
+          <div className="space-y-4 sm:space-y-6">
             {/* Learn More Links */}
             {learnLinksByWeek[parseInt(weekNumber || "0")] && (
               <Section delay={450}>
@@ -729,9 +719,9 @@ const WeekDetail = () => {
               </Section>
             )}
 
-            {/* Messages */}
+            {/* Messages - Not sticky on mobile */}
             <Section delay={500}>
-              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow sticky top-24">
+              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow lg:sticky lg:top-24">
                 <CardHeader>
                   <CardTitle className="text-lg">Messages</CardTitle>
                   <CardDescription>Chat with your therapist</CardDescription>
@@ -787,7 +777,11 @@ const WeekDetail = () => {
             </Section>
           </div>
         </div>
+        </MobileContainer>
       </main>
+      
+      {/* Mobile Bottom Navigation */}
+      <BottomNav />
       </div>
     </>
   );

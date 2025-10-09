@@ -56,7 +56,7 @@ export function StickyTOC({ content }: StickyTOCProps) {
   if (headings.length === 0) return null;
 
   return (
-    <div className="sticky top-24 hidden lg:block">
+    <div className="lg:sticky lg:top-24 hidden lg:block">
       <div className="rounded-xl border bg-card p-4 shadow-sm">
         <h3 className="font-semibold mb-3 text-sm uppercase tracking-wide opacity-70">
           On This Page
