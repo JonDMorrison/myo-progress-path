@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { VideoUpload } from "@/components/week/VideoUpload";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Send, CheckCircle2, AlertCircle, HelpCircle, Upload, Video, Play } from "lucide-react";
+import { ArrowLeft, Send, CheckCircle2, AlertCircle, HelpCircle, Video, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Section } from "@/components/ui/Section";
 import {
@@ -41,8 +42,6 @@ const WeekDetail = () => {
   const [newMessage, setNewMessage] = useState("");
   const [showIntroduction, setShowIntroduction] = useState(false);
   const [uploads, setUploads] = useState<any[]>([]);
-  const [uploadingFirst, setUploadingFirst] = useState(false);
-  const [uploadingLast, setUploadingLast] = useState(false);
   const [learnArticles, setLearnArticles] = useState<LearnArticle[]>([]);
 
   // Form state
@@ -337,81 +336,9 @@ const WeekDetail = () => {
     }
   };
 
-  const handleVideoUpload = async (kind: 'first_attempt' | 'last_attempt') => {
-    if (!patient || !week) return;
-
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'video/mp4,video/mov,video/webm';
-    
-    input.onchange = async (e: any) => {
-      const file = e.target?.files?.[0];
-      if (!file) return;
-
-      // Validate file size (100MB max)
-      if (file.size > 100 * 1024 * 1024) {
-        toast({
-          title: "File too large",
-          description: "Please upload a video under 100MB.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      try {
-        if (kind === 'first_attempt') setUploadingFirst(true);
-        else setUploadingLast(true);
-
-        // Generate unique filename
-        const timestamp = Date.now();
-        const ext = file.name.split('.').pop();
-        const filename = `${patient.id}/${week.id}/${kind}_${timestamp}.${ext}`;
-
-        // Upload to storage
-        const { error: uploadError } = await supabase.storage
-          .from('patient-videos')
-          .upload(filename, file);
-
-        if (uploadError) throw uploadError;
-
-        // Get public URL
-        const { data: { publicUrl } } = supabase.storage
-          .from('patient-videos')
-          .getPublicUrl(filename);
-
-        // Create upload record
-        const { error: insertError } = await supabase
-          .from('uploads')
-          .insert({
-            patient_id: patient.id,
-            week_id: week.id,
-            kind,
-            file_url: publicUrl,
-          });
-
-        if (insertError) throw insertError;
-
-        toast({
-          title: "Video uploaded!",
-          description: "Your video has been uploaded successfully.",
-        });
-
-        // Reload data to show new upload
-        await loadWeekData();
-      } catch (error: any) {
-        console.error('Upload error:', error);
-        toast({
-          title: "Upload failed",
-          description: error.message,
-          variant: "destructive",
-        });
-      } finally {
-        if (kind === 'first_attempt') setUploadingFirst(false);
-        else setUploadingLast(false);
-      }
-    };
-
-    input.click();
+  const handleVideoUploadComplete = async () => {
+    // Reload data to show new upload
+    await loadWeekData();
   };
 
   const handleSendMessage = async () => {
@@ -664,70 +591,28 @@ const WeekDetail = () => {
                     {week.requires_video_first && (
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">First Attempt Video</Label>
-                        {uploads.find(u => u.kind === 'first_attempt') ? (
-                          <div className="flex items-center justify-between p-4 bg-success/10 border border-success/20 rounded-xl">
-                            <div className="flex items-center gap-3">
-                              <CheckCircle2 className="h-5 w-5 text-success" />
-                              <span className="text-sm font-medium">Video uploaded</span>
-                            </div>
-                            {progress?.status !== "submitted" && progress?.status !== "approved" && (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => handleVideoUpload('first_attempt')}
-                                disabled={uploadingFirst}
-                                className="rounded-lg"
-                              >
-                                Replace
-                              </Button>
-                            )}
-                          </div>
-                        ) : (
-                          <Button
-                            variant="outline"
-                            onClick={() => handleVideoUpload('first_attempt')}
-                            disabled={uploadingFirst || progress?.status === "submitted" || progress?.status === "approved"}
-                            className="w-full h-12 rounded-xl"
-                          >
-                            <Upload className="mr-2 h-5 w-5" />
-                            {uploadingFirst ? "Uploading..." : "Upload First Attempt"}
-                          </Button>
-                        )}
+                        <VideoUpload
+                          patientId={patient.id}
+                          weekId={week.id}
+                          kind="first_attempt"
+                          onUploadComplete={handleVideoUploadComplete}
+                          disabled={progress?.status === "submitted" || progress?.status === "approved"}
+                          hasExisting={!!uploads.find(u => u.kind === 'first_attempt')}
+                        />
                       </div>
                     )}
 
                     {week.requires_video_last && (
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">Last Attempt Video</Label>
-                        {uploads.find(u => u.kind === 'last_attempt') ? (
-                          <div className="flex items-center justify-between p-4 bg-success/10 border border-success/20 rounded-xl">
-                            <div className="flex items-center gap-3">
-                              <CheckCircle2 className="h-5 w-5 text-success" />
-                              <span className="text-sm font-medium">Video uploaded</span>
-                            </div>
-                            {progress?.status !== "submitted" && progress?.status !== "approved" && (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => handleVideoUpload('last_attempt')}
-                                disabled={uploadingLast}
-                                className="rounded-lg"
-                              >
-                                Replace
-                              </Button>
-                            )}
-                          </div>
-                        ) : (
-                          <Button
-                            variant="outline"
-                            onClick={() => handleVideoUpload('last_attempt')}
-                            disabled={uploadingLast || progress?.status === "submitted" || progress?.status === "approved"}
-                            className="w-full h-12 rounded-xl"
-                          >
-                            <Upload className="mr-2 h-5 w-5" />
-                            {uploadingLast ? "Uploading..." : "Upload Last Attempt"}
-                          </Button>
-                        )}
+                        <VideoUpload
+                          patientId={patient.id}
+                          weekId={week.id}
+                          kind="last_attempt"
+                          onUploadComplete={handleVideoUploadComplete}
+                          disabled={progress?.status === "submitted" || progress?.status === "approved"}
+                          hasExisting={!!uploads.find(u => u.kind === 'last_attempt')}
+                        />
                       </div>
                     )}
                   </div>

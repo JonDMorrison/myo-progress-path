@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Sparkles, Play, Loader } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice } from "@/lib/reviewActions";
+import { getVideoUrl } from "@/lib/storage";
 
 import AIFeedbackCard from "@/components/AIFeedbackCard";
 
@@ -27,6 +28,8 @@ const ReviewWeek = () => {
   
   const [downloadingPDF, setDownloadingPDF] = useState(false);
   const [uploads, setUploads] = useState<any[]>([]);
+  const [playingVideo, setPlayingVideo] = useState<string | null>(null);
+  const [loadingVideo, setLoadingVideo] = useState<string | null>(null);
 
   useEffect(() => {
     loadReviewData();
@@ -218,6 +221,23 @@ const ReviewWeek = () => {
     }
   };
 
+  const handlePlayVideo = async (uploadId: string, fileUrl: string) => {
+    setLoadingVideo(uploadId);
+    try {
+      const signedUrl = await getVideoUrl(fileUrl);
+      setPlayingVideo(signedUrl);
+    } catch (error: any) {
+      console.error('Error loading video:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load video. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoadingVideo(null);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -359,7 +379,26 @@ const ReviewWeek = () => {
                 <CardDescription>First and last attempt comparison</CardDescription>
               </CardHeader>
               <CardContent>
-                {uploads.length === 0 ? (
+                {playingVideo ? (
+                  <div className="space-y-4">
+                    <video
+                      controls
+                      autoPlay
+                      className="w-full rounded-lg bg-black"
+                      onEnded={() => setPlayingVideo(null)}
+                    >
+                      <source src={playingVideo} type="video/mp4" />
+                      Your browser does not support video playback.
+                    </video>
+                    <Button
+                      variant="outline"
+                      onClick={() => setPlayingVideo(null)}
+                      className="w-full"
+                    >
+                      Close Video
+                    </Button>
+                  </div>
+                ) : uploads.length === 0 ? (
                   <div className="bg-muted rounded-lg p-8 text-center">
                     <p className="text-sm text-muted-foreground">No videos uploaded yet</p>
                     <p className="text-xs text-muted-foreground mt-1">
@@ -370,20 +409,35 @@ const ReviewWeek = () => {
                   <div className="space-y-4">
                     {uploads.map((upload: any) => (
                       <div key={upload.id} className="space-y-3">
-                        <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                          <div>
-                            <p className="font-medium text-sm">
-                              {upload.kind === "first_attempt" ? "First Attempt" : "Last Attempt"}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {new Date(upload.created_at).toLocaleDateString()}
-                            </p>
+                        <div className="p-3 bg-muted rounded-lg space-y-3">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium text-sm">
+                                {upload.kind === "first_attempt" ? "First Attempt" : "Last Attempt"}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {new Date(upload.created_at).toLocaleDateString()}
+                              </p>
+                            </div>
+                            <Button
+                              size="sm"
+                              onClick={() => handlePlayVideo(upload.id, upload.file_url)}
+                              disabled={loadingVideo === upload.id}
+                            >
+                              {loadingVideo === upload.id ? (
+                                <Loader className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <Play className="h-4 w-4" />
+                              )}
+                              <span className="ml-2">Play</span>
+                            </Button>
                           </div>
                           {upload.thumb_url && (
                             <img 
                               src={upload.thumb_url} 
                               alt="Video thumbnail" 
-                              className="w-16 h-16 object-cover rounded"
+                              className="w-full h-32 object-cover rounded cursor-pointer"
+                              onClick={() => handlePlayVideo(upload.id, upload.file_url)}
                             />
                           )}
                         </div>
