@@ -9,8 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Send, CheckCircle2, AlertCircle, HelpCircle, Upload, Video } from "lucide-react";
+import { ArrowLeft, Send, CheckCircle2, AlertCircle, HelpCircle, Upload, Video, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Section } from "@/components/ui/Section";
 import {
   HoverCard,
   HoverCardContent,
@@ -454,165 +455,190 @@ const WeekDetail = () => {
       />
 
       <div className="min-h-screen bg-background pb-20">
-        {/* Header */}
-      <header className="sticky top-0 z-10 border-b bg-card/95 backdrop-blur shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <Button variant="ghost" onClick={() => navigate("/")} className="mb-3">
-            <ArrowLeft className="mr-2" />
-            Back to Dashboard
-          </Button>
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">{week?.title}</h1>
-            </div>
+        {/* Modern Header */}
+      <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <Button variant="ghost" onClick={() => navigate("/patient")} className="rounded-xl -ml-2">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Dashboard
+            </Button>
             {progress && (
               <Badge
                 variant="outline"
-                className={
+                className={`rounded-full ${
                   progress.status === "approved"
                     ? "bg-success/10 text-success border-success/20"
                     : progress.status === "submitted"
                     ? "bg-warning/10 text-warning border-warning/20"
                     : "bg-primary/10 text-primary border-primary/20"
-                }
+                }`}
               >
                 {progress.status}
               </Badge>
             )}
           </div>
+          <div>
+            <h1 className="text-3xl font-bold mb-1">Week {week?.number}</h1>
+            <p className="text-muted-foreground text-lg">{week?.title}</p>
+          </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 max-w-5xl">
+      <main className="container mx-auto px-6 py-8 max-w-7xl">
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
 
-            {/* Overview & Objectives */}
-            {(week?.overview || week?.objectives) && (
-              <Card className="shadow-card">
-                <CardContent className="space-y-4 pt-6">
-                  {week.overview && (
-                    <div>
-                      <h3 className="font-semibold mb-2">Overview</h3>
-                      <p className="text-muted-foreground">{week.overview}</p>
+            {/* Introduction */}
+            {week?.overview && (
+              <Section delay={0}>
+                <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+                  <CardContent className="pt-6">
+                    <div className="prose prose-sm max-w-none">
+                      <p className="text-muted-foreground leading-relaxed">{week.overview}</p>
                     </div>
-                  )}
-                  {week.objectives && Array.isArray(week.objectives) && week.objectives.length > 0 && (
-                    <div>
-                      <h3 className="font-semibold mb-2">Learning Objectives</h3>
-                      <ul className="space-y-2">
-                        {week.objectives.map((objective: string, idx: number) => (
-                          <li key={idx} className="flex items-start gap-2">
-                            <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                            <span className="text-muted-foreground">{objective}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Section>
             )}
 
-            {/* Video Section */}
+            {/* Objectives */}
+            {week?.objectives && Array.isArray(week.objectives) && week.objectives.length > 0 && (
+              <Section delay={100}>
+                <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Learning Objectives</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {week.objectives.map((objective: string, idx: number) => (
+                        <li key={idx} className="flex items-start gap-3">
+                          <CheckCircle2 className="h-5 w-5 text-success flex-shrink-0 mt-0.5" />
+                          <span className="text-muted-foreground">{objective}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </Section>
+            )}
+
+            {/* Coaching Video */}
             {week?.video_title && (
-              <Card className="shadow-card">
-                <CardHeader>
-                  <CardTitle>{week.video_title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {week.video_url ? (
-                    <div className="aspect-video rounded-lg overflow-hidden bg-muted">
-                      <iframe
-                        src={week.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
-                        className="w-full h-full"
-                        frameBorder="0"
-                        allow="autoplay; fullscreen; picture-in-picture"
-                        allowFullScreen
-                        title={week.video_title}
-                      />
-                    </div>
-                  ) : (
-                    <div className="aspect-video rounded-lg bg-muted flex items-center justify-center">
-                      <p className="text-muted-foreground text-sm">Video coming soon</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+              <Section delay={200}>
+                <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <CardHeader className="bg-gradient-to-r from-primary/5 to-transparent">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Play className="h-5 w-5 text-primary" />
+                      {week.video_title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    {week.video_url ? (
+                      <div className="aspect-video bg-muted">
+                        <iframe
+                          src={week.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
+                          className="w-full h-full"
+                          frameBorder="0"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowFullScreen
+                          title={week.video_title}
+                        />
+                      </div>
+                    ) : (
+                      <div className="aspect-video bg-muted flex items-center justify-center">
+                        <div className="text-center">
+                          <Play className="h-12 w-12 text-muted-foreground mx-auto mb-2 opacity-50" />
+                          <p className="text-muted-foreground text-sm">Video coming soon</p>
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </Section>
             )}
 
             {/* Exercises */}
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle>Exercises</CardTitle>
-                <CardDescription>Complete each exercise as instructed</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Accordion type="single" collapsible className="space-y-2">
-                  {exercises.map((exercise, idx) => (
-                    <AccordionItem key={exercise.id} value={`exercise-${idx}`} className="border rounded-lg px-4">
-                      <AccordionTrigger className="hover:no-underline">
-                        <div className="flex items-center gap-3 text-left">
-                          <span className="text-2xl">{getExerciseIcon(exercise.type)}</span>
-                          <div>
-                            <p className="font-semibold">{exercise.title}</p>
-                            <p className="text-sm text-muted-foreground capitalize">{exercise.type} Exercise</p>
+            <Section delay={300}>
+              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-lg">Exercises</CardTitle>
+                  <CardDescription>Complete each exercise as instructed</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Accordion type="single" collapsible className="space-y-3">
+                    {exercises.map((exercise, idx) => (
+                      <AccordionItem 
+                        key={exercise.id} 
+                        value={`exercise-${idx}`} 
+                        className="border rounded-xl px-4 hover:shadow-sm transition-shadow"
+                      >
+                        <AccordionTrigger className="hover:no-underline py-4">
+                          <div className="flex items-center gap-3 text-left">
+                            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <span className="text-xl">{getExerciseIcon(exercise.type)}</span>
+                            </div>
+                            <div>
+                              <p className="font-semibold">{exercise.title}</p>
+                              <p className="text-sm text-muted-foreground capitalize">{exercise.type} Exercise</p>
+                            </div>
                           </div>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="pt-4 space-y-3">
-                        {exercise.instructions && (
-                          <div>
-                            <h4 className="font-medium mb-1">Instructions:</h4>
-                            <p className="text-muted-foreground">{exercise.instructions}</p>
-                          </div>
-                        )}
-                        {exercise.props && (
-                          <div>
-                            <h4 className="font-medium mb-1">Props needed:</h4>
-                            <p className="text-muted-foreground">{exercise.props}</p>
-                          </div>
-                        )}
-                        {exercise.compensations && (
-                          <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
-                            <h4 className="font-medium text-warning flex items-center gap-2 mb-1">
-                              <AlertCircle className="w-4 h-4" />
-                              Watch for compensations:
-                            </h4>
-                            <p className="text-sm">{exercise.compensations}</p>
-                          </div>
-                        )}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </CardContent>
-            </Card>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-2 pb-4 space-y-4">
+                          {exercise.instructions && (
+                            <div className="rounded-lg bg-accent/50 p-4">
+                              <h4 className="font-medium mb-2 text-sm">Instructions</h4>
+                              <p className="text-sm text-muted-foreground leading-relaxed">{exercise.instructions}</p>
+                            </div>
+                          )}
+                          {exercise.props && (
+                            <div>
+                              <h4 className="font-medium mb-2 text-sm">Props Needed</h4>
+                              <p className="text-sm text-muted-foreground">{exercise.props}</p>
+                            </div>
+                          )}
+                          {exercise.compensations && (
+                            <div className="bg-warning/10 border border-warning/20 rounded-xl p-4">
+                              <h4 className="font-medium text-warning flex items-center gap-2 mb-2 text-sm">
+                                <AlertCircle className="w-4 h-4" />
+                                Watch for compensations
+                              </h4>
+                              <p className="text-sm">{exercise.compensations}</p>
+                            </div>
+                          )}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </CardContent>
+              </Card>
+            </Section>
 
-            {/* Checklist & Stats */}
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle>Week Progress</CardTitle>
-                <CardDescription>Track your daily practice</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            {/* Tracking */}
+            <Section delay={400}>
+              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+                <CardHeader>
+                  <CardTitle className="text-lg">Week Progress</CardTitle>
+                  <CardDescription>Track your daily practice</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
                 {/* Video Uploads */}
                 {(week?.requires_video_first || week?.requires_video_last) && (
-                  <div className="space-y-3 pb-4 border-b">
-                    <h4 className="font-medium flex items-center gap-2">
-                      <Video className="h-4 w-4" />
+                  <div className="space-y-4 pb-6 border-b">
+                    <h4 className="font-semibold flex items-center gap-2">
+                      <Video className="h-5 w-5 text-primary" />
                       Video Submissions
                     </h4>
                     
                     {week.requires_video_first && (
                       <div className="space-y-2">
-                        <Label>First Attempt Video</Label>
+                        <Label className="text-sm font-medium">First Attempt Video</Label>
                         {uploads.find(u => u.kind === 'first_attempt') ? (
-                          <div className="flex items-center justify-between p-3 bg-success/10 border border-success/20 rounded-lg">
-                            <div className="flex items-center gap-2">
-                              <CheckCircle2 className="h-4 w-4 text-success" />
-                              <span className="text-sm">Video uploaded</span>
+                          <div className="flex items-center justify-between p-4 bg-success/10 border border-success/20 rounded-xl">
+                            <div className="flex items-center gap-3">
+                              <CheckCircle2 className="h-5 w-5 text-success" />
+                              <span className="text-sm font-medium">Video uploaded</span>
                             </div>
                             {progress?.status !== "submitted" && progress?.status !== "approved" && (
                               <Button
@@ -620,6 +646,7 @@ const WeekDetail = () => {
                                 variant="outline"
                                 onClick={() => handleVideoUpload('first_attempt')}
                                 disabled={uploadingFirst}
+                                className="rounded-lg"
                               >
                                 Replace
                               </Button>
@@ -630,9 +657,9 @@ const WeekDetail = () => {
                             variant="outline"
                             onClick={() => handleVideoUpload('first_attempt')}
                             disabled={uploadingFirst || progress?.status === "submitted" || progress?.status === "approved"}
-                            className="w-full"
+                            className="w-full h-12 rounded-xl"
                           >
-                            <Upload className="mr-2 h-4 w-4" />
+                            <Upload className="mr-2 h-5 w-5" />
                             {uploadingFirst ? "Uploading..." : "Upload First Attempt"}
                           </Button>
                         )}
@@ -641,12 +668,12 @@ const WeekDetail = () => {
 
                     {week.requires_video_last && (
                       <div className="space-y-2">
-                        <Label>Last Attempt Video</Label>
+                        <Label className="text-sm font-medium">Last Attempt Video</Label>
                         {uploads.find(u => u.kind === 'last_attempt') ? (
-                          <div className="flex items-center justify-between p-3 bg-success/10 border border-success/20 rounded-lg">
-                            <div className="flex items-center gap-2">
-                              <CheckCircle2 className="h-4 w-4 text-success" />
-                              <span className="text-sm">Video uploaded</span>
+                          <div className="flex items-center justify-between p-4 bg-success/10 border border-success/20 rounded-xl">
+                            <div className="flex items-center gap-3">
+                              <CheckCircle2 className="h-5 w-5 text-success" />
+                              <span className="text-sm font-medium">Video uploaded</span>
                             </div>
                             {progress?.status !== "submitted" && progress?.status !== "approved" && (
                               <Button
@@ -654,6 +681,7 @@ const WeekDetail = () => {
                                 variant="outline"
                                 onClick={() => handleVideoUpload('last_attempt')}
                                 disabled={uploadingLast}
+                                className="rounded-lg"
                               >
                                 Replace
                               </Button>
@@ -664,9 +692,9 @@ const WeekDetail = () => {
                             variant="outline"
                             onClick={() => handleVideoUpload('last_attempt')}
                             disabled={uploadingLast || progress?.status === "submitted" || progress?.status === "approved"}
-                            className="w-full"
+                            className="w-full h-12 rounded-xl"
                           >
-                            <Upload className="mr-2 h-4 w-4" />
+                            <Upload className="mr-2 h-5 w-5" />
                             {uploadingLast ? "Uploading..." : "Upload Last Attempt"}
                           </Button>
                         )}
@@ -698,12 +726,13 @@ const WeekDetail = () => {
                       onChange={(e) => setBoltScore(e.target.value)}
                       placeholder="Enter your BOLT score"
                       disabled={progress?.status === "submitted" || progress?.status === "approved"}
+                      className="h-12 rounded-xl"
                     />
                   </div>
                 )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="nasal">% Time Nasal Breathing</Label>
+                    <Label htmlFor="nasal" className="text-sm font-medium">% Time Nasal Breathing</Label>
                     <Input
                       id="nasal"
                       type="number"
@@ -713,11 +742,12 @@ const WeekDetail = () => {
                       onChange={(e) => setNasalPct(e.target.value)}
                       placeholder="0-100%"
                       disabled={progress?.status === "submitted" || progress?.status === "approved"}
+                      className="h-12 rounded-xl"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="tongue">% Time Tongue on Spot</Label>
+                    <Label htmlFor="tongue" className="text-sm font-medium">% Time Tongue on Spot</Label>
                     <Input
                       id="tongue"
                       type="number"
@@ -727,16 +757,17 @@ const WeekDetail = () => {
                       onChange={(e) => setTonguePct(e.target.value)}
                       placeholder="0-100%"
                       disabled={progress?.status === "submitted" || progress?.status === "approved"}
+                      className="h-12 rounded-xl"
                     />
                   </div>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex gap-3 pt-2">
                   <Button
                     variant="outline"
                     onClick={handleSaveProgress}
                     disabled={progress?.status === "submitted" || progress?.status === "approved"}
-                    className="flex-1"
+                    className="flex-1 h-12 rounded-xl"
                   >
                     Save Progress
                   </Button>
@@ -744,71 +775,81 @@ const WeekDetail = () => {
                     variant="success"
                     onClick={handleSubmitForReview}
                     disabled={!canSubmit()}
-                    className="flex-1"
+                    className="flex-1 h-12 rounded-xl"
                   >
-                    <CheckCircle2 className="mr-2" />
+                    <CheckCircle2 className="mr-2 h-5 w-5" />
                     Submit for Review
                   </Button>
                 </div>
 
                 {!canSubmit() && progress?.status !== "submitted" && progress?.status !== "approved" && (
-                  <div className="text-xs text-muted-foreground text-center bg-warning/10 border border-warning/20 rounded p-2">
+                  <div className="text-sm text-muted-foreground text-center bg-warning/10 border border-warning/20 rounded-xl p-3">
                     Complete all required fields to submit for review
                   </div>
                 )}
               </CardContent>
             </Card>
+            </Section>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Messages */}
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle>Messages</CardTitle>
-                <CardDescription>Chat with your therapist</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3 max-h-80 overflow-y-auto">
-                  {messages.length === 0 ? (
-                    <p className="text-sm text-muted-foreground text-center py-4">
-                      No messages yet. Start a conversation!
-                    </p>
-                  ) : (
-                    messages.map((msg) => (
-                      <div
-                        key={msg.id}
-                        className={`p-3 rounded-lg ${
-                          msg.therapist_id ? "bg-accent" : "bg-primary/10"
-                        }`}
-                      >
-                        <p className="text-sm font-medium mb-1">
-                          {msg.therapist_id ? msg.therapist?.name || "Therapist" : "You"}
+            <Section delay={500}>
+              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow sticky top-24">
+                <CardHeader>
+                  <CardTitle className="text-lg">Messages</CardTitle>
+                  <CardDescription>Chat with your therapist</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3 max-h-96 overflow-y-auto scrollbar-hide">
+                    {messages.length === 0 ? (
+                      <div className="text-center py-8">
+                        <Send className="h-8 w-8 text-muted-foreground mx-auto mb-2 opacity-50" />
+                        <p className="text-sm text-muted-foreground">
+                          No messages yet. Start a conversation!
                         </p>
-                        <p className="text-sm">{msg.body}</p>
                       </div>
-                    ))
-                  )}
-                </div>
+                    ) : (
+                      messages.map((msg) => (
+                        <div
+                          key={msg.id}
+                          className={`p-4 rounded-xl text-sm transition-all ${
+                            msg.therapist_id 
+                              ? "bg-accent hover:shadow-sm" 
+                              : "bg-primary/10 hover:shadow-sm"
+                          }`}
+                        >
+                          <p className="font-semibold mb-1">
+                            {msg.therapist_id ? msg.therapist?.name || "Therapist" : "You"}
+                          </p>
+                          <p className="text-muted-foreground leading-relaxed">{msg.body}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
 
-                <div className="flex gap-2">
-                  <Textarea
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    placeholder="Type your message..."
-                    rows={2}
-                    disabled={progress?.status === "approved"}
-                  />
-                  <Button
-                    size="icon"
-                    onClick={handleSendMessage}
-                    disabled={!newMessage.trim() || progress?.status === "approved"}
-                  >
-                    <Send className="w-4 h-4" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                  <div className="flex gap-2">
+                    <Textarea
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      placeholder="Type your message..."
+                      rows={2}
+                      disabled={progress?.status === "approved"}
+                      className="rounded-xl resize-none"
+                    />
+                    <Button
+                      size="icon"
+                      onClick={handleSendMessage}
+                      disabled={!newMessage.trim() || progress?.status === "approved"}
+                      className="h-auto rounded-xl"
+                    >
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Section>
           </div>
         </div>
       </main>

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { LogOut, Calendar, CheckCircle2, Clock, Lock } from "lucide-react";
+import { LogOut, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ConsentDialog } from "@/components/ConsentDialog";
 import MyoCoachLogo from "@/assets/MyoCoach_Logo.png";
+import { Section } from "@/components/ui/Section";
+import { ProgramCard } from "@/components/dashboard/ProgramCard";
+import { TimelineCard } from "@/components/dashboard/TimelineCard";
+import { HabitsCard } from "@/components/dashboard/HabitsCard";
+import { MessagesCard } from "@/components/dashboard/MessagesCard";
+import { Card, CardContent } from "@/components/ui/card";
 
 const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
@@ -16,6 +19,8 @@ const PatientDashboard = () => {
   const [progress, setProgress] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showConsent, setShowConsent] = useState(false);
+  const [messages, setMessages] = useState<any[]>([]);
+  const [user, setUser] = useState<any>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -30,6 +35,7 @@ const PatientDashboard = () => {
         navigate("/auth");
         return;
       }
+      setUser(user);
 
       // Get patient record
       const { data: patientData, error: patientError } = await supabase
@@ -79,6 +85,16 @@ const PatientDashboard = () => {
           .maybeSingle();
 
         setProgress(progressData);
+
+        // Get messages
+        const { data: messagesData } = await supabase
+          .from("messages")
+          .select("*, therapist:therapist_id(name)")
+          .eq("patient_id", patientData.id)
+          .order("created_at", { ascending: false })
+          .limit(10);
+
+        setMessages(messagesData || []);
       }
     } catch (error: any) {
       console.error("Error loading patient data:", error);
@@ -97,11 +113,42 @@ const PatientDashboard = () => {
     navigate("/auth");
   };
 
+  const handleSendMessage = async (messageText: string) => {
+    if (!patient || !currentWeek) return;
+
+    try {
+      const { error } = await supabase.from("messages").insert({
+        patient_id: patient.id,
+        week_id: currentWeek.id,
+        therapist_id: patient.assigned_therapist_id,
+        body: messageText,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Message sent!",
+        description: "Your therapist will respond soon.",
+      });
+
+      // Reload messages
+      loadPatientData();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <Clock className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 mx-auto">
+            <div className="w-full h-full border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+          </div>
           <p className="text-muted-foreground">Loading your dashboard...</p>
         </div>
       </div>
@@ -122,171 +169,78 @@ const PatientDashboard = () => {
     );
   }
 
-  const getStatusBadge = (status: string) => {
-    const variants: Record<string, any> = {
-      open: { label: "In Progress", className: "bg-primary/10 text-primary border-primary/20" },
-      submitted: { label: "Pending Review", className: "bg-warning/10 text-warning border-warning/20" },
-      approved: { label: "Approved", className: "bg-success/10 text-success border-success/20" },
-      needs_more: { label: "Needs Practice", className: "bg-secondary/10 text-secondary border-secondary/20" },
-      locked: { label: "Locked", className: "bg-muted text-muted-foreground border-muted" },
-    };
-    
-    const variant = variants[status] || variants.open;
-    return <Badge variant="outline" className={variant.className}>{variant.label}</Badge>;
-  };
+  const firstName = user?.user_metadata?.name?.split(" ")[0] || "there";
+  const completedWeeks = 0; // TODO: Calculate from progress data
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card shadow-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      {/* Modern Header */}
+      <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
           </div>
-          <Button variant="ghost" size="sm" onClick={handleSignOut}>
-            <LogOut className="mr-2" />
+          <Button variant="ghost" size="sm" onClick={handleSignOut} className="rounded-xl">
+            <LogOut className="mr-2 h-4 w-4" />
             Sign Out
           </Button>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-2">Welcome back!</h2>
-          <p className="text-muted-foreground text-lg">
-            Continue your myofunctional therapy journey
-          </p>
-        </div>
-
-        {/* Current Week Card */}
+      <main className="container mx-auto px-6 py-8 max-w-7xl">
         {!currentWeek ? (
-          <Card className="mb-6 shadow-card">
-            <CardContent className="py-12 text-center">
-              <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">No Weeks Available Yet</h3>
-              <p className="text-muted-foreground">
-                Your program content will be available soon. Please check back later.
-              </p>
-            </CardContent>
-          </Card>
+          <Section>
+            <Card className="rounded-2xl border shadow-sm">
+              <CardContent className="py-16 text-center">
+                <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">No Weeks Available Yet</h3>
+                <p className="text-muted-foreground">
+                  Your program content will be available soon. Please check back later.
+                </p>
+              </CardContent>
+            </Card>
+          </Section>
         ) : (
-          <Card className="mb-6 shadow-card hover:shadow-elevated transition-shadow">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Calendar className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl">Week {currentWeek.number}</CardTitle>
-                    <CardDescription>{currentWeek.title || "Current Week"}</CardDescription>
-                  </div>
-                </div>
-                {progress && getStatusBadge(progress.status)}
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Progress Bar */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Week Progress</span>
-                  <span className="font-medium">
-                    {progress?.status === "approved" ? "100%" : progress?.status === "submitted" ? "90%" : "30%"}
-                  </span>
-                </div>
-                <Progress 
-                  value={progress?.status === "approved" ? 100 : progress?.status === "submitted" ? 90 : 30} 
-                  className="h-3"
+          <div className="space-y-6">
+            {/* Dashboard Grid - 2x2 on desktop, stacked on mobile */}
+            <div className="grid gap-6 md:grid-cols-2">
+              <Section delay={0}>
+                <ProgramCard
+                  firstName={firstName}
+                  weekNumber={currentWeek.number}
+                  weekTitle={currentWeek.title}
+                  status={progress?.status}
+                  completedWeeks={completedWeeks}
+                  totalWeeks={24}
+                  onContinue={() => navigate(`/week/${currentWeek.number}`)}
                 />
-              </div>
+              </Section>
 
-              {/* Quick Stats */}
-              {progress && (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {progress.bolt_score && (
-                    <div className="bg-accent rounded-lg p-4 text-center">
-                      <p className="text-2xl font-bold text-primary">{progress.bolt_score}s</p>
-                      <p className="text-sm text-muted-foreground">BOLT Score</p>
-                    </div>
-                  )}
-                  {progress.nasal_breathing_pct && (
-                    <div className="bg-accent rounded-lg p-4 text-center">
-                      <p className="text-2xl font-bold text-success">{progress.nasal_breathing_pct}%</p>
-                      <p className="text-sm text-muted-foreground">Nasal Breathing</p>
-                    </div>
-                  )}
-                  {progress.tongue_on_spot_pct && (
-                    <div className="bg-accent rounded-lg p-4 text-center">
-                      <p className="text-2xl font-bold text-secondary">{progress.tongue_on_spot_pct}%</p>
-                      <p className="text-sm text-muted-foreground">Tongue Position</p>
-                    </div>
-                  )}
-                </div>
-              )}
+              <Section delay={100}>
+                <TimelineCard
+                  completedWeeks={completedWeeks}
+                  currentWeek={currentWeek.number}
+                />
+              </Section>
 
-              {/* Action Button */}
-              <Button 
-                className="w-full h-12 text-base font-medium"
-                onClick={() => navigate(`/week/${currentWeek.number}`)}
-              >
-                {progress?.status === "approved" ? (
-                  <>
-                    <CheckCircle2 className="mr-2" />
-                    Review Week {currentWeek.number}
-                  </>
-                ) : progress?.status === "submitted" ? (
-                  <>
-                    <Clock className="mr-2" />
-                    Awaiting Therapist Review
-                  </>
-                ) : (
-                  <>
-                    Continue Week {currentWeek.number}
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-        )}
+              <Section delay={200}>
+                <HabitsCard
+                  nasalBreathingPercent={progress?.nasal_breathing_pct || 0}
+                  tonguePosturePercent={progress?.tongue_on_spot_pct || 0}
+                  avgBoltScore={progress?.bolt_score || 0}
+                />
+              </Section>
 
-        {/* Program Overview */}
-        <Card className="shadow-card">
-          <CardHeader>
-            <CardTitle>24-Week Program Overview</CardTitle>
-            <CardDescription>Track your complete therapy journey</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-6 gap-3">
-              {Array.from({ length: 24 }, (_, i) => i + 1).map((weekNum) => {
-                const isCurrentWeek = weekNum === 1;
-                const isLocked = weekNum > 1;
-                
-                return (
-                  <button
-                    key={weekNum}
-                    onClick={() => {
-                      if (isCurrentWeek) {
-                        navigate(`/week/${weekNum}`);
-                      }
-                    }}
-                    disabled={isLocked}
-                    className={`
-                      aspect-square rounded-lg border-2 font-semibold text-sm
-                      transition-all
-                      ${isCurrentWeek 
-                        ? "bg-primary text-primary-foreground border-primary shadow-sm hover:scale-105 cursor-pointer" 
-                        : "bg-muted/50 text-muted-foreground border-border opacity-50 cursor-not-allowed"
-                      }
-                    `}
-                  >
-                    {weekNum}
-                  </button>
-                );
-              })}
+              <Section delay={300}>
+                <MessagesCard
+                  messages={messages}
+                  onSendMessage={handleSendMessage}
+                  onViewAll={() => navigate(`/week/${currentWeek.number}`)}
+                />
+              </Section>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        )}
       </main>
     </div>
   );
