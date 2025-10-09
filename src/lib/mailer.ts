@@ -1,27 +1,40 @@
-// Email service - connect to Resend later
-// For now, logs emails to console
+// Email service using Resend via edge function
+import { supabase } from "@/integrations/supabase/client";
 
 interface EmailOptions {
   to: string;
   subject: string;
   html: string;
   text?: string;
+  userId?: string;
+  templateName?: string;
 }
 
 export async function sendEmail(options: EmailOptions): Promise<void> {
-  console.log('[EMAIL] Would send:', {
-    to: options.to,
-    subject: options.subject,
-    preview: options.text?.substring(0, 100) || options.html.substring(0, 100)
-  });
-  
-  // TODO: Implement with Resend
-  // const resend = new Resend(process.env.RESEND_API_KEY);
-  // await resend.emails.send({
-  //   from: process.env.MAIL_FROM || 'noreply@example.com',
-  //   to: options.to,
-  //   subject: options.subject,
-  //   html: options.html,
-  //   text: options.text
-  // });
+  try {
+    const { data, error } = await supabase.functions.invoke('send-email', {
+      body: {
+        to: options.to,
+        subject: options.subject,
+        html: options.html,
+        text: options.text,
+        userId: options.userId,
+        templateName: options.templateName,
+      },
+    });
+
+    if (error) {
+      console.error('[sendEmail] Error:', error);
+      throw new Error(`Failed to send email: ${error.message}`);
+    }
+
+    if (!data?.ok) {
+      throw new Error(`Email send failed: ${data?.error || 'Unknown error'}`);
+    }
+
+    console.log('[sendEmail] Success:', options.subject);
+  } catch (err) {
+    console.error('[sendEmail] Unexpected error:', err);
+    throw err;
+  }
 }

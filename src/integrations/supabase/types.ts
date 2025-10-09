@@ -277,6 +277,42 @@ export type Database = {
           },
         ]
       }
+      email_log: {
+        Row: {
+          email: string
+          error_message: string | null
+          id: number
+          metadata: Json | null
+          provider_id: string | null
+          sent_at: string
+          status: string
+          template_name: string
+          user_id: string | null
+        }
+        Insert: {
+          email: string
+          error_message?: string | null
+          id?: number
+          metadata?: Json | null
+          provider_id?: string | null
+          sent_at?: string
+          status: string
+          template_name: string
+          user_id?: string | null
+        }
+        Update: {
+          email?: string
+          error_message?: string | null
+          id?: number
+          metadata?: Json | null
+          provider_id?: string | null
+          sent_at?: string
+          status?: string
+          template_name?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       events: {
         Row: {
           created_at: string | null
@@ -736,6 +772,33 @@ export type Database = {
             referencedColumns: ["therapist_id"]
           },
         ]
+      }
+      prelaunch_audit_log: {
+        Row: {
+          auditor_id: string | null
+          created_at: string
+          id: number
+          results: Json
+          status: string
+          summary: string
+        }
+        Insert: {
+          auditor_id?: string | null
+          created_at?: string
+          id?: number
+          results: Json
+          status: string
+          summary: string
+        }
+        Update: {
+          auditor_id?: string | null
+          created_at?: string
+          id?: number
+          results?: Json
+          status?: string
+          summary?: string
+        }
+        Relationships: []
       }
       programs: {
         Row: {

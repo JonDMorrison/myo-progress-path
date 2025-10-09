@@ -1,1 +1,10 @@
 project_id = "ybotcomggtxrjbnqtgeb"
+
+[functions.send-email]
+verify_jwt = false
+
+[functions.send-onboarding-email]
+verify_jwt = false
+
+[functions.pre-launch-audit]
+verify_jwt = false
