@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { LogOut, Calendar, CheckCircle2, Clock, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ConsentDialog } from "@/components/ConsentDialog";
+import MyoCoachLogo from "@/assets/MyoCoach_Logo.png";
 
 const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
@@ -140,9 +141,7 @@ const PatientDashboard = () => {
       <header className="border-b bg-card shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-hero rounded-lg flex items-center justify-center">
-              <span className="text-xl font-bold text-primary-foreground">M</span>
-            </div>
+            <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
             <h1 className="text-2xl font-bold">MyoCoach</h1>
           </div>
           <Button variant="ghost" size="sm" onClick={handleSignOut}>
