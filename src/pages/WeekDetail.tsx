@@ -26,6 +26,8 @@ import { RelatedWeeks } from "@/components/learn/RelatedWeeks";
 import { LearnChips } from "@/components/week/LearnChips";
 import { NasalUnblockModal } from "@/components/learn/NasalUnblockModal";
 
+import { isWeekAccessible } from "@/lib/userProgress";
+
 const WeekDetail = () => {
   const { weekNumber } = useParams();
   const navigate = useNavigate();
@@ -71,6 +73,18 @@ const WeekDetail = () => {
 
       if (patientError) throw patientError;
       setPatient(patientData);
+
+      // Check if week is accessible
+      const accessible = await isWeekAccessible(patientData.id, parseInt(weekNumber || "1"));
+      if (!accessible) {
+        toast({
+          title: "Week Locked",
+          description: "Please complete the previous week to unlock this one.",
+          variant: "destructive",
+        });
+        navigate("/patient");
+        return;
+      }
 
       // Get week
       const { data: weekData } = await supabase

@@ -12,6 +12,8 @@ import { TimelineCard } from "@/components/dashboard/TimelineCard";
 import { HabitsCard } from "@/components/dashboard/HabitsCard";
 import { MessagesCard } from "@/components/dashboard/MessagesCard";
 import { Card, CardContent } from "@/components/ui/card";
+import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
+import { Progress } from "@/components/ui/progress";
 
 const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
@@ -21,6 +23,7 @@ const PatientDashboard = () => {
   const [showConsent, setShowConsent] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
+  const [userProgress, setUserProgress] = useState<any>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -66,11 +69,15 @@ const PatientDashboard = () => {
         return;
       }
 
+      // Load user progress
+      const progress = await getUserProgress(patientData.id);
+      setUserProgress(progress);
+
       // Get current week (for now, get week 1)
       const { data: weekData } = await supabase
         .from("weeks")
         .select("*")
-        .eq("number", 1)
+        .eq("number", progress?.currentWeek || 1)
         .maybeSingle();
 
       setCurrentWeek(weekData);
@@ -142,6 +149,22 @@ const PatientDashboard = () => {
     }
   };
 
+  const handleNavigateToWeek = async (weekNumber: number) => {
+    if (!patient) return;
+    
+    const accessible = await isWeekAccessible(patient.id, weekNumber);
+    if (!accessible) {
+      toast({
+        title: "Week Locked",
+        description: "Please complete the previous week first.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    navigate(`/week/${weekNumber}`);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -170,20 +193,40 @@ const PatientDashboard = () => {
   }
 
   const firstName = user?.user_metadata?.name?.split(" ")[0] || "there";
-  const completedWeeks = 0; // TODO: Calculate from progress data
+  const completedWeeks = userProgress?.completedWeeks || 0;
 
   return (
     <div className="min-h-screen bg-background">
       {/* Modern Header */}
       <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleSignOut} className="rounded-xl">
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </Button>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleSignOut} className="rounded-xl">
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign Out
-          </Button>
+          
+          {/* Progress Bar */}
+          {userProgress && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">
+                  Week {userProgress.currentWeek} of {userProgress.totalWeeks}
+                </span>
+                <span className="font-medium">{userProgress.percentComplete}% Complete</span>
+              </div>
+              <Progress value={userProgress.percentComplete} className="h-2" />
+              {userProgress.lastActivityDate && (
+                <p className="text-xs text-muted-foreground">
+                  Last activity: {new Date(userProgress.lastActivityDate).toLocaleDateString()}
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </header>
 
@@ -211,8 +254,8 @@ const PatientDashboard = () => {
                   weekTitle={currentWeek.title}
                   status={progress?.status}
                   completedWeeks={completedWeeks}
-                  totalWeeks={24}
-                  onContinue={() => navigate(`/week/${currentWeek.number}`)}
+                  totalWeeks={userProgress?.totalWeeks || 24}
+                  onContinue={() => handleNavigateToWeek(currentWeek.number)}
                 />
               </Section>
 
