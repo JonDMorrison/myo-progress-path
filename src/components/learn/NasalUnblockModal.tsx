@@ -1,89 +1,78 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Wind } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useState, useEffect } from "react";
+import { X } from "lucide-react";
 
-interface NasalUnblockModalProps {
-  trigger?: React.ReactNode;
-}
+export function NasalUnblockModal() {
+  const [open, setOpen] = useState(false);
 
-export function NasalUnblockModal({ trigger }: NasalUnblockModalProps) {
+  // Allow Escape key to close
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    if (open) document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        {trigger || (
-          <Button variant="outline" size="sm">
-            <Wind className="w-4 h-4 mr-2" />
-            I'm Congested
-          </Button>
-        )}
-      </DialogTrigger>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Nasal Unblocking Quick Help</DialogTitle>
-        </DialogHeader>
-        <ScrollArea className="max-h-[500px] pr-4">
-          <div className="space-y-6">
-            <p className="text-muted-foreground">
-              If a plugged nose is preventing nasal breathing, use these exercises:
-            </p>
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="rounded-xl border px-4 py-2 shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-offset-2"
+      >
+        I'm Congested
+      </button>
 
-            <div className="space-y-4">
-              <div className="p-4 rounded-xl border bg-card">
-                <h3 className="font-semibold mb-3 flex items-center gap-2">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-sm">1</span>
-                  Sinus Massage
-                </h3>
-                <ul className="space-y-2 text-sm ml-8">
-                  <li>• Rub along the <strong>sides of nose</strong>, <strong>cheeks</strong> beside the nose, and <strong>above eyebrows</strong>.</li>
-                  <li>• If your nose gets runny, <strong>blow</strong> (don't sniffle).</li>
-                  <li>• Continue until congestion eases.</li>
+      {open && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+          onClick={() => setOpen(false)}
+        >
+          <div 
+            className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Close"
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+            >
+              <X size={20} />
+            </button>
+
+            <h2 className="text-lg font-semibold mb-4">
+              Nasal Unblocking Exercises
+            </h2>
+
+            <div className="space-y-4 text-sm leading-relaxed">
+              <section>
+                <strong>Exercise 1 – Sinus Massage</strong>
+                <ul className="list-disc pl-5 mt-1">
+                  <li>Rub the sides of your nose, cheeks, and above eyebrows.</li>
+                  <li>Blow instead of sniffle when your nose runs.</li>
+                  <li>Continue until congestion eases.</li>
                 </ul>
-              </div>
+              </section>
 
-              <div className="p-4 rounded-xl border bg-card">
-                <h3 className="font-semibold mb-3 flex items-center gap-2">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-sm">2</span>
-                  Breath-Hold Reset
-                </h3>
-                <ol className="space-y-2 text-sm ml-8 list-decimal">
-                  <li>Take <strong>3 normal breaths</strong>, in/out naturally.</li>
-                  <li>After the 3rd exhale, <strong>pinch your nose</strong> and hold your breath.</li>
-                  <li>Optional: gently <strong>nod</strong> head up/down or side/side.</li>
-                  <li>Hold until you feel a <strong>mild air hunger</strong>.</li>
-                  <li><strong>Mouth closed</strong>, inhale <strong>through your nose</strong>; keep nose breathing as it normalizes.</li>
-                  <li>Repeat <strong>3–5 times</strong> as needed.</li>
+              <section>
+                <strong>Exercise 2 – Breath-Hold Reset</strong>
+                <ol className="list-decimal pl-5 mt-1">
+                  <li>Take 3 normal breaths, in and out naturally.</li>
+                  <li>After the 3rd exhale, pinch your nose and hold your breath.</li>
+                  <li>Optional: gently nod your head up and down or side to side.</li>
+                  <li>Hold until you feel a mild air hunger, then inhale through your nose.</li>
+                  <li>Repeat 3–5 times as needed.</li>
                 </ol>
-              </div>
-
-              <div className="p-4 rounded-xl bg-muted/50">
-                <h4 className="font-semibold text-sm mb-2">Tips</h4>
-                <ul className="space-y-1 text-sm">
-                  <li>• If only one nostril is blocked, <strong>cover the clear side</strong> and breathe through the blocked nostril to open it.</li>
-                  <li>• Don't talk/laugh or mouth-breathe during the drill—it slows results.</li>
-                  <li>• If no air passes initially, do Exercise 1 first or use a small amount of nasal spray.</li>
-                </ul>
-                <p className="mt-3 text-sm italic">
-                  💡 The more you breathe through your nose, the <strong>less congested</strong> you'll be.
-                </p>
-              </div>
+              </section>
             </div>
-          </div>
-        </ScrollArea>
-      </DialogContent>
-    </Dialog>
-  );
-}
 
-export function NasalUnblockLink() {
-  return (
-    <NasalUnblockModal
-      trigger={
-        <button className="text-sm text-primary hover:underline inline-flex items-center gap-1">
-          <Wind className="w-3 h-3" />
-          Nasal unblocking exercises
-        </button>
-      }
-    />
+            <p className="mt-4 text-xs opacity-70">
+              * The more you breathe through your nose, the less congested you'll be.
+            </p>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
