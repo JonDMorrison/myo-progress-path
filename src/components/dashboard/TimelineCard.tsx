@@ -9,12 +9,12 @@ interface TimelineCardProps {
 
 export function TimelineCard({ completedWeeks, currentWeek, totalWeeks = 24 }: TimelineCardProps) {
   return (
-    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg">Progress Timeline</CardTitle>
         <CardDescription>Your 24-week journey</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 flex flex-col justify-between">
         <DotTimeline completed={completedWeeks} current={currentWeek} total={totalWeeks} />
         <div className="flex items-center justify-center gap-6 mt-6 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">

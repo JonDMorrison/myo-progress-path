@@ -201,9 +201,9 @@ const PatientDashboard = () => {
             </Card>
           </Section>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 flex flex-col">
             {/* Dashboard Grid - 2x2 on desktop, stacked on mobile */}
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2 md:auto-rows-fr">
               <Section delay={0}>
                 <ProgramCard
                   firstName={firstName}

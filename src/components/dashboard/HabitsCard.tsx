@@ -20,7 +20,7 @@ export function HabitsCard({
   avgBoltScore = 0,
 }: HabitsCardProps) {
   return (
-    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg">Habits at a Glance</CardTitle>
         <TooltipProvider>
@@ -36,7 +36,7 @@ export function HabitsCard({
           </Tooltip>
         </TooltipProvider>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 flex items-center justify-center">
         <div className="grid grid-cols-3 gap-4">
           <CircularGauge value={nasalBreathingPercent} label="Nasal Breathing" size={80} strokeWidth={6} />
           <CircularGauge value={tonguePosturePercent} label="Tongue Posture" size={80} strokeWidth={6} />

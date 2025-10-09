@@ -40,7 +40,7 @@ export function ProgramCard({
   const StatusIcon = statusDisplay.icon;
 
   return (
-    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
       <CardHeader className="space-y-4 pb-4">
         <div className="flex items-start justify-between">
           <div>
@@ -72,11 +72,13 @@ export function ProgramCard({
           <Progress value={progressPercent} className="h-2 rounded-full" />
         </div>
       </CardHeader>
-      <CardContent>
-        <Button onClick={onContinue} className="w-full h-12 rounded-xl" size="lg">
+      <CardContent className="flex-1 flex items-end">
+        <div className="w-full">
+          <Button onClick={onContinue} className="w-full h-12 rounded-xl" size="lg">
           <StatusIcon className="mr-2 h-5 w-5" />
           {statusDisplay.text} {weekNumber}
-        </Button>
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

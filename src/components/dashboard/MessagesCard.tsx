@@ -37,7 +37,7 @@ export function MessagesCard({ messages, onSendMessage, onViewAll }: MessagesCar
   const recentMessages = messages.slice(-3);
 
   return (
-    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <div>
           <CardTitle className="text-lg flex items-center gap-2">
@@ -52,9 +52,10 @@ export function MessagesCard({ messages, onSendMessage, onViewAll }: MessagesCar
           </Button>
         )}
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col">
         {recentMessages.length === 0 ? (
-          <div className="text-center py-6 text-muted-foreground text-sm">
+          <div className="text-center py-6 text-muted-foreground text-sm flex-1 flex items-center justify-center">
             No messages yet. Start a conversation!
           </div>
         ) : (
@@ -74,6 +75,7 @@ export function MessagesCard({ messages, onSendMessage, onViewAll }: MessagesCar
             ))}
           </div>
         )}
+        </div>
 
         <div className="flex gap-2">
           <Textarea
