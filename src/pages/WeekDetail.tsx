@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Send, CheckCircle2, AlertCircle, HelpCircle } from "lucide-react";
+import { ArrowLeft, Send, CheckCircle2, AlertCircle, HelpCircle, Upload, Video } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
   HoverCard,
@@ -33,6 +33,9 @@ const WeekDetail = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [showIntroduction, setShowIntroduction] = useState(false);
+  const [uploads, setUploads] = useState<any[]>([]);
+  const [uploadingFirst, setUploadingFirst] = useState(false);
+  const [uploadingLast, setUploadingLast] = useState(false);
 
   // Form state
   const [boltScore, setBoltScore] = useState("");
@@ -131,6 +134,16 @@ const WeekDetail = () => {
         .order("created_at", { ascending: true });
 
       setMessages(messagesData || []);
+
+      // Get uploads
+      const { data: uploadsData } = await supabase
+        .from("uploads")
+        .select("*")
+        .eq("patient_id", patientData.id)
+        .eq("week_id", weekData.id)
+        .order("created_at", { ascending: false });
+
+      setUploads(uploadsData || []);
 
       // Show introduction modal if not viewed yet
       if (weekData?.introduction && progressData && !progressData.introduction_viewed) {
@@ -301,6 +314,83 @@ const WeekDetail = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const handleVideoUpload = async (kind: 'first_attempt' | 'last_attempt') => {
+    if (!patient || !week) return;
+
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'video/mp4,video/mov,video/webm';
+    
+    input.onchange = async (e: any) => {
+      const file = e.target?.files?.[0];
+      if (!file) return;
+
+      // Validate file size (100MB max)
+      if (file.size > 100 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "Please upload a video under 100MB.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      try {
+        if (kind === 'first_attempt') setUploadingFirst(true);
+        else setUploadingLast(true);
+
+        // Generate unique filename
+        const timestamp = Date.now();
+        const ext = file.name.split('.').pop();
+        const filename = `${patient.id}/${week.id}/${kind}_${timestamp}.${ext}`;
+
+        // Upload to storage
+        const { error: uploadError } = await supabase.storage
+          .from('patient-videos')
+          .upload(filename, file);
+
+        if (uploadError) throw uploadError;
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from('patient-videos')
+          .getPublicUrl(filename);
+
+        // Create upload record
+        const { error: insertError } = await supabase
+          .from('uploads')
+          .insert({
+            patient_id: patient.id,
+            week_id: week.id,
+            kind,
+            file_url: publicUrl,
+          });
+
+        if (insertError) throw insertError;
+
+        toast({
+          title: "Video uploaded!",
+          description: "Your video has been uploaded successfully.",
+        });
+
+        // Reload data to show new upload
+        await loadWeekData();
+      } catch (error: any) {
+        console.error('Upload error:', error);
+        toast({
+          title: "Upload failed",
+          description: error.message,
+          variant: "destructive",
+        });
+      } finally {
+        if (kind === 'first_attempt') setUploadingFirst(false);
+        else setUploadingLast(false);
+      }
+    };
+
+    input.click();
   };
 
   const handleSendMessage = async () => {
@@ -507,6 +597,84 @@ const WeekDetail = () => {
                 <CardDescription>Track your daily practice</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                {/* Video Uploads */}
+                {(week?.requires_video_first || week?.requires_video_last) && (
+                  <div className="space-y-3 pb-4 border-b">
+                    <h4 className="font-medium flex items-center gap-2">
+                      <Video className="h-4 w-4" />
+                      Video Submissions
+                    </h4>
+                    
+                    {week.requires_video_first && (
+                      <div className="space-y-2">
+                        <Label>First Attempt Video</Label>
+                        {uploads.find(u => u.kind === 'first_attempt') ? (
+                          <div className="flex items-center justify-between p-3 bg-success/10 border border-success/20 rounded-lg">
+                            <div className="flex items-center gap-2">
+                              <CheckCircle2 className="h-4 w-4 text-success" />
+                              <span className="text-sm">Video uploaded</span>
+                            </div>
+                            {progress?.status !== "submitted" && progress?.status !== "approved" && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleVideoUpload('first_attempt')}
+                                disabled={uploadingFirst}
+                              >
+                                Replace
+                              </Button>
+                            )}
+                          </div>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            onClick={() => handleVideoUpload('first_attempt')}
+                            disabled={uploadingFirst || progress?.status === "submitted" || progress?.status === "approved"}
+                            className="w-full"
+                          >
+                            <Upload className="mr-2 h-4 w-4" />
+                            {uploadingFirst ? "Uploading..." : "Upload First Attempt"}
+                          </Button>
+                        )}
+                      </div>
+                    )}
+
+                    {week.requires_video_last && (
+                      <div className="space-y-2">
+                        <Label>Last Attempt Video</Label>
+                        {uploads.find(u => u.kind === 'last_attempt') ? (
+                          <div className="flex items-center justify-between p-3 bg-success/10 border border-success/20 rounded-lg">
+                            <div className="flex items-center gap-2">
+                              <CheckCircle2 className="h-4 w-4 text-success" />
+                              <span className="text-sm">Video uploaded</span>
+                            </div>
+                            {progress?.status !== "submitted" && progress?.status !== "approved" && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleVideoUpload('last_attempt')}
+                                disabled={uploadingLast}
+                              >
+                                Replace
+                              </Button>
+                            )}
+                          </div>
+                        ) : (
+                          <Button
+                            variant="outline"
+                            onClick={() => handleVideoUpload('last_attempt')}
+                            disabled={uploadingLast || progress?.status === "submitted" || progress?.status === "approved"}
+                            className="w-full"
+                          >
+                            <Upload className="mr-2 h-4 w-4" />
+                            {uploadingLast ? "Uploading..." : "Upload Last Attempt"}
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div className="space-y-3">
                 {week?.requires_bolt && (
                   <div className="space-y-2">
