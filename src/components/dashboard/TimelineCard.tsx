@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DotTimeline } from "@/components/ui/DotTimeline";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface TimelineCardProps {
   completedWeeks: number;
@@ -8,11 +10,25 @@ interface TimelineCardProps {
 }
 
 export function TimelineCard({ completedWeeks, currentWeek, totalWeeks = 24 }: TimelineCardProps) {
+  const navigate = useNavigate();
+  
   return (
-    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col bg-white/90 dark:bg-card/90 backdrop-blur">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg">Progress Timeline</CardTitle>
-        <CardDescription>Your 24-week journey</CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-lg">Progress Timeline</CardTitle>
+            <CardDescription className="mt-1">Your 24-week journey</CardDescription>
+          </div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => navigate("/patient")}
+            className="text-sm"
+          >
+            View all
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col justify-between">
         <DotTimeline completed={completedWeeks} current={currentWeek} total={totalWeeks} />
