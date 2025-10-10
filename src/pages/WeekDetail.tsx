@@ -19,6 +19,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { BOLTHelpContent } from "@/components/BOLTHelpContent";
+import { NasalBreathingHelpContent } from "@/components/NasalBreathingHelpContent";
 import { WeekIntroductionModal } from "@/components/WeekIntroductionModal";
 
 import { notifyTherapistSubmission } from "@/lib/notify";
@@ -632,7 +633,19 @@ const WeekDetail = () => {
                 )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="nasal" className="text-sm font-medium">% Time Nasal Breathing</Label>
+                    <div className="flex items-center gap-2">
+                      <Label htmlFor="nasal" className="text-sm font-medium">% Time Nasal Breathing</Label>
+                      <HoverCard>
+                        <HoverCardTrigger asChild>
+                          <button className="text-muted-foreground hover:text-foreground transition-colors">
+                            <HelpCircle className="h-4 w-4" />
+                          </button>
+                        </HoverCardTrigger>
+                        <HoverCardContent className="w-96">
+                          <NasalBreathingHelpContent />
+                        </HoverCardContent>
+                      </HoverCard>
+                    </div>
                     <Input
                       id="nasal"
                       type="number"
