@@ -49,7 +49,7 @@ export default function LearnArticle() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 pb-24 sm:pb-16 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8 lg:gap-12">
           {/* Main Content */}
           <div className="space-y-6">
