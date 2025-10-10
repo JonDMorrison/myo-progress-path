@@ -11,12 +11,6 @@ export const Hero = () => {
         {/* Gradient Glows */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-glow" />
         <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-secondary/15 rounded-full blur-3xl animate-glow" style={{ animationDelay: '2s' }} />
-        
-        {/* Floating Icons */}
-        <Heart className="absolute top-24 left-12 w-20 h-20 text-secondary/10 animate-float hidden lg:block" />
-        <Activity className="absolute top-1/3 right-16 w-24 h-24 text-primary/8 animate-float-delayed" style={{ animationDelay: '1s' }} />
-        <Brain className="absolute bottom-32 left-1/4 w-16 h-16 text-primary-light/12 animate-float hidden xl:block" style={{ animationDelay: '2s' }} />
-        <Smile className="absolute bottom-24 right-1/4 w-20 h-20 text-secondary/8 animate-float-delayed hidden lg:block" style={{ animationDelay: '3s' }} />
       </div>
 
       <div className="container relative">

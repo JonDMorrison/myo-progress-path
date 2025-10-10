@@ -24,13 +24,6 @@ export default function Learn() {
           {/* Radial Gradient Overlays */}
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-glow" />
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/15 rounded-full blur-3xl animate-glow" style={{ animationDelay: '2s' }} />
-          
-          {/* Floating Icons */}
-          <Brain className="absolute top-20 left-10 w-16 h-16 text-primary/10 animate-float hidden lg:block" />
-          <Stethoscope className="absolute top-32 right-20 w-24 h-24 text-primary-light/8 animate-float-delayed" style={{ animationDelay: '1s' }} />
-          <Heart className="absolute bottom-20 left-1/4 w-20 h-20 text-secondary/10 animate-float hidden md:block" style={{ animationDelay: '2s' }} />
-          <Activity className="absolute bottom-32 right-1/3 w-28 h-28 text-primary/8 animate-float-delayed hidden lg:block" style={{ animationDelay: '3s' }} />
-          <BookOpen className="absolute top-1/2 left-12 w-12 h-12 text-accent-foreground/10 animate-float hidden xl:block" style={{ animationDelay: '1.5s' }} />
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20 max-w-6xl relative">

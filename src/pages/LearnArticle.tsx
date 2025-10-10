@@ -55,13 +55,6 @@ export default function LearnArticle() {
           <div className="space-y-6">
             {/* Article Hero Card */}
             <Card className="relative overflow-hidden p-6 sm:p-8 border-2 shadow-lg glassmorphic">
-              {/* Floating Decorative Icons */}
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <Sparkles className="absolute top-4 right-8 w-8 h-8 text-secondary/15 animate-float" />
-                <Star className="absolute bottom-8 right-16 w-6 h-6 text-primary/10 animate-float-delayed" style={{ animationDelay: '1.5s' }} />
-                <BookOpen className="absolute top-1/2 right-4 w-12 h-12 text-primary-light/8 animate-float hidden sm:block" style={{ animationDelay: '2s' }} />
-              </div>
-
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 pointer-events-none" />
 
