@@ -9,13 +9,13 @@ interface SearchBarProps {
 
 export function SearchBar({ value, onChange, placeholder = "Search articles..." }: SearchBarProps) {
   return (
-    <div className="relative">
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+    <div className="relative group">
+      <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
       <Input
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="pl-10 rounded-xl"
+        className="pl-12 pr-4 h-12 rounded-2xl border-2 shadow-sm focus:shadow-md transition-shadow"
       />
     </div>
   );
