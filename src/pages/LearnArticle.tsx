@@ -11,11 +11,14 @@ export default function LearnArticle() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [article, setArticle] = useState<{ title: string; content: string } | null>(null);
+  const [firstH1Encountered, setFirstH1Encountered] = useState(false);
 
   useEffect(() => {
     if (slug) {
       loadArticle(slug).then(setArticle);
     }
+    // Reset the H1 counter when slug changes
+    setFirstH1Encountered(false);
   }, [slug]);
 
   if (!article) {
@@ -79,6 +82,11 @@ export default function LearnArticle() {
                 <ReactMarkdown
                   components={{
                     h1: ({node, ...props}) => {
+                      // Skip the first H1 since it's already shown in the hero card
+                      if (!firstH1Encountered) {
+                        setFirstH1Encountered(true);
+                        return null;
+                      }
                       const text = String(props.children);
                       const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                       return <h1 id={id} {...props} />;
