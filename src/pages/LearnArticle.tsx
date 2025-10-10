@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StickyTOC } from "@/components/learn/StickyTOC";
 import { loadArticle } from "@/lib/learn";
-import { ArrowLeft, BookOpen, Clock } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, Sparkles, Star } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 export default function LearnArticle() {
@@ -54,14 +54,24 @@ export default function LearnArticle() {
           {/* Main Content */}
           <div className="space-y-6">
             {/* Article Hero Card */}
-            <Card className="p-6 sm:p-8 border-2 shadow-lg bg-gradient-to-br from-card to-accent/10">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="p-3 rounded-xl bg-primary/10 shrink-0">
+            <Card className="relative overflow-hidden p-6 sm:p-8 border-2 shadow-lg glassmorphic">
+              {/* Floating Decorative Icons */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <Sparkles className="absolute top-4 right-8 w-8 h-8 text-secondary/15 animate-float" />
+                <Star className="absolute bottom-8 right-16 w-6 h-6 text-primary/10 animate-float-delayed" style={{ animationDelay: '1.5s' }} />
+                <BookOpen className="absolute top-1/2 right-4 w-12 h-12 text-primary-light/8 animate-float hidden sm:block" style={{ animationDelay: '2s' }} />
+              </div>
+
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 pointer-events-none" />
+
+              <div className="flex items-start gap-4 mb-4 relative z-10">
+                <div className="p-3 rounded-xl glassmorphic shrink-0 shadow-[0_0_30px_rgba(0,149,255,0.2)]">
                   <BookOpen className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 text-sm text-muted-foreground mb-2">
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1 backdrop-blur-sm bg-background/40 px-3 py-1 rounded-full">
                       <Clock className="w-4 h-4" />
                       {readingTime} min read
                     </span>
