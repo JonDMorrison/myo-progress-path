@@ -431,7 +431,6 @@ const WeekDetail = () => {
           </div>
           <div>
             <h1 className="text-3xl font-bold mb-1">{week?.title}</h1>
-            <p className="text-muted-foreground text-lg">Week {week?.number}</p>
           </div>
         </div>
       </header>
