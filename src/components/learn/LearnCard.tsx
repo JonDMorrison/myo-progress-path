@@ -27,20 +27,6 @@ export function LearnCard({ slug, title, tags }: LearnCardProps) {
             <ArrowRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 shrink-0" />
           </div>
         </CardHeader>
-        <CardContent className="pt-0 relative">
-          <div className="flex flex-wrap gap-2">
-            {tags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="secondary" className="text-xs font-medium px-3 py-1 shadow-sm">
-                {tag}
-              </Badge>
-            ))}
-            {tags.length > 3 && (
-              <Badge variant="outline" className="text-xs px-3 py-1">
-                +{tags.length - 3}
-              </Badge>
-            )}
-          </div>
-        </CardContent>
       </Card>
     </Link>
   );
