@@ -4,6 +4,8 @@ import { SearchBar } from "@/components/learn/SearchBar";
 import { loadLearnIndex, LearnArticle } from "@/lib/learn";
 import { fuzzySearch } from "@/lib/searchLearn";
 import { BookOpen, Brain, Stethoscope, Heart, Activity } from "lucide-react";
+import { NavPublic } from "@/components/public/NavPublic";
+import { FooterPublic } from "@/components/public/FooterPublic";
 
 export default function Learn() {
   const [articles, setArticles] = useState<LearnArticle[]>([]);
@@ -16,7 +18,9 @@ export default function Learn() {
   const filtered = fuzzySearch(articles, searchTerm);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary/5 via-background to-accent/10">
+    <>
+      <NavPublic />
+      <div className="min-h-screen bg-gradient-to-b from-primary/5 via-background to-accent/10">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-primary-light/5 to-transparent border-b">
         {/* Animated Background Elements */}
@@ -76,6 +80,8 @@ export default function Learn() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+      <FooterPublic />
+    </>
   );
 }
