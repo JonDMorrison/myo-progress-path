@@ -486,16 +486,6 @@ const WeekDetail = () => {
               </Section>
             )}
 
-            {/* Recommended Reading */}
-            {learnLinksByWeek[parseInt(weekNumber || "0")] && (
-              <Section delay={200}>
-                <RelatedWeeks 
-                  slugs={learnLinksByWeek[parseInt(weekNumber || "0")]} 
-                  articles={learnArticles}
-                />
-              </Section>
-            )}
-
             {/* Coaching Video - Responsive 16:9 */}
             {week?.video_title && week?.video_url && (
               <Section delay={300}>
@@ -709,16 +699,6 @@ const WeekDetail = () => {
 
           {/* Sidebar - becomes full width on mobile */}
           <div className="space-y-4 sm:space-y-6">
-            {/* Learn More Links */}
-            {learnLinksByWeek[parseInt(weekNumber || "0")] && (
-              <Section delay={450}>
-                <RelatedWeeks 
-                  slugs={learnLinksByWeek[parseInt(weekNumber || "0")]} 
-                  articles={learnArticles}
-                />
-              </Section>
-            )}
-
             {/* Messages - Not sticky on mobile */}
             <Section delay={500}>
               <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow lg:sticky lg:top-24">
