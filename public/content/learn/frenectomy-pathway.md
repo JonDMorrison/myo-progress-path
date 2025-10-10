@@ -4,7 +4,7 @@ It is recommended that you contact **Vedder Dental Clinic** to book your frenect
 
 ## Readiness Goals (Pre-Release)
 
-Before your frenectomy can be approved, you should have achieved:
+Before your frenectomy can be approved, you should have achieved these milestones:
 
 - The **4 goals** of myofunctional therapy are underway (nasal breathing, lip seal, chewing/swallowing, tongue posture).
 - **Compensations** minimized (see the "Compensations to Limit" guide).

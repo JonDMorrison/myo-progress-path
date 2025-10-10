@@ -4,6 +4,8 @@ The program includes a **kit** with the supplies you'll need. Not all items are 
 
 ## Included in each kit:
 
+Your kit includes the following essential supplies for the program:
+
 - 1 Toothbrush
 - 1 Pipette
 - 1 Button on string

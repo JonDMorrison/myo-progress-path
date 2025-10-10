@@ -26,7 +26,7 @@ Understanding what to expect from myofunctional therapy will help you succeed in
 
 ## What Results to Expect
 
-When exercises are performed consistently and correctly, most patients experience:
+When exercises are performed consistently and correctly, most patients experience significant improvements:
 
 - Improved nasal breathing
 - Better sleep quality
@@ -40,7 +40,7 @@ When exercises are performed consistently and correctly, most patients experienc
 
 ## Progress is Individual
 
-Everyone progresses at their own pace. Factors that influence progress include:
+Everyone progresses at their own pace based on several factors:
 
 - Age and developmental stage
 - Severity of initial dysfunction

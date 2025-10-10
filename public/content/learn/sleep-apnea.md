@@ -30,7 +30,8 @@ During sleep, the tongue can fall back and obstruct the airway, especially when:
 
 ### Strengthens Tongue Muscles
 
-Exercises target the:
+Exercises target the critical muscles that support the airway:
+
 - Genioglossus (main tongue muscle)
 - Other tongue muscles
 - Soft palate muscles
@@ -39,21 +40,24 @@ Exercises target the:
 
 ### Improves Tongue Position
 
-Training the tongue to rest on the palate:
+Training the tongue to rest on the palate provides essential airway support:
+
 - Keeps it forward and up
 - Maintains airway space
 - Prevents backward collapse
 
 ### Promotes Nasal Breathing
 
-Nasal breathing:
+Nasal breathing naturally supports better sleep quality:
+
 - Keeps the mouth closed during sleep
 - Prevents the tongue from falling back
 - Maintains better airway patency
 
 ### Strengthens the Soft Palate
 
-A stronger, more toned soft palate:
+A stronger, more toned soft palate reduces sleep disruption:
+
 - Reduces snoring
 - Decreases airway collapse
 - Improves breathing during sleep

@@ -6,7 +6,7 @@ Many myofunctional disorders have their roots in infancy. Understanding these ea
 
 ### Breastfeeding Difficulties
 
-Problems with breastfeeding can set the stage for oral dysfunction:
+Problems with breastfeeding can set the stage for lifelong oral dysfunction:
 
 - **Tongue tie (ankyloglossia)** - Restricts tongue movement and proper latch
 - **Lip tie** - Prevents proper seal on breast
@@ -17,7 +17,7 @@ Problems with breastfeeding can set the stage for oral dysfunction:
 
 ### Bottle Feeding
 
-While sometimes necessary, bottle feeding can contribute to:
+While sometimes necessary, bottle feeding can contribute to oral development issues:
 
 - Different tongue and jaw movements than breastfeeding
 - Less stimulation of proper oral muscle development
@@ -29,7 +29,8 @@ While sometimes necessary, bottle feeding can contribute to:
 
 ### Tongue Tie (Ankyloglossia)
 
-A short or tight lingual frenulum can:
+A short or tight lingual frenulum can severely limit function:
+
 - Restrict tongue movement
 - Prevent tongue from reaching the palate
 - Cause compensatory swallowing patterns
@@ -39,14 +40,16 @@ A short or tight lingual frenulum can:
 
 ### Lip Tie
 
-A restrictive labial frenulum can:
+A restrictive labial frenulum can interfere with feeding and development:
+
 - Prevent proper lip seal
 - Cause gap between front teeth
 - Interfere with breastfeeding
 
 ### Buccal Ties
 
-Ties in the cheeks can restrict:
+Ties in the cheeks can restrict important muscle development:
+
 - Proper cheek movement during feeding
 - Facial muscle development
 
@@ -54,14 +57,16 @@ Ties in the cheeks can restrict:
 
 ### Enlarged Tonsils and Adenoids
 
-Even in infancy, enlarged tissues can cause:
+Even in infancy, enlarged tissues can cause breathing problems:
+
 - Mouth breathing
 - Sleep disruption
 - Feeding difficulties
 
 ### Nasal Congestion
 
-Chronic congestion from:
+Chronic congestion from various sources disrupts normal breathing patterns:
+
 - Allergies
 - Structural issues (deviated septum)
 - Infections
@@ -72,7 +77,8 @@ Forces the baby to mouth breathe, disrupting normal development.
 
 ### Birth Trauma
 
-Difficult deliveries can cause:
+Difficult deliveries can cause structural and functional problems:
+
 - Cranial molding affecting oral structures
 - Jaw misalignment
 - Nerve damage affecting muscle function
@@ -82,7 +88,8 @@ Difficult deliveries can cause:
 
 ### Premature Birth
 
-Premature infants may have:
+Premature infants may have underdeveloped systems:
+
 - Underdeveloped oral muscles
 - Weak suck reflex
 - Difficulty coordinating suck-swallow-breathe
@@ -92,7 +99,8 @@ Premature infants may have:
 
 ### Prolonged Pacifier Use
 
-While pacifiers can be soothing, prolonged use (beyond age 2-3) can:
+While pacifiers can be soothing, prolonged use (beyond age 2-3) causes problems:
+
 - Narrow the palate
 - Cause open bite
 - Prevent proper tongue posture development
@@ -100,7 +108,8 @@ While pacifiers can be soothing, prolonged use (beyond age 2-3) can:
 
 ### Thumb or Finger Sucking
 
-Non-nutritive sucking beyond toddler years can:
+Non-nutritive sucking beyond toddler years can create permanent changes:
+
 - Deform the palate
 - Push teeth forward
 - Create anterior open bite
@@ -110,7 +119,8 @@ Non-nutritive sucking beyond toddler years can:
 
 ### Reflux (GERD/LPR)
 
-Gastroesophageal reflux can cause:
+Gastroesophageal reflux can cause significant feeding challenges:
+
 - Painful swallowing
 - Compensatory tongue postures
 - Mouth breathing to protect airway
@@ -118,7 +128,8 @@ Gastroesophageal reflux can cause:
 
 ### Neurological Conditions
 
-Conditions affecting muscle tone or coordination:
+Conditions affecting muscle tone or coordination can impact oral development:
+
 - Cerebral palsy
 - Down syndrome
 - Other genetic or neurological conditions
@@ -129,12 +140,15 @@ Can affect oral muscle development and function.
 
 ### Allergies
 
-Early allergies can cause:
+Early allergies can force mouth breathing habits:
+
 - Chronic nasal congestion
 - Forced mouth breathing
 - Inflammation affecting oral structures
 
 ### Exposure to Irritants
+
+Environmental factors can inflame developing airways:
 
 - Secondhand smoke
 - Environmental pollutants
@@ -144,7 +158,8 @@ Early allergies can cause:
 
 ### Back Sleeping (Recommended for SIDS Prevention)
 
-While back sleeping is crucial for safety:
+While back sleeping is crucial for safety, it can have minor effects:
+
 - Some babies develop flat spots (plagiocephaly)
 - May affect facial symmetry
 - Can influence oral development

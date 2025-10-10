@@ -8,6 +8,8 @@ Myofunctional therapy addresses orofacial myofunctional disorders (OMDs), which 
 
 ## Common Issues Addressed
 
+Myofunctional therapy effectively treats these oral dysfunctions:
+
 - Mouth breathing
 - Improper tongue position at rest
 - Improper swallowing patterns

@@ -6,6 +6,8 @@ Children with sleep-disordered breathing often show different symptoms than adul
 
 ### Nighttime Symptoms
 
+During sleep, children with breathing disorders often display these warning signs:
+
 - **Snoring** - Frequent or loud snoring is never normal in children
 - **Mouth breathing during sleep** - Should breathe through nose
 - **Restless sleep** - Tossing, turning, frequent position changes
@@ -17,6 +19,8 @@ Children with sleep-disordered breathing often show different symptoms than adul
 
 ### Morning Symptoms
 
+Upon waking, these symptoms may indicate poor sleep quality:
+
 - Difficulty waking up
 - Morning headaches
 - Dry mouth or sore throat
@@ -25,6 +29,8 @@ Children with sleep-disordered breathing often show different symptoms than adul
 ## Daytime Signs
 
 ### Behavioral Issues
+
+Sleep deprivation from breathing problems often manifests as behavioral challenges:
 
 - **Hyperactivity** - Often misdiagnosed as ADHD
 - **Impulsivity and difficulty focusing**
@@ -36,6 +42,8 @@ Many children with sleep-disordered breathing are labeled as having behavioral p
 
 ### Physical Symptoms
 
+The body shows signs of inadequate rest through these physical indicators:
+
 - **Chronic fatigue or appearing tired**
 - **Falling asleep at inappropriate times** (in car, during quiet activities)
 - **Poor appetite**
@@ -43,6 +51,8 @@ Many children with sleep-disordered breathing are labeled as having behavioral p
 - **Frequent illnesses**
 
 ### Cognitive and Academic Signs
+
+Poor sleep quality directly impacts brain function and school performance:
 
 - Difficulty concentrating
 - Memory problems
@@ -54,6 +64,8 @@ Many children with sleep-disordered breathing are labeled as having behavioral p
 
 ### Facial Features
 
+Chronic mouth breathing can alter facial development over time:
+
 - **Long, narrow face** (adenoid facies)
 - **Open mouth posture** at rest
 - **Dark circles under eyes**
@@ -64,6 +76,8 @@ Many children with sleep-disordered breathing are labeled as having behavioral p
 
 ### Oral Features
 
+Inside the mouth, these structural signs may be present:
+
 - **High, narrow palate**
 - **Large or inflamed tonsils and adenoids**
 - **Tongue tie or lip tie**
@@ -72,11 +86,15 @@ Many children with sleep-disordered breathing are labeled as having behavioral p
 
 ### Postural Signs
 
+Body alignment compensates for breathing difficulties:
+
 - Forward head posture
 - Slouched shoulders
 - Mouth hanging open
 
 ## Breathing Patterns
+
+Abnormal breathing patterns are key indicators of sleep-disordered breathing:
 
 - **Mouth breathing** during the day
 - **Rapid, shallow breathing**
@@ -85,6 +103,8 @@ Many children with sleep-disordered breathing are labeled as having behavioral p
 - **Pauses in breathing** during sleep (witnessed apneas)
 
 ## Medical Conditions Often Associated
+
+These health issues frequently occur alongside sleep-disordered breathing:
 
 - Chronic allergies
 - Frequent ear infections
@@ -98,16 +118,25 @@ Many children with sleep-disordered breathing are labeled as having behavioral p
 Sleep-disordered breathing in children can affect:
 
 ### Brain Development
+
+Poor sleep quality during critical developmental years affects cognitive growth:
+
 - Reduced oxygen to developing brain
 - Impacts learning, memory, and behavior
 - Can affect IQ and academic performance
 
 ### Physical Growth
+
+Deep sleep is essential for proper physical development:
+
 - Growth hormone is released during deep sleep
 - Poor sleep can slow physical development
 - May affect height and weight
 
 ### Facial Development
+
+The way children breathe shapes how their faces grow:
+
 - Mouth breathing changes facial growth patterns
 - Can lead to permanent structural changes
 - Early intervention can guide proper development
