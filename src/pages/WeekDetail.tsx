@@ -477,10 +477,6 @@ const WeekDetail = () => {
                       <LearnChips weekNumber={parseInt(weekNumber || "0")} />
                     </div>
                     
-                    {/* Quick Help for Congestion */}
-                    <div className="flex justify-end">
-                      <NasalUnblockModal />
-                    </div>
                   </CardContent>
                 </Card>
               </Section>
@@ -649,6 +645,10 @@ const WeekDetail = () => {
                       disabled={progress?.status === "submitted" || progress?.status === "approved"}
                       className="h-12 rounded-xl"
                     />
+                    <div className="flex items-center gap-2 mt-2">
+                      <p className="text-sm text-muted-foreground">Having trouble breathing through your nose?</p>
+                      <NasalUnblockModal />
+                    </div>
                   </div>
 
                   <div className="space-y-2">
