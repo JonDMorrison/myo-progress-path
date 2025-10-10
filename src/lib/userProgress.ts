@@ -56,6 +56,7 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
     let completedCount = 0;
     let currentWeek = 1;
     let lastApprovedWeek = 0;
+    let lastSubmittedOrApprovedWeek = 0;
 
     // Process each week
     for (const week of weeks || []) {
@@ -67,12 +68,17 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
         lastApprovedWeek = week.number;
       }
 
+      // Track submitted or approved weeks
+      if (progress?.status === "submitted" || progress?.status === "approved") {
+        lastSubmittedOrApprovedWeek = Math.max(lastSubmittedOrApprovedWeek, week.number);
+      }
+
       // Week is locked if:
       // - Week 1 and Week 0 not complete
-      // - Any week where previous week is not approved
+      // - Any week where previous week is not at least submitted
       const isLocked =
         (week.number === 1 && !week0Complete) ||
-        (week.number > 1 && lastApprovedWeek < week.number - 1);
+        (week.number > 1 && lastSubmittedOrApprovedWeek < week.number - 1);
 
       const statusValue = progress?.status || "open";
       weekStatuses.push({
