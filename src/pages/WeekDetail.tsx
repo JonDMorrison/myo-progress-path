@@ -241,28 +241,29 @@ const WeekDetail = () => {
   const handleSubmitForReview = async () => {
     if (!progress || !patient) return;
 
-    const canSubmitNow = await canSubmit();
-    if (!canSubmitNow) {
-      // Get missing items
-      const { data } = await supabase.rpc('calc_week_progress', {
-        _patient_id: patient.id,
-        _week_id: week.id
-      });
-
-      const progressData = data as { missing: string[] };
-      const missing = progressData?.missing || ['Unknown requirements'];
-      
-      toast({
-        title: "Incomplete Data",
-        description: `Missing: ${missing.join(', ')}`,
-        variant: "destructive",
-      });
-      return;
-    }
-
     try {
       // Save current data first
       await handleSaveProgress();
+
+      // Then check if can submit
+      const canSubmitNow = await canSubmit();
+      if (!canSubmitNow) {
+        // Get missing items
+        const { data } = await supabase.rpc('calc_week_progress', {
+          _patient_id: patient.id,
+          _week_id: week.id
+        });
+
+        const progressData = data as { missing: string[] };
+        const missing = progressData?.missing || ['Unknown requirements'];
+        
+        toast({
+          title: "Incomplete Data",
+          description: `Missing: ${missing.join(', ')}`,
+          variant: "destructive",
+        });
+        return;
+      }
 
       // Then submit for review
       const { error } = await supabase
