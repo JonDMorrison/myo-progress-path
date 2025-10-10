@@ -343,8 +343,17 @@ const WeekDetail = () => {
   };
 
   const handleVideoUploadComplete = async () => {
-    // Reload data to show new upload
-    await loadWeekData();
+    // Only reload uploads, don't reload all data which would clear form fields
+    if (!patient || !week) return;
+    
+    const { data: uploadsData } = await supabase
+      .from("uploads")
+      .select("*")
+      .eq("patient_id", patient.id)
+      .eq("week_id", week.id)
+      .order("created_at", { ascending: false });
+
+    setUploads(uploadsData || []);
   };
 
   const handleSendMessage = async () => {
