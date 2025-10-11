@@ -7,13 +7,15 @@ import { useToast } from "@/hooks/use-toast";
 import { ConsentDialog } from "@/components/ConsentDialog";
 import MyoCoachLogo from "@/assets/MyoCoach_Logo.png";
 import { Section } from "@/components/ui/Section";
-import { ProgramCard } from "@/components/dashboard/ProgramCard";
 import { TimelineCard } from "@/components/dashboard/TimelineCard";
-import { HabitsCard } from "@/components/dashboard/HabitsCard";
 import { MessagesCard } from "@/components/dashboard/MessagesCard";
 import { StreakBadge } from "@/components/dashboard/StreakBadge";
 import { WeekCard } from "@/components/week/WeekCard";
-import { Card, CardContent } from "@/components/ui/card";
+import { PersonalizedHero } from "@/components/dashboard/PersonalizedHero";
+import { QuickStatsBar } from "@/components/dashboard/QuickStatsBar";
+import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
+import { CircularGauge } from "@/components/ui/CircularGauge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
 import { Progress } from "@/components/ui/progress";
 import { BottomNav } from "@/components/layout/BottomNav";
@@ -171,14 +173,19 @@ const PatientDashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 mx-auto">
-            <div className="w-full h-full border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+      <MobileContainer>
+        <div className="min-h-screen bg-background">
+          <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
+            <div className="container mx-auto px-4 sm:px-6 py-4">
+              <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
+            </div>
+          </header>
+          <div className="container mx-auto px-4 sm:px-6 py-6 space-y-6 pb-24">
+            <DashboardSkeleton />
           </div>
-          <p className="text-muted-foreground">Loading your dashboard...</p>
         </div>
-      </div>
+        <BottomNav />
+      </MobileContainer>
     );
   }
 
@@ -249,100 +256,141 @@ const PatientDashboard = () => {
             </Card>
           </Section>
         ) : (
-          <div className="space-y-6">
-            {/* Hero Section - Active Weeks */}
-            <Section delay={0}>
-              <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
-                {userProgress?.weekStatuses
-                  .filter((week: any) => !week.isLocked)
-                  .map((week: any) => (
-                    <WeekCard
-                      key={week.weekNumber}
-                      week={week}
-                      weekTitle={`Week ${week.weekNumber}`}
-                      onNavigate={() => handleNavigateToWeek(week.weekNumber)}
-                    />
-                  ))}
+          <div className="space-y-6 pb-24">
+            {/* Personalized Hero */}
+            <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0ms", animationFillMode: "forwards" }}>
+              <PersonalizedHero
+                patientName={firstName}
+                onSendMessage={() => {
+                  const messagesSection = document.getElementById("messages-card");
+                  messagesSection?.scrollIntoView({ behavior: "smooth" });
+                }}
+              />
+            </div>
+
+            {/* Quick Stats Bar */}
+            <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "100ms", animationFillMode: "forwards" }}>
+              <QuickStatsBar
+                nasalBreathing={progress?.nasal_breathing_pct || 0}
+                tonguePosture={progress?.tongue_on_spot_pct || 0}
+                boltScore={progress?.bolt_score || 0}
+                weekProgress={userProgress?.percentComplete || 0}
+              />
+            </div>
+
+            {/* Active Weeks */}
+            {userProgress?.weekStatuses?.filter((week: any) => !week.isLocked).length > 0 && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Your Active Weeks</h2>
+                <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+                  {userProgress?.weekStatuses
+                    .filter((week: any) => !week.isLocked)
+                    .map((week: any, index: number) => (
+                      <div
+                        key={week.weekNumber}
+                        className="opacity-0 animate-fade-in-up"
+                        style={{ animationDelay: `${200 + index * 100}ms`, animationFillMode: "forwards" }}
+                      >
+                        <WeekCard
+                          week={week}
+                          weekTitle={`Week ${week.weekNumber}`}
+                          onNavigate={() => handleNavigateToWeek(week.weekNumber)}
+                        />
+                      </div>
+                    ))}
+                </div>
               </div>
-            </Section>
+            )}
 
-            {/* Stats Grid */}
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-              <Section delay={100}>
-                <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-medium text-muted-foreground">Nasal Breathing</h3>
-                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                        <span className="text-lg">👃</span>
+            {/* Circular Gauges */}
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
+              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "400ms", animationFillMode: "forwards" }}>
+                <CardHeader>
+                  <CardTitle>Nasal Breathing</CardTitle>
+                </CardHeader>
+                <CardContent className="flex justify-center pb-6">
+                  <CircularGauge
+                    value={progress?.nasal_breathing_pct || 0}
+                    label="Consistency"
+                    size={120}
+                    strokeWidth={10}
+                  />
+                </CardContent>
+              </Card>
+
+              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "450ms", animationFillMode: "forwards" }}>
+                <CardHeader>
+                  <CardTitle>Tongue Posture</CardTitle>
+                </CardHeader>
+                <CardContent className="flex justify-center pb-6">
+                  <CircularGauge
+                    value={progress?.tongue_on_spot_pct || 0}
+                    label="Compliance"
+                    size={120}
+                    strokeWidth={10}
+                  />
+                </CardContent>
+              </Card>
+
+              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "500ms", animationFillMode: "forwards" }}>
+                <CardHeader>
+                  <CardTitle>BOLT Score</CardTitle>
+                </CardHeader>
+                <CardContent className="flex justify-center pb-6">
+                  <div className="inline-flex flex-col items-center gap-2">
+                    <div className="relative">
+                      <svg width={120} height={120} className="transform -rotate-90">
+                        <circle
+                          cx={60}
+                          cy={60}
+                          r={52}
+                          strokeWidth={10}
+                          className="fill-none stroke-muted opacity-20"
+                        />
+                        <circle
+                          cx={60}
+                          cy={60}
+                          r={52}
+                          strokeWidth={10}
+                          strokeDasharray={326.73}
+                          strokeDashoffset={326.73 * (1 - Math.min((progress?.bolt_score || 0) / 40, 1))}
+                          strokeLinecap="round"
+                          className="fill-none stroke-primary transition-all duration-500"
+                        />
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-2xl font-bold">{progress?.bolt_score || 0}s</span>
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-3xl font-bold">{progress?.nasal_breathing_pct || 0}%</div>
-                      <Progress value={progress?.nasal_breathing_pct || 0} className="h-2" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </Section>
-
-              <Section delay={150}>
-                <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-medium text-muted-foreground">Tongue Posture</h3>
-                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                        <span className="text-lg">👅</span>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-3xl font-bold">{progress?.tongue_on_spot_pct || 0}%</div>
-                      <Progress value={progress?.tongue_on_spot_pct || 0} className="h-2" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </Section>
-
-              <Section delay={200}>
-                <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-medium text-muted-foreground">BOLT Score</h3>
-                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                        <span className="text-lg">⚡</span>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="text-3xl font-bold">{progress?.bolt_score || 0}s</div>
-                      <p className="text-xs text-muted-foreground">Current measurement</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Section>
+                    <div className="text-sm font-medium text-muted-foreground text-center">Average Score</div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Bottom Grid - Timeline & Messages */}
-            <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
-              <Section delay={250}>
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
+              <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "550ms", animationFillMode: "forwards" }}>
                 <TimelineCard
                   completedWeeks={completedWeeks}
                   currentWeek={currentWeek.number}
                 />
-              </Section>
+              </div>
 
-              <Section delay={300}>
+              <div id="messages-card" className="opacity-0 animate-fade-in-up" style={{ animationDelay: "600ms", animationFillMode: "forwards" }}>
                 <MessagesCard
                   messages={messages}
                   onSendMessage={handleSendMessage}
                   onViewAll={() => navigate(`/week/${currentWeek.number}`)}
                 />
-              </Section>
+              </div>
             </div>
 
             {/* Gamification Section */}
             {patient && (
-              <Section delay={350}>
+              <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "650ms", animationFillMode: "forwards" }}>
                 <StreakBadge patientId={patient.id} />
-              </Section>
+              </div>
             )}
           </div>
         )}
