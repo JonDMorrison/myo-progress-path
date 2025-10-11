@@ -250,38 +250,29 @@ const PatientDashboard = () => {
           </Section>
         ) : (
           <div className="space-y-4 sm:space-y-6 flex flex-col">
-            {/* Accessible Weeks Section */}
-            {userProgress?.weekStatuses && (
-              <Section delay={0}>
-                <div className="space-y-4">
-                  <h2 className="text-xl font-semibold">Your Weeks</h2>
-                  <div className="grid gap-4">
-                    {userProgress.weekStatuses
-                      .filter((week: any) => !week.isLocked)
-                      .map((week: any) => (
-                        <WeekCard
-                          key={week.weekNumber}
-                          week={week}
-                          weekTitle={`Week ${week.weekNumber}`}
-                          onNavigate={() => handleNavigateToWeek(week.weekNumber)}
-                        />
-                      ))}
-                  </div>
-                </div>
-              </Section>
-            )}
-
             {/* Dashboard Grid - single column on mobile, 2x2 on desktop */}
             <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 md:auto-rows-fr">
+              {/* Show accessible weeks as cards */}
+              {userProgress?.weekStatuses
+                .filter((week: any) => !week.isLocked)
+                .map((week: any, index: number) => (
+                  <Section key={week.weekNumber} delay={index * 50}>
+                    <WeekCard
+                      week={week}
+                      weekTitle={`Week ${week.weekNumber}`}
+                      onNavigate={() => handleNavigateToWeek(week.weekNumber)}
+                    />
+                  </Section>
+                ))}
 
-              <Section delay={0}>
+              <Section delay={100}>
                 <TimelineCard
                   completedWeeks={completedWeeks}
                   currentWeek={currentWeek.number}
                 />
               </Section>
 
-              <Section delay={100}>
+              <Section delay={200}>
                 <HabitsCard
                   nasalBreathingPercent={progress?.nasal_breathing_pct || 0}
                   tonguePosturePercent={progress?.tongue_on_spot_pct || 0}
@@ -289,7 +280,7 @@ const PatientDashboard = () => {
                 />
               </Section>
 
-              <Section delay={200}>
+              <Section delay={300}>
                 <MessagesCard
                   messages={messages}
                   onSendMessage={handleSendMessage}
@@ -300,7 +291,7 @@ const PatientDashboard = () => {
 
             {/* Gamification Section - Full Width Below Grid */}
             {patient && (
-              <Section delay={300}>
+              <Section delay={400}>
                 <StreakBadge patientId={patient.id} />
               </Section>
             )}
