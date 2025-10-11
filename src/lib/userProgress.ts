@@ -55,6 +55,7 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
     const weekStatuses: WeekProgress[] = [];
     let completedCount = 0;
     let currentWeek = 1;
+    let currentWeekFound = false;
     let lastApprovedWeek = 0;
     let lastSubmittedOrApprovedWeek = 0;
 
@@ -89,10 +90,17 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
         isComplete,
       });
 
-      // Current week is the first non-complete, non-locked week
-      if (!isComplete && !isLocked && week.number <= currentWeek) {
+      // Current week is the first unlocked week that's not yet submitted or approved
+      // This allows progression to the next week while the previous is in review
+      if (!currentWeekFound && !isLocked && statusValue !== "submitted" && statusValue !== "approved") {
         currentWeek = week.number;
+        currentWeekFound = true;
       }
+    }
+
+    // If no open weeks were found (all submitted/approved), show the last submitted/approved week
+    if (!currentWeekFound && lastSubmittedOrApprovedWeek > 0) {
+      currentWeek = lastSubmittedOrApprovedWeek;
     }
 
     // Get last activity date
@@ -108,7 +116,7 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
 
     return {
       completedWeeks: completedCount,
-      currentWeek: lastApprovedWeek + 1,
+      currentWeek,
       totalWeeks,
       percentComplete,
       lastActivityDate,
