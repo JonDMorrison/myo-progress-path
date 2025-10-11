@@ -374,6 +374,7 @@ const PatientDashboard = () => {
                 <TimelineCard
                   completedWeeks={completedWeeks}
                   currentWeek={currentWeek.number}
+                  onWeekClick={handleNavigateToWeek}
                 />
               </div>
 

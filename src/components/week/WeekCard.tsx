@@ -51,12 +51,18 @@ export function WeekCard({ week, weekTitle, onNavigate }: WeekCardProps) {
     );
   };
 
+  const isUnderReview = week.status === "submitted";
+
   return (
     <Card
       className={`rounded-2xl transition-all ${
         week.isLocked
           ? "opacity-50 cursor-not-allowed"
           : "hover:shadow-lg hover:-translate-y-1 cursor-pointer"
+      } ${
+        isUnderReview
+          ? "bg-warning/5 border-warning/30"
+          : ""
       }`}
       onClick={() => !week.isLocked && onNavigate(week.weekNumber)}
     >
@@ -77,15 +83,25 @@ export function WeekCard({ week, weekTitle, onNavigate }: WeekCardProps) {
           </div>
         ) : (
           <Button
-            variant={week.isComplete ? "outline" : "default"}
+            variant={
+              isUnderReview
+                ? "secondary"
+                : week.isComplete
+                ? "outline"
+                : "default"
+            }
             size="sm"
-            className="w-full"
+            className={`w-full ${isUnderReview ? "bg-warning/10 text-warning border-warning/20 hover:bg-warning/20" : ""}`}
             onClick={(e) => {
               e.stopPropagation();
               onNavigate(week.weekNumber);
             }}
           >
-            {week.isComplete ? "Review Week" : "Continue Week"}
+            {isUnderReview
+              ? "View Submission"
+              : week.isComplete
+              ? "Review Week"
+              : "Continue Week"}
             <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
         )}

@@ -5,9 +5,10 @@ interface TimelineCardProps {
   completedWeeks: number;
   currentWeek: number;
   totalWeeks?: number;
+  onWeekClick?: (weekNumber: number) => void;
 }
 
-export function TimelineCard({ completedWeeks, currentWeek, totalWeeks = 24 }: TimelineCardProps) {
+export function TimelineCard({ completedWeeks, currentWeek, totalWeeks = 24, onWeekClick }: TimelineCardProps) {
   return (
     <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
       <CardHeader className="pb-4">
@@ -15,7 +16,12 @@ export function TimelineCard({ completedWeeks, currentWeek, totalWeeks = 24 }: T
         <CardDescription>Your 24-week journey</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col justify-between">
-        <DotTimeline completed={completedWeeks} current={currentWeek} total={totalWeeks} />
+        <DotTimeline 
+          completed={completedWeeks} 
+          current={currentWeek} 
+          total={totalWeeks}
+          onWeekClick={onWeekClick}
+        />
         <div className="flex items-center justify-center gap-6 mt-6 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-success" />
