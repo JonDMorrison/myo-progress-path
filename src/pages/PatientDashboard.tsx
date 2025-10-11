@@ -12,6 +12,7 @@ import { TimelineCard } from "@/components/dashboard/TimelineCard";
 import { HabitsCard } from "@/components/dashboard/HabitsCard";
 import { MessagesCard } from "@/components/dashboard/MessagesCard";
 import { StreakBadge } from "@/components/dashboard/StreakBadge";
+import { WeekCard } from "@/components/week/WeekCard";
 import { Card, CardContent } from "@/components/ui/card";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
 import { Progress } from "@/components/ui/progress";
@@ -249,28 +250,38 @@ const PatientDashboard = () => {
           </Section>
         ) : (
           <div className="space-y-4 sm:space-y-6 flex flex-col">
+            {/* Accessible Weeks Section */}
+            {userProgress?.weekStatuses && (
+              <Section delay={0}>
+                <div className="space-y-4">
+                  <h2 className="text-xl font-semibold">Your Weeks</h2>
+                  <div className="grid gap-4">
+                    {userProgress.weekStatuses
+                      .filter((week: any) => !week.isLocked)
+                      .map((week: any) => (
+                        <WeekCard
+                          key={week.weekNumber}
+                          week={week}
+                          weekTitle={`Week ${week.weekNumber}`}
+                          onNavigate={() => handleNavigateToWeek(week.weekNumber)}
+                        />
+                      ))}
+                  </div>
+                </div>
+              </Section>
+            )}
+
             {/* Dashboard Grid - single column on mobile, 2x2 on desktop */}
             <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 md:auto-rows-fr">
-              <Section delay={0}>
-                <ProgramCard
-                  firstName={firstName}
-                  weekNumber={currentWeek.number}
-                  weekTitle={currentWeek.title}
-                  status={progress?.status}
-                  completedWeeks={completedWeeks}
-                  totalWeeks={userProgress?.totalWeeks || 24}
-                  onContinue={() => handleNavigateToWeek(currentWeek.number)}
-                />
-              </Section>
 
-              <Section delay={100}>
+              <Section delay={0}>
                 <TimelineCard
                   completedWeeks={completedWeeks}
                   currentWeek={currentWeek.number}
                 />
               </Section>
 
-              <Section delay={200}>
+              <Section delay={100}>
                 <HabitsCard
                   nasalBreathingPercent={progress?.nasal_breathing_pct || 0}
                   tonguePosturePercent={progress?.tongue_on_spot_pct || 0}
@@ -278,7 +289,7 @@ const PatientDashboard = () => {
                 />
               </Section>
 
-              <Section delay={300}>
+              <Section delay={200}>
                 <MessagesCard
                   messages={messages}
                   onSendMessage={handleSendMessage}
@@ -289,7 +300,7 @@ const PatientDashboard = () => {
 
             {/* Gamification Section - Full Width Below Grid */}
             {patient && (
-              <Section delay={400}>
+              <Section delay={300}>
                 <StreakBadge patientId={patient.id} />
               </Section>
             )}
