@@ -249,34 +249,83 @@ const PatientDashboard = () => {
             </Card>
           </Section>
         ) : (
-          <div className="space-y-4 sm:space-y-6 flex flex-col">
-            {/* Dashboard Grid - single column on mobile, 2x2 on desktop */}
-            <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 md:auto-rows-fr">
-              {/* Show accessible weeks as cards */}
-              {userProgress?.weekStatuses
-                .filter((week: any) => !week.isLocked)
-                .map((week: any, index: number) => (
-                  <Section key={week.weekNumber} delay={index * 50}>
+          <div className="space-y-6">
+            {/* Hero Section - Active Weeks */}
+            <Section delay={0}>
+              <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+                {userProgress?.weekStatuses
+                  .filter((week: any) => !week.isLocked)
+                  .map((week: any) => (
                     <WeekCard
+                      key={week.weekNumber}
                       week={week}
                       weekTitle={`Week ${week.weekNumber}`}
                       onNavigate={() => handleNavigateToWeek(week.weekNumber)}
                     />
-                  </Section>
-                ))}
+                  ))}
+              </div>
+            </Section>
 
+            {/* Stats Grid */}
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
               <Section delay={100}>
-                <TimelineCard
-                  completedWeeks={completedWeeks}
-                  currentWeek={currentWeek.number}
-                />
+                <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-medium text-muted-foreground">Nasal Breathing</h3>
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                        <span className="text-lg">👃</span>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="text-3xl font-bold">{progress?.nasal_breathing_pct || 0}%</div>
+                      <Progress value={progress?.nasal_breathing_pct || 0} className="h-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Section>
+
+              <Section delay={150}>
+                <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-medium text-muted-foreground">Tongue Posture</h3>
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                        <span className="text-lg">👅</span>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="text-3xl font-bold">{progress?.tongue_on_spot_pct || 0}%</div>
+                      <Progress value={progress?.tongue_on_spot_pct || 0} className="h-2" />
+                    </div>
+                  </CardContent>
+                </Card>
               </Section>
 
               <Section delay={200}>
-                <HabitsCard
-                  nasalBreathingPercent={progress?.nasal_breathing_pct || 0}
-                  tonguePosturePercent={progress?.tongue_on_spot_pct || 0}
-                  avgBoltScore={progress?.bolt_score || 0}
+                <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-medium text-muted-foreground">BOLT Score</h3>
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                        <span className="text-lg">⚡</span>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="text-3xl font-bold">{progress?.bolt_score || 0}s</div>
+                      <p className="text-xs text-muted-foreground">Current measurement</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Section>
+            </div>
+
+            {/* Bottom Grid - Timeline & Messages */}
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+              <Section delay={250}>
+                <TimelineCard
+                  completedWeeks={completedWeeks}
+                  currentWeek={currentWeek.number}
                 />
               </Section>
 
@@ -289,9 +338,9 @@ const PatientDashboard = () => {
               </Section>
             </div>
 
-            {/* Gamification Section - Full Width Below Grid */}
+            {/* Gamification Section */}
             {patient && (
-              <Section delay={400}>
+              <Section delay={350}>
                 <StreakBadge patientId={patient.id} />
               </Section>
             )}
