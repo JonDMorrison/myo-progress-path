@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, FileText, ExternalLink } from "lucide-react";
 import { getPageTitle } from "@/lib/seo";
+import resourcesHero from "@/assets/resources-hero.jpg";
 
 const Resources = () => {
   const researchArticles = [
@@ -81,8 +82,16 @@ const Resources = () => {
         
         <main id="main-content" className="flex-1">
           {/* Hero */}
-          <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-secondary/5">
-            <div className="container max-w-4xl text-center">
+          <section className="relative py-16 md:py-24 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden">
+            <div className="absolute inset-0">
+              <img 
+                src={resourcesHero} 
+                alt="" 
+                className="w-full h-full object-cover opacity-15"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/95 to-background" />
+            </div>
+            <div className="container max-w-4xl text-center relative">
               <h1 className="text-4xl md:text-5xl font-bold mb-6">
                 Research & Resources
               </h1>

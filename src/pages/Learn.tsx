@@ -9,6 +9,7 @@ import { FooterPublic } from "@/components/public/FooterPublic";
 import { PatientHeader } from "@/components/layout/PatientHeader";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
+import learnHubHero from "@/assets/learn-hub-hero.jpg";
 
 // Articles that require authentication
 const RESTRICTED_ARTICLES = [
@@ -60,6 +61,16 @@ export default function Learn() {
       <div className="min-h-screen bg-gradient-to-b from-primary/5 via-background to-accent/10">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-primary-light/5 to-transparent border-b">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0">
+          <img 
+            src={learnHubHero} 
+            alt="" 
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/95" />
+        </div>
+        
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Radial Gradient Overlays */}
