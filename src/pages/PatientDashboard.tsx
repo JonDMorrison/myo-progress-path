@@ -25,6 +25,7 @@ const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
   const [currentWeek, setCurrentWeek] = useState<any>(null);
   const [progress, setProgress] = useState<any>(null);
+  const [allProgress, setAllProgress] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showConsent, setShowConsent] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
@@ -78,6 +79,15 @@ const PatientDashboard = () => {
       // Load user progress
       const progress = await getUserProgress(patientData.id);
       setUserProgress(progress);
+
+      // Get ALL patient week progress to calculate averages
+      const { data: allProgressData } = await supabase
+        .from("patient_week_progress")
+        .select("*")
+        .eq("patient_id", patientData.id)
+        .in("status", ["submitted", "approved"]);
+
+      setAllProgress(allProgressData || []);
 
       // Get current week (for now, get week 1)
       const { data: weekData } = await supabase
@@ -209,6 +219,17 @@ const PatientDashboard = () => {
   const firstName = user?.user_metadata?.name?.split(" ")[0] || "there";
   const completedWeeks = userProgress?.completedWeeks || 0;
   
+  // Calculate averages from all completed weeks
+  const avgNasalBreathing = allProgress.length > 0
+    ? Math.round(allProgress.reduce((sum, p) => sum + (p.nasal_breathing_pct || 0), 0) / allProgress.length)
+    : 0;
+  const avgTongueOnSpot = allProgress.length > 0
+    ? Math.round(allProgress.reduce((sum, p) => sum + (p.tongue_on_spot_pct || 0), 0) / allProgress.length)
+    : 0;
+  const latestBoltScore = allProgress.length > 0
+    ? allProgress.filter(p => p.bolt_score).sort((a, b) => new Date(b.completed_at).getTime() - new Date(a.completed_at).getTime())[0]?.bolt_score || 0
+    : 0;
+  
   // Get greeting based on time
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
@@ -273,7 +294,7 @@ const PatientDashboard = () => {
                 </CardHeader>
                 <CardContent className="flex justify-center pb-4">
                   <CircularGauge
-                    value={progress?.nasal_breathing_pct || 0}
+                    value={avgNasalBreathing}
                     label="Consistency"
                     size={120}
                     strokeWidth={10}
@@ -287,7 +308,7 @@ const PatientDashboard = () => {
                 </CardHeader>
                 <CardContent className="flex justify-center pb-4">
                   <CircularGauge
-                    value={progress?.tongue_on_spot_pct || 0}
+                    value={avgTongueOnSpot}
                     label="Compliance"
                     size={120}
                     strokeWidth={10}
@@ -316,16 +337,18 @@ const PatientDashboard = () => {
                           r={52}
                           strokeWidth={10}
                           strokeDasharray={326.73}
-                          strokeDashoffset={326.73 * (1 - Math.min((progress?.bolt_score || 0) / 40, 1))}
+                          strokeDashoffset={326.73 * (1 - Math.min(latestBoltScore / 40, 1))}
                           strokeLinecap="round"
                           className="fill-none stroke-primary transition-all duration-500"
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl font-bold">{progress?.bolt_score || 0}s</span>
+                        <span className="text-2xl font-bold">{latestBoltScore}s</span>
                       </div>
                     </div>
-                    <div className="text-sm font-medium text-muted-foreground text-center">Average Score</div>
+                    <div className="text-sm font-medium text-muted-foreground text-center">
+                      {latestBoltScore > 0 ? "Latest Score" : "No Data"}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
