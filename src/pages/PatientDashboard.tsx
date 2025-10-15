@@ -14,6 +14,7 @@ import { WeekCard } from "@/components/week/WeekCard";
 import { PersonalizedHero } from "@/components/dashboard/PersonalizedHero";
 import { QuickStatsBar } from "@/components/dashboard/QuickStatsBar";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
+import { TodayExercisesCard } from "@/components/dashboard/TodayExercisesCard";
 import { CircularGauge } from "@/components/ui/CircularGauge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
@@ -257,8 +258,20 @@ const PatientDashboard = () => {
           </Section>
         ) : (
           <div className="space-y-6 pb-24">
-            {/* Personalized Hero */}
+            {/* Today's Exercises - Priority CTA */}
             <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0ms", animationFillMode: "forwards" }}>
+              <TodayExercisesCard
+                weekNumber={currentWeek.number}
+                weekTitle={currentWeek.title || `Week ${currentWeek.number}`}
+                exercisesCompleted={0}
+                totalExercises={5}
+                isCompleted={progress?.status === 'completed'}
+                onStartSession={() => handleNavigateToWeek(currentWeek.number)}
+              />
+            </div>
+
+            {/* Personalized Hero */}
+            <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "100ms", animationFillMode: "forwards" }}>
               <PersonalizedHero
                 patientName={firstName}
                 onSendMessage={() => {
@@ -269,7 +282,7 @@ const PatientDashboard = () => {
             </div>
 
             {/* Quick Stats Bar */}
-            <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "100ms", animationFillMode: "forwards" }}>
+            <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "200ms", animationFillMode: "forwards" }}>
               <QuickStatsBar
                 nasalBreathing={progress?.nasal_breathing_pct || 0}
                 tonguePosture={progress?.tongue_on_spot_pct || 0}
@@ -279,17 +292,17 @@ const PatientDashboard = () => {
             </div>
 
             {/* Active Weeks */}
-            {userProgress?.weekStatuses?.filter((week: any) => !week.isLocked).length > 0 && (
+            {userProgress?.weekStatuses?.filter((week: any) => !week.isLocked && week.weekNumber !== currentWeek.number).length > 0 && (
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Your Active Weeks</h2>
+                <h2 className="text-2xl font-bold">Other Active Weeks</h2>
                 <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
                   {userProgress?.weekStatuses
-                    .filter((week: any) => !week.isLocked)
+                    .filter((week: any) => !week.isLocked && week.weekNumber !== currentWeek.number)
                     .map((week: any, index: number) => (
                       <div
                         key={week.weekNumber}
                         className="opacity-0 animate-fade-in-up"
-                        style={{ animationDelay: `${200 + index * 100}ms`, animationFillMode: "forwards" }}
+                        style={{ animationDelay: `${300 + index * 100}ms`, animationFillMode: "forwards" }}
                       >
                         <WeekCard
                           week={week}
@@ -304,7 +317,7 @@ const PatientDashboard = () => {
 
             {/* Circular Gauges */}
             <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
-              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "400ms", animationFillMode: "forwards" }}>
+              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "500ms", animationFillMode: "forwards" }}>
                 <CardHeader>
                   <CardTitle>Nasal Breathing</CardTitle>
                 </CardHeader>
@@ -318,7 +331,7 @@ const PatientDashboard = () => {
                 </CardContent>
               </Card>
 
-              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "450ms", animationFillMode: "forwards" }}>
+              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "550ms", animationFillMode: "forwards" }}>
                 <CardHeader>
                   <CardTitle>Tongue Posture</CardTitle>
                 </CardHeader>
@@ -332,7 +345,7 @@ const PatientDashboard = () => {
                 </CardContent>
               </Card>
 
-              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "500ms", animationFillMode: "forwards" }}>
+              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "600ms", animationFillMode: "forwards" }}>
                 <CardHeader>
                   <CardTitle>BOLT Score</CardTitle>
                 </CardHeader>
@@ -370,7 +383,7 @@ const PatientDashboard = () => {
 
             {/* Bottom Grid - Timeline & Messages */}
             <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
-              <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "550ms", animationFillMode: "forwards" }}>
+              <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "650ms", animationFillMode: "forwards" }}>
                 <TimelineCard
                   completedWeeks={completedWeeks}
                   currentWeek={currentWeek.number}
@@ -378,7 +391,7 @@ const PatientDashboard = () => {
                 />
               </div>
 
-              <div id="messages-card" className="opacity-0 animate-fade-in-up" style={{ animationDelay: "600ms", animationFillMode: "forwards" }}>
+              <div id="messages-card" className="opacity-0 animate-fade-in-up" style={{ animationDelay: "700ms", animationFillMode: "forwards" }}>
                 <MessagesCard
                   messages={messages}
                   onSendMessage={handleSendMessage}
@@ -389,7 +402,7 @@ const PatientDashboard = () => {
 
             {/* Gamification Section */}
             {patient && (
-              <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "650ms", animationFillMode: "forwards" }}>
+              <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "750ms", animationFillMode: "forwards" }}>
                 <StreakBadge patientId={patient.id} />
               </div>
             )}
