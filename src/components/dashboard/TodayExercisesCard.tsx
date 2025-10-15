@@ -23,11 +23,11 @@ export function TodayExercisesCard({
   const progressPercent = totalExercises > 0 ? (exercisesCompleted / totalExercises) * 100 : 0;
 
   return (
-    <Card className="rounded-2xl border-2 shadow-lg bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden relative">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-secondary rounded-full blur-2xl" />
+    <Card className="rounded-2xl border-2 border-primary/30 shadow-xl bg-gradient-to-br from-primary/10 to-secondary/10 overflow-hidden relative hover:shadow-2xl transition-all">
+      {/* Enhanced background decoration */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute top-0 right-0 w-40 h-40 bg-primary rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-secondary rounded-full blur-2xl" />
       </div>
 
       <CardHeader className="relative z-10 pb-3">

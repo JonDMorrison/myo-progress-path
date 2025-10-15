@@ -11,8 +11,6 @@ import { TimelineCard } from "@/components/dashboard/TimelineCard";
 import { MessagesCard } from "@/components/dashboard/MessagesCard";
 import { StreakBadge } from "@/components/dashboard/StreakBadge";
 import { WeekCard } from "@/components/week/WeekCard";
-import { PersonalizedHero } from "@/components/dashboard/PersonalizedHero";
-import { QuickStatsBar } from "@/components/dashboard/QuickStatsBar";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 import { TodayExercisesCard } from "@/components/dashboard/TodayExercisesCard";
 import { CircularGauge } from "@/components/ui/CircularGauge";
@@ -206,37 +204,36 @@ const PatientDashboard = () => {
 
   const firstName = user?.user_metadata?.name?.split(" ")[0] || "there";
   const completedWeeks = userProgress?.completedWeeks || 0;
+  
+  // Get greeting based on time
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Modern Header */}
+      {/* Simplified Header */}
       <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
-        <div className="container mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between mb-3">
+        <div className="container mx-auto px-4 sm:px-6 py-3">
+          <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              <img src={montroseLogo} alt="Montrose Myo" className="h-10 w-auto" />
+              <img src={montroseLogo} alt="Montrose Myo" className="h-8 w-auto" />
+              <h1 className="text-lg font-semibold">{greeting}, {firstName}!</h1>
             </div>
             <Button variant="ghost" size="sm" onClick={handleSignOut} className="rounded-xl">
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign Out
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
           
-          {/* Progress Bar */}
+          {/* Compact Progress Bar */}
           {userProgress && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
                 <span className="text-muted-foreground">
                   Week {userProgress.currentWeek} of {userProgress.totalWeeks}
                 </span>
-                <span className="font-medium">{userProgress.percentComplete}% Complete</span>
+                <span className="font-medium">{userProgress.percentComplete}%</span>
               </div>
-              <Progress value={userProgress.percentComplete} className="h-2" />
-              {userProgress.lastActivityDate && (
-                <p className="text-xs text-muted-foreground">
-                  Last activity: {new Date(userProgress.lastActivityDate).toLocaleDateString()}
-                </p>
-              )}
+              <Progress value={userProgress.percentComplete} className="h-1.5" />
             </div>
           )}
         </div>
@@ -258,8 +255,8 @@ const PatientDashboard = () => {
           </Section>
         ) : (
           <div className="space-y-6 pb-24">
-            {/* Today's Exercises - Priority CTA */}
-            <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0ms", animationFillMode: "forwards" }}>
+            {/* Today's Exercises - Primary CTA */}
+            <div className="animate-fade-in">
               <TodayExercisesCard
                 weekNumber={currentWeek.number}
                 weekTitle={currentWeek.title || `Week ${currentWeek.number}`}
@@ -270,58 +267,13 @@ const PatientDashboard = () => {
               />
             </div>
 
-            {/* Personalized Hero */}
-            <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "100ms", animationFillMode: "forwards" }}>
-              <PersonalizedHero
-                patientName={firstName}
-                onSendMessage={() => {
-                  const messagesSection = document.getElementById("messages-card");
-                  messagesSection?.scrollIntoView({ behavior: "smooth" });
-                }}
-              />
-            </div>
-
-            {/* Quick Stats Bar */}
-            <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "200ms", animationFillMode: "forwards" }}>
-              <QuickStatsBar
-                nasalBreathing={progress?.nasal_breathing_pct || 0}
-                tonguePosture={progress?.tongue_on_spot_pct || 0}
-                boltScore={progress?.bolt_score || 0}
-                weekProgress={userProgress?.percentComplete || 0}
-              />
-            </div>
-
-            {/* Active Weeks */}
-            {userProgress?.weekStatuses?.filter((week: any) => !week.isLocked && week.weekNumber !== currentWeek.number).length > 0 && (
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Other Active Weeks</h2>
-                <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
-                  {userProgress?.weekStatuses
-                    .filter((week: any) => !week.isLocked && week.weekNumber !== currentWeek.number)
-                    .map((week: any, index: number) => (
-                      <div
-                        key={week.weekNumber}
-                        className="opacity-0 animate-fade-in-up"
-                        style={{ animationDelay: `${300 + index * 100}ms`, animationFillMode: "forwards" }}
-                      >
-                        <WeekCard
-                          week={week}
-                          weekTitle={`Week ${week.weekNumber}`}
-                          onNavigate={() => handleNavigateToWeek(week.weekNumber)}
-                        />
-                      </div>
-                    ))}
-                </div>
-              </div>
-            )}
-
-            {/* Circular Gauges */}
-            <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
-              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "500ms", animationFillMode: "forwards" }}>
-                <CardHeader>
-                  <CardTitle>Nasal Breathing</CardTitle>
+            {/* Core Metrics - 3 Circular Gauges */}
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-3 animate-fade-in">
+              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-all">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Nasal Breathing</CardTitle>
                 </CardHeader>
-                <CardContent className="flex justify-center pb-6">
+                <CardContent className="flex justify-center pb-4">
                   <CircularGauge
                     value={progress?.nasal_breathing_pct || 0}
                     label="Consistency"
@@ -331,11 +283,11 @@ const PatientDashboard = () => {
                 </CardContent>
               </Card>
 
-              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "550ms", animationFillMode: "forwards" }}>
-                <CardHeader>
-                  <CardTitle>Tongue Posture</CardTitle>
+              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-all">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Tongue Posture</CardTitle>
                 </CardHeader>
-                <CardContent className="flex justify-center pb-6">
+                <CardContent className="flex justify-center pb-4">
                   <CircularGauge
                     value={progress?.tongue_on_spot_pct || 0}
                     label="Compliance"
@@ -345,11 +297,11 @@ const PatientDashboard = () => {
                 </CardContent>
               </Card>
 
-              <Card className="opacity-0 animate-fade-in-up rounded-2xl border shadow-sm hover:shadow-md transition-all" style={{ animationDelay: "600ms", animationFillMode: "forwards" }}>
-                <CardHeader>
-                  <CardTitle>BOLT Score</CardTitle>
+              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-all">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">BOLT Score</CardTitle>
                 </CardHeader>
-                <CardContent className="flex justify-center pb-6">
+                <CardContent className="flex justify-center pb-4">
                   <div className="inline-flex flex-col items-center gap-2">
                     <div className="relative">
                       <svg width={120} height={120} className="transform -rotate-90">
@@ -381,28 +333,25 @@ const PatientDashboard = () => {
               </Card>
             </div>
 
-            {/* Bottom Grid - Timeline & Messages */}
-            <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
-              <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "650ms", animationFillMode: "forwards" }}>
-                <TimelineCard
-                  completedWeeks={completedWeeks}
-                  currentWeek={currentWeek.number}
-                  onWeekClick={handleNavigateToWeek}
-                />
-              </div>
+            {/* Timeline & Messages */}
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 animate-fade-in">
+              <TimelineCard
+                completedWeeks={completedWeeks}
+                currentWeek={currentWeek.number}
+                onWeekClick={handleNavigateToWeek}
+              />
 
-              <div id="messages-card" className="opacity-0 animate-fade-in-up" style={{ animationDelay: "700ms", animationFillMode: "forwards" }}>
+              <div id="messages-card">
                 <MessagesCard
                   messages={messages}
                   onSendMessage={handleSendMessage}
-                  onViewAll={() => navigate(`/week/${currentWeek.number}`)}
                 />
               </div>
             </div>
 
-            {/* Gamification Section */}
+            {/* Gamification */}
             {patient && (
-              <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "750ms", animationFillMode: "forwards" }}>
+              <div className="animate-fade-in">
                 <StreakBadge patientId={patient.id} />
               </div>
             )}

@@ -15,10 +15,9 @@ interface Message {
 interface MessagesCardProps {
   messages: Message[];
   onSendMessage: (message: string) => Promise<void>;
-  onViewAll: () => void;
 }
 
-export function MessagesCard({ messages, onSendMessage, onViewAll }: MessagesCardProps) {
+export function MessagesCard({ messages, onSendMessage }: MessagesCardProps) {
   const [newMessage, setNewMessage] = useState("");
   const [sending, setSending] = useState(false);
 
@@ -38,19 +37,12 @@ export function MessagesCard({ messages, onSendMessage, onViewAll }: MessagesCar
 
   return (
     <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <div>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <MessageSquare className="h-5 w-5" />
-            Messages & Feedback
-          </CardTitle>
-          <CardDescription className="mt-1">Chat with your therapist</CardDescription>
-        </div>
-        {messages.length > 3 && (
-          <Button variant="ghost" size="sm" onClick={onViewAll}>
-            View all
-          </Button>
-        )}
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base flex items-center gap-2">
+          <MessageSquare className="h-4 w-4" />
+          Messages
+        </CardTitle>
+        <CardDescription className="text-xs">Quick messages with your therapist</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 flex-1 flex flex-col">
         <div className="flex-1 flex flex-col">
