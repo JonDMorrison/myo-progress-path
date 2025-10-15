@@ -19,6 +19,7 @@ import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
 import { Progress } from "@/components/ui/progress";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
+import { PatientHeader } from "@/components/layout/PatientHeader";
 
 const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
@@ -214,8 +215,11 @@ const PatientDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Simplified Header */}
-      <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
+      {/* Desktop Header Navigation */}
+      <PatientHeader userName={user?.user_metadata?.name} />
+      
+      {/* Mobile Header (shows on mobile only) */}
+      <header className="md:hidden sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
         <div className="container mx-auto px-4 sm:px-6 py-3">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
