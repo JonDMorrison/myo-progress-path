@@ -49,7 +49,7 @@ export function PatientHeader({ userName }: PatientHeaderProps) {
             <span className="text-xl font-bold">Montrose Myo</span>
           </Link>
           
-          <div className="hidden lg:flex gap-6">
+          <div className="flex gap-6">
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
