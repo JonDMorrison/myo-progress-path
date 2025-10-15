@@ -66,14 +66,16 @@ export function TodayExercisesCard({
         </div>
 
         {/* CTA Button */}
-        <Button 
-          onClick={onStartSession}
-          size="default"
-          className="w-full h-12 font-semibold shadow-lg hover:shadow-xl transition-all"
-        >
-          <Play className="w-5 h-5 mr-2" />
-          {isCompleted ? 'Review Week' : 'Start Today\'s Session'}
-        </Button>
+        <div className="flex justify-center sm:justify-start">
+          <Button 
+            onClick={onStartSession}
+            size="default"
+            className="h-12 font-semibold shadow-lg hover:shadow-xl transition-all"
+          >
+            <Play className="w-5 h-5 mr-2" />
+            {isCompleted ? 'Review Week' : 'Start Today\'s Session'}
+          </Button>
+        </div>
 
         {!isCompleted && (
           <p className="text-xs text-center text-muted-foreground">
