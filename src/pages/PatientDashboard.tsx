@@ -230,18 +230,6 @@ const PatientDashboard = () => {
             </Button>
           </div>
           
-          {/* Compact Progress Bar */}
-          {userProgress && (
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">
-                  Week {userProgress.currentWeek} of {userProgress.totalWeeks}
-                </span>
-                <span className="font-medium">{userProgress.percentComplete}%</span>
-              </div>
-              <Progress value={userProgress.percentComplete} className="h-1.5" />
-            </div>
-          )}
         </div>
       </header>
 
