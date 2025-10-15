@@ -6,6 +6,8 @@ import { fuzzySearch } from "@/lib/searchLearn";
 import { BookOpen, Brain, Stethoscope, Heart, Activity } from "lucide-react";
 import { NavPublic } from "@/components/public/NavPublic";
 import { FooterPublic } from "@/components/public/FooterPublic";
+import { PatientHeader } from "@/components/layout/PatientHeader";
+import { BottomNav } from "@/components/layout/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
 
 // Articles that require authentication
@@ -20,15 +22,22 @@ export default function Learn() {
   const [articles, setArticles] = useState<LearnArticle[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
     // Check authentication status
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
+      if (session?.user) {
+        setUserName(session.user.user_metadata?.name || "");
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
+      if (session?.user) {
+        setUserName(session.user.user_metadata?.name || "");
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -47,7 +56,7 @@ export default function Learn() {
 
   return (
     <>
-      <NavPublic />
+      {isAuthenticated ? <PatientHeader userName={userName} /> : <NavPublic />}
       <div className="min-h-screen bg-gradient-to-b from-primary/5 via-background to-accent/10">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-primary-light/5 to-transparent border-b">
@@ -110,6 +119,7 @@ export default function Learn() {
       </div>
       </div>
       <FooterPublic />
+      {isAuthenticated && <BottomNav />}
     </>
   );
 }

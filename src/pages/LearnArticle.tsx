@@ -6,6 +6,9 @@ import { StickyTOC } from "@/components/learn/StickyTOC";
 import { loadArticle } from "@/lib/learn";
 import { ArrowLeft, BookOpen, Clock, Lock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { NavPublic } from "@/components/public/NavPublic";
+import { PatientHeader } from "@/components/layout/PatientHeader";
+import { BottomNav } from "@/components/layout/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
 
 // Articles that require authentication
@@ -21,15 +24,22 @@ export default function LearnArticle() {
   const navigate = useNavigate();
   const [article, setArticle] = useState<{ title: string; content: string } | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
     // Check authentication status
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
+      if (session?.user) {
+        setUserName(session.user.user_metadata?.name || "");
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
+      if (session?.user) {
+        setUserName(session.user.user_metadata?.name || "");
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -110,9 +120,11 @@ export default function LearnArticle() {
   const readingTime = Math.ceil(wordCount / 200);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-accent/20 to-background">
-      {/* Header */}
-      <div className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-10">
+    <>
+      {isAuthenticated ? <PatientHeader userName={userName} /> : <NavPublic />}
+      <div className="min-h-screen bg-gradient-to-b from-accent/20 to-background">
+        {/* Header */}
+        <div className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 sm:px-6 py-4 max-w-7xl">
           <Button 
             variant="ghost" 
@@ -193,5 +205,7 @@ export default function LearnArticle() {
         </div>
       </div>
     </div>
+    {isAuthenticated && <BottomNav />}
+    </>
   );
 }
