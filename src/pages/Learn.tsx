@@ -6,16 +6,44 @@ import { fuzzySearch } from "@/lib/searchLearn";
 import { BookOpen, Brain, Stethoscope, Heart, Activity } from "lucide-react";
 import { NavPublic } from "@/components/public/NavPublic";
 import { FooterPublic } from "@/components/public/FooterPublic";
+import { supabase } from "@/integrations/supabase/client";
+
+// Articles that require authentication
+const RESTRICTED_ARTICLES = [
+  'frenectomy-pathway',
+  'therapy-kit',
+  'compensations',
+  'program-specifics'
+];
 
 export default function Learn() {
   const [articles, setArticles] = useState<LearnArticle[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Check authentication status
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     loadLearnIndex().then(setArticles);
   }, []);
 
-  const filtered = fuzzySearch(articles, searchTerm);
+  // Filter out restricted articles for non-authenticated users
+  const availableArticles = isAuthenticated 
+    ? articles 
+    : articles.filter(article => !RESTRICTED_ARTICLES.includes(article.slug));
+
+  const filtered = fuzzySearch(availableArticles, searchTerm);
 
   return (
     <>

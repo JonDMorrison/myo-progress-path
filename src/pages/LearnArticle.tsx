@@ -4,19 +4,95 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StickyTOC } from "@/components/learn/StickyTOC";
 import { loadArticle } from "@/lib/learn";
-import { ArrowLeft, BookOpen, Clock, Sparkles, Star } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, Lock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { supabase } from "@/integrations/supabase/client";
+
+// Articles that require authentication
+const RESTRICTED_ARTICLES = [
+  'frenectomy-pathway',
+  'therapy-kit',
+  'compensations',
+  'program-specifics'
+];
 
 export default function LearnArticle() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [article, setArticle] = useState<{ title: string; content: string } | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    // Check authentication status
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (slug) {
       loadArticle(slug).then(setArticle);
     }
   }, [slug]);
+
+  // Check if article is restricted and user is not authenticated
+  const isRestricted = slug && RESTRICTED_ARTICLES.includes(slug);
+  
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isRestricted && !isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-accent/20 to-background">
+        <div className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-10">
+          <div className="container mx-auto px-4 sm:px-6 py-4 max-w-7xl">
+            <Button 
+              variant="ghost" 
+              onClick={() => navigate("/learn")} 
+              className="hover:bg-accent"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Learn Hub
+            </Button>
+          </div>
+        </div>
+        
+        <div className="container mx-auto px-4 sm:px-6 py-12 max-w-2xl">
+          <Card className="p-8 text-center">
+            <div className="inline-flex items-center justify-center p-4 rounded-full bg-primary/10 mb-4">
+              <Lock className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-2xl font-bold mb-2">Authentication Required</h1>
+            <p className="text-muted-foreground mb-6">
+              This article is available to registered users. Please sign in to access this content.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <Button onClick={() => navigate("/auth")}>
+                Sign In
+              </Button>
+              <Button variant="outline" onClick={() => navigate("/learn")}>
+                Back to Learn Hub
+              </Button>
+            </div>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   if (!article) {
     return (
