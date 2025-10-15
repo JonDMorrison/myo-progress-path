@@ -97,9 +97,12 @@ const TherapistDashboard = () => {
             <div className="w-10 h-10 bg-gradient-hero rounded-lg flex items-center justify-center">
               <UserCheck className="w-6 h-6 text-primary-foreground" />
             </div>
-          <div>
-            <h1 className="text-2xl font-bold">Montrose Myo</h1>
-            <p className="text-sm text-muted-foreground">Therapist Portal</p>
+          <div className="flex items-center gap-2">
+            <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
+            <div>
+              <h1 className="text-xl font-bold">Montrose Myo</h1>
+              <p className="text-sm text-muted-foreground">Therapist Portal</p>
+            </div>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">

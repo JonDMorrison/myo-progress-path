@@ -111,10 +111,10 @@ const Auth = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-accent px-4">
       <Card className="w-full max-w-md shadow-elevated">
         <CardHeader className="space-y-3 text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-hero rounded-full flex items-center justify-center shadow-progress">
-            <Stethoscope className="w-8 h-8 text-primary-foreground" />
+          <div className="mx-auto flex items-center gap-2">
+            <img src="/favicon.png" alt="Montrose Myo" className="h-12 w-12" />
+            <h1 className="text-3xl font-bold">Montrose Myo</h1>
           </div>
-          <CardTitle className="text-3xl font-bold">Montrose Myo</CardTitle>
           <CardDescription className="text-base">
             Welcome back to your therapy journey
           </CardDescription>
