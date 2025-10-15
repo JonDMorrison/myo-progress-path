@@ -66,7 +66,7 @@ Poor sleep quality directly impacts brain function and school performance:
 
 Chronic mouth breathing can alter facial development, creating these visible characteristics:
 
-- **Long, narrow face** – Also called "adenoid facies"
+- **Long, narrow face** – Also called "adenoid face"
 - **Open mouth posture** – Mouth habitually open at rest
 - **Dark circles under eyes** – Allergic shiners
 - **Flattened cheekbones** – Underdeveloped midface

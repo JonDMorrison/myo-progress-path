@@ -53,11 +53,11 @@ const Home = () => {
     },
     {
       question: "Who reviews my progress?",
-      answer: "Your assigned Montrose therapist reviews your weekly submissions and provides personalized feedback."
+      answer: "Your assigned therapist at Montrose reviews your weekly submissions and provides feedback on your exercises."
     },
     {
       question: "How do video check-ins work?",
-      answer: "Upload videos of your exercise attempts and get detailed feedback from your therapist without extra visits."
+      answer: "For select weeks, you can upload videos of your exercises for your therapist to review and provide guidance."
     }
   ];
 
@@ -155,8 +155,8 @@ const Home = () => {
                         <Check className="w-4 h-4 text-primary" />
                       </div>
                       <div>
-                        <p className="font-semibold">Therapist feedback on your progress</p>
-                        <p className="text-muted-foreground">Get personalized guidance from the Montrose team</p>
+                        <p className="font-semibold">Progress reviews and guidance</p>
+                        <p className="text-muted-foreground">Receive feedback from your therapist as you complete each week</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
@@ -165,7 +165,7 @@ const Home = () => {
                       </div>
                       <div>
                         <p className="font-semibold">Video check-ins</p>
-                        <p className="text-muted-foreground">Upload videos and get detailed feedback without extra visits</p>
+                        <p className="text-muted-foreground">Submit exercise videos for review by your therapist</p>
                       </div>
                     </div>
                   </div>

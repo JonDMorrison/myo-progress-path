@@ -88,7 +88,28 @@ const About = () => {
                 </p>
               </div>
 
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-4xl mx-auto space-y-8">
+                {/* Sam - Myofunctional Therapist */}
+                <Card className="mb-8 border-2">
+                  <CardContent className="pt-6">
+                    <div className="grid md:grid-cols-3 gap-6 items-center">
+                      <div className="bg-muted rounded-2xl aspect-square flex items-center justify-center">
+                        <p className="text-muted-foreground text-center px-4">Sam</p>
+                      </div>
+                      <div className="md:col-span-2">
+                        <h3 className="text-2xl font-bold mb-2">Sam</h3>
+                        <p className="text-primary font-semibold mb-3">Myofunctional Therapist</p>
+                        <p className="text-muted-foreground text-lg">
+                          Sam is our dedicated myofunctional therapist who will guide you through your 
+                          therapy journey. With expertise in breathing patterns, tongue posture, and 
+                          oral muscle function, Sam reviews your progress and provides personalized 
+                          feedback to help you achieve the best results.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 {/* Dr. Matt */}
                 <Card className="mb-8 border-2">
                   <CardContent className="pt-6">
@@ -98,15 +119,12 @@ const About = () => {
                       </div>
                       <div className="md:col-span-2">
                         <h3 className="text-2xl font-bold mb-2">Dr. Matt Francisco</h3>
-                        <p className="text-muted-foreground text-lg mb-4">
+                        <p className="text-primary font-semibold mb-3">Dentist</p>
+                        <p className="text-muted-foreground text-lg">
                           Dr. Matt empowers his patients to achieve excellent oral health. He combines 
                           best-in-class techniques and tools with a calm, comfortable experience for 
                           every age. He and his wife Sylvia are raising their three boys here in 
                           Abbotsford — you'll often see them around town.
-                        </p>
-                        <p className="text-muted-foreground">
-                          With a background in competitive basketball, Dr. Matt is especially passionate 
-                          about healthy mechanics, protection, and recovery for athletes.
                         </p>
                       </div>
                     </div>
@@ -163,8 +181,8 @@ const About = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Secure messaging and therapist feedback when you need it. We're here to support 
-                      your progress.
+                      Secure messaging and feedback from your therapist to support your progress 
+                      throughout the program.
                     </p>
                   </CardContent>
                 </Card>
@@ -187,30 +205,6 @@ const About = () => {
             </div>
           </section>
 
-          {/* Athletes Callout */}
-          <section className="py-16 bg-primary text-primary-foreground">
-            <div className="container max-w-4xl">
-              <div className="flex flex-col md:flex-row gap-8 items-center">
-                <div className="flex-shrink-0">
-                  <Activity className="w-20 h-20" />
-                </div>
-                <div>
-                  <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                    For Athletes & Active Patients
-                  </h2>
-                  <p className="text-xl opacity-90 mb-4">
-                    We love the Fraser Valley's active culture. With a background in competitive 
-                    basketball, Dr. Matt's especially passionate about healthy mechanics, protection, 
-                    and recovery — including custom sports guards.
-                  </p>
-                  <p className="text-lg opacity-80">
-                    Whether you're on the field, court, or trail, proper breathing and oral health 
-                    are foundational to peak performance.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
 
           {/* Where to Find Us */}
           <section className="py-16 bg-muted/50">
