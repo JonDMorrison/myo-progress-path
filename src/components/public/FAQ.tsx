@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     question: "Can we add more therapists later?",
-    answer: "Yes! MyoCoach supports multi-user clinics. You can add therapists and admin users as your practice grows.",
+    answer: "Yes! Montrose Myo supports multi-user clinics. You can add therapists and admin users as your practice grows.",
   },
 ];
 
@@ -34,7 +34,7 @@ export const FAQ = () => {
       <div className="container max-w-3xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-          <p className="text-xl text-muted-foreground">Everything you need to know about MyoCoach</p>
+          <p className="text-xl text-muted-foreground">Everything you need to know about Montrose Myo</p>
         </div>
 
         <Accordion type="single" collapsible className="w-full">

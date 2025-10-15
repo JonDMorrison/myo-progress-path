@@ -26,12 +26,12 @@ const HowItWorks = () => {
         <title>{getPageTitle("How It Works")}</title>
         <meta 
           name="description" 
-          content="From PDF to progress in three simple steps. Learn how MyoCoach helps clinics deliver structured myofunctional therapy programs." 
+          content="From PDF to progress in three simple steps. Learn how Montrose Myo helps clinics deliver structured myofunctional therapy programs."
         />
         <meta property="og:title" content={getPageTitle("How It Works")} />
         <meta 
           property="og:description" 
-          content="From PDF to progress in three simple steps. Learn how MyoCoach helps clinics deliver structured myofunctional therapy programs." 
+          content="From PDF to progress in three simple steps. Learn how Montrose Myo helps clinics deliver structured myofunctional therapy programs." 
         />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/placeholder.svg" />
@@ -50,7 +50,7 @@ const HowItWorks = () => {
                 From PDF to Progress—In Three Steps
               </h1>
               <p className="text-xl text-muted-foreground">
-                MyoCoach transforms how you deliver myofunctional therapy programs
+                Montrose Myo transforms how you deliver myofunctional therapy programs
               </p>
             </div>
           </section>
@@ -135,7 +135,7 @@ const HowItWorks = () => {
                   <Link to="/auth">Create Your Account</Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
-                  <a href="mailto:demo@myocoach.com">Book a Demo</a>
+                  <a href="mailto:sam@montrosedental.ca">Book a Demo</a>
                 </Button>
               </div>
             </div>

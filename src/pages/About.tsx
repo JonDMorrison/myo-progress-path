@@ -16,12 +16,12 @@ const About = () => {
         <title>{getPageTitle("About")}</title>
         <meta 
           name="description" 
-          content="Built with clinicians. Focused on families. MyoCoach is created by Montrose Dental Centre to help patients follow through at home." 
+          content="Built with clinicians. Focused on families. Montrose Myo is created by Montrose Dental Centre to help patients follow through at home."
         />
         <meta property="og:title" content={getPageTitle("About")} />
         <meta 
           property="og:description" 
-          content="Built with clinicians. Focused on families. MyoCoach is created by Montrose Dental Centre to help patients follow through at home." 
+          content="Built with clinicians. Focused on families. Montrose Myo is created by Montrose Dental Centre to help patients follow through at home." 
         />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/placeholder.svg" />
@@ -40,7 +40,7 @@ const About = () => {
                 Built with clinicians. Focused on families.
               </h1>
               <p className="text-xl text-muted-foreground">
-                MyoCoach is created by Montrose Dental Centre to help patients follow through 
+                Montrose Myo is created by Montrose Dental Centre to help patients follow through 
                 at home — with clarity, compassion, and modern tools.
               </p>
             </div>

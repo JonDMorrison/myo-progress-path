@@ -88,7 +88,7 @@ const SeedProgram = () => {
         <CardHeader>
           <CardTitle>Seed 24-Week Program</CardTitle>
           <CardDescription>
-            Import or update the complete 24-week MyoCoach program with introductions, objectives, and exercises
+            Import or update the complete 24-week Montrose Myo program with introductions, objectives, and exercises
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">

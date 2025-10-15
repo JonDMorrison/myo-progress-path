@@ -8,7 +8,7 @@ export const WelcomeStep = () => {
       </div>
       
       <h1 className="text-4xl font-bold">
-        Welcome to MyoCoach!
+        Welcome to Montrose Myo!
       </h1>
       
       <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

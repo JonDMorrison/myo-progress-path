@@ -149,7 +149,7 @@ const MasterAdmin = () => {
   return (
     <>
       <Helmet>
-        <title>Master Admin - MyoCoach</title>
+        <title>Master Admin - Montrose Myo</title>
       </Helmet>
 
       <div className="container mx-auto py-8 space-y-6">

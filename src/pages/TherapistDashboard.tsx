@@ -98,7 +98,7 @@ const TherapistDashboard = () => {
               <UserCheck className="w-6 h-6 text-primary-foreground" />
             </div>
           <div>
-            <h1 className="text-2xl font-bold">MyoCoach</h1>
+            <h1 className="text-2xl font-bold">Montrose Myo</h1>
             <p className="text-sm text-muted-foreground">Therapist Portal</p>
           </div>
         </div>

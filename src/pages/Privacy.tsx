@@ -9,7 +9,7 @@ const Privacy = () => {
     <>
       <Helmet>
         <title>{getPageTitle("Privacy Policy")}</title>
-        <meta name="description" content="MyoCoach Privacy Policy - How we protect your data" />
+        <meta name="description" content="Montrose Myo Privacy Policy - How we protect your data" />
       </Helmet>
 
       <div className="min-h-screen flex flex-col">
@@ -26,7 +26,7 @@ const Privacy = () => {
                 <section>
                   <h2 className="text-2xl font-bold mb-4">1. Introduction</h2>
                   <p>
-                    MyoCoach ("we," "our," or "us") provides a secure platform that delivers 
+                    Montrose Myo ("we," "our," or "us") provides a secure platform that delivers 
                     myofunctional therapy programs online. We are committed to protecting the 
                     privacy and security of your information in compliance with applicable laws, 
                     including the Health Insurance Portability and Accountability Act (HIPAA) in 
@@ -102,8 +102,8 @@ const Privacy = () => {
                   </ul>
                   <p className="mt-4">
                     To exercise these rights, contact us at{" "}
-                    <a href="mailto:privacy@myocoach.com" className="text-primary hover:underline">
-                      privacy@myocoach.com
+                    <a href="mailto:sam@montrosedental.ca" className="text-primary hover:underline">
+                      sam@montrosedental.ca
                     </a>
                   </p>
                 </section>
@@ -131,8 +131,8 @@ const Privacy = () => {
                     <p className="font-semibold">Privacy Officer</p>
                     <p>
                       Email:{" "}
-                      <a href="mailto:privacy@myocoach.com" className="text-primary hover:underline">
-                        privacy@myocoach.com
+                      <a href="mailto:sam@montrosedental.ca" className="text-primary hover:underline">
+                        sam@montrosedental.ca
                       </a>
                     </p>
                   </div>

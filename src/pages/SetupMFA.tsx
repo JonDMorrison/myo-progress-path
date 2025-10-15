@@ -63,7 +63,7 @@ export default function SetupMFA() {
     try {
       const { data, error } = await supabase.auth.mfa.enroll({
         factorType: "totp",
-        friendlyName: "MyoCoach TOTP"
+        friendlyName: "Montrose Myo TOTP"
       });
 
       if (error) throw error;

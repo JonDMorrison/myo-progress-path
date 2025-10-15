@@ -42,7 +42,7 @@ export const FooterPublic = () => {
                 </Link>
               </li>
               <li>
-                <a href="mailto:contact@myocoach.com" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="mailto:sam@montrosedental.ca" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Contact
                 </a>
               </li>
@@ -79,7 +79,7 @@ export const FooterPublic = () => {
             </p>
           </div>
           <div className="text-center text-sm text-muted-foreground">
-            <p>&copy; {currentYear} MyoCoach by Montrose Dental Centre. All rights reserved.</p>
+            <p>&copy; {currentYear} Montrose Myo by Montrose Dental Centre. All rights reserved.</p>
           </div>
         </div>
       </div>

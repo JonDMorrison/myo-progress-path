@@ -12,6 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPageTitle, getSchemaOrgData } from "@/lib/seo";
 import montroseTeamPhoto from "@/assets/montrose-team-photo.jpg";
+import therapySession from "@/assets/therapy-session.jpg";
+import familyExercises from "@/assets/family-exercises.jpg";
+import digitalTherapy from "@/assets/digital-therapy.jpg";
 
 const Home = () => {
   const schemaData = getSchemaOrgData();
@@ -217,8 +220,178 @@ const Home = () => {
             </div>
           </section>
 
+          {/* Professional Care Section - NEW */}
+          <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/5">
+            <div className="container">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="rounded-2xl overflow-hidden shadow-2xl">
+                  <img 
+                    src={therapySession} 
+                    alt="Professional myofunctional therapy consultation at Montrose Dental Centre" 
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+                
+                <div>
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                    Expert Guidance Every Step of the Way
+                  </h2>
+                  <p className="text-lg text-muted-foreground mb-6">
+                    Our certified myofunctional therapist reviews your progress and provides 
+                    personalized feedback to ensure you're performing exercises correctly and 
+                    achieving your health goals.
+                  </p>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Video className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Video Review System</p>
+                        <p className="text-muted-foreground text-sm">Submit exercise videos for professional assessment</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Heart className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Personalized Feedback</p>
+                        <p className="text-muted-foreground text-sm">Receive guidance tailored to your progress</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Award className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Proven Results</p>
+                        <p className="text-muted-foreground text-sm">Evidence-based exercises that deliver lasting improvements</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Why Montrose is Different */}
           <WhyMontroseDifferent />
+
+          {/* Family Wellness Section - NEW */}
+          <section className="py-16 bg-background">
+            <div className="container">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="order-2 lg:order-1">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                    Built for Busy Families
+                  </h2>
+                  <p className="text-lg text-muted-foreground mb-6">
+                    We understand that modern families are busy. That's why Montrose Myo brings 
+                    professional therapy guidance directly to your home, on your schedule.
+                  </p>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <Check className="w-6 h-6 text-success mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold">Practice at Home</p>
+                        <p className="text-muted-foreground">No need to commute—exercises fit into your daily routine</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Check className="w-6 h-6 text-success mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold">Family-Friendly</p>
+                        <p className="text-muted-foreground">Suitable for children and adults alike</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Check className="w-6 h-6 text-success mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold">Self-Paced Progress</p>
+                        <p className="text-muted-foreground">Move forward when you're ready, with therapist oversight</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="rounded-2xl overflow-hidden shadow-2xl order-1 lg:order-2">
+                  <img 
+                    src={familyExercises} 
+                    alt="Family practicing breathing exercises together at home" 
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Digital Platform Section - NEW */}
+          <section className="py-16 bg-gradient-to-br from-accent/10 to-background">
+            <div className="container">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                  Modern Technology, Personal Touch
+                </h2>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                  Our digital platform combines the convenience of technology with the expertise 
+                  of professional myofunctional therapy
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+                <Card className="border-2">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                      <Video className="w-6 h-6 text-primary" />
+                    </div>
+                    <CardTitle>Instructional Videos</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      Clear video demonstrations for each exercise, accessible anytime on your device
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-2">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                      <TrendingUp className="w-6 h-6 text-primary" />
+                    </div>
+                    <CardTitle>Track Progress</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      Monitor your improvements with built-in progress tracking and milestone celebrations
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-2">
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                      <Heart className="w-6 h-6 text-primary" />
+                    </div>
+                    <CardTitle>Stay Connected</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">
+                      Receive timely feedback and support from your therapist throughout your journey
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="rounded-2xl overflow-hidden shadow-2xl max-w-3xl mx-auto">
+                <img 
+                  src={digitalTherapy} 
+                  alt="Using Montrose Myo digital platform on mobile devices" 
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </section>
 
           {/* About Montrose */}
           <section className="py-16 bg-background">
@@ -247,7 +420,7 @@ const Home = () => {
                       patient's comfort and well-being.
                     </p>
                     <p>
-                      We created MyoCoach because we saw our patients needed more than just in-office 
+                      We created Montrose Myo because we saw our patients needed more than just in-office 
                       visits. They needed a way to build healthy habits at home, track their progress, 
                       and get guidance between appointments. This program brings over three decades of 
                       clinical expertise directly to you.

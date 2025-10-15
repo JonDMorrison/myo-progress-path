@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
-import myoCoachLogo from "@/assets/MyoCoach_Logo.png";
+import montroseLogo from "@/assets/MyoCoach_Logo.png";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -40,8 +40,8 @@ export const NavPublic = () => {
       <nav className="container flex h-16 items-center justify-between" aria-label="Main navigation">
         <div className="flex items-center gap-6 md:gap-10">
           <Link to="/" className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
-            <img src={myoCoachLogo} alt="MyoCoach" className="h-10" />
-            <span className="text-muted-foreground font-normal ml-2">• by Montrose Dental Centre</span>
+            <img src={montroseLogo} alt="Montrose Myo" className="h-10" />
+            <span className="sr-only">Montrose Myo by Montrose Dental Centre</span>
           </Link>
           
           <div className="hidden md:flex gap-6">

@@ -94,7 +94,7 @@ const Register = () => {
 
       toast({
         title: "Account created!",
-        description: "Welcome to MyoCoach!",
+        description: "Welcome to Montrose Myo!",
       });
 
       // Redirect to onboarding

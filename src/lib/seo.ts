@@ -6,9 +6,9 @@ export interface SEOProps {
 }
 
 export const DEFAULT_SEO = {
-  siteName: "MyoCoach",
+  siteName: "Montrose Myo",
   defaultImage: "/placeholder.svg",
-  twitterHandle: "@myocoach",
+  twitterHandle: "@montrosemyo",
 };
 
 export const getPageTitle = (title: string) => {
@@ -19,7 +19,7 @@ export const getSchemaOrgData = () => {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "MyoCoach",
+    "name": "Montrose Myo",
     "applicationCategory": "HealthApplication",
     "operatingSystem": "Web",
     "offers": {

@@ -73,7 +73,7 @@ const Index = () => {
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
           <div className="w-12 h-12 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading MyoCoach...</p>
+          <p className="text-muted-foreground">Loading Montrose Myo...</p>
         </div>
       </div>
     );

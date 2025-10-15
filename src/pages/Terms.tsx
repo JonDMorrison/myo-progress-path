@@ -9,7 +9,7 @@ const Terms = () => {
     <>
       <Helmet>
         <title>{getPageTitle("Terms of Service")}</title>
-        <meta name="description" content="MyoCoach Terms of Service" />
+        <meta name="description" content="Montrose Myo Terms of Service" />
       </Helmet>
 
       <div className="min-h-screen flex flex-col">
@@ -26,7 +26,7 @@ const Terms = () => {
                 <section>
                   <h2 className="text-2xl font-bold mb-4">1. Acceptance of Terms</h2>
                   <p>
-                    By using MyoCoach, you agree to these Terms of Service. If you do not agree, 
+                    By using Montrose Myo, you agree to these Terms of Service. If you do not agree, 
                     do not use the platform.
                   </p>
                 </section>
@@ -34,7 +34,7 @@ const Terms = () => {
                 <section>
                   <h2 className="text-2xl font-bold mb-4">2. Services Provided</h2>
                   <p>
-                    MyoCoach offers clinicians a platform to deliver therapy programs and monitor 
+                    Montrose Myo offers clinicians a platform to deliver therapy programs and monitor 
                     patient progress. Patients access their assigned programs through a secure login.
                   </p>
                 </section>
@@ -106,11 +106,11 @@ const Terms = () => {
                   <h2 className="text-2xl font-bold mb-4">10. Contact</h2>
                   <p>For support, billing, or legal inquiries:</p>
                   <div className="mt-4 p-4 bg-muted rounded-lg">
-                    <p className="font-semibold">MyoCoach Support</p>
+                    <p className="font-semibold">Montrose Myo Support</p>
                     <p>
                       Email:{" "}
-                      <a href="mailto:support@myocoach.com" className="text-primary hover:underline">
-                        support@myocoach.com
+                      <a href="mailto:sam@montrosedental.ca" className="text-primary hover:underline">
+                        sam@montrosedental.ca
                       </a>
                     </p>
                   </div>

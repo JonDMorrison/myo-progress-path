@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ConsentDialog } from "@/components/ConsentDialog";
-import MyoCoachLogo from "@/assets/MyoCoach_Logo.png";
+import montroseLogo from "@/assets/MyoCoach_Logo.png";
 import { Section } from "@/components/ui/Section";
 import { TimelineCard } from "@/components/dashboard/TimelineCard";
 import { MessagesCard } from "@/components/dashboard/MessagesCard";
@@ -177,7 +177,7 @@ const PatientDashboard = () => {
         <div className="min-h-screen bg-background">
           <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
             <div className="container mx-auto px-4 sm:px-6 py-4">
-              <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
+              <img src={montroseLogo} alt="Montrose Myo" className="h-10 w-auto" />
             </div>
           </header>
           <div className="container mx-auto px-4 sm:px-6 py-6 space-y-6 pb-24">
@@ -213,7 +213,7 @@ const PatientDashboard = () => {
         <div className="container mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <img src={MyoCoachLogo} alt="MyoCoach" className="h-10 w-auto" />
+              <img src={montroseLogo} alt="Montrose Myo" className="h-10 w-auto" />
             </div>
             <Button variant="ghost" size="sm" onClick={handleSignOut} className="rounded-xl">
               <LogOut className="mr-2 h-4 w-4" />

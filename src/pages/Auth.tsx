@@ -114,7 +114,7 @@ const Auth = () => {
           <div className="mx-auto w-16 h-16 bg-gradient-hero rounded-full flex items-center justify-center shadow-progress">
             <Stethoscope className="w-8 h-8 text-primary-foreground" />
           </div>
-          <CardTitle className="text-3xl font-bold">MyoCoach</CardTitle>
+          <CardTitle className="text-3xl font-bold">Montrose Myo</CardTitle>
           <CardDescription className="text-base">
             Welcome back to your therapy journey
           </CardDescription>
