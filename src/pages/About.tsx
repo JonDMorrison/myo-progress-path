@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Heart, MessageSquare, Award, Activity, Clock, Phone, Mail } from "lucide-react";
 import { getPageTitle } from "@/lib/seo";
 import montroseTeamPhoto from "@/assets/montrose-team-photo.jpg";
+import samProfile from "@/assets/sam-profile.jpg";
 
 const About = () => {
   return (
@@ -93,17 +94,23 @@ const About = () => {
                 <Card className="mb-8 border-2">
                   <CardContent className="pt-6">
                     <div className="grid md:grid-cols-3 gap-6 items-center">
-                      <div className="bg-muted rounded-2xl aspect-square flex items-center justify-center">
-                        <p className="text-muted-foreground text-center px-4">Sam</p>
+                      <div className="rounded-2xl overflow-hidden">
+                        <img 
+                          src={samProfile} 
+                          alt="Samantha - Myofunctional Therapist at Montrose Dental Centre" 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div className="md:col-span-2">
-                        <h3 className="text-2xl font-bold mb-2">Sam</h3>
+                        <h3 className="text-2xl font-bold mb-2">Samantha</h3>
                         <p className="text-primary font-semibold mb-3">Myofunctional Therapist</p>
                         <p className="text-muted-foreground text-lg">
-                          Sam is our dedicated myofunctional therapist who will guide you through your 
-                          therapy journey. With expertise in breathing patterns, tongue posture, and 
-                          oral muscle function, Sam reviews your weekly progress submissions and provides 
-                          personalized feedback to help you achieve the best results.
+                          Samantha is a certified myofunctional therapist passionate about helping patients 
+                          achieve better breathing, sleep, and overall health. With specialized training in 
+                          orofacial myology, she guides patients through targeted exercises that retrain 
+                          oral and facial muscles for optimal function. Samantha believes in empowering 
+                          patients with the knowledge and tools they need to succeed, providing personalized 
+                          feedback and support throughout their therapy journey.
                         </p>
                       </div>
                     </div>
