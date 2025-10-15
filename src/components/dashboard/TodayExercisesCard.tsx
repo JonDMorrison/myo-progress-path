@@ -68,8 +68,8 @@ export function TodayExercisesCard({
         {/* CTA Button */}
         <Button 
           onClick={onStartSession}
-          size="lg"
-          className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all"
+          size="default"
+          className="w-full h-12 font-semibold shadow-lg hover:shadow-xl transition-all"
         >
           <Play className="w-5 h-5 mr-2" />
           {isCompleted ? 'Review Week' : 'Start Today\'s Session'}
