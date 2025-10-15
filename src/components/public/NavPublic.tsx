@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/about", label: "About" },
   { href: "/how-it-works", label: "How It Works" },
   { href: "/learn", label: "Learn" },
+  { href: "/resources", label: "Resources" },
 ];
 
 export const NavPublic = () => {

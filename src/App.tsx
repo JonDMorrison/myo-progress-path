@@ -30,6 +30,7 @@ import Week0 from "./pages/Week0";
 import Learn from "./pages/Learn";
 import LearnArticle from "./pages/LearnArticle";
 import WhatIsMyofunctionalTherapy from "./pages/WhatIsMyofunctionalTherapy";
+import Resources from "./pages/Resources";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/week-0" element={<Week0 />} />
             <Route path="/learn" element={<Learn />} />
             <Route path="/learn/:slug" element={<LearnArticle />} />
+            <Route path="/resources" element={<Resources />} />
             <Route path="/what-is-myofunctional-therapy" element={<WhatIsMyofunctionalTherapy />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/update-password" element={<UpdatePassword />} />

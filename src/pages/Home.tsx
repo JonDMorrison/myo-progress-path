@@ -6,6 +6,7 @@ import { NavPublic } from "@/components/public/NavPublic";
 import { FooterPublic } from "@/components/public/FooterPublic";
 import { SkipToContent } from "@/components/public/SkipToContent";
 import { PhoneMockup } from "@/components/public/PhoneMockup";
+import { WhyMontroseDifferent } from "@/components/public/WhyMontroseDifferent";
 import { Check, Heart, Award, TrendingUp, Video, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -216,73 +217,8 @@ const Home = () => {
             </div>
           </section>
 
-          {/* Why Montrose */}
-          <section className="py-16 bg-muted/50">
-            <div className="container">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Montrose</h2>
-                <p className="text-xl text-muted-foreground">The care you trust, now in your hands</p>
-              </div>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <Card className="border-2">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <Heart className="w-6 h-6 text-primary" />
-                    </div>
-                    <CardTitle>Family-first care</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>
-                      Over 30 years serving Abbotsford families with calm, patient-centred dentistry
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-2">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <Award className="w-6 h-6 text-primary" />
-                    </div>
-                    <CardTitle>Modern techniques</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>
-                      From expansion to aligners, we use the latest tools for your best results
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-2">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <TrendingUp className="w-6 h-6 text-primary" />
-                    </div>
-                    <CardTitle>Clear progress tracking</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>
-                      See your improvement week by week with easy-to-follow plans and check-ins
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-2">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                      <Video className="w-6 h-6 text-primary" />
-                    </div>
-                    <CardTitle>Convenient care</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>
-                      Follow your program at home and get feedback without extra office visits
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </section>
+          {/* Why Montrose is Different */}
+          <WhyMontroseDifferent />
 
           {/* About Montrose */}
           <section className="py-16 bg-background">

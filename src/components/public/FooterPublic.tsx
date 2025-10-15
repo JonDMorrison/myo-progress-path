@@ -20,6 +20,16 @@ export const FooterPublic = () => {
                   How It Works
                 </Link>
               </li>
+              <li>
+                <Link to="/learn" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Learn
+                </Link>
+              </li>
+              <li>
+                <Link to="/resources" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Resources
+                </Link>
+              </li>
             </ul>
           </div>
 
