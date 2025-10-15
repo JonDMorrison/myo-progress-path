@@ -6,7 +6,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/co
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
-import montroseLogo from "@/assets/MyoCoach_Logo.png";
+
 
 const primaryNavLinks = [
   { href: "/", label: "Home", icon: Home },
@@ -45,9 +45,10 @@ export const NavPublic = () => {
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <nav className="container flex h-16 items-center justify-between" aria-label="Main navigation">
         <div className="flex items-center gap-6 md:gap-10">
-          <Link to="/" className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
-            <img src={montroseLogo} alt="Montrose Myo" className="h-10" />
-            <span className="sr-only">Montrose Myo by Montrose Dental Centre</span>
+          <Link to="/" className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
+            <img src="/favicon.ico" alt="Montrose Myo" className="h-8 w-8" />
+            <span className="text-xl font-bold">Montrose Myo</span>
+            <span className="sr-only">by Montrose Dental Centre</span>
           </Link>
           
           {/* Desktop Navigation */}
