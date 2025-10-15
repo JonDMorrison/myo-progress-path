@@ -108,9 +108,10 @@ const About = () => {
                           Samantha is a certified myofunctional therapist passionate about helping patients 
                           achieve better breathing, sleep, and overall health. With specialized training in 
                           orofacial myology, she guides patients through targeted exercises that retrain 
-                          oral and facial muscles for optimal function. Samantha believes in empowering 
-                          patients with the knowledge and tools they need to succeed, providing personalized 
-                          feedback and support throughout their therapy journey.
+                          oral and facial muscles for optimal function. Samantha's insights have been 
+                          instrumental in shaping this platform — her recommendations led to weekly video 
+                          submissions and real-time progress tracking, ensuring patients stay accountable 
+                          and therapists can provide personalized feedback throughout the 24-week journey.
                         </p>
                       </div>
                     </div>
