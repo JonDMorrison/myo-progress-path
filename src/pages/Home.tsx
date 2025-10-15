@@ -159,8 +159,8 @@ const Home = () => {
                         <Check className="w-4 h-4 text-primary" />
                       </div>
                       <div>
-                        <p className="font-semibold">Progress reviews and guidance</p>
-                        <p className="text-muted-foreground">Receive feedback from your therapist as you complete each week</p>
+                        <p className="font-semibold">Weekly progress reviews</p>
+                        <p className="text-muted-foreground">Receive timely feedback from your therapist at scheduled review intervals</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
@@ -237,7 +237,7 @@ const Home = () => {
                     Expert Guidance Every Step of the Way
                   </h2>
                   <p className="text-lg text-muted-foreground mb-6">
-                    Our certified myofunctional therapist reviews your progress and provides 
+                    Our certified myofunctional therapist reviews your weekly submissions and provides 
                     personalized feedback to ensure you're performing exercises correctly and 
                     achieving your health goals.
                   </p>
@@ -377,7 +377,7 @@ const Home = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Receive timely feedback and support from your therapist throughout your journey
+                      Secure messaging and scheduled check-ins keep you connected with your therapist
                     </p>
                   </CardContent>
                 </Card>

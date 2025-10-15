@@ -102,8 +102,8 @@ const About = () => {
                         <p className="text-muted-foreground text-lg">
                           Sam is our dedicated myofunctional therapist who will guide you through your 
                           therapy journey. With expertise in breathing patterns, tongue posture, and 
-                          oral muscle function, Sam reviews your progress and provides personalized 
-                          feedback to help you achieve the best results.
+                          oral muscle function, Sam reviews your weekly progress submissions and provides 
+                          personalized feedback to help you achieve the best results.
                         </p>
                       </div>
                     </div>
@@ -181,8 +181,8 @@ const About = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Secure messaging and feedback from your therapist to support your progress 
-                      throughout the program.
+                      Secure messaging and weekly feedback from your therapist during regular 
+                      review sessions.
                     </p>
                   </CardContent>
                 </Card>
