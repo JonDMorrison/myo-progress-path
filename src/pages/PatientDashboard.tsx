@@ -177,7 +177,7 @@ const PatientDashboard = () => {
           <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
             <div className="container mx-auto px-4 sm:px-6 py-4">
               <div className="flex items-center gap-2">
-                <img src="/favicon.ico" alt="Montrose Myo" className="h-8 w-8" />
+                <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
                 <span className="text-xl font-bold">Montrose Myo</span>
               </div>
             </div>
@@ -220,7 +220,7 @@ const PatientDashboard = () => {
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <img src="/favicon.ico" alt="Montrose Myo" className="h-8 w-8" />
+                <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
                 <span className="text-xl font-bold">Montrose Myo</span>
               </div>
               <h1 className="text-lg font-semibold">{greeting}, {firstName}!</h1>

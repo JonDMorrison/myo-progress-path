@@ -46,7 +46,7 @@ export const NavPublic = () => {
       <nav className="container flex h-16 items-center justify-between" aria-label="Main navigation">
         <div className="flex items-center gap-6 md:gap-10">
           <Link to="/" className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
-            <img src="/favicon.ico" alt="Montrose Myo" className="h-8 w-8" />
+            <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
             <span className="text-xl font-bold">Montrose Myo</span>
             <span className="sr-only">by Montrose Dental Centre</span>
           </Link>
