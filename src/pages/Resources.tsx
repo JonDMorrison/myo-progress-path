@@ -8,6 +8,10 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, FileText, ExternalLink } from "lucide-react";
 import { getPageTitle } from "@/lib/seo";
 import resourcesHero from "@/assets/resources-hero.jpg";
+import jawsBook from "@/assets/books/jaws-book.jpg";
+import breathBook from "@/assets/books/breath-book.jpg";
+import oxygenBook from "@/assets/books/oxygen-advantage-book.jpg";
+import myoTherapyBook from "@/assets/books/myofunctional-therapy-book.jpg";
 
 const Resources = () => {
   const researchArticles = [
@@ -42,25 +46,29 @@ const Resources = () => {
       title: "Jaws: The Story of a Hidden Epidemic",
       author: "Sandra Kahn & Paul R. Ehrlich",
       description: "Explores how modern lifestyles have affected jaw development and breathing, and what we can do about it.",
-      category: "General Interest"
+      category: "General Interest",
+      cover: jawsBook
     },
     {
       title: "Breath: The New Science of a Lost Art",
       author: "James Nestor",
       description: "A fascinating journey into the science of breathing and its profound effects on health and performance.",
-      category: "General Interest"
+      category: "General Interest",
+      cover: breathBook
     },
     {
       title: "The Oxygen Advantage",
       author: "Patrick McKeown",
       description: "Practical techniques for improving breathing patterns, athletic performance, and overall health.",
-      category: "Breathing Techniques"
+      category: "Breathing Techniques",
+      cover: oxygenBook
     },
     {
       title: "Myofunctional Therapy: A Novel Approach",
       author: "Joy L. Moeller",
       description: "Clinical guide to myofunctional therapy techniques and treatment protocols.",
-      category: "Clinical/Professional"
+      category: "Clinical/Professional",
+      cover: myoTherapyBook
     }
   ];
 
@@ -157,21 +165,28 @@ const Resources = () => {
 
               <div className="grid md:grid-cols-2 gap-6">
                 {recommendedBooks.map((book, index) => (
-                  <Card key={index} className="border-2">
-                    <CardHeader>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <CardTitle className="text-lg leading-tight flex-1">
-                          {book.title}
-                        </CardTitle>
-                        <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full whitespace-nowrap">
-                          {book.category}
-                        </span>
+                  <Card key={index} className="border-2 overflow-hidden">
+                    <div className="flex flex-col sm:flex-row">
+                      <div className="sm:w-1/3 flex-shrink-0">
+                        <img 
+                          src={book.cover} 
+                          alt={`${book.title} book cover`}
+                          className="w-full h-full object-cover aspect-[2/3] sm:aspect-auto"
+                        />
                       </div>
-                      <p className="text-sm text-muted-foreground">by {book.author}</p>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">{book.description}</p>
-                    </CardContent>
+                      <div className="flex-1 p-6">
+                        <div className="flex items-start justify-between gap-4 mb-2">
+                          <h3 className="text-lg font-semibold leading-tight flex-1">
+                            {book.title}
+                          </h3>
+                          <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full whitespace-nowrap">
+                            {book.category}
+                          </span>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-3">by {book.author}</p>
+                        <p className="text-muted-foreground text-sm">{book.description}</p>
+                      </div>
+                    </div>
                   </Card>
                 ))}
               </div>
