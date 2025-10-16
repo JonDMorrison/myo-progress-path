@@ -9,6 +9,7 @@ import { Heart, MessageSquare, Award, Activity, Clock, Phone, Mail } from "lucid
 import { getPageTitle } from "@/lib/seo";
 import montroseTeamPhoto from "@/assets/montrose-team-photo.jpg";
 import samProfile from "@/assets/sam-profile.jpg";
+import mattProfile from "@/assets/matt-profile.jpg";
 
 const About = () => {
   return (
@@ -122,8 +123,12 @@ const About = () => {
                 <Card className="mb-8 border-2">
                   <CardContent className="pt-6">
                     <div className="grid md:grid-cols-3 gap-6 items-center">
-                      <div className="bg-muted rounded-2xl aspect-square flex items-center justify-center">
-                        <p className="text-muted-foreground text-center px-4">Dr. Matt Francisco</p>
+                      <div className="rounded-2xl overflow-hidden shadow-lg">
+                        <img 
+                          src={mattProfile} 
+                          alt="Dr. Matt Francisco, Dentist at Montrose Dental Centre" 
+                          className="w-full h-auto object-cover aspect-square"
+                        />
                       </div>
                       <div className="md:col-span-2">
                         <h3 className="text-2xl font-bold mb-2">Dr. Matt Francisco</h3>
