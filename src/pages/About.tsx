@@ -39,7 +39,7 @@ const About = () => {
           <section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-secondary/5">
             <div className="container max-w-4xl text-center">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                Built with clinicians. Focused on families.
+                Built by clinicians. Focused on families.
               </h1>
               <p className="text-xl text-muted-foreground">
                 Montrose Myo is created by Montrose Dental Centre to help patients follow through 
