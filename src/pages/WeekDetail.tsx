@@ -515,88 +515,20 @@ const WeekDetail = () => {
 
             {/* Exercises */}
             <Section delay={300}>
-              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
-                <CardHeader>
-                  <CardTitle className="text-lg">Exercises</CardTitle>
-                  <CardDescription>Complete each exercise as instructed</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Accordion type="single" collapsible className="space-y-3">
-                    {exercises.map((exercise, idx) => (
-                      <AccordionItem 
-                        key={exercise.id} 
-                        value={`exercise-${idx}`} 
-                        className="border rounded-xl px-4 hover:shadow-sm transition-shadow"
-                      >
-                        <AccordionTrigger className="hover:no-underline py-4">
-                          <div className="flex items-center gap-3 text-left">
-                            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                              <span className="text-xl">{getExerciseIcon(exercise.type)}</span>
-                            </div>
-                            <div className="flex-1">
-                              <p className="font-semibold">{exercise.title}</p>
-                              <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-                                <span className="capitalize">{exercise.type} Exercise</span>
-                                {exercise.frequency && exercise.duration && (
-                                  <>
-                                    <span>•</span>
-                                    <span>{exercise.duration} • {exercise.frequency}</span>
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="pt-2 pb-4 space-y-4">
-                          {exercise.instructions && (
-                            <div className="rounded-lg bg-accent/50 p-4">
-                              <h4 className="font-medium mb-2 text-sm">Instructions</h4>
-                              <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
-                                {exercise.instructions}
-                              </div>
-                            </div>
-                          )}
-                          {exercise.props && (
-                            <div>
-                              <h4 className="font-medium mb-2 text-sm">Props Needed</h4>
-                              <p className="text-sm text-muted-foreground">{exercise.props}</p>
-                            </div>
-                          )}
-                          {exercise.compensations && (
-                            <div className="bg-warning/10 border border-warning/20 rounded-xl p-4">
-                              <h4 className="font-medium text-warning flex items-center gap-2 mb-2 text-sm">
-                                <AlertCircle className="w-4 h-4" />
-                                Watch for compensations
-                              </h4>
-                              <p className="text-sm whitespace-pre-line">{exercise.compensations}</p>
-                            </div>
-                          )}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </CardContent>
-              </Card>
-            </Section>
-
-            {/* Exercise Completion Tracking */}
-            {exercises.some(ex => ex.completion_target > 0) && (
-              <Section delay={350}>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold">Daily Exercise Tracking</h3>
-                    <Badge variant="secondary">Mark each session as you complete it</Badge>
-                  </div>
-                  <ExerciseCompletionTracker
-                    patientId={patient?.id}
-                    weekId={week?.id}
-                    exercises={exercises.filter(ex => ex.completion_target > 0)}
-                    existingCompletions={progress?.exercise_completions || {}}
-                    onUpdate={loadWeekData}
-                  />
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-semibold">Exercises</h3>
+                  <Badge variant="secondary">Mark each session as you complete it</Badge>
                 </div>
-              </Section>
-            )}
+                <ExerciseCompletionTracker
+                  patientId={patient?.id}
+                  weekId={week?.id}
+                  exercises={exercises}
+                  existingCompletions={progress?.exercise_completions || {}}
+                  onUpdate={loadWeekData}
+                />
+              </div>
+            </Section>
 
 
             {/* Tracking */}

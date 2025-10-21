@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Circle, HelpCircle } from "lucide-react";
+import { CheckCircle2, Circle, HelpCircle, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 
 interface Exercise {
   id: string;
@@ -14,6 +15,8 @@ interface Exercise {
   duration: string | null;
   completion_target: number;
   instructions: string | null;
+  props: string | null;
+  compensations: string | null;
 }
 
 interface ExerciseCompletionTrackerProps {
@@ -80,54 +83,115 @@ export function ExerciseCompletionTracker({
     }
   };
 
+  const getExerciseIcon = (type: string) => {
+    const icons: Record<string, string> = {
+      active: "🏃",
+      passive: "🧘",
+      breathing: "💨",
+      posture: "🧍",
+      test: "📊",
+    };
+    return icons[type] || "📝";
+  };
+
+  const getExerciseTypeLabel = (type: string) => {
+    const labels: Record<string, string> = {
+      active: "Active Exercise",
+      passive: "Passive Exercise",
+      breathing: "Breathing Exercise",
+      posture: "Posture Exercise",
+      test: "Test",
+    };
+    return labels[type] || "Exercise";
+  };
+
   return (
     <div className="space-y-4">
       {exercises.map((exercise) => {
         const currentCount = completions[exercise.id] || 0;
         const target = exercise.completion_target;
-        const percentage = target > 0 ? (currentCount / target) * 100 : 0;
         const isComplete = currentCount >= target;
 
         return (
           <Card key={exercise.id} className={isComplete ? "border-success" : ""}>
-            <CardHeader className="pb-3">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    {isComplete ? (
-                      <CheckCircle2 className="h-5 w-5 text-success" />
-                    ) : (
-                      <Circle className="h-5 w-5 text-muted-foreground" />
-                    )}
-                    {exercise.title}
-                    {exercise.instructions && (
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-5 w-5 p-0">
-                            <HelpCircle className="h-4 w-4 text-muted-foreground" />
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-lg">
-                          <DialogHeader>
-                            <DialogTitle>{exercise.title}</DialogTitle>
-                            <DialogDescription className="text-foreground whitespace-pre-line pt-4">
-                              {exercise.instructions}
-                            </DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-                    )}
-                  </CardTitle>
-                  <CardDescription className="mt-1">
-                    {exercise.frequency && exercise.duration && (
-                      <span>{exercise.duration} • {exercise.frequency}</span>
-                    )}
-                  </CardDescription>
+            <CardHeader className="pb-4">
+              <div className="flex items-start gap-4">
+                {/* Exercise Icon */}
+                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-xl">{getExerciseIcon(exercise.type)}</span>
                 </div>
+
+                {/* Exercise Details */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start gap-2 mb-2">
+                    <CardTitle className="text-lg flex items-center gap-2 flex-1">
+                      {exercise.title}
+                      {(exercise.instructions || exercise.props || exercise.compensations) && (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-6 w-6 p-0 flex-shrink-0">
+                              <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                            <DialogHeader>
+                              <DialogTitle className="flex items-center gap-2">
+                                <span className="text-xl">{getExerciseIcon(exercise.type)}</span>
+                                {exercise.title}
+                              </DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4 pt-4">
+                              {exercise.instructions && (
+                                <div className="rounded-lg bg-accent/50 p-4">
+                                  <h4 className="font-semibold mb-2 text-sm">Instructions</h4>
+                                  <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                                    {exercise.instructions}
+                                  </div>
+                                </div>
+                              )}
+                              {exercise.props && (
+                                <div>
+                                  <h4 className="font-semibold mb-2 text-sm">Props Needed</h4>
+                                  <p className="text-sm text-muted-foreground whitespace-pre-line">{exercise.props}</p>
+                                </div>
+                              )}
+                              {exercise.compensations && (
+                                <div className="bg-warning/10 border border-warning/20 rounded-xl p-4">
+                                  <h4 className="font-semibold text-warning flex items-center gap-2 mb-2 text-sm">
+                                    <AlertCircle className="w-4 h-4" />
+                                    Watch for compensations
+                                  </h4>
+                                  <p className="text-sm whitespace-pre-line">{exercise.compensations}</p>
+                                </div>
+                              )}
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      )}
+                    </CardTitle>
+                    {isComplete && (
+                      <CheckCircle2 className="h-5 w-5 text-success flex-shrink-0 mt-0.5" />
+                    )}
+                  </div>
+                  
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge variant="secondary" className="text-xs">
+                      {getExerciseTypeLabel(exercise.type)}
+                    </Badge>
+                    {exercise.frequency && exercise.duration && (
+                      <CardDescription className="text-xs">
+                        {exercise.duration} • {exercise.frequency}
+                      </CardDescription>
+                    )}
+                  </div>
+                </div>
+
+                {/* Mark Done Button */}
                 <Button
                   size="sm"
                   onClick={() => handleIncrement(exercise.id)}
                   disabled={isComplete}
+                  className="flex-shrink-0"
                 >
                   Mark Done
                 </Button>
