@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { CheckCircle2, Circle, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -134,17 +133,6 @@ export function ExerciseCompletionTracker({
                 </Button>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">This week</span>
-                  <span className="font-medium">
-                    {currentCount} / {target} completed
-                  </span>
-                </div>
-                <Progress value={percentage} className="h-2" />
-              </div>
-            </CardContent>
           </Card>
         );
       })}
