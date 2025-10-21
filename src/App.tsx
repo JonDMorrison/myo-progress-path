@@ -25,6 +25,7 @@ import ResetPassword from "./pages/ResetPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import SeedSuperAdmins from "./pages/SeedSuperAdmins";
 import SeedProgram from "./pages/admin/SeedProgram";
+import UpdateWeeks1And2 from "./pages/admin/UpdateWeeks1And2";
 import NotFound from "./pages/NotFound";
 import Week0 from "./pages/Week0";
 import Learn from "./pages/Learn";
@@ -63,6 +64,7 @@ const App = () => (
             <Route path="/admin/content" element={<AdminContent />} />
             <Route path="/admin/master" element={<MasterAdmin />} />
             <Route path="/admin/seed-program" element={<SeedProgram />} />
+            <Route path="/admin/update-weeks-1-2" element={<UpdateWeeks1And2 />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/therapist/ai-assist" element={<TherapistAIAssist />} />
             <Route path="/week/:weekNumber" element={<WeekDetail />} />

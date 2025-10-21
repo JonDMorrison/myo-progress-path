@@ -31,6 +31,8 @@ import { ResponsiveVideo } from "@/components/week/ResponsiveVideo";
 import { SubmitBar } from "@/components/week/SubmitBar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
+import { ExerciseCompletionTracker } from "@/components/week/ExerciseCompletionTracker";
+import { FrenectomyConsultTracker } from "@/components/week/FrenectomyConsultTracker";
 
 import { isWeekAccessible } from "@/lib/userProgress";
 
@@ -532,9 +534,17 @@ const WeekDetail = () => {
                             <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                               <span className="text-xl">{getExerciseIcon(exercise.type)}</span>
                             </div>
-                            <div>
+                            <div className="flex-1">
                               <p className="font-semibold">{exercise.title}</p>
-                              <p className="text-sm text-muted-foreground capitalize">{exercise.type} Exercise</p>
+                              <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
+                                <span className="capitalize">{exercise.type} Exercise</span>
+                                {exercise.frequency && exercise.duration && (
+                                  <>
+                                    <span>•</span>
+                                    <span>{exercise.duration} • {exercise.frequency}</span>
+                                  </>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </AccordionTrigger>
@@ -542,7 +552,9 @@ const WeekDetail = () => {
                           {exercise.instructions && (
                             <div className="rounded-lg bg-accent/50 p-4">
                               <h4 className="font-medium mb-2 text-sm">Instructions</h4>
-                              <p className="text-sm text-muted-foreground leading-relaxed">{exercise.instructions}</p>
+                              <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                                {exercise.instructions}
+                              </div>
                             </div>
                           )}
                           {exercise.props && (
@@ -557,7 +569,7 @@ const WeekDetail = () => {
                                 <AlertCircle className="w-4 h-4" />
                                 Watch for compensations
                               </h4>
-                              <p className="text-sm">{exercise.compensations}</p>
+                              <p className="text-sm whitespace-pre-line">{exercise.compensations}</p>
                             </div>
                           )}
                         </AccordionContent>
@@ -567,6 +579,37 @@ const WeekDetail = () => {
                 </CardContent>
               </Card>
             </Section>
+
+            {/* Exercise Completion Tracking */}
+            {exercises.some(ex => ex.completion_target > 0) && (
+              <Section delay={350}>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold">Daily Exercise Tracking</h3>
+                    <Badge variant="secondary">Mark each session as you complete it</Badge>
+                  </div>
+                  <ExerciseCompletionTracker
+                    patientId={patient?.id}
+                    weekId={week?.id}
+                    exercises={exercises.filter(ex => ex.completion_target > 0)}
+                    existingCompletions={progress?.exercise_completions || {}}
+                    onUpdate={loadWeekData}
+                  />
+                </div>
+              </Section>
+            )}
+
+            {/* Frenectomy Consultation Tracker */}
+            {(parseInt(weekNumber || "0") === 1 || parseInt(weekNumber || "0") === 2) && (
+              <Section delay={375}>
+                <FrenectomyConsultTracker
+                  patientId={patient?.id}
+                  weekId={week?.id}
+                  isBooked={progress?.frenectomy_consult_booked || false}
+                  onUpdate={loadWeekData}
+                />
+              </Section>
+            )}
 
             {/* Tracking */}
             <Section delay={400}>

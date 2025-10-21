@@ -1,0 +1,166 @@
+{
+  "weeks": [
+    {
+      "number": 1,
+      "title": "Foundation Building - Weeks 1-2 (Part 1)",
+      "introduction": "Welcome to the beginning of your myofunctional therapy journey. Over the next two weeks, you'll establish the fundamental exercises that will retrain your oral muscles and breathing patterns. These exercises are designed to be done daily, building strength and proper muscle memory.\n\nEach active exercise requires a mirror to ensure proper technique and minimize compensations. The passive exercise can be done during other activities. Remember, consistency is key—doing these exercises correctly and regularly will set you up for success throughout the entire program.",
+      "overview": "Establish foundational tongue strength, positioning, and breathing assessment through daily active and passive exercises.",
+      "objectives": [
+        "Perform clicking and tick-tock exercises to strengthen tongue muscles",
+        "Complete tongue brushing for neuromuscular re-education",
+        "Practice tongue trace movements to stretch the frenum",
+        "Establish baseline breathing health with BOLT test",
+        "Maintain tongue-to-spot positioning with elastic hold exercise"
+      ],
+      "video_title": "Week 1-2 Exercise Demonstrations",
+      "video_url": "",
+      "requires_bolt": true,
+      "requires_video_first": true,
+      "requires_video_last": true,
+      "tracking": {
+        "nasal_breathing_percent": true,
+        "tongue_on_spot_percent": true,
+        "BOLT_score": true,
+        "frenectomy_consult": true
+      },
+      "exercises": [
+        {
+          "type": "active",
+          "title": "Clicks and Tick-Tocks",
+          "frequency": "2x/day",
+          "duration": "2 minutes",
+          "completion_target": 28,
+          "props": "Bite Block",
+          "instructions": "**Clicks (1 minute):**\n- Make repeated clicking sounds with tongue while keeping cheeks back\n- Have your tongue suctioned to the roof of your mouth for 3 seconds before clicking\n- Keep your lips back in a smile\n\n**Tick-Tocks (1 minute):**\n- Make clicking sounds as fast as you can with good technique\n- Move lips from an exaggerated smile (do one click) to an exaggerated pursed lip (do one click)",
+          "compensations": "- Watch in the mirror to prevent neck engagement, jaw protrusion and jaw lateralization\n- Use bite block to avoid compensations",
+          "demo_video_url": ""
+        },
+        {
+          "type": "active",
+          "title": "Brushing",
+          "frequency": "2x/day",
+          "duration": "1 minute",
+          "completion_target": 28,
+          "props": "Toothbrush",
+          "instructions": "- Stick out the tongue and brush the full tongue 5 times\n- Brush the spot area 5 times\n- Place two surfaces together\n- Repeat for 1 minute\n- This exercise promotes neuromuscular re-education through sensory input",
+          "compensations": "- Watch in mirror to avoid facial grimace (rounding the lips or dimpling the chin) when protruding tongue\n- Continue nasal breathing throughout exercise (Consider doing the unblocking your nose exercises first)",
+          "demo_video_url": ""
+        },
+        {
+          "type": "active",
+          "title": "Tongue Trace",
+          "frequency": "2x/day",
+          "duration": "2 minutes",
+          "completion_target": 28,
+          "props": "Bite Block",
+          "instructions": "- Try with your mouth open, halfway or closed\n- Place the tip of your tongue against the spot and trace back along the palate in a straight line and far back as possible\n- You should feel a stretch in the frenum and floor of your mouth",
+          "compensations": "- Watch in the mirror for jaw lateralization and jaw protrusion. Use bite block to avoid\n- Scan for head/neck/facial/body tension and try to ease",
+          "demo_video_url": ""
+        },
+        {
+          "type": "breathing",
+          "title": "BOLT Test",
+          "frequency": "Once on Day 1",
+          "duration": "5 minutes",
+          "completion_target": 1,
+          "props": "Timer",
+          "instructions": "**What is BOLT?**\nThe Body Oxygen Level Test (BOLT) measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\n**Scale of what is considered healthy:**\n- 40-60 seconds: Healthy and ideal\n- 30-39 seconds: Mild breathing/airway issues\n- 20-29 seconds: Moderate breathing/airway issues\n- 10-19 seconds: Unhealthy breathing\n- 0-9 seconds: Very unhealthy breathing and severe airway issues\n\n**How to perform the test:**\n1. Take a small, silent breath in and a small, silent breath out\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself\n3. At the first sign of \"air hunger\", you will feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract\n4. Release your nose and stop the timer at these first signs of \"air hunger\"\n\n**Tips:**\n- When you release your nose, your inhalation should remain calm\n- If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct\n- Keep in mind that this is not a breath-holding test",
+          "compensations": "",
+          "demo_video_url": ""
+        },
+        {
+          "type": "passive",
+          "title": "Tongue Tip - One Elastic Hold",
+          "frequency": "1x/day",
+          "duration": "5 minutes",
+          "completion_target": 14,
+          "props": "1 Elastic",
+          "instructions": "- Place elastic on the tip of the tongue and hold it to the spot\n- If concerned about swallowing, tie a piece of floss to elastic to keep between lips",
+          "compensations": "",
+          "demo_video_url": ""
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Foundation Building - Weeks 1-2 (Part 2)",
+      "introduction": "This is the continuation of your foundation building phase. You'll continue practicing the same exercises from Week 1, building consistency and refining your technique. By now, you should be getting more comfortable with the movements and noticing improvements in your form.\n\nContinue to focus on avoiding compensations and maintaining proper nasal breathing throughout all exercises. Your cumulative practice over these two weeks is building the foundation for more advanced exercises ahead.",
+      "overview": "Continue foundational exercises with focus on consistency and technique refinement.",
+      "objectives": [
+        "Continue clicking and tick-tock exercises with improved technique",
+        "Maintain daily tongue brushing routine",
+        "Practice tongue trace movements with better control",
+        "Continue tongue-to-spot positioning with elastic hold",
+        "Book or complete frenectomy consultation if not already done"
+      ],
+      "video_title": "Week 1-2 Exercise Demonstrations",
+      "video_url": "",
+      "requires_bolt": false,
+      "requires_video_first": true,
+      "requires_video_last": true,
+      "tracking": {
+        "nasal_breathing_percent": true,
+        "tongue_on_spot_percent": true,
+        "BOLT_score": false,
+        "frenectomy_consult": true
+      },
+      "exercises": [
+        {
+          "type": "active",
+          "title": "Clicks and Tick-Tocks",
+          "frequency": "2x/day",
+          "duration": "2 minutes",
+          "completion_target": 28,
+          "props": "Bite Block",
+          "instructions": "**Clicks (1 minute):**\n- Make repeated clicking sounds with tongue while keeping cheeks back\n- Have your tongue suctioned to the roof of your mouth for 3 seconds before clicking\n- Keep your lips back in a smile\n\n**Tick-Tocks (1 minute):**\n- Make clicking sounds as fast as you can with good technique\n- Move lips from an exaggerated smile (do one click) to an exaggerated pursed lip (do one click)",
+          "compensations": "- Watch in the mirror to prevent neck engagement, jaw protrusion and jaw lateralization\n- Use bite block to avoid compensations",
+          "demo_video_url": ""
+        },
+        {
+          "type": "active",
+          "title": "Brushing",
+          "frequency": "2x/day",
+          "duration": "1 minute",
+          "completion_target": 28,
+          "props": "Toothbrush",
+          "instructions": "- Stick out the tongue and brush the full tongue 5 times\n- Brush the spot area 5 times\n- Place two surfaces together\n- Repeat for 1 minute\n- This exercise promotes neuromuscular re-education through sensory input",
+          "compensations": "- Watch in mirror to avoid facial grimace (rounding the lips or dimpling the chin) when protruding tongue\n- Continue nasal breathing throughout exercise (Consider doing the unblocking your nose exercises first)",
+          "demo_video_url": ""
+        },
+        {
+          "type": "active",
+          "title": "Tongue Trace",
+          "frequency": "2x/day",
+          "duration": "2 minutes",
+          "completion_target": 28,
+          "props": "Bite Block",
+          "instructions": "- Try with your mouth open, halfway or closed\n- Place the tip of your tongue against the spot and trace back along the palate in a straight line and far back as possible\n- You should feel a stretch in the frenum and floor of your mouth",
+          "compensations": "- Watch in the mirror for jaw lateralization and jaw protrusion. Use bite block to avoid\n- Scan for head/neck/facial/body tension and try to ease",
+          "demo_video_url": ""
+        },
+        {
+          "type": "breathing",
+          "title": "BOLT Test",
+          "frequency": "Optional retest",
+          "duration": "5 minutes",
+          "completion_target": 0,
+          "props": "Timer",
+          "instructions": "**Optional:** You can retest your BOLT score at the end of Week 2 to see if there's been any improvement.\n\n**How to perform the test:**\n1. Take a small, silent breath in and a small, silent breath out\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself\n3. At the first sign of \"air hunger\", you will feel the first involuntary movements of your breathing muscles\n4. Release your nose and stop the timer at these first signs of \"air hunger\"",
+          "compensations": "",
+          "demo_video_url": ""
+        },
+        {
+          "type": "passive",
+          "title": "Tongue Tip - One Elastic Hold",
+          "frequency": "1x/day",
+          "duration": "5 minutes",
+          "completion_target": 14,
+          "props": "1 Elastic",
+          "instructions": "- Place elastic on the tip of the tongue and hold it to the spot\n- If concerned about swallowing, tie a piece of floss to elastic to keep between lips",
+          "compensations": "",
+          "demo_video_url": ""
+        }
+      ]
+    }
+  ]
+}

@@ -355,7 +355,10 @@ export type Database = {
       exercises: {
         Row: {
           compensations: string | null
+          completion_target: number | null
           demo_video_url: string | null
+          duration: string | null
+          frequency: string | null
           id: string
           instructions: string | null
           props: string | null
@@ -365,7 +368,10 @@ export type Database = {
         }
         Insert: {
           compensations?: string | null
+          completion_target?: number | null
           demo_video_url?: string | null
+          duration?: string | null
+          frequency?: string | null
           id?: string
           instructions?: string | null
           props?: string | null
@@ -375,7 +381,10 @@ export type Database = {
         }
         Update: {
           compensations?: string | null
+          completion_target?: number | null
           demo_video_url?: string | null
+          duration?: string | null
+          frequency?: string | null
           id?: string
           instructions?: string | null
           props?: string | null
@@ -624,6 +633,8 @@ export type Database = {
           ai_summary: string | null
           bolt_score: number | null
           completed_at: string | null
+          exercise_completions: Json | null
+          frenectomy_consult_booked: boolean | null
           id: string
           introduction_viewed: boolean | null
           nasal_breathing_pct: number | null
@@ -636,6 +647,8 @@ export type Database = {
           ai_summary?: string | null
           bolt_score?: number | null
           completed_at?: string | null
+          exercise_completions?: Json | null
+          frenectomy_consult_booked?: boolean | null
           id?: string
           introduction_viewed?: boolean | null
           nasal_breathing_pct?: number | null
@@ -648,6 +661,8 @@ export type Database = {
           ai_summary?: string | null
           bolt_score?: number | null
           completed_at?: string | null
+          exercise_completions?: Json | null
+          frenectomy_consult_booked?: boolean | null
           id?: string
           introduction_viewed?: boolean | null
           nasal_breathing_pct?: number | null
