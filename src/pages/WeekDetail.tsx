@@ -32,7 +32,6 @@ import { SubmitBar } from "@/components/week/SubmitBar";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { ExerciseCompletionTracker } from "@/components/week/ExerciseCompletionTracker";
-import { FrenectomyConsultTracker } from "@/components/week/FrenectomyConsultTracker";
 
 import { isWeekAccessible } from "@/lib/userProgress";
 
@@ -599,17 +598,6 @@ const WeekDetail = () => {
               </Section>
             )}
 
-            {/* Frenectomy Consultation Tracker */}
-            {(parseInt(weekNumber || "0") === 1 || parseInt(weekNumber || "0") === 2) && (
-              <Section delay={375}>
-                <FrenectomyConsultTracker
-                  patientId={patient?.id}
-                  weekId={week?.id}
-                  isBooked={progress?.frenectomy_consult_booked || false}
-                  onUpdate={loadWeekData}
-                />
-              </Section>
-            )}
 
             {/* Tracking */}
             <Section delay={400}>
