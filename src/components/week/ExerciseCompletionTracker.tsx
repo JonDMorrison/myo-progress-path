@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import ReactMarkdown from "react-markdown";
 
 interface Exercise {
   id: string;
@@ -144,8 +145,8 @@ export function ExerciseCompletionTracker({
                               {exercise.instructions && (
                                 <div className="rounded-lg bg-accent/50 p-4">
                                   <h4 className="font-semibold mb-2 text-sm">Instructions</h4>
-                                  <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
-                                    {exercise.instructions}
+                                  <div className="text-sm text-muted-foreground leading-relaxed prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+                                    <ReactMarkdown>{exercise.instructions}</ReactMarkdown>
                                   </div>
                                 </div>
                               )}
