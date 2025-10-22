@@ -3,7 +3,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, Circle, HelpCircle, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import ReactMarkdown from "react-markdown";
@@ -36,7 +36,7 @@ export function ExerciseCompletionTracker({
   onUpdate 
 }: ExerciseCompletionTrackerProps) {
   const [completions, setCompletions] = useState<Record<string, number>>(existingCompletions);
-  const { toast } = useToast();
+  
 
   useEffect(() => {
     setCompletions(existingCompletions);
@@ -44,11 +44,7 @@ export function ExerciseCompletionTracker({
 
   const handleIncrement = async (exerciseId: string) => {
     if (!patientId || !weekId) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Missing patient or week information. Please refresh the page.",
-      });
+      console.warn("Missing patient or week information");
       return;
     }
 
@@ -58,11 +54,6 @@ export function ExerciseCompletionTracker({
     const currentCount = completions[exerciseId] || 0;
     const target = Math.max(1, exercise.completion_target || 0);
     if (currentCount >= target) {
-      toast({
-        title: "Target reached",
-        description: "You've completed all required sessions for this exercise!",
-        duration: 2000,
-      });
       return;
     }
 
@@ -79,20 +70,8 @@ export function ExerciseCompletionTracker({
 
     if (error) {
       console.error('Error saving exercise completion:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to save completion. Please try again.",
-      });
       setCompletions(completions);
     } else {
-      if (newCount === target) {
-        toast({
-          title: "Exercise completed! 🎉",
-          description: `You've finished all ${target} sessions of ${exercise.title}`,
-          duration: 2000,
-        });
-      }
       onUpdate?.();
     }
   };
