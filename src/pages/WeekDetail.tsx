@@ -442,7 +442,7 @@ const WeekDetail = () => {
             )}
           </div>
           <div>
-            <h1 className="text-3xl font-bold mb-1">{week?.title}</h1>
+            <h1 className="text-3xl font-bold mb-1">Foundation Building - Week 2</h1>
           </div>
         </div>
       </header>
