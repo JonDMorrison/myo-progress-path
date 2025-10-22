@@ -1146,10 +1146,7 @@ export type Database = {
           status: Database["public"]["Enums"]["week_status"]
         }[]
       }
-      is_super_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      is_super_admin: { Args: never; Returns: boolean }
     }
     Enums: {
       exercise_type: "active" | "passive" | "breathing" | "posture" | "test"
