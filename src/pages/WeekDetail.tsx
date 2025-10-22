@@ -525,7 +525,6 @@ const WeekDetail = () => {
                   weekId={week?.id}
                   exercises={exercises}
                   existingCompletions={progress?.exercise_completions || {}}
-                  onUpdate={loadWeekData}
                 />
               </div>
             </Section>
