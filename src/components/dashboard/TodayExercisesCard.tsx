@@ -38,7 +38,7 @@ export function TodayExercisesCard({
               <span className="text-sm font-medium text-muted-foreground">Today's Focus</span>
             </div>
             <CardTitle className="text-2xl">
-              Foundation Building - Week 2
+              {weekTitle}
             </CardTitle>
           </div>
           {isCompleted && (
