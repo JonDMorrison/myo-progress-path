@@ -442,7 +442,7 @@ const WeekDetail = () => {
             )}
           </div>
           <div>
-            <h1 className="text-3xl font-bold mb-1">{week?.title ? `${week.title} - Week ${week.number}` : `Week ${week?.number || weekNumber}`}</h1>
+            <h1 className="text-3xl font-bold mb-1">{week?.title || `Week ${week?.number || weekNumber}`}</h1>
           </div>
         </div>
       </header>
