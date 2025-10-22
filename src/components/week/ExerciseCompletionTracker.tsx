@@ -201,13 +201,18 @@ export function ExerciseCompletionTracker({
                 {/* Mark Done Button */}
                 <Button
                   size="sm"
+                  onPointerDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleIncrement(exercise.id);
+                  }}
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     handleIncrement(exercise.id);
                   }}
                   disabled={isComplete}
-                  className="flex-shrink-0 pointer-events-auto cursor-pointer"
+                  className="flex-shrink-0 pointer-events-auto cursor-pointer relative z-[2]"
                   type="button"
                 >
                   Mark Done
