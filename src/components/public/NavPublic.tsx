@@ -24,16 +24,39 @@ export const NavPublic = () => {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
     // Check current session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        const { data: userData } = await supabase
+          .from("users")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
+        
+        setUserRole(userData?.role ?? null);
+      }
     });
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        const { data: userData } = await supabase
+          .from("users")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
+        
+        setUserRole(userData?.role ?? null);
+      } else {
+        setUserRole(null);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -69,7 +92,10 @@ export const NavPublic = () => {
         <div className="flex items-center gap-4">
           {user ? (
             <Button 
-              onClick={() => navigate("/")} 
+              onClick={() => {
+                const dashboardRoute = userRole === "patient" ? "/patient" : "/therapist";
+                navigate(dashboardRoute);
+              }} 
               variant="ghost" 
               size="icon"
               className="hidden md:flex rounded-full"
@@ -155,7 +181,8 @@ export const NavPublic = () => {
                 {user ? (
                   <Button 
                     onClick={() => { 
-                      navigate("/"); 
+                      const dashboardRoute = userRole === "patient" ? "/patient" : "/therapist";
+                      navigate(dashboardRoute); 
                       setMobileOpen(false); 
                     }} 
                     className="w-full h-12 text-base"
