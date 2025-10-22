@@ -1,0 +1,150 @@
+{
+  "weeks": [
+    {
+      "week": 5,
+      "title": "Week 5 - Pre-Frenectomy Preparation",
+      "introduction": "**Important Note:** Pre-Frenectomy Exercises and Stretches start with this set of exercises. Your consultation with Dr. Caylor should have been completed and your upcoming frenectomy should be scheduled in a couple of weeks.\n\nThis week focuses on strengthening tongue movements in multiple directions and establishing controlled breathing patterns. These exercises prepare your oral musculature for the frenectomy procedure.",
+      "overview": "Continue building strength and coordination in tongue movements while introducing directional exercises. Focus on controlled movements without compensatory patterns.",
+      "objectives": [
+        "Strengthen lateral tongue movements with cheek resistance",
+        "Develop posterior tongue elevation for K and G sounds",
+        "Improve lip seal strength through internal resistance",
+        "Establish the 4-7-8 breathing pattern for relaxation",
+        "Maintain mid-tongue positioning with elastic resistance"
+      ],
+      "video_title": null,
+      "video_url": null,
+      "exercises": [
+        {
+          "name": "Tongue in Cheek",
+          "type": "active",
+          "frequency": "2x/day",
+          "duration": "1 minute",
+          "completion_target": 28,
+          "description": "Push the tongue into the cheek without the jaw shifting and hold for 5 seconds. Practice with the mouth open and with lips closed together. Use slow and controlled movements. Do exercise with a still/relaxed face.",
+          "props": "Bite Block",
+          "compensations": "Watch in the mirror for jaw lateralization – use bite block to avoid. When the mouth is open, try to control for facial grimace (rounding of lips). Check and prevent muscle bracing."
+        },
+        {
+          "name": "K Sounds (Kuh, Guh, Unk)",
+          "type": "active",
+          "frequency": "2x/day",
+          "duration": "2 minutes",
+          "completion_target": 28,
+          "description": "Make a clear, precise \"kuh\" sound with the mouth open (use a bite block and move to a taller position as you improve with exercise). The back of the tongue needs to raise up to make contact with the soft palate. The \"kuh\" sound helps facilitate this movement. Start with \"kuh\" and \"guh\" sounds the first week and switch to \"guh\" and \"unk\" sounds the second week of practice.",
+          "props": "Bite Block",
+          "compensations": "Watch in the mirror for jaw lateralization and jaw protrusion – use bite block to avoid. Control facial grimace (lips rounding). Control neck engagement."
+        },
+        {
+          "name": "Lip Trace",
+          "type": "active",
+          "frequency": "2x/day",
+          "duration": "1 minute",
+          "completion_target": 28,
+          "description": "While maintaining contact with the tongue under the lips, trace circles around the inside of the upper and lower lips. Alternate three times each direction. Keep your lips closed during this exercise. Tracing with larger circles extending into the cheeks can add an extra stretch/challenge. Do smaller circles for patients who have more tongue restriction.",
+          "props": "None",
+          "compensations": "Watch in mirror to ensure as little jaw movement as possible - you may hold jaw or chin to minimize at first but try to limit over time. Minimize facial tension."
+        },
+        {
+          "name": "4-7-8 Breathing Pattern",
+          "type": "breathing",
+          "frequency": "1x/day",
+          "duration": "5 minutes",
+          "completion_target": 14,
+          "description": "**Instructions:**\n1. Set a timer for 5 minutes and begin.\n2. Inhale counting to 4.\n3. Before exhaling, hold your breath for a count of 7.\n4. Exhale counting to 8.\n5. Repeat for 5 minutes.\n\n**Tips:**\n- Do this anytime of day to help you relax or do it lying in bed to help you fall asleep.\n- Remember to breathe only through your nose.\n- Consider doing the unblocking your nose exercises first.\n- Focus on inhaling the air into your belly/diaphragm.\n- When you exhale, you may feel like you have to push out all your air. This is normal and helps promote deep breathing.",
+          "props": "None",
+          "compensations": "Ensure breathing remains nasal only. Avoid shallow chest breathing - focus on diaphragmatic breathing."
+        },
+        {
+          "name": "Middle of Tongue – One Elastic Hold",
+          "type": "passive",
+          "frequency": "1x/day",
+          "duration": "10 minutes",
+          "completion_target": 14,
+          "description": "Place elastic on the middle of the tongue and hold it to the roof of the mouth. If concerned about swallowing, tie a piece of floss to elastic to keep between lips.",
+          "props": "1 Elastic",
+          "compensations": "Ensure elastic stays in middle position. Watch for tongue sliding forward or backward. Maintain relaxed jaw position."
+        }
+      ],
+      "tracking": {
+        "nasal_breathing_percent": true,
+        "BOLT_score": false
+      },
+      "requires_video_first": true,
+      "requires_video_last": true
+    },
+    {
+      "week": 6,
+      "title": "Week 6 - Pre-Frenectomy Preparation",
+      "introduction": "**Important Note:** Continue your Pre-Frenectomy Exercises and Stretches. Your frenectomy should be scheduled for soon.\n\nThis week continues the same exercise protocol as Week 5, allowing you to refine your technique and build greater strength and endurance before your procedure.",
+      "overview": "Repeat and master the Week 5 exercises with increased precision and control. Focus on eliminating all compensatory patterns.",
+      "objectives": [
+        "Perfect lateral tongue movements with minimal compensations",
+        "Achieve clear, precise K and G sounds with proper tongue elevation",
+        "Complete lip traces with zero jaw movement",
+        "Make 4-7-8 breathing a daily relaxation habit",
+        "Hold mid-tongue elastic position consistently for full duration"
+      ],
+      "video_title": null,
+      "video_url": null,
+      "exercises": [
+        {
+          "name": "Tongue in Cheek",
+          "type": "active",
+          "frequency": "2x/day",
+          "duration": "1 minute",
+          "completion_target": 28,
+          "description": "Push the tongue into the cheek without the jaw shifting and hold for 5 seconds. Practice with the mouth open and with lips closed together. Use slow and controlled movements. Do exercise with a still/relaxed face.",
+          "props": "Bite Block",
+          "compensations": "Watch in the mirror for jaw lateralization – use bite block to avoid. When the mouth is open, try to control for facial grimace (rounding of lips). Check and prevent muscle bracing."
+        },
+        {
+          "name": "K Sounds (Kuh, Guh, Unk)",
+          "type": "active",
+          "frequency": "2x/day",
+          "duration": "2 minutes",
+          "completion_target": 28,
+          "description": "Make a clear, precise \"kuh\" sound with the mouth open (use a bite block and move to a taller position as you improve with exercise). The back of the tongue needs to raise up to make contact with the soft palate. The \"kuh\" sound helps facilitate this movement. Start with \"kuh\" and \"guh\" sounds the first week and switch to \"guh\" and \"unk\" sounds the second week of practice.",
+          "props": "Bite Block",
+          "compensations": "Watch in the mirror for jaw lateralization and jaw protrusion – use bite block to avoid. Control facial grimace (lips rounding). Control neck engagement."
+        },
+        {
+          "name": "Lip Trace",
+          "type": "active",
+          "frequency": "2x/day",
+          "duration": "1 minute",
+          "completion_target": 28,
+          "description": "While maintaining contact with the tongue under the lips, trace circles around the inside of the upper and lower lips. Alternate three times each direction. Keep your lips closed during this exercise. Tracing with larger circles extending into the cheeks can add an extra stretch/challenge. Do smaller circles for patients who have more tongue restriction.",
+          "props": "None",
+          "compensations": "Watch in mirror to ensure as little jaw movement as possible - you may hold jaw or chin to minimize at first but try to limit over time. Minimize facial tension."
+        },
+        {
+          "name": "4-7-8 Breathing Pattern",
+          "type": "breathing",
+          "frequency": "1x/day",
+          "duration": "5 minutes",
+          "completion_target": 14,
+          "description": "**Instructions:**\n1. Set a timer for 5 minutes and begin.\n2. Inhale counting to 4.\n3. Before exhaling, hold your breath for a count of 7.\n4. Exhale counting to 8.\n5. Repeat for 5 minutes.\n\n**Tips:**\n- Do this anytime of day to help you relax or do it lying in bed to help you fall asleep.\n- Remember to breathe only through your nose.\n- Consider doing the unblocking your nose exercises first.\n- Focus on inhaling the air into your belly/diaphragm.\n- When you exhale, you may feel like you have to push out all your air. This is normal and helps promote deep breathing.",
+          "props": "None",
+          "compensations": "Ensure breathing remains nasal only. Avoid shallow chest breathing - focus on diaphragmatic breathing."
+        },
+        {
+          "name": "Middle of Tongue – One Elastic Hold",
+          "type": "passive",
+          "frequency": "1x/day",
+          "duration": "10 minutes",
+          "completion_target": 14,
+          "description": "Place elastic on the middle of the tongue and hold it to the roof of the mouth. If concerned about swallowing, tie a piece of floss to elastic to keep between lips.",
+          "props": "1 Elastic",
+          "compensations": "Ensure elastic stays in middle position. Watch for tongue sliding forward or backward. Maintain relaxed jaw position."
+        }
+      ],
+      "tracking": {
+        "nasal_breathing_percent": true,
+        "BOLT_score": false
+      },
+      "requires_video_first": true,
+      "requires_video_last": true
+    }
+  ]
+}
