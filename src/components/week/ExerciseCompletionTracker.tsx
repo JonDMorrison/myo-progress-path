@@ -43,6 +43,15 @@ export function ExerciseCompletionTracker({
   }, [existingCompletions]);
 
   const handleIncrement = async (exerciseId: string) => {
+    if (!patientId || !weekId) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Missing patient or week information. Please refresh the page.",
+      });
+      return;
+    }
+
     const exercise = exercises.find(e => e.id === exerciseId);
     if (!exercise) return;
 
@@ -67,6 +76,7 @@ export function ExerciseCompletionTracker({
       .eq('week_id', weekId);
 
     if (error) {
+      console.error('Error saving exercise completion:', error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -190,9 +200,14 @@ export function ExerciseCompletionTracker({
                 {/* Mark Done Button */}
                 <Button
                   size="sm"
-                  onClick={() => handleIncrement(exercise.id)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleIncrement(exercise.id);
+                  }}
                   disabled={isComplete}
-                  className="flex-shrink-0"
+                  className="flex-shrink-0 pointer-events-auto cursor-pointer"
+                  type="button"
                 >
                   Mark Done
                 </Button>
