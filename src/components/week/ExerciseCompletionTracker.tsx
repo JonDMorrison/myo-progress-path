@@ -182,30 +182,22 @@ export function ExerciseCompletionTracker({
                 {/* Mark Done Button */}
                 <Button
                   size="sm"
-                  onPointerDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleIncrement(exercise.id);
-                  }}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleIncrement(exercise.id);
-                  }}
                   onClick={(e) => {
-                    e.preventDefault();
                     e.stopPropagation();
                     handleIncrement(exercise.id);
                   }}
-                  onTouchStart={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleIncrement(exercise.id);
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleIncrement(exercise.id);
+                    }
                   }}
                   disabled={isComplete}
-                  className="flex-shrink-0 pointer-events-auto cursor-pointer relative z-[999]"
+                  className="flex-shrink-0 relative z-[30] pointer-events-auto"
                   type="button"
                   aria-disabled={isComplete}
+                  aria-label={isComplete ? 'Completed' : 'Mark exercise done'}
                 >
                   {isComplete ? (
                     <span className="flex items-center gap-1">
