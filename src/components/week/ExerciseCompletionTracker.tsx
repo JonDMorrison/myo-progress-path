@@ -207,7 +207,14 @@ export function ExerciseCompletionTracker({
                   type="button"
                   aria-disabled={isComplete}
                 >
-                  Mark Done
+                  {isComplete ? (
+                    <span className="flex items-center gap-1">
+                      <CheckCircle2 className="h-4 w-4" />
+                      Completed
+                    </span>
+                  ) : (
+                    "Mark Done"
+                  )}
                 </Button>
               </div>
             </CardHeader>
