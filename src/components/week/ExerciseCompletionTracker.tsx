@@ -56,7 +56,8 @@ export function ExerciseCompletionTracker({
     if (!exercise) return;
 
     const currentCount = completions[exerciseId] || 0;
-    if (currentCount >= exercise.completion_target) {
+    const target = Math.max(1, exercise.completion_target || 0);
+    if (currentCount >= target) {
       toast({
         title: "Target reached",
         description: "You've completed all required sessions for this exercise!",
@@ -84,10 +85,10 @@ export function ExerciseCompletionTracker({
       });
       setCompletions(completions);
     } else {
-      if (newCount === exercise.completion_target) {
+      if (newCount === target) {
         toast({
           title: "Exercise completed! 🎉",
-          description: `You've finished all ${exercise.completion_target} sessions of ${exercise.title}`,
+          description: `You've finished all ${target} sessions of ${exercise.title}`,
         });
       }
       onUpdate?.();
@@ -120,7 +121,7 @@ export function ExerciseCompletionTracker({
     <div className="space-y-4">
       {exercises.map((exercise) => {
         const currentCount = completions[exercise.id] || 0;
-        const target = exercise.completion_target;
+        const target = Math.max(1, exercise.completion_target || 0);
         const isComplete = currentCount >= target;
 
         return (
