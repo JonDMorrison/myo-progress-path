@@ -514,7 +514,7 @@ const WeekDetail = () => {
             )}
 
             {/* Exercises */}
-            <Section delay={300}>
+            <Section delay={300} className="pb-32">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-2xl font-semibold">Exercises</h3>
