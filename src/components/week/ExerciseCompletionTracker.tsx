@@ -187,6 +187,11 @@ export function ExerciseCompletionTracker({
                     e.stopPropagation();
                     handleIncrement(exercise.id);
                   }}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleIncrement(exercise.id);
+                  }}
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -198,8 +203,9 @@ export function ExerciseCompletionTracker({
                     handleIncrement(exercise.id);
                   }}
                   disabled={isComplete}
-                  className="flex-shrink-0 pointer-events-auto cursor-pointer relative z-[2]"
+                  className="flex-shrink-0 pointer-events-auto cursor-pointer relative z-[999]"
                   type="button"
+                  aria-disabled={isComplete}
                 >
                   Mark Done
                 </Button>
