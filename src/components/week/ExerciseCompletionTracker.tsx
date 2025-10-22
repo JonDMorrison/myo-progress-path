@@ -61,6 +61,7 @@ export function ExerciseCompletionTracker({
       toast({
         title: "Target reached",
         description: "You've completed all required sessions for this exercise!",
+        duration: 2000,
       });
       return;
     }
@@ -89,6 +90,7 @@ export function ExerciseCompletionTracker({
         toast({
           title: "Exercise completed! 🎉",
           description: `You've finished all ${target} sessions of ${exercise.title}`,
+          duration: 2000,
         });
       }
       onUpdate?.();
