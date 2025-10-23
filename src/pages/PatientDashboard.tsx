@@ -20,6 +20,7 @@ import { Progress } from "@/components/ui/progress";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { PatientHeader } from "@/components/layout/PatientHeader";
+import { ProgramCompletionModal } from "@/components/ProgramCompletionModal";
 
 const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
@@ -31,6 +32,7 @@ const PatientDashboard = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
   const [userProgress, setUserProgress] = useState<any>(null);
+  const [showCompletion, setShowCompletion] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -83,11 +85,33 @@ const PatientDashboard = () => {
       // Get ALL patient week progress to calculate averages
       const { data: allProgressData } = await supabase
         .from("patient_week_progress")
-        .select("*")
+        .select("*, week:weeks(number)")
         .eq("patient_id", patientData.id)
         .in("status", ["submitted", "approved"]);
 
       setAllProgress(allProgressData || []);
+
+      // Check if week 24 is completed and show celebration
+      const week24Progress = allProgressData?.find((p: any) => p.week?.number === 24 && p.status === "approved");
+      if (week24Progress) {
+        // Check if user has already seen the completion modal (by checking if they have the badge)
+        const { data: badge } = await supabase
+          .from("earned_badges")
+          .select("*")
+          .eq("patient_id", patientData.id)
+          .eq("badge_key", "program_completed")
+          .maybeSingle();
+
+        // If week 24 is approved but badge doesn't exist, show modal and grant badge
+        if (!badge) {
+          setShowCompletion(true);
+          
+          // Grant the completion badge
+          await supabase.functions.invoke("grant-badge", {
+            body: { patientId: patientData.id, badgeKey: "program_completed" },
+          });
+        }
+      }
 
       // Get current week (for now, get week 1)
       const { data: weekData } = await supabase
@@ -383,6 +407,12 @@ const PatientDashboard = () => {
       
       {/* Mobile Bottom Navigation */}
       <BottomNav />
+      
+      {/* Program Completion Celebration */}
+      <ProgramCompletionModal 
+        open={showCompletion} 
+        onClose={() => setShowCompletion(false)} 
+      />
     </div>
   );
 };
