@@ -27,13 +27,20 @@ export default function LearnArticle() {
   const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
-    // Check authentication status
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // Parallel loading: Check auth AND load article simultaneously
+    const loadData = async () => {
+      const [{ data: { session } }] = await Promise.all([
+        supabase.auth.getSession(),
+        slug ? loadArticle(slug).then(setArticle) : Promise.resolve()
+      ]);
+      
       setIsAuthenticated(!!session);
       if (session?.user) {
         setUserName(session.user.user_metadata?.name || "");
       }
-    });
+    };
+
+    loadData();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
@@ -43,12 +50,6 @@ export default function LearnArticle() {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (slug) {
-      loadArticle(slug).then(setArticle);
-    }
   }, [slug]);
 
   // Check if article is restricted and user is not authenticated
