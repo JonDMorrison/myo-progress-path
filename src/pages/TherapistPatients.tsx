@@ -1,0 +1,241 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { ArrowLeft, Search, Filter } from 'lucide-react';
+import { format, formatDistanceToNow } from 'date-fns';
+
+export default function TherapistPatients() {
+  const [patients, setPatients] = useState<any[]>([]);
+  const [filteredPatients, setFilteredPatients] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    loadPatients();
+  }, []);
+
+  useEffect(() => {
+    filterPatients();
+  }, [searchQuery, statusFilter, patients]);
+
+  const loadPatients = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data } = await supabase
+        .from('v_master_patient_list')
+        .select('*')
+        .order('last_activity', { ascending: false });
+
+      setPatients(data || []);
+      setFilteredPatients(data || []);
+    } catch (error) {
+      console.error('Error loading patients:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filterPatients = () => {
+    let filtered = [...patients];
+
+    // Search filter
+    if (searchQuery) {
+      filtered = filtered.filter(p =>
+        p.patient_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.patient_email?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Status filter
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(p => p.patient_status === statusFilter);
+    }
+
+    setFilteredPatients(filtered);
+  };
+
+  const getStatusBadge = (status: string) => {
+    const variants: Record<string, any> = {
+      active: 'default',
+      inactive: 'secondary',
+      completed: 'outline',
+    };
+    return <Badge variant={variants[status] || 'default'}>{status}</Badge>;
+  };
+
+  const getWeekStatusBadge = (status: string) => {
+    const variants: Record<string, any> = {
+      open: 'secondary',
+      submitted: 'default',
+      approved: 'outline',
+      needs_more: 'destructive',
+    };
+    return <Badge variant={variants[status] || 'secondary'}>{status.replace('_', ' ')}</Badge>;
+  };
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading patients...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto py-8 px-4">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-6">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate('/therapist')}
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold">Patient Management</h1>
+            <p className="text-muted-foreground">
+              {filteredPatients.length} patient{filteredPatients.length !== 1 ? 's' : ''}
+            </p>
+          </div>
+        </div>
+
+        {/* Filters */}
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search by name or email..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-[180px]">
+                  <Filter className="h-4 w-4 mr-2" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Patients Table */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Patients</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Patient</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Current Week</TableHead>
+                  <TableHead>Week Status</TableHead>
+                  <TableHead>Last Activity</TableHead>
+                  <TableHead>Adherence (14d)</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredPatients.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                      No patients found
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredPatients.map(patient => (
+                    <TableRow key={patient.patient_id}>
+                      <TableCell>
+                        <div>
+                          <div className="font-medium">{patient.patient_name}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {patient.patient_email}
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>{getStatusBadge(patient.patient_status)}</TableCell>
+                      <TableCell>Week {patient.current_week_number || 'N/A'}</TableCell>
+                      <TableCell>
+                        {patient.current_week_status
+                          ? getWeekStatusBadge(patient.current_week_status)
+                          : <span className="text-muted-foreground">—</span>}
+                      </TableCell>
+                      <TableCell>
+                        {patient.last_activity ? (
+                          <span className="text-sm">
+                            {formatDistanceToNow(new Date(patient.last_activity), {
+                              addSuffix: true,
+                            })}
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground">Never</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {patient.adherence_14d !== null ? (
+                          <span className="font-medium">
+                            {Math.round(patient.adherence_14d)}%
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => navigate(`/patient/${patient.patient_id}`)}
+                        >
+                          View
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
