@@ -4,28 +4,35 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { LogOut, UserCheck, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import { LogOut, UserCheck, Clock, CheckCircle2, AlertCircle, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { AtRiskPatients } from "@/components/reports/AtRiskPatients";
+import { startOfWeek, endOfWeek } from "date-fns";
 
 const TherapistDashboard = () => {
   const [pendingReviews, setPendingReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [activePatients, setActivePatients] = useState(0);
+  const [reviewedThisWeek, setReviewedThisWeek] = useState(0);
+  const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    loadPendingReviews();
+    loadDashboardData();
   }, []);
 
-  const loadPendingReviews = async () => {
+  const loadDashboardData = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         navigate("/auth");
         return;
       }
+
+      setUserId(user.id);
 
       // Check if user is admin or super admin
       const { data: userData } = await supabase
@@ -40,11 +47,11 @@ const TherapistDashboard = () => {
       
       if (userData?.role === "super_admin") {
         setIsSuperAdmin(true);
-        setIsAdmin(true); // Super admin also has admin privileges
+        setIsAdmin(true);
       }
 
-      // Get therapist's assigned patients with submitted weeks
-      const { data, error } = await supabase
+      // Get pending reviews
+      const { data: pendingData, error: pendingError } = await supabase
         .from("patient_week_progress")
         .select(`
           *,
@@ -57,14 +64,57 @@ const TherapistDashboard = () => {
         .eq("status", "submitted")
         .order("completed_at", { ascending: false });
 
-      if (error) throw error;
+      if (pendingError) throw pendingError;
+      setPendingReviews(pendingData || []);
 
-      setPendingReviews(data || []);
+      // Get active patients count
+      const patientsQuery = supabase
+        .from("patients")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "active");
+
+      if (userData?.role === "therapist") {
+        patientsQuery.eq("assigned_therapist_id", user.id);
+      }
+
+      const { count: patientsCount } = await patientsQuery;
+      setActivePatients(patientsCount || 0);
+
+      // Get reviewed this week count
+      const weekStart = startOfWeek(new Date(), { weekStartsOn: 1 }).toISOString();
+      const weekEnd = endOfWeek(new Date(), { weekStartsOn: 1 }).toISOString();
+
+      const reviewedQuery = supabase
+        .from("patient_week_progress")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "approved")
+        .gte("completed_at", weekStart)
+        .lte("completed_at", weekEnd);
+
+      if (userData?.role === "therapist") {
+        // Join with patients to filter by therapist
+        const { data: reviewedData } = await supabase
+          .from("patient_week_progress")
+          .select(`
+            id,
+            patients!inner(assigned_therapist_id)
+          `)
+          .eq("status", "approved")
+          .eq("patients.assigned_therapist_id", user.id)
+          .gte("completed_at", weekStart)
+          .lte("completed_at", weekEnd);
+
+        setReviewedThisWeek(reviewedData?.length || 0);
+      } else {
+        const { count: reviewedCount } = await reviewedQuery;
+        setReviewedThisWeek(reviewedCount || 0);
+      }
+
     } catch (error: any) {
-      console.error("Error loading reviews:", error);
+      console.error("Error loading dashboard:", error);
       toast({
         title: "Error",
-        description: "Failed to load pending reviews.",
+        description: "Failed to load dashboard data.",
         variant: "destructive",
       });
     } finally {
@@ -106,6 +156,10 @@ const TherapistDashboard = () => {
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <Button variant="outline" size="sm" onClick={() => navigate("/therapist/patients")}>
+            <Users className="mr-2 h-4 w-4" />
+            Patients
+          </Button>
           <Button variant="outline" size="sm" onClick={() => navigate("/therapist/ai-assist")}>
             <span className="mr-2">✨</span>
             AI Assistant
@@ -153,7 +207,7 @@ const TherapistDashboard = () => {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-3xl font-bold text-success">0</p>
+                  <p className="text-3xl font-bold text-success">{reviewedThisWeek}</p>
                   <p className="text-sm text-muted-foreground">Reviewed This Week</p>
                 </div>
                 <CheckCircle2 className="w-10 h-10 text-success" />
@@ -165,7 +219,7 @@ const TherapistDashboard = () => {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-3xl font-bold text-primary">0</p>
+                  <p className="text-3xl font-bold text-primary">{activePatients}</p>
                   <p className="text-sm text-muted-foreground">Active Patients</p>
                 </div>
                 <UserCheck className="w-10 h-10 text-primary" />
@@ -173,6 +227,19 @@ const TherapistDashboard = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* At-Risk Patients */}
+        {userId && (
+          <Card className="shadow-card mb-6">
+            <CardHeader>
+              <CardTitle>At-Risk Patients</CardTitle>
+              <CardDescription>Patients who may need attention</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AtRiskPatients therapistId={userId} />
+            </CardContent>
+          </Card>
+        )}
 
         {/* Pending Reviews */}
         <Card className="shadow-card">

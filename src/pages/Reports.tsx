@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Download, FileText } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { format, subDays } from "date-fns";
+import { PatientMultiSelect } from "@/components/reports/PatientMultiSelect";
 
 type DateRange = "7" | "30" | "90" | "custom";
 
@@ -252,9 +253,17 @@ const Reports = () => {
           <CardHeader>
             <CardTitle>Filters</CardTitle>
           </CardHeader>
-          <CardContent className="flex gap-4">
-            <div className="flex-1">
-              <label className="text-sm font-medium">Date Range</label>
+          <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="text-sm font-medium mb-2 block">Patients</label>
+              <PatientMultiSelect
+                patients={patients}
+                selected={selectedPatients}
+                onChange={setSelectedPatients}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-2 block">Date Range</label>
               <Select value={dateRange} onValueChange={(v) => setDateRange(v as DateRange)}>
                 <SelectTrigger>
                   <SelectValue />
@@ -266,8 +275,8 @@ const Reports = () => {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex-1">
-              <label className="text-sm font-medium">Program Variant</label>
+            <div>
+              <label className="text-sm font-medium mb-2 block">Program Variant</label>
               <Select value={programVariant} onValueChange={setProgramVariant}>
                 <SelectTrigger>
                   <SelectValue />

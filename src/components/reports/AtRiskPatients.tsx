@@ -22,18 +22,45 @@ import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
-export function AtRiskPatients() {
+interface AtRiskPatientsProps {
+  therapistId?: string;
+}
+
+export function AtRiskPatients({ therapistId }: AtRiskPatientsProps) {
   const [patients, setPatients] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     loadAtRiskPatients();
-  }, []);
+  }, [therapistId]);
 
   const loadAtRiskPatients = async () => {
     try {
-      const { data, error } = await supabase.rpc('get_at_risk_patients' as any);
+      // For now, we'll query patient_week_progress directly for at-risk patients
+      // An at-risk patient is one who hasn't submitted in a while or has needs_more status
+      const query = supabase
+        .from('patient_week_progress')
+        .select(`
+          *,
+          patients!inner(
+            id,
+            user_id,
+            assigned_therapist_id,
+            users!inner(name, email)
+          ),
+          weeks(number)
+        `)
+        .in('status', ['open', 'needs_more'])
+        .order('completed_at', { ascending: true })
+        .limit(10);
+
+      // Filter by therapist if provided
+      if (therapistId) {
+        query.eq('patients.assigned_therapist_id', therapistId);
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
 
@@ -97,35 +124,35 @@ export function AtRiskPatients() {
                 <TableHead>Patient</TableHead>
                 <TableHead>Last Activity</TableHead>
                 <TableHead>Week</TableHead>
-                <TableHead>Completion</TableHead>
+                <TableHead>Status</TableHead>
                 <TableHead>Risk</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {patients.map(patient => (
-                <TableRow key={patient.patient_id}>
+                <TableRow key={patient.id}>
                   <TableCell className="font-medium">
-                    {patient.patient_name}
+                    {patient.patients?.users?.name || 'Unknown'}
                   </TableCell>
                   <TableCell>
                     <span className={cn(
-                      patient.days_since_last_activity > 14 && 'text-red-600'
+                      !patient.completed_at && 'text-destructive'
                     )}>
-                      {patient.days_since_last_activity} days ago
+                      {patient.completed_at 
+                        ? new Date(patient.completed_at).toLocaleDateString()
+                        : 'Never'}
                     </span>
                   </TableCell>
-                  <TableCell>Week {patient.current_week}</TableCell>
-                  <TableCell>{patient.completion_rate}%</TableCell>
+                  <TableCell>Week {patient.weeks?.number || '?'}</TableCell>
                   <TableCell>
-                    <Badge variant={
-                      patient.risk_score >= 4 ? 'destructive' :
-                      patient.risk_score >= 2 ? 'default' :
-                      'secondary'
-                    }>
-                      {patient.risk_score >= 4 ? 'High' :
-                       patient.risk_score >= 2 ? 'Medium' :
-                       'Low'}
+                    <Badge variant={patient.status === 'needs_more' ? 'destructive' : 'secondary'}>
+                      {patient.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={patient.status === 'needs_more' ? 'destructive' : 'default'}>
+                      {patient.status === 'needs_more' ? 'High' : 'Medium'}
                     </Badge>
                   </TableCell>
                   <TableCell>
@@ -136,10 +163,10 @@ export function AtRiskPatients() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem onClick={() => sendReminder(patient.patient_id)}>
+                        <DropdownMenuItem onClick={() => sendReminder(patient.patients?.id)}>
                           Send Reminder
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => viewProgress(patient.patient_id)}>
+                        <DropdownMenuItem onClick={() => viewProgress(patient.patients?.id)}>
                           View Progress
                         </DropdownMenuItem>
                       </DropdownMenuContent>
