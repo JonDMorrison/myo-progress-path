@@ -14,7 +14,7 @@ import { getPageTitle, getSchemaOrgData } from "@/lib/seo";
 import montroseTeamPhoto from "@/assets/montrose-team-photo.jpg";
 import therapySession from "@/assets/therapy-session.jpg";
 import familyExercises from "@/assets/family-exercises.jpg";
-import digitalTherapy from "@/assets/digital-therapy.jpg";
+import digitalTherapy from "@/assets/orofacial-therapy.jpg";
 
 const Home = () => {
   const schemaData = getSchemaOrgData();
