@@ -60,7 +60,7 @@ const TherapistDashboard = () => {
           *,
           patient:patients(
             id,
-            user:users(name, email)
+            user:users!patients_user_id_fkey(name, email)
           ),
           week:weeks(number, title)
         `)

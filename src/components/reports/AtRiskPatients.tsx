@@ -47,7 +47,7 @@ export function AtRiskPatients({ therapistId }: AtRiskPatientsProps) {
             id,
             user_id,
             assigned_therapist_id,
-            users!inner(name, email)
+            users!patients_user_id_fkey!inner(name, email)
           ),
           weeks(number)
         `)
