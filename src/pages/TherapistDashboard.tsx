@@ -229,6 +229,19 @@ const TherapistDashboard = () => {
           </Card>
         </div>
 
+        {/* At-Risk Patients */}
+        {userId && (
+          <Card className="shadow-card mb-6">
+            <CardHeader>
+              <CardTitle>At-Risk Patients</CardTitle>
+              <CardDescription>Patients who may need attention</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AtRiskPatients therapistId={userId} />
+            </CardContent>
+          </Card>
+        )}
+
         {/* Pending Reviews */}
         <Card className="shadow-card">
           <CardHeader>
