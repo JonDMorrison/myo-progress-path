@@ -50,7 +50,7 @@ Myofunctional therapy focuses on achieving four primary goals that work together
 - Proper swallowing without using facial muscles
 - Awareness of tongue position during swallowing
 
-![Photo A: Normal vs High-Arched Palate](#)
+![Photo A: Normal vs High-Arched Palate](/images/learn/palate-comparison.jpg)
 
 ## Tongue Posture
 
@@ -68,10 +68,10 @@ Myofunctional therapy focuses on achieving four primary goals that work together
 - Exercises to strengthen tongue position
 - Maintaining tongue posture all day
 
-![Photo B: The "Spot"](#)
+![Photo B: The "Spot"](/images/learn/the-spot.jpg)
 
 ## How These Goals Work Together
 
 All four goals are interconnected. Nasal breathing requires a lip seal. A lip seal supports proper tongue posture. Proper tongue posture improves swallowing and chewing. When all four work together, the result is improved breathing, better sleep, enhanced facial development, and overall better health.
 
-![Photo C: Vu and Hickey](#)
+![Photo C: Vu and Hickey](/images/learn/correct-tongue-posture.jpg)
