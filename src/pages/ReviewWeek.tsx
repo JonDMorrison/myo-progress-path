@@ -47,7 +47,7 @@ const ReviewWeek = () => {
       // Get patient
       const { data: patientData, error: patientError } = await supabase
         .from("patients")
-        .select("*, user:users(name, email)")
+        .select("*, user:users!patients_user_id_fkey(name, email)")
         .eq("id", patientId)
         .single();
 
