@@ -26,12 +26,15 @@ const TherapistDashboard = () => {
 
   const loadDashboardData = async () => {
     try {
+      console.log("Loading dashboard data...");
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
+        console.log("No user found, redirecting to auth");
         navigate("/auth");
         return;
       }
 
+      console.log("User found:", user.id);
       setUserId(user.id);
 
       // Check if user is admin or super admin
@@ -118,6 +121,7 @@ const TherapistDashboard = () => {
         variant: "destructive",
       });
     } finally {
+      console.log("Dashboard data loading complete, setting loading to false");
       setLoading(false);
     }
   };

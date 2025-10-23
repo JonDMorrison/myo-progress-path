@@ -16,6 +16,7 @@ import { OnboardingWizard } from "./components/onboarding/OnboardingWizard";
 import PatientDashboard from "./pages/PatientDashboard";
 import WeekDetail from "./pages/WeekDetail";
 import TherapistDashboard from "./pages/TherapistDashboard";
+import TherapistPatients from "./pages/TherapistPatients";
 import AdminContent from "./pages/AdminContent";
 import ReviewWeek from "./pages/ReviewWeek";
 import Reports from "./pages/Reports";
@@ -37,13 +38,14 @@ import Resources from "./pages/Resources";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+const App = () => {
+  return (
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -63,6 +65,7 @@ const App = () => (
             <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
             <Route path="/patient" element={<PatientDashboard />} />
             <Route path="/therapist" element={<TherapistDashboard />} />
+            <Route path="/therapist/patients" element={<TherapistPatients />} />
             <Route path="/admin/content" element={<AdminContent />} />
             <Route path="/admin/master" element={<MasterAdmin />} />
             <Route path="/admin/seed-program" element={<SeedProgram />} />
@@ -76,10 +79,11 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </HelmetProvider>
-);
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  );
+};
 
 export default App;
