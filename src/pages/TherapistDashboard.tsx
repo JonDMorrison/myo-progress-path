@@ -148,9 +148,6 @@ const TherapistDashboard = () => {
       <header className="border-b bg-card shadow-sm">
         <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-hero rounded-lg flex items-center justify-center">
-              <UserCheck className="w-6 h-6 text-primary-foreground" />
-            </div>
           <div className="flex items-center gap-2">
             <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
             <div>
