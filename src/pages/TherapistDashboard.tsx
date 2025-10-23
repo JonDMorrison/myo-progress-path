@@ -233,7 +233,6 @@ const TherapistDashboard = () => {
         {userId && (
           <Card className="shadow-card mb-6">
             <CardHeader>
-              <CardTitle>At-Risk Patients</CardTitle>
               <CardDescription>Patients who may need attention</CardDescription>
             </CardHeader>
             <CardContent>
