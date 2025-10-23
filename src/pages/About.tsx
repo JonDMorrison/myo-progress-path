@@ -42,8 +42,9 @@ const About = () => {
                 Built by clinicians. Focused on families.
               </h1>
               <p className="text-xl text-muted-foreground">
-                Montrose Myo is created by Montrose Dental Centre to help patients follow through 
-                at home — with clarity, compassion, and modern tools.
+                Created by Montrose Dental Centre, we empower patients with the tools, 
+                guidance, and support needed to succeed at home—making therapy clear, 
+                accessible, and effective.
               </p>
             </div>
           </section>
