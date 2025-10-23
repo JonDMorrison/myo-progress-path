@@ -3,8 +3,9 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ExportButton } from "@/components/admin/ExportButton";
 import { Shield, Search, Download, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { MasterPatientTable } from "@/components/admin/MasterPatientTable";
@@ -317,7 +318,11 @@ const MasterAdmin = () => {
           </div>
         </div>
 
-        {/* Table */}
+        {/* Table Actions */}
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-semibold">Patient List</h2>
+          <ExportButton onExport={handleExportCSV} />
+        </div>
         {loading ? (
           <div className="text-center py-12">
             <div className="text-muted-foreground">Loading...</div>

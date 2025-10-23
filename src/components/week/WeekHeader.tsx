@@ -27,21 +27,21 @@ export function WeekHeader({ week, progress, onBack }: WeekHeaderProps) {
     <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between mb-4">
-          <Button variant="ghost" onClick={onBack} className="rounded-xl -ml-2">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+          <Button variant="ghost" onClick={onBack} className="rounded-xl -ml-2 gap-2">
+            <ArrowLeft className="h-4 w-4" />
             Back to Dashboard
           </Button>
           {progress && (
             <Badge
               variant="outline"
-              className={cn("rounded-full", getStatusVariant(progress.status))}
+              className={cn("rounded-full px-3 py-1", getStatusVariant(progress.status))}
             >
-              {progress.status}
+              {progress.status.replace('_', ' ')}
             </Badge>
           )}
         </div>
         <div>
-          <h1 className="text-3xl font-bold mb-1">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-1">
             {week?.title || `Week ${week?.number}`}
           </h1>
         </div>

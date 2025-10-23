@@ -14,15 +14,18 @@ export function WeekObjectives({ objectives, weekNumber }: WeekObjectivesProps) 
 
   return (
     <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
-      <CardHeader>
-        <CardTitle className="text-lg">Learning Objectives</CardTitle>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg flex items-center gap-2">
+          <CheckCircle2 className="h-5 w-5 text-primary" />
+          Learning Objectives
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <ul className="space-y-3">
           {objectives.map((objective: string, idx: number) => (
             <li key={idx} className="flex items-start gap-3">
               <CheckCircle2 className="h-5 w-5 text-success flex-shrink-0 mt-0.5" />
-              <span className="text-muted-foreground">{objective}</span>
+              <span className="text-sm text-muted-foreground">{objective}</span>
             </li>
           ))}
         </ul>

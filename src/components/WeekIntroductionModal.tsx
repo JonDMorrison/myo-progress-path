@@ -18,7 +18,7 @@ export function WeekIntroductionModal({
   return (
     <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent 
-        className="sm:max-w-[500px]" 
+        className="sm:max-w-[500px] rounded-2xl" 
         onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
@@ -32,7 +32,7 @@ export function WeekIntroductionModal({
         </DialogHeader>
         
         <div className="flex justify-end mt-6">
-          <Button onClick={onContinue} size="lg">
+          <Button onClick={onContinue} size="lg" className="rounded-xl">
             Get Started
           </Button>
         </div>

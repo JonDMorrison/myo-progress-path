@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -69,14 +70,7 @@ const Index = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="w-12 h-12 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading Montrose Myo...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner message="Loading Montrose Myo..." />;
   }
 
   return null;

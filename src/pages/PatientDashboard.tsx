@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { LogOut, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ConsentDialog } from "@/components/ConsentDialog";
+import { Calendar } from "lucide-react";
 
 import { Section } from "@/components/ui/Section";
 import { TimelineCard } from "@/components/dashboard/TimelineCard";
@@ -13,13 +12,15 @@ import { StreakBadge } from "@/components/dashboard/StreakBadge";
 import { WeekCard } from "@/components/week/WeekCard";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 import { TodayExercisesCard } from "@/components/dashboard/TodayExercisesCard";
-import { CircularGauge } from "@/components/ui/CircularGauge";
+import { StatsOverview } from "@/components/dashboard/StatsOverview";
+import { GamificationPanel } from "@/components/gamification/GamificationPanel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
-import { Progress } from "@/components/ui/progress";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { PatientHeader } from "@/components/layout/PatientHeader";
+import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { ProgramCompletionModal } from "@/components/ProgramCompletionModal";
 
 const PatientDashboard = () => {
@@ -208,19 +209,7 @@ const PatientDashboard = () => {
   if (loading) {
     return (
       <MobileContainer>
-        <div className="min-h-screen bg-background">
-          <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
-            <div className="container mx-auto px-4 sm:px-6 py-4">
-              <div className="flex items-center gap-2">
-                <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
-                <span className="text-xl font-bold">Montrose Myo</span>
-              </div>
-            </div>
-          </header>
-          <div className="container mx-auto px-4 sm:px-6 py-6 space-y-6 pb-24">
-            <DashboardSkeleton />
-          </div>
-        </div>
+        <LoadingSpinner message="Loading your dashboard..." />
         <BottomNav />
       </MobileContainer>
     );
@@ -264,23 +253,11 @@ const PatientDashboard = () => {
       <PatientHeader userName={user?.user_metadata?.name} />
       
       {/* Mobile Header (shows on mobile only) */}
-      <header className="md:hidden sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
-        <div className="container mx-auto px-4 sm:px-6 py-3">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
-                <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
-                <span className="text-xl font-bold">Montrose Myo</span>
-              </div>
-              <h1 className="text-lg font-semibold">{greeting}, {firstName}!</h1>
-            </div>
-            <Button variant="ghost" size="sm" onClick={handleSignOut} className="rounded-xl">
-              <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
-          
-        </div>
-      </header>
+      <DashboardHeader 
+        greeting={greeting}
+        firstName={firstName}
+        onSignOut={handleSignOut}
+      />
 
       <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-7xl">
         <MobileContainer>
@@ -311,71 +288,12 @@ const PatientDashboard = () => {
             </div>
 
             {/* Core Metrics - 3 Circular Gauges */}
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-3 animate-fade-in">
-              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-all">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Nasal Breathing</CardTitle>
-                </CardHeader>
-                <CardContent className="flex justify-center pb-4">
-                  <CircularGauge
-                    value={avgNasalBreathing}
-                    label="Consistency"
-                    size={120}
-                    strokeWidth={10}
-                  />
-                </CardContent>
-              </Card>
-
-              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-all">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Tongue Posture</CardTitle>
-                </CardHeader>
-                <CardContent className="flex justify-center pb-4">
-                  <CircularGauge
-                    value={avgTongueOnSpot}
-                    label="Compliance"
-                    size={120}
-                    strokeWidth={10}
-                  />
-                </CardContent>
-              </Card>
-
-              <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-all">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">BOLT Score</CardTitle>
-                </CardHeader>
-                <CardContent className="flex justify-center pb-4">
-                  <div className="inline-flex flex-col items-center gap-2">
-                    <div className="relative">
-                      <svg width={120} height={120} className="transform -rotate-90">
-                        <circle
-                          cx={60}
-                          cy={60}
-                          r={52}
-                          strokeWidth={10}
-                          className="fill-none stroke-muted opacity-20"
-                        />
-                        <circle
-                          cx={60}
-                          cy={60}
-                          r={52}
-                          strokeWidth={10}
-                          strokeDasharray={326.73}
-                          strokeDashoffset={326.73 * (1 - Math.min(latestBoltScore / 40, 1))}
-                          strokeLinecap="round"
-                          className="fill-none stroke-primary transition-all duration-500"
-                        />
-                      </svg>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl font-bold">{latestBoltScore}s</span>
-                      </div>
-                    </div>
-                    <div className="text-sm font-medium text-muted-foreground text-center">
-                      {latestBoltScore > 0 ? "Latest Score" : "No Data"}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="animate-fade-in">
+              <StatsOverview
+                nasalBreathing={avgNasalBreathing}
+                tonguePosture={avgTongueOnSpot}
+                boltScore={latestBoltScore}
+              />
             </div>
 
             {/* Timeline & Messages */}
@@ -394,10 +312,11 @@ const PatientDashboard = () => {
               </div>
             </div>
 
-            {/* Gamification */}
+            {/* Gamification & Achievements */}
             {patient && (
-              <div className="animate-fade-in">
+              <div className="space-y-4 animate-fade-in">
                 <StreakBadge patientId={patient.id} />
+                <GamificationPanel patientId={patient.id} clinicId={patient.clinic_id} />
               </div>
             )}
           </div>

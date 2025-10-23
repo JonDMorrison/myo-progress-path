@@ -41,19 +41,19 @@ export function QuickStatsBar({
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
       {stats.map((stat, index) => (
         <div
           key={stat.label}
-          className="bg-card border rounded-xl p-4 hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+          className="bg-card border rounded-xl p-3 sm:p-4 hover:shadow-md transition-all duration-300 hover:-translate-y-1"
           style={{ animationDelay: `${index * 50}ms` }}
         >
-          <div className="flex items-center gap-3">
-            <div className={`p-2 rounded-lg bg-muted ${stat.color}`}>
-              <stat.icon className="h-5 w-5" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className={`p-1.5 sm:p-2 rounded-lg bg-muted ${stat.color}`}>
+              <stat.icon className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
             <div>
-              <p className="text-2xl font-bold">{stat.value}</p>
+              <p className="text-xl sm:text-2xl font-bold">{stat.value}</p>
               <p className="text-xs text-muted-foreground">{stat.label}</p>
             </div>
           </div>
