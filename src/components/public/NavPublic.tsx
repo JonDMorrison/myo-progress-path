@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, Home, Info, BookOpen, FileText, User, LogIn } from "lucide-react";
+import { Menu, Home, Info, BookOpen, FileText, User, LogIn, Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 
 const primaryNavLinks = [
@@ -25,6 +27,7 @@ export const NavPublic = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
     // Check current session
@@ -34,11 +37,12 @@ export const NavPublic = () => {
       if (session?.user) {
         const { data: userData } = await supabase
           .from("users")
-          .select("role")
+          .select("role, name")
           .eq("id", session.user.id)
           .single();
         
         setUserRole(userData?.role ?? null);
+        setUserName(userData?.name ?? null);
       }
     });
 
@@ -49,13 +53,15 @@ export const NavPublic = () => {
       if (session?.user) {
         const { data: userData } = await supabase
           .from("users")
-          .select("role")
+          .select("role, name")
           .eq("id", session.user.id)
           .single();
         
         setUserRole(userData?.role ?? null);
+        setUserName(userData?.name ?? null);
       } else {
         setUserRole(null);
+        setUserName(null);
       }
     });
 
@@ -63,6 +69,17 @@ export const NavPublic = () => {
   }, []);
 
   const isActive = (href: string) => location.pathname === href;
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success("Logged out successfully");
+    navigate("/");
+  };
+
+  const getRoleDisplay = (role: string | null) => {
+    if (!role) return "User";
+    return role.charAt(0).toUpperCase() + role.slice(1);
+  };
 
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
@@ -91,22 +108,50 @@ export const NavPublic = () => {
 
         <div className="flex items-center gap-4">
           {user ? (
-            <Button 
-              onClick={() => {
-                const dashboardRoute = userRole === "patient" ? "/patient" : "/therapist";
-                navigate(dashboardRoute);
-              }} 
-              variant="ghost" 
-              size="icon"
-              className="hidden md:flex rounded-full"
-              aria-label="Go to dashboard"
-            >
-              <Avatar className="h-9 w-9">
-                <AvatarFallback className="bg-primary text-primary-foreground">
-                  <User className="h-5 w-5" />
-                </AvatarFallback>
-              </Avatar>
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon"
+                  className="hidden md:flex rounded-full"
+                  aria-label="User menu"
+                >
+                  <Avatar className="h-9 w-9">
+                    <AvatarFallback className="bg-primary text-primary-foreground">
+                      <User className="h-5 w-5" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-64">
+                <DropdownMenuLabel>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{userName || "User"}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                    <p className="text-xs leading-none text-muted-foreground mt-1">
+                      Role: <span className="font-medium text-foreground">{getRoleDisplay(userRole)}</span>
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => {
+                  const dashboardRoute = userRole === "patient" ? "/patient" : "/therapist";
+                  navigate(dashboardRoute);
+                }}>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Dashboard</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/settings")}>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <Link to="/auth" className="hidden md:inline-flex">
               <Button>Login</Button>
