@@ -15,25 +15,23 @@ import montroseTeamPhoto from "@/assets/montrose-team-photo.jpg";
 import therapySession from "@/assets/therapy-session.jpg";
 import familyExercises from "@/assets/family-exercises.jpg";
 import digitalTherapy from "@/assets/orofacial-therapy.jpg";
-
 const Home = () => {
   const schemaData = getSchemaOrgData();
   const navigate = useNavigate();
-
   useEffect(() => {
     checkAuthAndRedirect();
   }, []);
-
   const checkAuthAndRedirect = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: {
+        session
+      }
+    } = await supabase.auth.getSession();
     if (session) {
       // User is logged in, redirect to appropriate dashboard
-      const { data: userData } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", session.user.id)
-        .single();
-
+      const {
+        data: userData
+      } = await supabase.from("users").select("role").eq("id", session.user.id).single();
       if (userData?.role === "patient") {
         navigate("/patient");
       } else if (userData?.role === "therapist" || userData?.role === "admin") {
@@ -41,43 +39,28 @@ const Home = () => {
       }
     }
   };
-
-  const faqItems = [
-    {
-      question: "Can I start without video uploads?",
-      answer: "You can complete weeks without video uploads if your therapist hasn't enabled them for that week."
-    },
-    {
-      question: "How do I log in?",
-      answer: "Use your email with either a password or one-click magic link for secure access."
-    },
-    {
-      question: "Will my data be private?",
-      answer: "Yes — we use secure accounts, private storage, and strict access controls to protect your information."
-    },
-    {
-      question: "Who reviews my progress?",
-      answer: "Your assigned therapist at Montrose reviews your weekly submissions and provides feedback on your exercises."
-    },
-    {
-      question: "How do video check-ins work?",
-      answer: "For select weeks, you can upload videos of your exercises for your therapist to review and provide guidance."
-    }
-  ];
-
-  return (
-    <>
+  const faqItems = [{
+    question: "Can I start without video uploads?",
+    answer: "You can complete weeks without video uploads if your therapist hasn't enabled them for that week."
+  }, {
+    question: "How do I log in?",
+    answer: "Use your email with either a password or one-click magic link for secure access."
+  }, {
+    question: "Will my data be private?",
+    answer: "Yes — we use secure accounts, private storage, and strict access controls to protect your information."
+  }, {
+    question: "Who reviews my progress?",
+    answer: "Your assigned therapist at Montrose reviews your weekly submissions and provides feedback on your exercises."
+  }, {
+    question: "How do video check-ins work?",
+    answer: "For select weeks, you can upload videos of your exercises for your therapist to review and provide guidance."
+  }];
+  return <>
       <Helmet>
         <title>{getPageTitle("Home")}</title>
-        <meta 
-          name="description" 
-          content="Trusted Montrose care in a guided myofunctional program you can follow from home. Built by Dr. Matt Francisco and the Montrose Dental Centre team in Abbotsford." 
-        />
+        <meta name="description" content="Trusted Montrose care in a guided myofunctional program you can follow from home. Built by Dr. Matt Francisco and the Montrose Dental Centre team in Abbotsford." />
         <meta property="og:title" content={getPageTitle("Home")} />
-        <meta 
-          property="og:description" 
-          content="Trusted Montrose care in a guided myofunctional program you can follow from home." 
-        />
+        <meta property="og:description" content="Trusted Montrose care in a guided myofunctional program you can follow from home." />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/placeholder.svg" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -99,10 +82,7 @@ const Home = () => {
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                     Trusted Montrose care — now in a guided myofunctional program you can follow from home
                   </h1>
-                  <p className="text-xl text-muted-foreground mb-8">
-                    Built by Dr. Matt Francisco and the Montrose Dental Centre team in Abbotsford, 
-                    this secure app turns weekly exercises into simple steps with feedback and video check-ins.
-                  </p>
+                  <p className="text-xl text-muted-foreground mb-8">Built by the Montrose Dental Centre team in Abbotsford, this secure app turns weekly exercises into simple steps with feedback and video check-ins.</p>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button asChild size="lg">
                       <Link to="/register">Get Started</Link>
@@ -225,11 +205,7 @@ const Home = () => {
             <div className="container">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div className="rounded-2xl overflow-hidden shadow-2xl">
-                  <img 
-                    src={therapySession} 
-                    alt="Professional myofunctional therapy consultation at Montrose Dental Centre" 
-                    className="w-full h-auto object-cover"
-                  />
+                  <img src={therapySession} alt="Professional myofunctional therapy consultation at Montrose Dental Centre" className="w-full h-auto object-cover" />
                 </div>
                 
                 <div>
@@ -316,11 +292,7 @@ const Home = () => {
                 </div>
                 
                 <div className="rounded-2xl overflow-hidden shadow-2xl order-1 lg:order-2">
-                  <img 
-                    src={familyExercises} 
-                    alt="Family practicing breathing exercises together at home" 
-                    className="w-full h-auto object-cover"
-                  />
+                  <img src={familyExercises} alt="Family practicing breathing exercises together at home" className="w-full h-auto object-cover" />
                 </div>
               </div>
             </div>
@@ -384,11 +356,7 @@ const Home = () => {
               </div>
 
               <div className="rounded-2xl overflow-hidden shadow-2xl max-w-3xl mx-auto">
-                <img 
-                  src={digitalTherapy} 
-                  alt="Using Montrose Myo digital platform on mobile devices" 
-                  className="w-full h-auto object-cover"
-                />
+                <img src={digitalTherapy} alt="Using Montrose Myo digital platform on mobile devices" className="w-full h-auto object-cover" />
               </div>
             </div>
           </section>
@@ -398,11 +366,7 @@ const Home = () => {
             <div className="container">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div className="rounded-2xl overflow-hidden shadow-lg order-2 lg:order-1">
-                  <img 
-                    src={montroseTeamPhoto} 
-                    alt="Montrose Dental Centre team" 
-                    className="w-full h-auto object-contain"
-                  />
+                  <img src={montroseTeamPhoto} alt="Montrose Dental Centre team" className="w-full h-auto object-contain" />
                 </div>
                 
                 <div className="order-1 lg:order-2">
@@ -444,8 +408,7 @@ const Home = () => {
               </div>
               
               <div className="space-y-4">
-                {faqItems.map((item, index) => (
-                  <details key={index} className="group bg-background rounded-lg border p-6">
+                {faqItems.map((item, index) => <details key={index} className="group bg-background rounded-lg border p-6">
                     <summary className="font-semibold text-lg cursor-pointer list-none flex items-center justify-between">
                       {item.question}
                       <span className="text-muted-foreground group-open:rotate-180 transition-transform">
@@ -453,8 +416,7 @@ const Home = () => {
                       </span>
                     </summary>
                     <p className="mt-4 text-muted-foreground">{item.answer}</p>
-                  </details>
-                ))}
+                  </details>)}
               </div>
             </div>
           </section>
@@ -506,8 +468,6 @@ const Home = () => {
 
         <FooterPublic />
       </div>
-    </>
-  );
+    </>;
 };
-
 export default Home;
