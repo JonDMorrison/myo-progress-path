@@ -33,6 +33,7 @@ const WeekDetail = () => {
   const [showIntroduction, setShowIntroduction] = useState(false);
   const [uploads, setUploads] = useState<any[]>([]);
   const [canSubmitState, setCanSubmitState] = useState(false);
+  const [missingRequirements, setMissingRequirements] = useState<string[]>([]);
 
   useEffect(() => {
     loadWeekData();
@@ -172,6 +173,7 @@ const WeekDetail = () => {
       if (error) {
         console.error('Progress calculation error:', error);
         setCanSubmitState(false);
+        setMissingRequirements([]);
         return;
       }
 
@@ -180,9 +182,11 @@ const WeekDetail = () => {
       const notYetReviewed = progressData?.status === "open" || progressData?.status === "needs_more";
       
       setCanSubmitState(isComplete && notYetReviewed);
+      setMissingRequirements(isComplete ? [] : result?.missing || []);
     } catch (error) {
       console.error('Error checking submit eligibility:', error);
       setCanSubmitState(false);
+      setMissingRequirements([]);
     }
   };
 
@@ -480,6 +484,7 @@ const WeekDetail = () => {
                   progress={progress}
                   week={week}
                   uploads={uploads}
+                  exercises={exercises}
                 />
 
                 {/* Messages */}
@@ -500,6 +505,7 @@ const WeekDetail = () => {
             onComplete={handleSubmitForReview}
             canSubmit={canSubmitState}
             loading={false}
+            missingRequirements={missingRequirements}
           />
         )}
 

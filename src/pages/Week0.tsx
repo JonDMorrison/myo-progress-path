@@ -35,6 +35,23 @@ export default function Week0() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-6 py-12 max-w-5xl">
+        {/* Completion Banner */}
+        {!quizCompleted && (
+          <div className="mb-8 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20 p-6">
+            <p className="text-center text-lg font-medium">
+              🎯 Complete this introduction to unlock Week 1 of your program
+            </p>
+          </div>
+        )}
+
+        {quizCompleted && (
+          <div className="mb-8 rounded-2xl bg-gradient-to-r from-success/10 to-success/5 border border-success/20 p-6">
+            <p className="text-center text-lg font-medium text-success">
+              ✨ Great! You've unlocked Week 1. Head to your dashboard to begin.
+            </p>
+          </div>
+        )}
+
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Start Here: Introduction to Myofunctional Therapy</h1>
           <p className="text-lg text-muted-foreground">Learn the fundamentals before beginning Week 1</p>

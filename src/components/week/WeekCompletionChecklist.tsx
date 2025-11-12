@@ -7,13 +7,23 @@ interface WeekCompletionChecklistProps {
   progress: any;
   week: any;
   uploads: any[];
+  exercises?: any[];
 }
 
 export function WeekCompletionChecklist({ 
   progress, 
   week, 
-  uploads 
+  uploads,
+  exercises = []
 }: WeekCompletionChecklistProps) {
+  // Calculate exercise completion
+  const exerciseCompletions = progress?.exercise_completions || {};
+  const completedExercises = Object.values(exerciseCompletions).filter(
+    (count): count is number => typeof count === 'number' && count > 0
+  ).length;
+  const totalExercises = exercises.length;
+  const allExercisesComplete = totalExercises > 0 && completedExercises === totalExercises;
+
   const requirements = [
     {
       label: 'First Video Uploaded',
@@ -39,6 +49,11 @@ export function WeekCompletionChecklist({
       label: 'Tongue Posture %',
       complete: progress.tongue_on_spot_pct !== null && progress.tongue_on_spot_pct !== undefined,
       required: true
+    },
+    {
+      label: `Exercises Completed (${completedExercises}/${totalExercises})`,
+      complete: allExercisesComplete,
+      required: totalExercises > 0
     }
   ];
 
