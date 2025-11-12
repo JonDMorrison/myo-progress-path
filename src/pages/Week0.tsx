@@ -123,8 +123,8 @@ export default function Week0() {
 
         {quizCompleted && (
           <div className="mt-8 text-center">
-            <Button size="lg" onClick={() => navigate("/week/1")}>
-              Go to Week 1
+            <Button size="lg" onClick={() => navigate("/patient")}>
+              Go to Dashboard
             </Button>
           </div>
         )}

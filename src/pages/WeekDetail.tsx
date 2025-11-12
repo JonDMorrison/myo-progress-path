@@ -17,6 +17,7 @@ import { WeekMessagesPanel } from "@/components/week/WeekMessagesPanel";
 import { WeekCompletionChecklist } from "@/components/week/WeekCompletionChecklist";
 import { WeekExercisesList } from "@/components/week/WeekExercisesList";
 import { SubmitBar } from "@/components/week/SubmitBar";
+import { ExerciseProgressSummary } from "@/components/week/ExerciseProgressSummary";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -434,9 +435,19 @@ const WeekDetail = () => {
                   </Section>
                 )}
 
-                {/* Exercises */}
+                {/* Exercise Progress Summary */}
                 {exercises.length > 0 && (
                   <Section delay={300}>
+                    <ExerciseProgressSummary
+                      completedCount={Object.values(progress?.exercise_completions || {}).filter((count): count is number => typeof count === 'number' && count > 0).length}
+                      totalCount={exercises.length}
+                    />
+                  </Section>
+                )}
+
+                {/* Exercises */}
+                {exercises.length > 0 && (
+                  <Section delay={350}>
                     <WeekExercisesList
                       exercises={exercises}
                       patientId={patient?.id}
