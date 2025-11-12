@@ -139,8 +139,8 @@ export const OnboardingWizard = () => {
       setCurrentStepIndex(currentStepIndex + 1);
       await saveProgress(steps[currentStepIndex + 1].id, false);
     } else {
-      // Onboarding complete
-      navigate('/patient');
+      // Onboarding complete - redirect to Week 0
+      navigate('/week-0');
     }
   };
 

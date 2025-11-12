@@ -31,6 +31,7 @@ const WeekDetail = () => {
   const [newMessage, setNewMessage] = useState("");
   const [showIntroduction, setShowIntroduction] = useState(false);
   const [uploads, setUploads] = useState<any[]>([]);
+  const [canSubmitState, setCanSubmitState] = useState(false);
 
   useEffect(() => {
     loadWeekData();
@@ -145,6 +146,9 @@ const WeekDetail = () => {
       if (weekData?.introduction && progressData && !progressData.introduction_viewed) {
         setShowIntroduction(true);
       }
+
+      // Check submit eligibility
+      checkCanSubmit(patientData.id, weekData.id, progressData);
     } catch (error: any) {
       console.error("Error loading week data:", error);
       toast({
@@ -154,6 +158,30 @@ const WeekDetail = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const checkCanSubmit = async (patientId: string, weekId: string, progressData: any) => {
+    try {
+      const { data, error } = await supabase.rpc('calc_week_progress', {
+        _patient_id: patientId,
+        _week_id: weekId
+      });
+
+      if (error) {
+        console.error('Progress calculation error:', error);
+        setCanSubmitState(false);
+        return;
+      }
+
+      const result = data as { percent_complete: number; missing: string[] };
+      const isComplete = result?.percent_complete === 100;
+      const notYetReviewed = progressData?.status === "open" || progressData?.status === "needs_more";
+      
+      setCanSubmitState(isComplete && notYetReviewed);
+    } catch (error) {
+      console.error('Error checking submit eligibility:', error);
+      setCanSubmitState(false);
     }
   };
 
@@ -297,6 +325,8 @@ const WeekDetail = () => {
 
     if (progressData) {
       setProgress(progressData);
+      // Recheck submit eligibility
+      checkCanSubmit(patient.id, week.id, progressData);
     }
   };
 
@@ -457,7 +487,7 @@ const WeekDetail = () => {
         {progress && (progress.status === "open" || progress.status === "needs_more") && (
           <SubmitBar
             onComplete={handleSubmitForReview}
-            canSubmit={false}
+            canSubmit={canSubmitState}
             loading={false}
           />
         )}

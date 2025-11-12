@@ -12,6 +12,7 @@ import { StreakBadge } from "@/components/dashboard/StreakBadge";
 import { WeekCard } from "@/components/week/WeekCard";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 import { TodayExercisesCard } from "@/components/dashboard/TodayExercisesCard";
+import { TodayExercisesCardWithProgress } from "@/components/dashboard/TodayExercisesCardWithProgress";
 import { StatsOverview } from "@/components/dashboard/StatsOverview";
 import { GamificationPanel } from "@/components/gamification/GamificationPanel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -276,16 +277,12 @@ const PatientDashboard = () => {
         ) : (
           <div className="space-y-6 pb-24">
             {/* Today's Exercises - Primary CTA */}
-            <div className="animate-fade-in">
-              <TodayExercisesCard
-                weekNumber={currentWeek.number}
-                weekTitle={currentWeek.title || `Week ${currentWeek.number}`}
-                exercisesCompleted={0}
-                totalExercises={5}
-                isCompleted={progress?.status === 'completed'}
-                onStartSession={() => handleNavigateToWeek(currentWeek.number)}
-              />
-            </div>
+            <TodayExercisesCardWithProgress 
+              patientId={patient?.id}
+              currentWeek={currentWeek}
+              progress={progress}
+              onStartSession={handleNavigateToWeek}
+            />
 
             {/* Core Metrics - 3 Circular Gauges */}
             <div className="animate-fade-in">

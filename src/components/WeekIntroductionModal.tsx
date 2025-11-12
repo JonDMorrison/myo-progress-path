@@ -16,10 +16,9 @@ export function WeekIntroductionModal({
   onContinue 
 }: WeekIntroductionModalProps) {
   return (
-    <Dialog open={open} onOpenChange={() => {}}>
+    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onContinue(); }}>
       <DialogContent 
-        className="sm:max-w-[500px] rounded-2xl" 
-        onInteractOutside={(e) => e.preventDefault()}
+        className="sm:max-w-[500px] rounded-2xl"
       >
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
