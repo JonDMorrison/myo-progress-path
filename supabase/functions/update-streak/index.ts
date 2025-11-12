@@ -30,9 +30,34 @@ serve(async (req) => {
       .from("gamification_stats")
       .select("*")
       .eq("patient_id", patientId)
-      .single();
+      .maybeSingle();
 
     if (statsError) throw statsError;
+
+    // If no stats exist, create them
+    if (!stats) {
+      const { data: newStats, error: createError } = await supabase
+        .from("gamification_stats")
+        .insert({
+          patient_id: patientId,
+          points: 0,
+          current_streak: 1,
+          longest_streak: 1,
+          last_activity_date: new Date().toISOString().split("T")[0],
+        })
+        .select()
+        .single();
+
+      if (createError) throw createError;
+
+      return new Response(
+        JSON.stringify({ success: true, newStreak: 1, longestStreak: 1 }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        }
+      );
+    }
 
     const lastActivityDate = stats.last_activity_date;
     let newStreak = stats.current_streak;
