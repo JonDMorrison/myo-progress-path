@@ -713,7 +713,7 @@ export type Database = {
           id: string
           program_variant: Database["public"]["Enums"]["program_variant"] | null
           status: Database["public"]["Enums"]["patient_status"] | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           assigned_therapist_id?: string | null
@@ -727,7 +727,7 @@ export type Database = {
             | Database["public"]["Enums"]["program_variant"]
             | null
           status?: Database["public"]["Enums"]["patient_status"] | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           assigned_therapist_id?: string | null
@@ -741,7 +741,7 @@ export type Database = {
             | Database["public"]["Enums"]["program_variant"]
             | null
           status?: Database["public"]["Enums"]["patient_status"] | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -775,14 +775,14 @@ export type Database = {
           {
             foreignKeyName: "patients_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "patients_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "v_master_patient_list"
             referencedColumns: ["therapist_id"]
           },
@@ -1018,14 +1018,14 @@ export type Database = {
           {
             foreignKeyName: "patients_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "patients_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "v_master_patient_list"
             referencedColumns: ["therapist_id"]
           },
@@ -1080,14 +1080,14 @@ export type Database = {
           {
             foreignKeyName: "patients_user_id_fkey"
             columns: ["patient_user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "patients_user_id_fkey"
             columns: ["patient_user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "v_master_patient_list"
             referencedColumns: ["therapist_id"]
           },
