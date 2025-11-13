@@ -22,7 +22,6 @@ export const GoalsStep = () => {
             <li>• Reduced snoring</li>
             <li>• Stronger tongue and oral muscles</li>
             <li>• Better posture and jaw alignment</li>
-            <li>• Enhanced athletic performance</li>
           </ul>
         </div>
 
