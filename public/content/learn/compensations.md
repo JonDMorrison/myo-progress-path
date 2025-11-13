@@ -6,41 +6,29 @@ In this context, **compensations** are the result of stronger neck, face and ora
 
 *Muscles of the neck compensating for weak facial muscles*
 
-![Neck Engagement](#)
-
 ## Jaw Protrusion
 
 *Jaw shifting forward to compensate for weak posterior tongue muscles*
-
-![Jaw Protrusion](#)
 
 ## Jaw Lateralization
 
 *Jaw shifting side to side to compensate for weak posterior tongue muscles*
 
-![Jaw Lateralization](#)
-
 ## Floor of Mouth Activation
 
 *Floor of the mouth lifting to compensate for weak posterior tongue muscles or tongue tie*
-
-![Floor of Mouth Activation](#)
 
 ## Facial Grimace
 
 *Rounding/pursing lips, cheeks pulling in, and/or chin dimpling or strain—often during opening or swallowing*
 
-![Facial Grimace](#)
-
 ## Tension
 
 *Holding tension throughout any muscles of the body due to weak muscle coordination/tone; this can trigger compensations*
 
-![General Tension](#)
-
 ---
 
-## Mouth Breathing → Nasal Unblocking
+## Mouth Breathing - Nasal Unblocking
 
 If a plugged nose is preventing nasal breathing, use these:
 
