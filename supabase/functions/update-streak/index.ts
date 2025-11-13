@@ -36,10 +36,21 @@ serve(async (req) => {
 
     // If no stats exist, create them
     if (!stats) {
+      // Get patient's clinic_id
+      const { data: patient, error: patientError } = await supabase
+        .from("patients")
+        .select("clinic_id")
+        .eq("id", patientId)
+        .single();
+
+      if (patientError) throw patientError;
+      if (!patient) throw new Error("Patient not found");
+
       const { data: newStats, error: createError } = await supabase
         .from("gamification_stats")
         .insert({
           patient_id: patientId,
+          clinic_id: patient.clinic_id,
           points: 0,
           current_streak: 1,
           longest_streak: 1,
