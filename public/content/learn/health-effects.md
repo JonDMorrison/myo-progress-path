@@ -39,15 +39,6 @@ Chronic mouth breathing and sleep-disordered breathing increase risk of serious 
 
 ## Metabolic Effects
 
-### Blood Sugar Regulation
-
-Poor sleep from breathing issues can significantly impact metabolic health:
-
-- Insulin sensitivity
-- Blood sugar control
-- Risk of type 2 diabetes
-- Weight gain
-
 ### Energy and Metabolism
 
 Mouth breathing reduces oxygen efficiency, leading to widespread fatigue:

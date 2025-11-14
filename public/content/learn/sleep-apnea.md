@@ -98,14 +98,7 @@ Myofunctional therapy works well alongside:
 - **Weight loss** - Addresses multiple contributing factors
 - **Positional therapy** - Improves overall outcomes
 
-## Timeline for Results
-
-- **Weeks 1-8:** Building foundational muscle awareness and strength
-- **Weeks 9-16:** Significant improvements in muscle tone and patterns
-- **Weeks 17-24:** Consolidation of habits and maximum benefit
-- **Post-program:** Continued improvement as new patterns become automatic
-
-Sleep study improvements are typically measured after completing the full 12-24 week program.
+Results vary by individual. Sleep study improvements are typically measured after completing the full program.
 
 ## Long-Term Success
 

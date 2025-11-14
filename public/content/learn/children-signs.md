@@ -111,7 +111,6 @@ These health issues frequently occur alongside sleep-disordered breathing:
 - **Chronic sinusitis** – Persistent sinus inflammation
 - **Enlarged tonsils/adenoids** – Obstructive lymphoid tissue
 - **Asthma** – Reactive airway disease
-- **Eczema** – Atopic dermatitis
 
 ## The Impact on Development
 

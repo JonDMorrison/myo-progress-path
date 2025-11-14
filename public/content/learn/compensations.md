@@ -42,7 +42,7 @@ If a plugged nose is preventing nasal breathing, use these:
 
 1. Take **3 normal breaths**, in/out naturally.
 2. After the 3rd exhale, **pinch your nose** and hold your breath.
-3. Optional: gently **nod** head up/down or side/side.
+3. Gently **nod** head up/down or side/side.
 4. Hold until you feel a **mild air hunger**.
 5. **Mouth closed**, inhale **through your nose**; keep nose breathing as it normalizes.
 6. Repeat **3–5 times** as needed.

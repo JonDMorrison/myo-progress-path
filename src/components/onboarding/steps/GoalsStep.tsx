@@ -26,12 +26,12 @@ export const GoalsStep = () => {
         </div>
 
         <div className="p-6 bg-primary/10 border border-primary/20 rounded-lg">
-          <h3 className="font-semibold mb-2">Your Personal Journey</h3>
+          <h3 className="font-semibold mb-2">Personalized Therapy</h3>
           <p className="text-sm text-muted-foreground mb-4">
-            Everyone's therapy journey is unique. Your therapist will work with you to create a personalized plan based on your specific needs and goals.
+            Your therapist will create a plan based on your specific needs and goals.
           </p>
           <p className="text-sm text-muted-foreground">
-            You can discuss your specific goals with your therapist during your first week or through the messaging system at any time.
+            Discuss your goals during your first week or through messaging anytime.
           </p>
         </div>
 

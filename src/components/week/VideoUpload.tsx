@@ -128,7 +128,12 @@ export function VideoUpload({
   }
 
   return (
-    <div className={`space-y-2 ${className}`}>
+    <div className={`space-y-3 ${className}`}>
+      <div className="p-3 bg-muted/50 border border-border/50 rounded-lg">
+        <p className="text-sm text-muted-foreground">
+          <strong>Frame your video:</strong> Include your neck and lower face. Match the reference example for best results.
+        </p>
+      </div>
       <Button
         variant="outline"
         onClick={triggerFileInput}
