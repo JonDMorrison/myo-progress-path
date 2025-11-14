@@ -470,6 +470,7 @@ const WeekDetail = () => {
                         <WeekProgressForm
                           progress={progress}
                           week={week}
+                          patientId={patient?.id}
                         />
                       </CardContent>
                     </Card>

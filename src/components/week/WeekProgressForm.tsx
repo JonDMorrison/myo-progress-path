@@ -5,13 +5,17 @@ import { HelpCircle } from "lucide-react";
 import { BOLTHelpContent } from "@/components/BOLTHelpContent";
 import { NasalBreathingHelpContent } from "@/components/NasalBreathingHelpContent";
 import { useWeekForm } from "@/hooks/useWeekForm";
+import { VideoUpload } from "./VideoUpload";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface WeekProgressFormProps {
   progress: any;
   week: any;
+  patientId?: string;
 }
 
-export function WeekProgressForm({ progress, week }: WeekProgressFormProps) {
+export function WeekProgressForm({ progress, week, patientId }: WeekProgressFormProps) {
   const { formData, updateField, isSaving, lastSaved } = useWeekForm(
     progress.id,
     {
@@ -21,8 +25,34 @@ export function WeekProgressForm({ progress, week }: WeekProgressFormProps) {
     }
   );
 
+  const [uploads, setUploads] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (patientId && week?.id) {
+      loadUploads();
+    }
+  }, [patientId, week?.id]);
+
+  const loadUploads = async () => {
+    if (!patientId || !week?.id) return;
+    
+    const { data } = await supabase
+      .from("uploads")
+      .select("*")
+      .eq("patient_id", patientId)
+      .eq("week_id", week.id)
+      .order("created_at", { ascending: false });
+
+    setUploads(data || []);
+  };
+
+  const hasFirstVideo = uploads.some((u) => u.kind === 'first_attempt');
+  const hasLastVideo = uploads.some((u) => u.kind === 'last_attempt');
+
   return (
     <div className="space-y-6">
+      <h3 className="text-lg font-semibold">Weekly Progress</h3>
+      
       {/* Auto-save indicator */}
       <div className="text-sm text-muted-foreground text-right">
         {isSaving && <span>Saving...</span>}
@@ -30,6 +60,44 @@ export function WeekProgressForm({ progress, week }: WeekProgressFormProps) {
           <span>Saved {Math.floor((Date.now() - lastSaved.getTime()) / 1000)}s ago</span>
         )}
       </div>
+
+      {/* Video Uploads Section */}
+      {(week?.requires_video_first || week?.requires_video_last) && patientId && (
+        <div className="space-y-4 p-4 bg-muted/30 rounded-xl border border-border/50">
+          <h4 className="font-medium text-sm">Exercise Videos</h4>
+          <p className="text-sm text-muted-foreground">
+            Record yourself performing the exercises. Your therapist will review these to provide personalized feedback.
+          </p>
+          
+          {week?.requires_video_first && (
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">First Attempt (Beginning of Week)</Label>
+              <VideoUpload
+                patientId={patientId}
+                weekId={week.id}
+                kind="first_attempt"
+                onUploadComplete={loadUploads}
+                hasExisting={hasFirstVideo}
+                disabled={progress?.status === 'submitted' || progress?.status === 'approved'}
+              />
+            </div>
+          )}
+
+          {week?.requires_video_last && (
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Last Attempt (End of Week)</Label>
+              <VideoUpload
+                patientId={patientId}
+                weekId={week.id}
+                kind="last_attempt"
+                onUploadComplete={loadUploads}
+                hasExisting={hasLastVideo}
+                disabled={progress?.status === 'submitted' || progress?.status === 'approved'}
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       {/* BOLT Score */}
       {week?.requires_bolt && (
