@@ -68,7 +68,8 @@ export function WeekExercisesList({
             {exercise.demo_video_url && (
               <ResponsiveVideo 
                 src={exercise.demo_video_url} 
-                title={`${exercise.title} demonstration`} 
+                title={`${exercise.title} demonstration`}
+                portrait={true}
               />
             )}
 
