@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CircularGauge } from "@/components/ui/CircularGauge";
 import { Wind, Target, Activity } from "lucide-react";
+import { NasalUnblockModal } from "@/components/learn/NasalUnblockModal";
 
 interface StatsOverviewProps {
   nasalBreathing: number;
@@ -18,13 +19,14 @@ export function StatsOverview({ nasalBreathing, tonguePosture, boltScore }: Stat
             Nasal Breathing
           </CardTitle>
         </CardHeader>
-        <CardContent className="flex justify-center pb-4">
+        <CardContent className="flex flex-col items-center pb-4 gap-3">
           <CircularGauge
             value={nasalBreathing}
             label="Consistency"
             size={120}
             strokeWidth={10}
           />
+          <NasalUnblockModal />
         </CardContent>
       </Card>
 

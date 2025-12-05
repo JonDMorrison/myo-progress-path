@@ -1,3 +1,5 @@
+import { NasalUnblockModal } from "@/components/learn/NasalUnblockModal";
+
 export const NasalBreathingHelpContent = () => {
   return (
     <div className="space-y-3">
@@ -32,7 +34,12 @@ export const NasalBreathingHelpContent = () => {
           <li>Set hourly reminders to check your breathing</li>
           <li>Use mouth tape at night to encourage nasal breathing</li>
           <li>Practice breathing exercises to strengthen nasal passages</li>
-          <li>If congested, try the nasal unblocking technique</li>
+          <li className="list-none ml-[-1.25rem]">
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-current inline-block" />
+              If congested, <NasalUnblockModal />
+            </span>
+          </li>
         </ul>
       </div>
     </div>

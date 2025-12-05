@@ -4,6 +4,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { HelpCircle } from "lucide-react";
 import { BOLTHelpContent } from "@/components/BOLTHelpContent";
 import { NasalBreathingHelpContent } from "@/components/NasalBreathingHelpContent";
+import { NasalUnblockModal } from "@/components/learn/NasalUnblockModal";
 import { useWeekForm } from "@/hooks/useWeekForm";
 import { VideoUpload } from "./VideoUpload";
 import { useEffect, useState } from "react";
@@ -150,9 +151,12 @@ export function WeekProgressForm({ progress, week, patientId }: WeekProgressForm
           onChange={(e) => updateField('nasalPct', e.target.value)}
           placeholder="Enter percentage"
         />
-        <p className="text-xs text-muted-foreground">
-          Estimate the percentage of time you breathed through your nose while awake.
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">
+            Estimate the percentage of time you breathed through your nose while awake.
+          </p>
+          <NasalUnblockModal />
+        </div>
       </div>
 
       {/* Tongue Posture % */}
