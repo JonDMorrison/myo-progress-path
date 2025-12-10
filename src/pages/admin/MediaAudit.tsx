@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { Download, Save, Filter, CheckCircle2, AlertCircle, Video, Image, FileText, Clock, ExternalLink, Link2Off } from "lucide-react";
+import { Download, Save, Filter, CheckCircle2, AlertCircle, Video, Image, FileText, Clock, ExternalLink, Link2Off, Eye } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
 
 type MediaStatus = Database["public"]["Enums"]["media_status"];
@@ -232,13 +233,22 @@ export default function MediaAudit() {
             return (
               <Card key={exercise.id} className={`${hasChanges ? "ring-2 ring-primary/50" : ""}`}>
                 <CardContent className="p-4 space-y-4">
-                  {/* Top Row: Title, Type, Week */}
+                  {/* Top Row: Title, Type, Week, Link */}
                   <div className="flex items-start justify-between gap-4">
-                    <div>
+                    <div className="flex-1">
                       <h3 className="font-medium">{exercise.title}</h3>
-                      <div className="flex items-center gap-2 mt-1">
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
                         <Badge variant="outline" className="text-xs">{exercise.type}</Badge>
                         <span className="text-xs text-muted-foreground">Week {exercise.week_number}</span>
+                        {exercise.week_id && (
+                          <Link 
+                            to={`/week/${exercise.week_id}`}
+                            className="text-xs text-primary hover:text-primary/80 flex items-center gap-1"
+                          >
+                            <Eye className="h-3 w-3" />
+                            View in context
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>
