@@ -30,6 +30,7 @@ interface Exercise {
   media_status: MediaStatus | null;
   media_waiting_on_clinician: boolean | null;
   requires_clinician_confirmation: boolean | null;
+  media_approved: boolean | null;
   demo_video_url: string | null;
   admin_notes: string | null;
   week_id: string | null;
@@ -49,7 +50,7 @@ export default function MediaAudit() {
         .select(`
           id, title, type, instructions, media_status, 
           media_waiting_on_clinician, requires_clinician_confirmation,
-          demo_video_url, admin_notes, week_id,
+          media_approved, demo_video_url, admin_notes, week_id,
           weeks!inner(number)
         `)
         .order("title");
@@ -71,6 +72,7 @@ export default function MediaAudit() {
             media_status: changes.media_status,
             media_waiting_on_clinician: changes.media_waiting_on_clinician,
             requires_clinician_confirmation: changes.requires_clinician_confirmation,
+            media_approved: changes.media_approved,
             admin_notes: changes.admin_notes,
           })
           .eq("id", id);
@@ -94,7 +96,7 @@ export default function MediaAudit() {
     }));
   };
 
-  const handleCheckboxChange = (exerciseId: string, field: "media_waiting_on_clinician" | "requires_clinician_confirmation", value: boolean) => {
+  const handleCheckboxChange = (exerciseId: string, field: "media_waiting_on_clinician" | "requires_clinician_confirmation" | "media_approved", value: boolean) => {
     setPendingChanges((prev) => ({
       ...prev,
       [exerciseId]: { ...prev[exerciseId], [field]: value },
@@ -305,7 +307,17 @@ export default function MediaAudit() {
                     </div>
 
                     {/* Checkboxes */}
-                    <div className="md:col-span-3 space-y-2">
+                    <div className="md:col-span-4 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id={`approved-${exercise.id}`}
+                          checked={pendingChanges[exercise.id]?.media_approved ?? exercise.media_approved ?? false}
+                          onCheckedChange={(v) => handleCheckboxChange(exercise.id, "media_approved", !!v)}
+                        />
+                        <label htmlFor={`approved-${exercise.id}`} className="text-sm font-medium text-green-600">
+                          ✓ Media Approved
+                        </label>
+                      </div>
                       <div className="flex items-center gap-2">
                         <Checkbox
                           id={`waiting-${exercise.id}`}
@@ -329,7 +341,7 @@ export default function MediaAudit() {
                     </div>
 
                     {/* Admin Notes */}
-                    <div className="md:col-span-6">
+                    <div className="md:col-span-5">
                       <label className="text-xs text-muted-foreground mb-1 block">Admin Notes</label>
                       <Textarea
                         placeholder="Add notes about media requirements, clinician feedback, etc."

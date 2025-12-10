@@ -362,6 +362,7 @@ export type Database = {
           frequency: string | null
           id: string
           instructions: string | null
+          media_approved: boolean | null
           media_status: Database["public"]["Enums"]["media_status"] | null
           media_waiting_on_clinician: boolean | null
           props: string | null
@@ -379,6 +380,7 @@ export type Database = {
           frequency?: string | null
           id?: string
           instructions?: string | null
+          media_approved?: boolean | null
           media_status?: Database["public"]["Enums"]["media_status"] | null
           media_waiting_on_clinician?: boolean | null
           props?: string | null
@@ -396,6 +398,7 @@ export type Database = {
           frequency?: string | null
           id?: string
           instructions?: string | null
+          media_approved?: boolean | null
           media_status?: Database["public"]["Enums"]["media_status"] | null
           media_waiting_on_clinician?: boolean | null
           props?: string | null
