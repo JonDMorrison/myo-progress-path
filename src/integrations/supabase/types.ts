@@ -362,7 +362,9 @@ export type Database = {
           id: string
           instructions: string | null
           media_status: Database["public"]["Enums"]["media_status"] | null
+          media_waiting_on_clinician: boolean | null
           props: string | null
+          requires_clinician_confirmation: boolean | null
           title: string
           type: Database["public"]["Enums"]["exercise_type"]
           week_id: string | null
@@ -376,7 +378,9 @@ export type Database = {
           id?: string
           instructions?: string | null
           media_status?: Database["public"]["Enums"]["media_status"] | null
+          media_waiting_on_clinician?: boolean | null
           props?: string | null
+          requires_clinician_confirmation?: boolean | null
           title: string
           type: Database["public"]["Enums"]["exercise_type"]
           week_id?: string | null
@@ -390,7 +394,9 @@ export type Database = {
           id?: string
           instructions?: string | null
           media_status?: Database["public"]["Enums"]["media_status"] | null
+          media_waiting_on_clinician?: boolean | null
           props?: string | null
+          requires_clinician_confirmation?: boolean | null
           title?: string
           type?: Database["public"]["Enums"]["exercise_type"]
           week_id?: string | null
