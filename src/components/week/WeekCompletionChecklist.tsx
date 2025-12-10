@@ -16,6 +16,11 @@ export function WeekCompletionChecklist({
   uploads,
   exercises = []
 }: WeekCompletionChecklistProps) {
+  // Handle null week
+  if (!week) {
+    return null;
+  }
+
   // Calculate exercise completion
   const exerciseCompletions = progress?.exercise_completions || {};
   const completedExercises = Object.values(exerciseCompletions).filter(
