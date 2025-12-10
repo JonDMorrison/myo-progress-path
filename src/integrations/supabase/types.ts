@@ -361,6 +361,7 @@ export type Database = {
           frequency: string | null
           id: string
           instructions: string | null
+          media_status: Database["public"]["Enums"]["media_status"] | null
           props: string | null
           title: string
           type: Database["public"]["Enums"]["exercise_type"]
@@ -374,6 +375,7 @@ export type Database = {
           frequency?: string | null
           id?: string
           instructions?: string | null
+          media_status?: Database["public"]["Enums"]["media_status"] | null
           props?: string | null
           title: string
           type: Database["public"]["Enums"]["exercise_type"]
@@ -387,6 +389,7 @@ export type Database = {
           frequency?: string | null
           id?: string
           instructions?: string | null
+          media_status?: Database["public"]["Enums"]["media_status"] | null
           props?: string | null
           title?: string
           type?: Database["public"]["Enums"]["exercise_type"]
@@ -1150,6 +1153,12 @@ export type Database = {
     }
     Enums: {
       exercise_type: "active" | "passive" | "breathing" | "posture" | "test"
+      media_status:
+        | "has_video"
+        | "needs_ai_video"
+        | "needs_photo"
+        | "description_only"
+        | "pending"
       patient_status: "active" | "inactive" | "completed"
       program_variant: "standard" | "frenectomy"
       upload_kind: "first_attempt" | "last_attempt" | "progress"
@@ -1283,6 +1292,13 @@ export const Constants = {
   public: {
     Enums: {
       exercise_type: ["active", "passive", "breathing", "posture", "test"],
+      media_status: [
+        "has_video",
+        "needs_ai_video",
+        "needs_photo",
+        "description_only",
+        "pending",
+      ],
       patient_status: ["active", "inactive", "completed"],
       program_variant: ["standard", "frenectomy"],
       upload_kind: ["first_attempt", "last_attempt", "progress"],
