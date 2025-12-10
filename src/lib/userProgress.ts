@@ -17,15 +17,33 @@ export interface UserProgress {
   weekStatuses: WeekProgress[];
 }
 
+// Map program_variant to program title for filtering
+const PROGRAM_TITLES: Record<string, string> = {
+  'frenectomy': 'Frenectomy Program',
+  'non_frenectomy': 'Non-Frenectomy Program',
+  'standard': 'Frenectomy Program', // Default to frenectomy for legacy users
+};
+
 /**
  * Get comprehensive progress data for a patient
  */
 export async function getUserProgress(patientId: string): Promise<UserProgress | null> {
   try {
-    // Get all weeks
+    // First get the patient's program_variant
+    const { data: patient } = await supabase
+      .from("patients")
+      .select("program_variant")
+      .eq("id", patientId)
+      .single();
+
+    const programVariant = patient?.program_variant || 'frenectomy';
+    const programTitle = PROGRAM_TITLES[programVariant] || PROGRAM_TITLES['frenectomy'];
+
+    // Get weeks for this patient's program
     const { data: weeks, error: weeksError } = await supabase
       .from("weeks")
-      .select("id, number")
+      .select("id, number, programs!inner(title)")
+      .eq("programs.title", programTitle)
       .order("number");
 
     if (weeksError) throw weeksError;
