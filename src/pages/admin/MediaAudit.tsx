@@ -240,9 +240,9 @@ export default function MediaAudit() {
                       <div className="flex items-center gap-2 mt-1 flex-wrap">
                         <Badge variant="outline" className="text-xs">{exercise.type}</Badge>
                         <span className="text-xs text-muted-foreground">Week {exercise.week_number}</span>
-                        {exercise.week_id && (
+                        {exercise.week_number && (
                           <Link 
-                            to={`/week/${exercise.week_id}`}
+                            to={`/week/${exercise.week_number}`}
                             className="text-xs text-primary hover:text-primary/80 flex items-center gap-1"
                           >
                             <Eye className="h-3 w-3" />
