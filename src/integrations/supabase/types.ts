@@ -354,6 +354,7 @@ export type Database = {
       }
       exercises: {
         Row: {
+          admin_notes: string | null
           compensations: string | null
           completion_target: number | null
           demo_video_url: string | null
@@ -370,6 +371,7 @@ export type Database = {
           week_id: string | null
         }
         Insert: {
+          admin_notes?: string | null
           compensations?: string | null
           completion_target?: number | null
           demo_video_url?: string | null
@@ -386,6 +388,7 @@ export type Database = {
           week_id?: string | null
         }
         Update: {
+          admin_notes?: string | null
           compensations?: string | null
           completion_target?: number | null
           demo_video_url?: string | null

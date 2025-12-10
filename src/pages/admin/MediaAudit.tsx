@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { Download, Save, Filter, CheckCircle2, AlertCircle, Video, Image, FileText, Clock } from "lucide-react";
+import { Download, Save, Filter, CheckCircle2, AlertCircle, Video, Image, FileText, Clock, ExternalLink, Link2Off } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
 
 type MediaStatus = Database["public"]["Enums"]["media_status"];
@@ -30,6 +30,7 @@ interface Exercise {
   media_waiting_on_clinician: boolean | null;
   requires_clinician_confirmation: boolean | null;
   demo_video_url: string | null;
+  admin_notes: string | null;
   week_id: string | null;
   week_number?: number;
 }
@@ -47,7 +48,7 @@ export default function MediaAudit() {
         .select(`
           id, title, type, instructions, media_status, 
           media_waiting_on_clinician, requires_clinician_confirmation,
-          demo_video_url, week_id,
+          demo_video_url, admin_notes, week_id,
           weeks!inner(number)
         `)
         .order("title");
@@ -69,6 +70,7 @@ export default function MediaAudit() {
             media_status: changes.media_status,
             media_waiting_on_clinician: changes.media_waiting_on_clinician,
             requires_clinician_confirmation: changes.requires_clinician_confirmation,
+            admin_notes: changes.admin_notes,
           })
           .eq("id", id);
         if (error) throw error;
@@ -98,6 +100,13 @@ export default function MediaAudit() {
     }));
   };
 
+  const handleNotesChange = (exerciseId: string, notes: string) => {
+    setPendingChanges((prev) => ({
+      ...prev,
+      [exerciseId]: { ...prev[exerciseId], admin_notes: notes },
+    }));
+  };
+
   const saveAllChanges = () => {
     const updates = Object.entries(pendingChanges).map(([id, changes]) => ({ id, changes }));
     if (updates.length === 0) {
@@ -109,19 +118,20 @@ export default function MediaAudit() {
 
   const exportCSV = () => {
     if (!exercises) return;
-    const headers = ["Title", "Type", "Week", "Current Status", "Has Video URL", "Waiting on Clinician", "Requires Confirmation", "Instructions"];
+    const headers = ["Title", "Type", "Week", "Current Status", "Media URL", "Waiting on Clinician", "Requires Confirmation", "Admin Notes", "Instructions"];
     const rows = exercises.map((ex) => [
       ex.title,
       ex.type,
       ex.week_number || "N/A",
       ex.media_status || "pending",
-      ex.demo_video_url ? "Yes" : "No",
+      ex.demo_video_url || "",
       ex.media_waiting_on_clinician ? "Yes" : "No",
       ex.requires_clinician_confirmation ? "Yes" : "No",
+      (ex.admin_notes || "").replace(/,/g, ";").replace(/\n/g, " "),
       (ex.instructions || "").replace(/,/g, ";").replace(/\n/g, " "),
     ]);
     
-    const csv = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const csv = [headers.join(","), ...rows.map((r) => r.map(v => `"${v}"`).join(","))].join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -129,6 +139,12 @@ export default function MediaAudit() {
     a.download = `media-audit-${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const getMediaPreviewUrl = (url: string | null) => {
+    if (!url) return null;
+    if (url.startsWith("http")) return url;
+    return url.startsWith("/") ? url : `/${url}`;
   };
 
   const filteredExercises = exercises?.filter((ex) => 
@@ -209,31 +225,55 @@ export default function MediaAudit() {
         <div className="space-y-3">
           {filteredExercises?.map((exercise) => {
             const currentStatus = pendingChanges[exercise.id]?.media_status ?? exercise.media_status ?? "pending";
-            const statusOption = MEDIA_STATUS_OPTIONS.find((o) => o.value === currentStatus);
+            const currentNotes = pendingChanges[exercise.id]?.admin_notes ?? exercise.admin_notes ?? "";
             const hasChanges = !!pendingChanges[exercise.id];
+            const mediaUrl = getMediaPreviewUrl(exercise.demo_video_url);
 
             return (
               <Card key={exercise.id} className={`${hasChanges ? "ring-2 ring-primary/50" : ""}`}>
-                <CardContent className="p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
-                    {/* Exercise Info */}
-                    <div className="md:col-span-4">
-                      <div className="flex items-start gap-2">
-                        <div>
-                          <h3 className="font-medium">{exercise.title}</h3>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Badge variant="outline" className="text-xs">{exercise.type}</Badge>
-                            <span className="text-xs text-muted-foreground">Week {exercise.week_number}</span>
-                          </div>
-                        </div>
+                <CardContent className="p-4 space-y-4">
+                  {/* Top Row: Title, Type, Week */}
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="font-medium">{exercise.title}</h3>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Badge variant="outline" className="text-xs">{exercise.type}</Badge>
+                        <span className="text-xs text-muted-foreground">Week {exercise.week_number}</span>
                       </div>
-                      {exercise.demo_video_url && (
-                        <div className="mt-2 flex items-center gap-1 text-xs text-green-600">
-                          <CheckCircle2 className="h-3 w-3" /> Has video URL
-                        </div>
-                      )}
                     </div>
+                  </div>
 
+                  {/* Media URL Display */}
+                  <div className="bg-muted/50 rounded-lg p-3">
+                    <label className="text-xs font-medium text-muted-foreground mb-1 block">Media Location</label>
+                    {exercise.demo_video_url ? (
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
+                        <code className="text-xs bg-background px-2 py-1 rounded border flex-1 truncate">
+                          {exercise.demo_video_url}
+                        </code>
+                        {mediaUrl && (
+                          <a
+                            href={mediaUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:text-primary/80 flex items-center gap-1 text-xs flex-shrink-0"
+                          >
+                            <ExternalLink className="h-3 w-3" />
+                            Preview
+                          </a>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Link2Off className="h-4 w-4" />
+                        <span className="text-xs">No media URL set</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Controls Row */}
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
                     {/* Media Status Selector */}
                     <div className="md:col-span-3">
                       <label className="text-xs text-muted-foreground mb-1 block">Media Status</label>
@@ -278,17 +318,25 @@ export default function MediaAudit() {
                       </div>
                     </div>
 
-                    {/* Instructions Preview */}
-                    <div className="md:col-span-2">
-                      {exercise.instructions ? (
-                        <p className="text-xs text-muted-foreground line-clamp-3">{exercise.instructions}</p>
-                      ) : (
-                        <div className="flex items-center gap-1 text-xs text-amber-600">
-                          <AlertCircle className="h-3 w-3" /> No instructions
-                        </div>
-                      )}
+                    {/* Admin Notes */}
+                    <div className="md:col-span-6">
+                      <label className="text-xs text-muted-foreground mb-1 block">Admin Notes</label>
+                      <Textarea
+                        placeholder="Add notes about media requirements, clinician feedback, etc."
+                        value={currentNotes}
+                        onChange={(e) => handleNotesChange(exercise.id, e.target.value)}
+                        className="text-sm min-h-[60px] resize-none"
+                      />
                     </div>
                   </div>
+
+                  {/* Instructions Preview */}
+                  {exercise.instructions && (
+                    <div className="border-t pt-3">
+                      <label className="text-xs text-muted-foreground mb-1 block">Instructions</label>
+                      <p className="text-xs text-muted-foreground line-clamp-2">{exercise.instructions}</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             );
