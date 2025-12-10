@@ -115,11 +115,17 @@ const PatientDashboard = () => {
         }
       }
 
-      // Get current week (for now, get week 1)
+      // Get current week based on patient's program_variant
+      const programVariant = (patientData.program_variant as string) || 'frenectomy';
+      const programTitle = programVariant === 'non_frenectomy' 
+        ? 'Non-Frenectomy Program' 
+        : 'Frenectomy Program';
+      
       const { data: weekData } = await supabase
         .from("weeks")
-        .select("*")
+        .select("*, programs!inner(title)")
         .eq("number", progress?.currentWeek || 1)
+        .eq("programs.title", programTitle)
         .maybeSingle();
 
       setCurrentWeek(weekData);

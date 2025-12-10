@@ -8,7 +8,11 @@ interface ExerciseProgress {
   exerciseDetails: Record<string, number>;
 }
 
-export function useExerciseProgress(patientId: string | undefined, currentWeekNumber: number | undefined) {
+export function useExerciseProgress(
+  patientId: string | undefined, 
+  currentWeekNumber: number | undefined,
+  programVariant?: string
+) {
   const [progress, setProgress] = useState<ExerciseProgress>({
     completedToday: 0,
     totalToday: 0,
@@ -24,17 +28,23 @@ export function useExerciseProgress(patientId: string | undefined, currentWeekNu
     }
 
     loadProgress();
-  }, [patientId, currentWeekNumber]);
+  }, [patientId, currentWeekNumber, programVariant]);
 
   const loadProgress = async () => {
     if (!patientId || !currentWeekNumber) return;
 
     try {
-      // Get current week data
+      // Get week filtered by program variant
+      const variant = programVariant || 'frenectomy';
+      const programTitle = variant === 'non_frenectomy' 
+        ? 'Non-Frenectomy Program' 
+        : 'Frenectomy Program';
+
       const { data: weekData } = await supabase
         .from('weeks')
-        .select('id')
+        .select('id, programs!inner(title)')
         .eq('number', currentWeekNumber)
+        .eq('programs.title', programTitle)
         .single();
 
       if (!weekData) {

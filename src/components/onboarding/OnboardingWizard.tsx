@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { WelcomeStep } from "./steps/WelcomeStep";
+import { PathwayStep } from "./steps/PathwayStep";
 import { ProgramOverviewStep } from "./steps/ProgramOverviewStep";
 import { HowItWorksStep } from "./steps/HowItWorksStep";
 import { BOLTInstructionsStep } from "./steps/BOLTInstructionsStep";
@@ -17,6 +18,7 @@ import { ReadyStep } from "./steps/ReadyStep";
 
 const steps = [
   { id: 'welcome', component: WelcomeStep, title: 'Welcome' },
+  { id: 'pathway', component: PathwayStep, title: 'Treatment Pathway' },
   { id: 'program', component: ProgramOverviewStep, title: 'Program Overview' },
   { id: 'how-it-works', component: HowItWorksStep, title: 'How It Works' },
   { id: 'bolt-instructions', component: BOLTInstructionsStep, title: 'BOLT Test' },
@@ -31,6 +33,7 @@ export const OnboardingWizard = () => {
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const [patientId, setPatientId] = useState<string | null>(null);
   const [consentAccepted, setConsentAccepted] = useState(false);
+  const [selectedPathway, setSelectedPathway] = useState<'frenectomy' | 'non_frenectomy' | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -121,6 +124,16 @@ export const OnboardingWizard = () => {
   const handleNext = async () => {
     const currentStep = steps[currentStepIndex];
     
+    // Validate pathway step
+    if (currentStep.id === 'pathway' && !selectedPathway) {
+      toast({
+        title: "Selection required",
+        description: "Please select your treatment pathway to continue",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     // Validate consent step
     if (currentStep.id === 'consent' && !consentAccepted) {
       toast({
@@ -176,6 +189,8 @@ export const OnboardingWizard = () => {
           <div className="min-h-[400px] mb-8">
             <StepComponent 
               onConsentChange={currentStep.id === 'consent' ? setConsentAccepted : undefined}
+              onPathwayChange={currentStep.id === 'pathway' ? setSelectedPathway : undefined}
+              initialPathway={currentStep.id === 'pathway' ? selectedPathway : undefined}
             />
           </div>
 
