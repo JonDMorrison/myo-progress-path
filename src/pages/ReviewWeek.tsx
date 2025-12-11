@@ -54,14 +54,22 @@ const ReviewWeek = () => {
       if (patientError) throw patientError;
       setPatient(patientData);
 
-      // Get week
+      // Get week - filter by patient's program variant
+      const programTitle = patientData.program_variant === "frenectomy" 
+        ? "Frenectomy Program" 
+        : "Non-Frenectomy Program";
+      
       const { data: weekData, error: weekError } = await supabase
         .from("weeks")
-        .select("*")
+        .select("*, programs!inner(title)")
         .eq("number", parseInt(weekNumber || "1"))
-        .single();
+        .eq("programs.title", programTitle)
+        .maybeSingle();
 
       if (weekError) throw weekError;
+      if (!weekData) {
+        throw new Error(`Week ${weekNumber} not found for ${programTitle}`);
+      }
       setWeek(weekData);
 
       // Get progress
