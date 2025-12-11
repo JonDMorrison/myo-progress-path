@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 import { ResponsiveVideo } from "./ResponsiveVideo";
 import { supabase } from "@/integrations/supabase/client";
-
+import ReactMarkdown from "react-markdown";
 interface WeekExercisesListProps {
   exercises: any[];
   patientId: string;
@@ -142,16 +142,18 @@ export function WeekExercisesList({
                     {exercise.instructions && (
                       <div>
                         <h5 className="font-medium mb-2">Instructions</h5>
-                        <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                          {exercise.instructions}
-                        </p>
+                        <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground prose-p:my-1">
+                          <ReactMarkdown>{exercise.instructions}</ReactMarkdown>
+                        </div>
                       </div>
                     )}
 
                     {exercise.props && (
                       <div>
                         <h5 className="font-medium mb-2">Props Needed</h5>
-                        <p className="text-sm text-muted-foreground">{exercise.props}</p>
+                        <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+                          <ReactMarkdown>{exercise.props}</ReactMarkdown>
+                        </div>
                       </div>
                     )}
 
@@ -165,9 +167,9 @@ export function WeekExercisesList({
                     {exercise.compensations && (
                       <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
                         <h5 className="font-medium text-warning mb-2">Watch Out For</h5>
-                        <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                          {exercise.compensations}
-                        </p>
+                        <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+                          <ReactMarkdown>{exercise.compensations}</ReactMarkdown>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -197,16 +199,18 @@ export function WeekExercisesList({
                   {exercise.instructions && (
                     <div>
                       <h5 className="font-medium mb-2">Instructions</h5>
-                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                        {exercise.instructions}
-                      </p>
+                      <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground prose-p:my-1">
+                        <ReactMarkdown>{exercise.instructions}</ReactMarkdown>
+                      </div>
                     </div>
                   )}
 
                   {exercise.props && (
                     <div>
                       <h5 className="font-medium mb-2">Props Needed</h5>
-                      <p className="text-sm text-muted-foreground">{exercise.props}</p>
+                      <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+                        <ReactMarkdown>{exercise.props}</ReactMarkdown>
+                      </div>
                     </div>
                   )}
 
@@ -220,9 +224,9 @@ export function WeekExercisesList({
                   {exercise.compensations && (
                     <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
                       <h5 className="font-medium text-warning mb-2">Watch Out For</h5>
-                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                        {exercise.compensations}
-                      </p>
+                      <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+                        <ReactMarkdown>{exercise.compensations}</ReactMarkdown>
+                      </div>
                     </div>
                   )}
                 </div>
