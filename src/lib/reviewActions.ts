@@ -67,11 +67,24 @@ export async function approveWeek(
     // Auto-unlock next week
     const nextWeekNumber = currentWeekNumber + 1;
     if (nextWeekNumber <= 24) {
-      // Get next week
+      // Get patient's program variant to filter weeks correctly
+      const { data: patientData } = await supabase
+        .from("patients")
+        .select("program_variant")
+        .eq("id", patientId)
+        .single();
+
+      const variant = patientData?.program_variant || 'frenectomy';
+      const programTitle = variant === 'frenectomy' 
+        ? 'Frenectomy Program' 
+        : 'Non-Frenectomy Program';
+
+      // Get next week for the patient's program
       const { data: nextWeek } = await supabase
         .from("weeks")
-        .select("id")
+        .select("id, programs!inner(title)")
         .eq("number", nextWeekNumber)
+        .eq("programs.title", programTitle)
         .single();
 
       if (nextWeek) {
