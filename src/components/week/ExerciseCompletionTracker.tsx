@@ -145,7 +145,9 @@ export function ExerciseCompletionTracker({
                               {exercise.props && (
                                 <div>
                                   <h4 className="font-semibold mb-2 text-sm">Props Needed</h4>
-                                  <p className="text-sm text-muted-foreground whitespace-pre-line">{exercise.props}</p>
+                                  <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+                                    <ReactMarkdown>{exercise.props}</ReactMarkdown>
+                                  </div>
                                 </div>
                               )}
                               {exercise.compensations && (
@@ -154,7 +156,9 @@ export function ExerciseCompletionTracker({
                                     <AlertCircle className="w-4 h-4" />
                                     Watch for compensations
                                   </h4>
-                                  <p className="text-sm whitespace-pre-line">{exercise.compensations}</p>
+                                  <div className="text-sm prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+                                    <ReactMarkdown>{exercise.compensations}</ReactMarkdown>
+                                  </div>
                                 </div>
                               )}
                             </div>
