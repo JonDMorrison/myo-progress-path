@@ -2,14 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface WeekHeaderProps {
   week: any;
   progress: any;
   onBack: () => void;
+  action?: ReactNode;
 }
 
-export function WeekHeader({ week, progress, onBack }: WeekHeaderProps) {
+export function WeekHeader({ week, progress, onBack, action }: WeekHeaderProps) {
   const getStatusVariant = (status: string) => {
     switch (status) {
       case 'approved':
@@ -31,14 +33,17 @@ export function WeekHeader({ week, progress, onBack }: WeekHeaderProps) {
             <ArrowLeft className="h-4 w-4" />
             Back to Dashboard
           </Button>
-          {progress && (
-            <Badge
-              variant="outline"
-              className={cn("rounded-full px-3 py-1", getStatusVariant(progress.status))}
-            >
-              {progress.status.replace('_', ' ')}
-            </Badge>
-          )}
+          <div className="flex items-center gap-3">
+            {action}
+            {progress && (
+              <Badge
+                variant="outline"
+                className={cn("rounded-full px-3 py-1", getStatusVariant(progress.status))}
+              >
+                {progress.status.replace('_', ' ')}
+              </Badge>
+            )}
+          </div>
         </div>
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold mb-1">

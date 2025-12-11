@@ -1,30 +1,24 @@
 import { Button } from "@/components/ui/button";
 
-interface SubmitBarProps {
+interface SubmitButtonProps {
   onComplete: () => void;
   canSubmit?: boolean;
   loading?: boolean;
 }
 
-export function SubmitBar({ 
+export function SubmitButton({ 
   onComplete, 
   canSubmit = true, 
   loading = false,
-}: SubmitBarProps) {
+}: SubmitButtonProps) {
   return (
-    <div className="fixed bottom-16 sm:bottom-4 inset-x-0 z-30">
-      <div className="mx-auto max-w-3xl px-4">
-        <div className="rounded-2xl border bg-card/95 backdrop-blur-sm shadow-lg p-3">
-          <Button
-            onClick={onComplete}
-            disabled={!canSubmit || loading}
-            className="w-full h-11 rounded-xl shadow-sm"
-            size="lg"
-          >
-            {loading ? "Submitting..." : "Submit for Review"}
-          </Button>
-        </div>
-      </div>
-    </div>
+    <Button
+      onClick={onComplete}
+      disabled={!canSubmit || loading}
+      className="rounded-xl shadow-sm"
+      size="default"
+    >
+      {loading ? "Submitting..." : "Submit for Review"}
+    </Button>
   );
 }
