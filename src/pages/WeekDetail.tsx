@@ -80,12 +80,18 @@ const WeekDetail = () => {
         }
       }
 
-      // Get week
+      // Get week - filter by patient's program variant
+      const variant = patientData.program_variant || 'frenectomy';
+      const programTitle = variant === 'frenectomy' 
+        ? 'Frenectomy Program' 
+        : 'Non-Frenectomy Program';
+
       const { data: weekData } = await supabase
         .from("weeks")
-        .select("*")
+        .select("*, programs!inner(title)")
         .eq("number", parseInt(weekNumber || "1"))
-        .maybeSingle();
+        .eq("programs.title", programTitle)
+        .single();
 
       if (!weekData) {
         toast({
