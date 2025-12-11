@@ -47,6 +47,15 @@ const WeekDetail = () => {
         return;
       }
 
+      // Check if user is super admin (bypasses week locks)
+      const { data: userData } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+      
+      const isSuperAdmin = userData?.role === "super_admin";
+
       // Get patient
       const { data: patientData, error: patientError } = await supabase
         .from("patients")
@@ -57,16 +66,18 @@ const WeekDetail = () => {
       if (patientError) throw patientError;
       setPatient(patientData);
 
-      // Check if week is accessible
-      const accessible = await isWeekAccessible(patientData.id, parseInt(weekNumber || "1"));
-      if (!accessible) {
-        toast({
-          title: "Week Locked",
-          description: "Please complete the previous week to unlock this one.",
-          variant: "destructive",
-        });
-        navigate("/patient");
-        return;
+      // Check if week is accessible (super admins can access all weeks)
+      if (!isSuperAdmin) {
+        const accessible = await isWeekAccessible(patientData.id, parseInt(weekNumber || "1"));
+        if (!accessible) {
+          toast({
+            title: "Week Locked",
+            description: "Please complete the previous week to unlock this one.",
+            variant: "destructive",
+          });
+          navigate("/patient");
+          return;
+        }
       }
 
       // Get week
