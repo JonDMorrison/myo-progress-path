@@ -65,8 +65,8 @@ export function WeekExercisesList({
     const currentCount = completions[exerciseId] || 0;
     if (currentCount >= target) return;
 
-    const newCount = currentCount + 1;
-    const updatedCompletions = { ...completions, [exerciseId]: newCount };
+    // Complete in one click
+    const updatedCompletions = { ...completions, [exerciseId]: target };
     
     setCompletions(updatedCompletions);
 
