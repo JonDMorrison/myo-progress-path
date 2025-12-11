@@ -37,7 +37,7 @@ serve(async (req: Request) => {
       );
     }
 
-    const fromEmail = Deno.env.get('FROM_EMAIL') || 'MyoCoach <no-reply@montrosedentalcentre.com>';
+    const fromEmail = Deno.env.get('FROM_EMAIL') || 'MyoCoach <onboarding@resend.dev>';
 
     console.log(`[send-email] Sending to ${to}, template: ${templateName || 'generic'}`);
 
