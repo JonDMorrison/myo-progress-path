@@ -93,70 +93,119 @@ export function WeekExercisesList({
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="space-y-4 pt-4">
-              {/* Demo Media - Image or Video */}
-              {exercise.demo_video_url && (
-                hasImage ? (
-                  <div className="rounded-lg overflow-hidden">
-                    <img 
-                      src={exercise.demo_video_url} 
-                      alt={`${exercise.title} demonstration`}
-                      className="w-full max-w-md mx-auto object-contain"
-                    />
+            <AccordionContent className="pt-4">
+              {exercise.demo_video_url ? (
+                /* 50/50 Grid Layout for exercises with media */
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Left: Text Content */}
+                  <div className="space-y-4 order-2 md:order-1">
+                    {/* Instructions */}
+                    {exercise.instructions && (
+                      <div>
+                        <h5 className="font-medium mb-2">Instructions</h5>
+                        <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                          {exercise.instructions}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Props */}
+                    {exercise.props && (
+                      <div>
+                        <h5 className="font-medium mb-2">Props Needed</h5>
+                        <p className="text-sm text-muted-foreground">{exercise.props}</p>
+                      </div>
+                    )}
+
+                    {/* Duration */}
+                    {exercise.duration && (
+                      <div>
+                        <h5 className="font-medium mb-2">Duration</h5>
+                        <p className="text-sm text-muted-foreground">{exercise.duration}</p>
+                      </div>
+                    )}
+
+                    {/* Compensations */}
+                    {exercise.compensations && (
+                      <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
+                        <h5 className="font-medium text-warning mb-2">Watch Out For</h5>
+                        <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                          {exercise.compensations}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <ResponsiveVideo 
-                    src={exercise.demo_video_url} 
-                    title={`${exercise.title} demonstration`}
-                    portrait={true}
-                  />
-                )
-              )}
 
-              {/* Instructions */}
-              {exercise.instructions && (
-                <div>
-                  <h5 className="font-medium mb-2">Instructions</h5>
-                  <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                    {exercise.instructions}
-                  </p>
+                  {/* Right: Media */}
+                  <div className="order-1 md:order-2">
+                    {hasImage ? (
+                      <div className="rounded-lg overflow-hidden">
+                        <img 
+                          src={exercise.demo_video_url} 
+                          alt={`${exercise.title} demonstration`}
+                          className="w-full object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <ResponsiveVideo 
+                        src={exercise.demo_video_url} 
+                        title={`${exercise.title} demonstration`}
+                        portrait={true}
+                      />
+                    )}
+                  </div>
+                </div>
+              ) : (
+                /* Stacked layout for exercises without media */
+                <div className="space-y-4">
+                  {/* Instructions */}
+                  {exercise.instructions && (
+                    <div>
+                      <h5 className="font-medium mb-2">Instructions</h5>
+                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                        {exercise.instructions}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Props */}
+                  {exercise.props && (
+                    <div>
+                      <h5 className="font-medium mb-2">Props Needed</h5>
+                      <p className="text-sm text-muted-foreground">{exercise.props}</p>
+                    </div>
+                  )}
+
+                  {/* Duration */}
+                  {exercise.duration && (
+                    <div>
+                      <h5 className="font-medium mb-2">Duration</h5>
+                      <p className="text-sm text-muted-foreground">{exercise.duration}</p>
+                    </div>
+                  )}
+
+                  {/* Compensations */}
+                  {exercise.compensations && (
+                    <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
+                      <h5 className="font-medium text-warning mb-2">Watch Out For</h5>
+                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                        {exercise.compensations}
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
-              {/* Props */}
-              {exercise.props && (
-                <div>
-                  <h5 className="font-medium mb-2">Props Needed</h5>
-                  <p className="text-sm text-muted-foreground">{exercise.props}</p>
-                </div>
-              )}
-
-              {/* Duration */}
-              {exercise.duration && (
-                <div>
-                  <h5 className="font-medium mb-2">Duration</h5>
-                  <p className="text-sm text-muted-foreground">{exercise.duration}</p>
-                </div>
-              )}
-
-              {/* Compensations */}
-              {exercise.compensations && (
-                <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
-                  <h5 className="font-medium text-warning mb-2">Watch Out For</h5>
-                  <p className="text-sm text-muted-foreground whitespace-pre-wrap">
-                    {exercise.compensations}
-                  </p>
-                </div>
-              )}
-
-              {/* Completion Tracker */}
-              <ExerciseCompletionTracker
-                patientId={patientId}
-                weekId={weekId}
-                exercises={[exercise]}
-                existingCompletions={existingCompletions}
-                onUpdate={onUpdate}
-              />
+              {/* Completion Tracker - always below */}
+              <div className="mt-4">
+                <ExerciseCompletionTracker
+                  patientId={patientId}
+                  weekId={weekId}
+                  exercises={[exercise]}
+                  existingCompletions={existingCompletions}
+                  onUpdate={onUpdate}
+                />
+              </div>
             </AccordionContent>
           </AccordionItem>
         );
