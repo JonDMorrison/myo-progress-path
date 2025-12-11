@@ -523,7 +523,6 @@ const WeekDetail = () => {
             onComplete={handleSubmitForReview}
             canSubmit={canSubmitState}
             loading={false}
-            missingRequirements={missingRequirements}
           />
         )}
 
