@@ -16,7 +16,7 @@ import { WeekProgressForm } from "@/components/week/WeekProgressForm";
 import { WeekMessagesPanel } from "@/components/week/WeekMessagesPanel";
 import { WeekCompletionChecklist } from "@/components/week/WeekCompletionChecklist";
 import { WeekExercisesList } from "@/components/week/WeekExercisesList";
-import { SubmitBar } from "@/components/week/SubmitBar";
+import { SubmitButton } from "@/components/week/SubmitBar";
 import { ExerciseProgressSummary } from "@/components/week/ExerciseProgressSummary";
 
 const WeekDetail = () => {
@@ -414,6 +414,13 @@ const WeekDetail = () => {
           week={week}
           progress={progress}
           onBack={() => navigate("/patient")}
+          action={progress && (progress.status === "open" || progress.status === "needs_more") ? (
+            <SubmitButton
+              onComplete={handleSubmitForReview}
+              canSubmit={canSubmitState}
+              loading={false}
+            />
+          ) : undefined}
         />
 
         <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-7xl">
@@ -493,6 +500,17 @@ const WeekDetail = () => {
                     </Card>
                   </Section>
                 )}
+
+                {/* Bottom Submit Button */}
+                {progress && (progress.status === "open" || progress.status === "needs_more") && (
+                  <div className="flex justify-end">
+                    <SubmitButton
+                      onComplete={handleSubmitForReview}
+                      canSubmit={canSubmitState}
+                      loading={false}
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Sidebar */}
@@ -516,15 +534,6 @@ const WeekDetail = () => {
             </div>
           </MobileContainer>
         </main>
-
-        {/* Submit Bar */}
-        {progress && (progress.status === "open" || progress.status === "needs_more") && (
-          <SubmitBar
-            onComplete={handleSubmitForReview}
-            canSubmit={canSubmitState}
-            loading={false}
-          />
-        )}
 
         {/* Mobile Bottom Navigation */}
         <BottomNav />
