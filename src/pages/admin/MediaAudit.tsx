@@ -103,6 +103,21 @@ export default function MediaAudit() {
     }));
   };
 
+  const handleApprovedToggle = async (exerciseId: string, value: boolean) => {
+    const { error } = await supabase
+      .from("exercises")
+      .update({ media_approved: value })
+      .eq("id", exerciseId);
+    
+    if (error) {
+      toast.error("Failed to update approval status");
+      return;
+    }
+    
+    queryClient.invalidateQueries({ queryKey: ["media-audit-exercises"] });
+    toast.success(value ? "Exercise approved" : "Approval removed");
+  };
+
   const handleNotesChange = (exerciseId: string, notes: string) => {
     setPendingChanges((prev) => ({
       ...prev,
@@ -311,8 +326,8 @@ export default function MediaAudit() {
                       <div className="flex items-center gap-2">
                         <Checkbox
                           id={`approved-${exercise.id}`}
-                          checked={pendingChanges[exercise.id]?.media_approved ?? exercise.media_approved ?? false}
-                          onCheckedChange={(v) => handleCheckboxChange(exercise.id, "media_approved", !!v)}
+                          checked={exercise.media_approved ?? false}
+                          onCheckedChange={(v) => handleApprovedToggle(exercise.id, !!v)}
                         />
                         <label htmlFor={`approved-${exercise.id}`} className="text-sm font-medium text-green-600">
                           ✓ Media Approved
