@@ -1,7 +1,10 @@
+import { useState, useEffect } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { CheckCircle2 } from "lucide-react";
 import { ResponsiveVideo } from "./ResponsiveVideo";
-import { ExerciseCompletionTracker } from "./ExerciseCompletionTracker";
+import { supabase } from "@/integrations/supabase/client";
 
 interface WeekExercisesListProps {
   exercises: any[];
@@ -47,9 +50,40 @@ export function WeekExercisesList({
   exercises,
   patientId,
   weekId,
-  existingCompletions,
+  existingCompletions = {},
   onUpdate
 }: WeekExercisesListProps) {
+  const [completions, setCompletions] = useState<Record<string, number>>(existingCompletions);
+
+  useEffect(() => {
+    setCompletions(existingCompletions);
+  }, [existingCompletions]);
+
+  const handleMarkDone = async (exerciseId: string, target: number) => {
+    if (!patientId || !weekId) return;
+
+    const currentCount = completions[exerciseId] || 0;
+    if (currentCount >= target) return;
+
+    const newCount = currentCount + 1;
+    const updatedCompletions = { ...completions, [exerciseId]: newCount };
+    
+    setCompletions(updatedCompletions);
+
+    const { error } = await supabase
+      .from('patient_week_progress')
+      .update({ exercise_completions: updatedCompletions })
+      .eq('patient_id', patientId)
+      .eq('week_id', weekId);
+
+    if (error) {
+      console.error('Error saving exercise completion:', error);
+      setCompletions(completions);
+    } else {
+      onUpdate?.();
+    }
+  };
+
   if (exercises.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
@@ -63,18 +97,24 @@ export function WeekExercisesList({
       {exercises.map((exercise, index) => {
         const mediaBadge = getMediaStatusBadge(exercise.media_status);
         const hasImage = isImageUrl(exercise.demo_video_url);
+        const target = Math.max(1, exercise.completion_target || 0);
+        const currentCount = completions[exercise.id] || 0;
+        const isComplete = currentCount >= target;
         
         return (
           <AccordionItem
             key={exercise.id}
             value={`exercise-${index}`}
-            className="border rounded-lg px-4"
+            className={`border rounded-lg px-4 ${isComplete ? 'border-success bg-success/5' : ''}`}
           >
             <AccordionTrigger className="hover:no-underline">
-              <div className="flex items-center gap-3 text-left">
+              <div className="flex items-center gap-3 text-left flex-1">
                 <span className="text-2xl">{getExerciseIcon(exercise.type)}</span>
                 <div className="flex-1">
-                  <h4 className="font-semibold">{exercise.title}</h4>
+                  <h4 className="font-semibold flex items-center gap-2">
+                    {exercise.title}
+                    {isComplete && <CheckCircle2 className="h-4 w-4 text-success" />}
+                  </h4>
                   <div className="flex items-center gap-2 mt-1 flex-wrap">
                     <Badge variant="secondary" className="text-xs">
                       {exercise.type}
@@ -99,7 +139,6 @@ export function WeekExercisesList({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Left: Text Content */}
                   <div className="space-y-4 order-2 md:order-1">
-                    {/* Instructions */}
                     {exercise.instructions && (
                       <div>
                         <h5 className="font-medium mb-2">Instructions</h5>
@@ -109,7 +148,6 @@ export function WeekExercisesList({
                       </div>
                     )}
 
-                    {/* Props */}
                     {exercise.props && (
                       <div>
                         <h5 className="font-medium mb-2">Props Needed</h5>
@@ -117,7 +155,6 @@ export function WeekExercisesList({
                       </div>
                     )}
 
-                    {/* Duration */}
                     {exercise.duration && (
                       <div>
                         <h5 className="font-medium mb-2">Duration</h5>
@@ -125,7 +162,6 @@ export function WeekExercisesList({
                       </div>
                     )}
 
-                    {/* Compensations */}
                     {exercise.compensations && (
                       <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
                         <h5 className="font-medium text-warning mb-2">Watch Out For</h5>
@@ -158,7 +194,6 @@ export function WeekExercisesList({
               ) : (
                 /* Stacked layout for exercises without media */
                 <div className="space-y-4">
-                  {/* Instructions */}
                   {exercise.instructions && (
                     <div>
                       <h5 className="font-medium mb-2">Instructions</h5>
@@ -168,7 +203,6 @@ export function WeekExercisesList({
                     </div>
                   )}
 
-                  {/* Props */}
                   {exercise.props && (
                     <div>
                       <h5 className="font-medium mb-2">Props Needed</h5>
@@ -176,7 +210,6 @@ export function WeekExercisesList({
                     </div>
                   )}
 
-                  {/* Duration */}
                   {exercise.duration && (
                     <div>
                       <h5 className="font-medium mb-2">Duration</h5>
@@ -184,7 +217,6 @@ export function WeekExercisesList({
                     </div>
                   )}
 
-                  {/* Compensations */}
                   {exercise.compensations && (
                     <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
                       <h5 className="font-medium text-warning mb-2">Watch Out For</h5>
@@ -196,15 +228,26 @@ export function WeekExercisesList({
                 </div>
               )}
 
-              {/* Completion Tracker - always below */}
-              <div className="mt-4">
-                <ExerciseCompletionTracker
-                  patientId={patientId}
-                  weekId={weekId}
-                  exercises={[exercise]}
-                  existingCompletions={existingCompletions}
-                  onUpdate={onUpdate}
-                />
+              {/* Mark Done Button - inline */}
+              <div className="mt-6 pt-4 border-t flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">
+                  {currentCount} of {target} completed
+                </span>
+                <Button
+                  size="sm"
+                  onClick={() => handleMarkDone(exercise.id, target)}
+                  disabled={isComplete}
+                  variant={isComplete ? "outline" : "default"}
+                >
+                  {isComplete ? (
+                    <span className="flex items-center gap-1">
+                      <CheckCircle2 className="h-4 w-4" />
+                      Completed
+                    </span>
+                  ) : (
+                    "Mark Done"
+                  )}
+                </Button>
               </div>
             </AccordionContent>
           </AccordionItem>
