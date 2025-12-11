@@ -35,6 +35,7 @@ const PatientDashboard = () => {
   const [user, setUser] = useState<any>(null);
   const [userProgress, setUserProgress] = useState<any>(null);
   const [showCompletion, setShowCompletion] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -50,6 +51,15 @@ const PatientDashboard = () => {
         return;
       }
       setUser(user);
+
+      // Check if user is super admin (bypasses week locks)
+      const { data: userData } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+      
+      setIsSuperAdmin(userData?.role === "super_admin");
 
       // Get patient record
       const { data: patientData, error: patientError } = await supabase
@@ -200,14 +210,17 @@ const PatientDashboard = () => {
   const handleNavigateToWeek = async (weekNumber: number) => {
     if (!patient) return;
     
-    const accessible = await isWeekAccessible(patient.id, weekNumber);
-    if (!accessible) {
-      toast({
-        title: "Week Locked",
-        description: "Please complete the previous week first.",
-        variant: "destructive",
-      });
-      return;
+    // Super admins can access all weeks
+    if (!isSuperAdmin) {
+      const accessible = await isWeekAccessible(patient.id, weekNumber);
+      if (!accessible) {
+        toast({
+          title: "Week Locked",
+          description: "Please complete the previous week first.",
+          variant: "destructive",
+        });
+        return;
+      }
     }
     
     navigate(`/week/${weekNumber}`);
@@ -305,6 +318,7 @@ const PatientDashboard = () => {
                 completedWeeks={completedWeeks}
                 currentWeek={currentWeek.number}
                 onWeekClick={handleNavigateToWeek}
+                isSuperAdmin={isSuperAdmin}
               />
 
               <div id="messages-card">

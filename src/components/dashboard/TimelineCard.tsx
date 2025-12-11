@@ -6,9 +6,10 @@ interface TimelineCardProps {
   currentWeek: number;
   totalWeeks?: number;
   onWeekClick?: (weekNumber: number) => void;
+  isSuperAdmin?: boolean;
 }
 
-export function TimelineCard({ completedWeeks, currentWeek, totalWeeks = 24, onWeekClick }: TimelineCardProps) {
+export function TimelineCard({ completedWeeks, currentWeek, totalWeeks = 24, onWeekClick, isSuperAdmin = false }: TimelineCardProps) {
   return (
     <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
       <CardHeader className="pb-4">
@@ -21,6 +22,7 @@ export function TimelineCard({ completedWeeks, currentWeek, totalWeeks = 24, onW
           current={currentWeek} 
           total={totalWeeks}
           onWeekClick={onWeekClick}
+          isSuperAdmin={isSuperAdmin}
         />
         <div className="flex items-center justify-center gap-6 mt-6 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">

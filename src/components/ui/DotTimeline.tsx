@@ -6,9 +6,10 @@ interface DotTimelineProps {
   current?: number;
   total?: number;
   onWeekClick?: (weekNumber: number) => void;
+  isSuperAdmin?: boolean;
 }
 
-export function DotTimeline({ completed = 0, current = 1, total = 24, onWeekClick }: DotTimelineProps) {
+export function DotTimeline({ completed = 0, current = 1, total = 24, onWeekClick, isSuperAdmin = false }: DotTimelineProps) {
   return (
     <TooltipProvider>
       <div className="grid grid-cols-12 gap-2 sm:gap-3">
@@ -17,7 +18,8 @@ export function DotTimeline({ completed = 0, current = 1, total = 24, onWeekClic
           const isCurrent = week === current;
           const isUpcoming = week > current;
 
-          const isAccessible = !isUpcoming;
+          // Super admins can access all weeks
+          const isAccessible = isSuperAdmin || !isUpcoming;
           
           return (
             <Tooltip key={week}>
@@ -33,13 +35,14 @@ export function DotTimeline({ completed = 0, current = 1, total = 24, onWeekClic
                       h-3 w-3 rounded-full border-2 transition-all duration-200
                       ${isDone && "bg-success border-success scale-110"}
                       ${isCurrent && "bg-primary border-primary ring-2 ring-primary/30 ring-offset-2 scale-125"}
-                      ${isUpcoming && "bg-muted border-border opacity-40"}
+                      ${isUpcoming && !isSuperAdmin && "bg-muted border-border opacity-40"}
+                      ${isUpcoming && isSuperAdmin && "bg-muted border-border opacity-70"}
                       ${isAccessible && onWeekClick && "cursor-pointer hover:scale-150"}
                     `}
                     role="status"
                     aria-label={`Week ${week}: ${isDone ? "Completed" : isCurrent ? "Current" : "Locked"}`}
                   />
-                  {isUpcoming && (
+                  {isUpcoming && !isSuperAdmin && (
                     <Lock className="h-2 w-2 absolute text-muted-foreground opacity-60" />
                   )}
                 </button>
@@ -47,7 +50,8 @@ export function DotTimeline({ completed = 0, current = 1, total = 24, onWeekClic
               <TooltipContent>
                 <p className="text-xs">
                   Week {week}
-                  {isUpcoming && " (Locked)"}
+                  {isUpcoming && !isSuperAdmin && " (Locked)"}
+                  {isUpcoming && isSuperAdmin && " (Admin Access)"}
                   {isAccessible && onWeekClick && " (Click to view)"}
                 </p>
               </TooltipContent>
