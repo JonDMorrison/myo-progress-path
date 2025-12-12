@@ -6,11 +6,15 @@ This article is for **educational purposes only**—to help you understand what 
 
 ## Neck Engagement
 
+![Neck Engagement](/images/learn/compensations/neck-engagement.jpg)
+
 **What it looks like:** The muscles of the neck visibly contract or strain during oral exercises, especially during tongue movements or swallowing.
 
 **Why it happens:** Neck muscles compensate for weak facial muscles, attempting to assist with movements the face should perform independently.
 
 ## Jaw Protrusion
+
+![Jaw Protrusion](/images/learn/compensations/jaw-protrusion.jpg)
 
 **What it looks like:** The jaw shifts forward noticeably during tongue exercises or swallowing.
 
@@ -18,11 +22,15 @@ This article is for **educational purposes only**—to help you understand what 
 
 ## Jaw Lateralization
 
+![Jaw Lateralization](/images/learn/compensations/jaw-lateralization.jpg)
+
 **What it looks like:** The jaw shifts side to side during exercises or swallowing.
 
 **Why it happens:** Like protrusion, this compensates for weak posterior tongue muscles and indicates the tongue isn't able to perform the movement properly.
 
 ## Floor of Mouth Activation
+
+![Floor of Mouth Activation](/images/learn/compensations/floor-of-mouth.jpg)
 
 **What it looks like:** The area under the chin (floor of the mouth) bulges or lifts during tongue exercises.
 
@@ -30,11 +38,15 @@ This article is for **educational purposes only**—to help you understand what 
 
 ## Facial Grimace
 
+![Facial Grimace](/images/learn/compensations/facial-grimace.jpg)
+
 **What it looks like:** Lips round or purse, cheeks pull inward, and/or the chin dimples or shows strain—often during mouth opening or swallowing.
 
 **Why it happens:** Facial muscles overwork to compensate for improper tongue function or weak oral muscles.
 
 ## General Tension
+
+![General Tension](/images/learn/compensations/general-tension.jpg)
 
 **What it looks like:** Holding tension throughout muscles of the body—shoulders raised, jaw clenched, overall stiffness during exercises.
 
