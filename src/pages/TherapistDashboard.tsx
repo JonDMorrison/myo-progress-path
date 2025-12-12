@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LogOut, Users, Inbox, CheckCircle2, History, Loader } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { LogOut, Users, Inbox, CheckCircle2, History, Loader, Clock, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import ReviewCard from "@/components/therapist/ReviewCard";
+import ReviewCard, { getCardTriageLevel } from "@/components/therapist/ReviewCard";
 import SendNoteDialog from "@/components/therapist/SendNoteDialog";
 import ReviewPanel from "@/components/therapist/ReviewPanel";
 import { approveWeek } from "@/lib/reviewActions";
+import { calculateTriageLevel, type TriageLevel } from "@/lib/triageUtils";
 
 interface ReviewItem {
   id: string;
@@ -27,6 +29,8 @@ interface ReviewItem {
   consecutiveNeedsMore: number;
 }
 
+type FilterType = "all" | "red" | "yellow" | "waiting48h";
+
 const TherapistDashboard = () => {
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,6 +40,13 @@ const TherapistDashboard = () => {
   const [activeTab, setActiveTab] = useState("needs-review");
   const [approvingId, setApprovingId] = useState<string | null>(null);
   const [exitingId, setExitingId] = useState<string | null>(null);
+  
+  // Filter state
+  const [activeFilter, setActiveFilter] = useState<FilterType>("all");
+  
+  // Batch selection state
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [batchApproving, setBatchApproving] = useState(false);
   
   // Send note dialog state
   const [noteDialog, setNoteDialog] = useState<{
@@ -62,6 +73,11 @@ const TherapistDashboard = () => {
   useEffect(() => {
     loadInboxData();
   }, []);
+
+  // Clear selection when changing tabs or filters
+  useEffect(() => {
+    setSelectedIds(new Set());
+  }, [activeTab, activeFilter]);
 
   const loadInboxData = async () => {
     try {
@@ -176,19 +192,145 @@ const TherapistDashboard = () => {
     }
   };
 
-  // Filter reviews by tab
+  // Get triage level for a review item
+  const getTriageLevel = (review: ReviewItem): TriageLevel => {
+    return calculateTriageLevel(
+      review.status,
+      review.completed_at,
+      review.consecutiveNeedsMore,
+      review.uploads
+    ).level;
+  };
+
+  // Check if waiting > 48h
+  const isWaiting48h = (submittedAt: string | null): boolean => {
+    if (!submittedAt) return false;
+    const hours = (Date.now() - new Date(submittedAt).getTime()) / (1000 * 60 * 60);
+    return hours >= 48;
+  };
+
+  // Filter reviews by tab and active filter
   const filteredReviews = useMemo(() => {
+    let items: ReviewItem[] = [];
+    
     switch (activeTab) {
       case "needs-review":
-        return reviews.filter(r => r.status === "submitted" || r.status === "needs_more");
+        items = reviews.filter(r => r.status === "submitted" || r.status === "needs_more");
+        break;
       case "approved":
-        return reviews.filter(r => r.status === "approved");
+        items = reviews.filter(r => r.status === "approved");
+        break;
       case "history":
-        return reviews;
+        items = reviews;
+        break;
       default:
-        return [];
+        items = [];
     }
-  }, [reviews, activeTab]);
+    
+    // Apply active filter
+    if (activeFilter !== "all") {
+      items = items.filter(r => {
+        const level = getTriageLevel(r);
+        switch (activeFilter) {
+          case "red":
+            return level === "red";
+          case "yellow":
+            return level === "yellow";
+          case "waiting48h":
+            return isWaiting48h(r.completed_at);
+          default:
+            return true;
+        }
+      });
+    }
+    
+    return items;
+  }, [reviews, activeTab, activeFilter]);
+
+  // Count reviews by triage level for filter badges
+  const triageCounts = useMemo(() => {
+    const needsReview = reviews.filter(r => r.status === "submitted" || r.status === "needs_more");
+    return {
+      red: needsReview.filter(r => getTriageLevel(r) === "red").length,
+      yellow: needsReview.filter(r => getTriageLevel(r) === "yellow").length,
+      green: needsReview.filter(r => getTriageLevel(r) === "green").length,
+      waiting48h: needsReview.filter(r => isWaiting48h(r.completed_at)).length,
+    };
+  }, [reviews]);
+
+  // Get selectable (GREEN) items from current filtered view
+  const selectableItems = useMemo(() => {
+    return filteredReviews.filter(r => 
+      (r.status === "submitted" || r.status === "needs_more") && 
+      getTriageLevel(r) === "green"
+    );
+  }, [filteredReviews]);
+
+  const handleToggleSelect = (id: string, selected: boolean) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (selected) {
+        next.add(id);
+      } else {
+        next.delete(id);
+      }
+      return next;
+    });
+  };
+
+  const handleSelectAll = () => {
+    if (selectedIds.size === selectableItems.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(selectableItems.map(r => r.id)));
+    }
+  };
+
+  const handleBatchApprove = async () => {
+    if (selectedIds.size === 0) return;
+    
+    setBatchApproving(true);
+    const toApprove = reviews.filter(r => selectedIds.has(r.id) && r.status !== "approved");
+    let successCount = 0;
+    
+    try {
+      for (const review of toApprove) {
+        const result = await approveWeek(
+          review.id,
+          review.patient.id,
+          review.week.number,
+          "" // No note for batch approve
+        );
+        
+        if (result.success) {
+          successCount++;
+          // Log audit event is handled by approveWeek
+        }
+      }
+      
+      // Update local state
+      setReviews(prev =>
+        prev.map(r =>
+          selectedIds.has(r.id) ? { ...r, status: "approved" } : r
+        )
+      );
+      
+      setSelectedIds(new Set());
+      
+      toast({
+        title: "Batch Approval Complete",
+        description: `${successCount} week${successCount !== 1 ? 's' : ''} approved successfully.`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Some approvals failed. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setBatchApproving(false);
+    }
+  };
 
   const handleQuickApprove = async (progressId: string) => {
     const review = reviews.find(r => r.id === progressId);
@@ -200,7 +342,7 @@ const TherapistDashboard = () => {
         progressId,
         review.patient.id,
         review.week.number,
-        "" // No note for quick approve
+        ""
       );
 
       if (result.success) {
@@ -208,7 +350,6 @@ const TherapistDashboard = () => {
           title: "Week Approved",
           description: `Week ${review.week.number} approved for ${review.patient.user.name}`,
         });
-        // Update local state
         setReviews(prev =>
           prev.map(r =>
             r.id === progressId ? { ...r, status: "approved" } : r
@@ -250,7 +391,7 @@ const TherapistDashboard = () => {
   const handleSendNote = async (note: string) => {
     if (!noteDialog || !userId) return;
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("messages")
       .insert({
         patient_id: noteDialog.patientId,
@@ -291,10 +432,8 @@ const TherapistDashboard = () => {
   const handleReviewComplete = (action: "approved" | "needs_more") => {
     if (!reviewPanel) return;
     
-    // Animate card exit
     setExitingId(reviewPanel.progressId);
     
-    // Update status in local state after animation
     setTimeout(() => {
       setReviews(prev =>
         prev.map(r =>
@@ -371,9 +510,9 @@ const TherapistDashboard = () => {
       </header>
 
       <main className="container mx-auto px-4 py-6 max-w-4xl">
-        {/* Tabs - ONLY these three */}
+        {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsList className="grid w-full grid-cols-3 mb-4">
             <TabsTrigger value="needs-review" className="flex items-center gap-2">
               <Inbox className="h-4 w-4" />
               Needs Review
@@ -393,12 +532,94 @@ const TherapistDashboard = () => {
             </TabsTrigger>
           </TabsList>
 
+          {/* Filter chips - only on needs-review tab */}
+          {activeTab === "needs-review" && (
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className="text-sm text-muted-foreground mr-1">Filter:</span>
+              
+              <Button
+                variant={activeFilter === "all" ? "secondary" : "outline"}
+                size="sm"
+                onClick={() => setActiveFilter("all")}
+                className="h-7 text-xs"
+              >
+                All
+              </Button>
+              
+              <Button
+                variant={activeFilter === "red" ? "secondary" : "outline"}
+                size="sm"
+                onClick={() => setActiveFilter("red")}
+                className="h-7 text-xs"
+              >
+                <AlertCircle className="h-3 w-3 mr-1 text-destructive" />
+                Red {triageCounts.red > 0 && `(${triageCounts.red})`}
+              </Button>
+              
+              <Button
+                variant={activeFilter === "yellow" ? "secondary" : "outline"}
+                size="sm"
+                onClick={() => setActiveFilter("yellow")}
+                className="h-7 text-xs"
+              >
+                <AlertCircle className="h-3 w-3 mr-1 text-warning" />
+                Yellow {triageCounts.yellow > 0 && `(${triageCounts.yellow})`}
+              </Button>
+              
+              <Button
+                variant={activeFilter === "waiting48h" ? "secondary" : "outline"}
+                size="sm"
+                onClick={() => setActiveFilter("waiting48h")}
+                className="h-7 text-xs"
+              >
+                <Clock className="h-3 w-3 mr-1" />
+                &gt; 48h {triageCounts.waiting48h > 0 && `(${triageCounts.waiting48h})`}
+              </Button>
+              
+              {/* Batch selection controls */}
+              {selectableItems.length > 0 && (
+                <div className="flex items-center gap-2 ml-auto">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleSelectAll}
+                    className="h-7 text-xs"
+                  >
+                    {selectedIds.size === selectableItems.length ? "Deselect All" : `Select All Green (${selectableItems.length})`}
+                  </Button>
+                  
+                  {selectedIds.size > 0 && (
+                    <Button
+                      size="sm"
+                      onClick={handleBatchApprove}
+                      disabled={batchApproving}
+                      className="h-7"
+                    >
+                      {batchApproving ? (
+                        <Loader className="h-3 w-3 animate-spin mr-1" />
+                      ) : (
+                        <CheckCircle2 className="h-3 w-3 mr-1" />
+                      )}
+                      Approve Selected ({selectedIds.size})
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           <TabsContent value="needs-review" className="space-y-3">
             {filteredReviews.length === 0 ? (
               <div className="text-center py-16">
                 <CheckCircle2 className="w-16 h-16 text-success mx-auto mb-4" />
-                <p className="text-lg font-medium mb-2">All caught up!</p>
-                <p className="text-muted-foreground">No pending reviews at the moment.</p>
+                <p className="text-lg font-medium mb-2">
+                  {activeFilter !== "all" ? "No matching reviews" : "All caught up!"}
+                </p>
+                <p className="text-muted-foreground">
+                  {activeFilter !== "all" 
+                    ? "Try adjusting your filter." 
+                    : "No pending reviews at the moment."}
+                </p>
               </div>
             ) : (
               filteredReviews.map((review) => (
@@ -422,6 +643,9 @@ const TherapistDashboard = () => {
                   onSendNote={handleOpenNoteDialog}
                   isApproving={approvingId === review.id}
                   isExiting={exitingId === review.id}
+                  selectable={true}
+                  selected={selectedIds.has(review.id)}
+                  onSelect={handleToggleSelect}
                 />
               ))
             )}
