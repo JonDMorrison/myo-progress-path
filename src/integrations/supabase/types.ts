@@ -654,6 +654,8 @@ export type Database = {
           introduction_viewed: boolean | null
           nasal_breathing_pct: number | null
           patient_id: string | null
+          reviewing_by: string | null
+          reviewing_since: string | null
           status: Database["public"]["Enums"]["week_status"] | null
           tongue_on_spot_pct: number | null
           week_id: string | null
@@ -668,6 +670,8 @@ export type Database = {
           introduction_viewed?: boolean | null
           nasal_breathing_pct?: number | null
           patient_id?: string | null
+          reviewing_by?: string | null
+          reviewing_since?: string | null
           status?: Database["public"]["Enums"]["week_status"] | null
           tongue_on_spot_pct?: number | null
           week_id?: string | null
@@ -682,6 +686,8 @@ export type Database = {
           introduction_viewed?: boolean | null
           nasal_breathing_pct?: number | null
           patient_id?: string | null
+          reviewing_by?: string | null
+          reviewing_since?: string | null
           status?: Database["public"]["Enums"]["week_status"] | null
           tongue_on_spot_pct?: number | null
           week_id?: string | null
@@ -700,6 +706,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "v_master_patient_list"
             referencedColumns: ["patient_id"]
+          },
+          {
+            foreignKeyName: "patient_week_progress_reviewing_by_fkey"
+            columns: ["reviewing_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patient_week_progress_reviewing_by_fkey"
+            columns: ["reviewing_by"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
           },
           {
             foreignKeyName: "patient_week_progress_week_id_fkey"
@@ -1171,6 +1191,7 @@ export type Database = {
         }[]
       }
       is_super_admin: { Args: never; Returns: boolean }
+      release_stale_review_locks: { Args: never; Returns: undefined }
     }
     Enums: {
       ai_feedback_status: "pending" | "complete" | "error"
