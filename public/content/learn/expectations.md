@@ -60,8 +60,10 @@ Everyone progresses at their own pace based on several factors:
 
 After completing the program, you won't need to continue daily exercises if you maintain **awareness** of your new habits:
 
+![Photo E: The Spot](/images/learn/the-spot.jpg)
+
 - Nasal breathing throughout the day
-- Tongue resting on the spot
+- Tongue resting on the spot (incisive papilla)
 - Proper lip seal at rest
 - Correct swallowing patterns
 

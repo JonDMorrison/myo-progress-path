@@ -34,6 +34,21 @@ export const BOLTInstructionsStep = () => {
         </div>
       </div>
 
+      {/* Tongue position reminder */}
+      <div className="flex gap-4 items-center p-4 bg-accent/30 rounded-lg border border-accent">
+        <img 
+          src="/images/learn/the-spot.jpg" 
+          alt="The Spot - tongue rest position"
+          className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+        />
+        <div>
+          <h4 className="font-semibold text-sm">Remember: Tongue Position</h4>
+          <p className="text-xs text-muted-foreground">
+            During the BOLT test, keep your tongue resting on the spot (incisive papilla) behind your upper front teeth.
+          </p>
+        </div>
+      </div>
+
       <div className="bg-card border rounded-lg p-6">
         <BOLTHelpContent />
       </div>

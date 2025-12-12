@@ -10,6 +10,20 @@ export const HowItWorksStep = () => {
         </p>
       </div>
 
+      {/* The Spot reference image */}
+      <div className="flex justify-center">
+        <div className="max-w-xs text-center">
+          <img 
+            src="/images/learn/the-spot.jpg" 
+            alt="Photo E: The Spot - The incisive papilla where your tongue should rest"
+            className="rounded-lg shadow-md w-full"
+          />
+          <p className="text-xs text-muted-foreground mt-2">
+            The Spot: Where your tongue should rest
+          </p>
+        </div>
+      </div>
+
       <div className="space-y-4 mt-8">
         <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
           <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
