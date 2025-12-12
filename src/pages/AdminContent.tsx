@@ -6,11 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Upload, Settings, Users, FileJson } from "lucide-react";
+import { Upload, FileJson, Users } from "lucide-react";
 import { importProgram } from "@/lib/importProgram";
-
+import { AdminLayout } from "@/components/layout/AdminLayout";
 
 const AdminContent = () => {
   const [loading, setLoading] = useState(true);
@@ -50,7 +49,6 @@ const AdminContent = () => {
 
     setLoading(false);
   };
-
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -105,10 +103,8 @@ const AdminContent = () => {
     }
   };
 
-
   const handleCreateDemoUsers = async () => {
     try {
-      // This is a simplified version - in production, you'd create via admin API
       toast({
         title: "Demo Users",
         description: "Use the auth page to create a therapist and patient account manually.",
@@ -134,29 +130,10 @@ const AdminContent = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <Button variant="ghost" onClick={() => navigate("/therapist")} className="mb-3">
-            <ArrowLeft className="mr-2" />
-            Back to Dashboard
-          </Button>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-hero rounded-lg flex items-center justify-center">
-              <Settings className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">Admin Content Management</h1>
-              <p className="text-sm text-muted-foreground">Import programs and manage settings</p>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-8 max-w-5xl space-y-6">
+    <AdminLayout title="Content Import" description="Import programs and manage settings">
+      <div className="max-w-3xl space-y-6">
         {/* Import Program JSON */}
-        <Card className="shadow-card">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileJson className="w-5 h-5 text-primary" />
@@ -211,9 +188,8 @@ const AdminContent = () => {
           </CardContent>
         </Card>
 
-
         {/* Consent Editor */}
-        <Card className="shadow-card">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileJson className="w-5 h-5 text-primary" />
@@ -245,7 +221,7 @@ I understand and agree to participate in the myofunctional therapy program."
         </Card>
 
         {/* Demo Helpers */}
-        <Card className="shadow-card">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Users className="w-5 h-5 text-primary" />
@@ -268,8 +244,8 @@ I understand and agree to participate in the myofunctional therapy program."
             </p>
           </CardContent>
         </Card>
-      </main>
-    </div>
+      </div>
+    </AdminLayout>
   );
 };
 

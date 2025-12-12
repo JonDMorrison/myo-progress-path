@@ -11,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { Download, Save, Filter, CheckCircle2, AlertCircle, Video, Image, FileText, Clock, ExternalLink, Link2Off, Eye } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
+import { AdminLayout } from "@/components/layout/AdminLayout";
 
 type MediaStatus = Database["public"]["Enums"]["media_status"];
 
@@ -176,17 +177,17 @@ export default function MediaAudit() {
   }, {} as Record<string, number>) || {};
 
   if (isLoading) {
-    return <div className="p-8 text-center">Loading exercises...</div>;
+    return (
+      <AdminLayout title="Media Audit" description="Review and classify exercise media requirements">
+        <div className="text-center py-12">Loading exercises...</div>
+      </AdminLayout>
+    );
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <div className="flex flex-col gap-6">
+    <AdminLayout title="Media Audit" description="Review and classify exercise media requirements">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Media Classification Audit</h1>
-            <p className="text-muted-foreground">Review and classify exercise media requirements</p>
-          </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={exportCSV}>
               <Download className="h-4 w-4 mr-2" /> Export CSV
@@ -386,6 +387,6 @@ export default function MediaAudit() {
           </div>
         )}
       </div>
-    </div>
+    </AdminLayout>
   );
 }
