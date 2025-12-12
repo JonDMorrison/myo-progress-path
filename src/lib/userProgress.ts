@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { getProgramTitle } from "./constants";
 
 export interface WeekProgress {
   weekNumber: number;
@@ -17,13 +18,6 @@ export interface UserProgress {
   weekStatuses: WeekProgress[];
 }
 
-// Map program_variant to program title for filtering
-const PROGRAM_TITLES: Record<string, string> = {
-  'frenectomy': 'Frenectomy Program',
-  'non_frenectomy': 'Non-Frenectomy Program',
-  'standard': 'Frenectomy Program', // Default to frenectomy for legacy users
-};
-
 /**
  * Get comprehensive progress data for a patient
  */
@@ -37,7 +31,7 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
       .single();
 
     const programVariant = patient?.program_variant || 'frenectomy';
-    const programTitle = PROGRAM_TITLES[programVariant] || PROGRAM_TITLES['frenectomy'];
+    const programTitle = getProgramTitle(programVariant);
 
     // Get weeks for this patient's program
     const { data: weeks, error: weeksError } = await supabase

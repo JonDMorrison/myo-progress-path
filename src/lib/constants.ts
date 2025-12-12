@@ -2,6 +2,20 @@
  * Application constants
  */
 
+// Program variant to title mapping
+export const PROGRAM_TITLES: Record<string, string> = {
+  'frenectomy': 'Frenectomy Program',
+  'non_frenectomy': 'Non-Frenectomy Program',
+  'standard': 'Frenectomy Program', // Default to frenectomy for legacy/standard users
+};
+
+/**
+ * Get program title from variant, with fallback
+ */
+export function getProgramTitle(variant: string | null | undefined): string {
+  return PROGRAM_TITLES[variant || 'frenectomy'] || PROGRAM_TITLES['frenectomy'];
+}
+
 // Program frequency settings
 export const CHECKIN_FREQUENCY = "biweekly" as const;
 export const BOLT_SCHEDULE = ["start", "mid", "end"] as const;

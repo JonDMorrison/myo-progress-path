@@ -128,7 +128,7 @@ const PatientDashboard = () => {
       // Get current week based on patient's program_variant
       const programVariant = (patientData.program_variant as string) || 'frenectomy';
       const programTitle = programVariant === 'non_frenectomy' 
-        ? 'Non-Frenectomy Program' 
+        ? 'Non-Frenectomy Program'
         : 'Frenectomy Program';
       
       const { data: weekData } = await supabase

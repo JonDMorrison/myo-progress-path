@@ -75,7 +75,7 @@ export async function approveWeek(
         .single();
 
       const variant = patientData?.program_variant || 'frenectomy';
-      const programTitle = variant === 'frenectomy' 
+      const programTitle = variant === 'frenectomy' || variant === 'standard'
         ? 'Frenectomy Program' 
         : 'Non-Frenectomy Program';
 

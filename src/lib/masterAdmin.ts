@@ -6,7 +6,7 @@ export interface MasterPatientListItem {
   patient_name: string;
   patient_email: string;
   patient_status: 'active' | 'inactive' | 'completed';
-  program_variant: 'frenectomy' | 'standard';
+  program_variant: 'frenectomy' | 'non_frenectomy' | 'standard';
   enrolled_at: string;
   clinic_id: string;
   clinic_name: string;

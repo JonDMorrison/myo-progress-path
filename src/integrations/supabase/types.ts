@@ -854,6 +854,9 @@ export type Database = {
       uploads: {
         Row: {
           ai_feedback: Json | null
+          ai_feedback_status:
+            | Database["public"]["Enums"]["ai_feedback_status"]
+            | null
           created_at: string | null
           file_url: string | null
           id: string
@@ -865,6 +868,9 @@ export type Database = {
         }
         Insert: {
           ai_feedback?: Json | null
+          ai_feedback_status?:
+            | Database["public"]["Enums"]["ai_feedback_status"]
+            | null
           created_at?: string | null
           file_url?: string | null
           id?: string
@@ -876,6 +882,9 @@ export type Database = {
         }
         Update: {
           ai_feedback?: Json | null
+          ai_feedback_status?:
+            | Database["public"]["Enums"]["ai_feedback_status"]
+            | null
           created_at?: string | null
           file_url?: string | null
           id?: string
@@ -1164,6 +1173,7 @@ export type Database = {
       is_super_admin: { Args: never; Returns: boolean }
     }
     Enums: {
+      ai_feedback_status: "pending" | "complete" | "error"
       exercise_type: "active" | "passive" | "breathing" | "posture" | "test"
       media_status:
         | "has_video"
@@ -1172,7 +1182,7 @@ export type Database = {
         | "description_only"
         | "pending"
       patient_status: "active" | "inactive" | "completed"
-      program_variant: "standard" | "frenectomy"
+      program_variant: "standard" | "frenectomy" | "non_frenectomy"
       upload_kind: "first_attempt" | "last_attempt" | "progress"
       user_role: "patient" | "therapist" | "admin" | "super_admin"
       week_status: "locked" | "open" | "submitted" | "approved" | "needs_more"
@@ -1303,6 +1313,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      ai_feedback_status: ["pending", "complete", "error"],
       exercise_type: ["active", "passive", "breathing", "posture", "test"],
       media_status: [
         "has_video",
@@ -1312,7 +1323,7 @@ export const Constants = {
         "pending",
       ],
       patient_status: ["active", "inactive", "completed"],
-      program_variant: ["standard", "frenectomy"],
+      program_variant: ["standard", "frenectomy", "non_frenectomy"],
       upload_kind: ["first_attempt", "last_attempt", "progress"],
       user_role: ["patient", "therapist", "admin", "super_admin"],
       week_status: ["locked", "open", "submitted", "approved", "needs_more"],
