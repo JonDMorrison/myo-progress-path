@@ -18,6 +18,8 @@ import { WeekCompletionChecklist } from "@/components/week/WeekCompletionCheckli
 import { WeekExercisesList } from "@/components/week/WeekExercisesList";
 import { SubmitButton } from "@/components/week/SubmitBar";
 import { ExerciseProgressSummary } from "@/components/week/ExerciseProgressSummary";
+import { FrenectomyConsultTask } from "@/components/week/FrenectomyConsultTask";
+import { FrenectomyConsultReminder } from "@/components/week/FrenectomyConsultReminder";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -428,6 +430,15 @@ const WeekDetail = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-6">
+                {/* Week 2 Frenectomy Reminder (only for frenectomy pathway if consult not booked) */}
+                {patient?.program_variant === 'frenectomy' && 
+                 parseInt(weekNumber || "0") === 2 && 
+                 !progress?.frenectomy_consult_booked && (
+                  <Section delay={0}>
+                    <FrenectomyConsultReminder weekNumber={2} />
+                  </Section>
+                )}
+
                 {/* Introduction */}
                 {week?.overview && (
                   <Section delay={0}>
@@ -436,6 +447,20 @@ const WeekDetail = () => {
                         <p className="text-muted-foreground leading-relaxed">{week.overview}</p>
                       </CardContent>
                     </Card>
+                  </Section>
+                )}
+
+                {/* Frenectomy Consult Task - Week 1 Frenectomy Pathway Only */}
+                {patient?.program_variant === 'frenectomy' && 
+                 parseInt(weekNumber || "0") === 1 && 
+                 patient?.id && week?.id && (
+                  <Section delay={50}>
+                    <FrenectomyConsultTask
+                      patientId={patient.id}
+                      weekId={week.id}
+                      isCompleted={progress?.frenectomy_consult_booked || false}
+                      onUpdate={handleProgressUpdate}
+                    />
                   </Section>
                 )}
 
@@ -521,6 +546,8 @@ const WeekDetail = () => {
                   week={week}
                   uploads={uploads}
                   exercises={exercises}
+                  weekNumber={parseInt(weekNumber || "0")}
+                  programVariant={patient?.program_variant}
                 />
 
                 {/* Messages */}
