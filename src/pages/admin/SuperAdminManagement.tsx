@@ -50,7 +50,7 @@ export default function SuperAdminManagement() {
         description: "You must be a super admin to access this page.",
         variant: "destructive",
       });
-      navigate("/");
+      navigate("/therapist");
       return;
     }
 

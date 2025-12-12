@@ -39,7 +39,7 @@ const TherapistAIAssist = () => {
         .eq("id", user.id)
         .single();
 
-      if (!userData || (userData.role !== "therapist" && userData.role !== "admin")) {
+      if (!userData || (userData.role !== "therapist" && userData.role !== "admin" && userData.role !== "super_admin")) {
         throw new Error("Insufficient permissions");
       }
 
