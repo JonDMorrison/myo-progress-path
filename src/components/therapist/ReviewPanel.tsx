@@ -13,7 +13,8 @@ import {
   ChevronUp,
   Loader,
   Lock,
-  MessageSquare
+  MessageSquare,
+  Sparkles
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -54,6 +55,13 @@ interface Message {
   created_at: string;
 }
 
+// One-click note templates
+const NOTE_TEMPLATES = [
+  { label: "Great work", text: "Great work. Keep going!" },
+  { label: "Slow down", text: "Slow down and reduce tension." },
+  { label: "Watch jaw", text: "Watch jaw compensation." },
+];
+
 const ReviewPanel = ({
   open,
   onOpenChange,
@@ -66,14 +74,17 @@ const ReviewPanel = ({
 }: ReviewPanelProps) => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [drafting, setDrafting] = useState(false);
   const [uploads, setUploads] = useState<Upload[]>([]);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [note, setNote] = useState("");
+  const [showNoteField, setShowNoteField] = useState(false);
   const [exercisesExpanded, setExercisesExpanded] = useState(false);
   const [messagesExpanded, setMessagesExpanded] = useState(false);
   const [reviewingBy, setReviewingBy] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [weekMetrics, setWeekMetrics] = useState<any>(null);
   
   const { toast } = useToast();
 
@@ -81,6 +92,8 @@ const ReviewPanel = ({
     if (open) {
       loadPanelData();
       markAsReviewing();
+      setNote("");
+      setShowNoteField(false);
     } else {
       clearReviewing();
     }
@@ -133,19 +146,19 @@ const ReviewPanel = ({
 
       setMessages(messagesData || []);
 
-      // Check if someone else is reviewing
+      // Load week metrics
       const { data: progressData } = await supabase
         .from("patient_week_progress")
-        .select("ai_summary")
+        .select("bolt_score, nasal_breathing_pct, tongue_on_spot_pct, ai_summary")
         .eq("id", progressId)
         .single();
 
-      // Parse ai_summary for reviewing_by (temporary field usage)
-      // In a real app, you'd add a dedicated column
+      setWeekMetrics(progressData);
+
+      // Check if someone else is reviewing
       if (progressData?.ai_summary?.startsWith("REVIEWING:")) {
         const reviewerId = progressData.ai_summary.split(":")[1];
         if (reviewerId !== user?.id) {
-          // Get reviewer name
           const { data: reviewerData } = await supabase
             .from("users")
             .select("name")
@@ -165,7 +178,6 @@ const ReviewPanel = ({
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    // Mark this progress as being reviewed (using ai_summary temporarily)
     await supabase
       .from("patient_week_progress")
       .update({ ai_summary: `REVIEWING:${user.id}` })
@@ -176,7 +188,6 @@ const ReviewPanel = ({
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    // Clear reviewing status only if we set it
     const { data } = await supabase
       .from("patient_week_progress")
       .select("ai_summary")
@@ -279,6 +290,35 @@ const ReviewPanel = ({
     }
   };
 
+  const handleDraftWithAI = async () => {
+    setDrafting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-progress-note", {
+        body: { patientId, weekId },
+      });
+
+      if (error) throw error;
+
+      if (data?.note) {
+        setNote(data.note);
+        setShowNoteField(true);
+        toast({
+          title: "Draft Generated",
+          description: "Review and edit the AI draft before sending.",
+        });
+      }
+    } catch (error: any) {
+      console.error("AI draft error:", error);
+      toast({
+        title: "Draft Failed",
+        description: "Could not generate AI draft. Try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setDrafting(false);
+    }
+  };
+
   const handleTakeover = async () => {
     setReviewingBy(null);
     await markAsReviewing();
@@ -286,6 +326,11 @@ const ReviewPanel = ({
       title: "Review Takeover",
       description: "You are now reviewing this submission.",
     });
+  };
+
+  const applyTemplate = (text: string) => {
+    setNote(text);
+    setShowNoteField(true);
   };
 
   const isLocked = reviewingBy !== null;
@@ -385,16 +430,53 @@ const ReviewPanel = ({
                   </CollapsibleContent>
                 </Collapsible>
 
-                {/* Note Input */}
+                {/* Quick Templates */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Note for patient</label>
-                  <Textarea
-                    placeholder="Add feedback or instructions..."
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    rows={3}
-                  />
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium text-muted-foreground">Quick notes</label>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleDraftWithAI}
+                      disabled={drafting}
+                      className="h-7 text-xs"
+                    >
+                      {drafting ? (
+                        <Loader className="h-3 w-3 animate-spin mr-1" />
+                      ) : (
+                        <Sparkles className="h-3 w-3 mr-1" />
+                      )}
+                      Draft with AI
+                    </Button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {NOTE_TEMPLATES.map((tpl) => (
+                      <Button
+                        key={tpl.label}
+                        variant="outline"
+                        size="sm"
+                        onClick={() => applyTemplate(tpl.text)}
+                        className="h-7 text-xs"
+                      >
+                        {tpl.label}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
+
+                {/* Note Input (only when needed) */}
+                {showNoteField && (
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Note for patient</label>
+                    <Textarea
+                      placeholder="Add feedback or instructions..."
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                      rows={3}
+                      autoFocus
+                    />
+                  </div>
+                )}
               </div>
             </ScrollArea>
 
@@ -417,18 +499,30 @@ const ReviewPanel = ({
                 <Button
                   variant="outline"
                   className="flex-1"
-                  onClick={() => handleApprove(true)}
-                  disabled={submitting || !note.trim()}
+                  onClick={() => {
+                    if (!showNoteField) {
+                      setShowNoteField(true);
+                      return;
+                    }
+                    handleApprove(true);
+                  }}
+                  disabled={submitting || (showNoteField && !note.trim())}
                 >
                   <AlertTriangle className="h-4 w-4 mr-2" />
-                  Approve + Note
+                  {showNoteField && note.trim() ? "Approve + Note" : "Add Note"}
                 </Button>
 
                 <Button
                   variant="destructive"
                   className="flex-1"
-                  onClick={handleNeedsCorrection}
-                  disabled={submitting || !note.trim()}
+                  onClick={() => {
+                    if (!showNoteField) {
+                      setShowNoteField(true);
+                      return;
+                    }
+                    handleNeedsCorrection();
+                  }}
+                  disabled={submitting || (showNoteField && !note.trim())}
                 >
                   <XCircle className="h-4 w-4 mr-2" />
                   Needs Correction
