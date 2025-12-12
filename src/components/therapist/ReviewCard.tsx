@@ -1,0 +1,178 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Video, MessageSquare, AlertTriangle, Loader, CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { 
+  calculateTriageLevel, 
+  getTriageBorderClass, 
+  formatWaitingTime,
+  TriageLevel 
+} from "@/lib/triageUtils";
+
+interface ReviewCardProps {
+  id: string;
+  patientId: string;
+  patientName: string;
+  weekNumber: number;
+  weekTitle: string;
+  programVariant: string;
+  submittedAt: string | null;
+  status: string;
+  consecutiveNeedsMore: number;
+  videoCount: number;
+  messageCount: number;
+  uploads: { ai_feedback: any; ai_feedback_status: string | null }[];
+  onApprove?: (progressId: string) => void;
+  onSendNote?: (patientId: string, weekNumber: number) => void;
+  isApproving?: boolean;
+}
+
+const ReviewCard = ({
+  id,
+  patientId,
+  patientName,
+  weekNumber,
+  weekTitle,
+  programVariant,
+  submittedAt,
+  status,
+  consecutiveNeedsMore,
+  videoCount,
+  messageCount,
+  uploads,
+  onApprove,
+  onSendNote,
+  isApproving,
+}: ReviewCardProps) => {
+  const navigate = useNavigate();
+  
+  const triage = calculateTriageLevel(status, submittedAt, consecutiveNeedsMore, uploads);
+  const borderClass = getTriageBorderClass(triage.level);
+  const waitingTime = formatWaitingTime(submittedAt);
+  
+  // Check AI status across uploads
+  const hasAiPending = uploads.some(u => u.ai_feedback_status === 'pending');
+  const hasAiError = uploads.some(u => u.ai_feedback_status === 'error');
+  const hasAiIssues = uploads.some(u => u.ai_feedback?.issues?.length > 0);
+  
+  const canApprove = triage.level !== 'red';
+  
+  return (
+    <Card className={`${borderClass} shadow-sm hover:shadow-md transition-shadow`}>
+      <CardContent className="py-4">
+        <div className="flex items-start justify-between gap-4">
+          {/* Left: Patient info */}
+          <div className="flex-1 min-w-0">
+            {/* Patient name - strongest visual anchor */}
+            <h3 className="text-lg font-semibold truncate mb-1">
+              {patientName}
+            </h3>
+            
+            {/* Week info - muted */}
+            <p className="text-sm text-muted-foreground mb-2">
+              Week {weekNumber} · {weekTitle}
+            </p>
+            
+            {/* Badges row */}
+            <div className="flex flex-wrap items-center gap-2 mb-3">
+              {/* Program variant badge */}
+              <Badge variant="secondary" className="text-xs">
+                {programVariant === 'frenectomy' || programVariant === 'standard' 
+                  ? 'Frenectomy' 
+                  : 'Non-Frenectomy'}
+              </Badge>
+              
+              {/* Status badge for needs_more */}
+              {status === 'needs_more' && (
+                <Badge variant="outline" className="text-xs bg-warning/10 text-warning border-warning/20">
+                  Needs More
+                </Badge>
+              )}
+              
+              {/* Waiting time */}
+              <span className="text-xs text-muted-foreground">
+                Submitted {waitingTime}
+              </span>
+            </div>
+            
+            {/* Icons row - muted indicators */}
+            <div className="flex items-center gap-4 text-muted-foreground">
+              {videoCount > 0 && (
+                <div className="flex items-center gap-1">
+                  <Video className="h-4 w-4" />
+                  <span className="text-xs">{videoCount}</span>
+                </div>
+              )}
+              
+              {messageCount > 0 && (
+                <div className="flex items-center gap-1">
+                  <MessageSquare className="h-4 w-4" />
+                  <span className="text-xs">{messageCount}</span>
+                </div>
+              )}
+              
+              {/* AI indicators - secondary and muted */}
+              {hasAiPending && (
+                <div className="flex items-center gap-1 text-muted-foreground">
+                  <Loader className="h-3 w-3 animate-spin" />
+                  <span className="text-xs">AI processing</span>
+                </div>
+              )}
+              
+              {hasAiError && (
+                <div className="flex items-center gap-1 text-destructive/70">
+                  <AlertTriangle className="h-3 w-3" />
+                  <span className="text-xs">AI error</span>
+                </div>
+              )}
+              
+              {hasAiIssues && !hasAiError && !hasAiPending && (
+                <div className="flex items-center gap-1 text-warning/70">
+                  <AlertTriangle className="h-3 w-3" />
+                  <span className="text-xs">Issues found</span>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Right: Action buttons - always visible */}
+          <div className="flex flex-col gap-2 shrink-0">
+            <Button
+              size="sm"
+              onClick={() => navigate(`/review/${patientId}/${weekNumber}`)}
+            >
+              Review
+            </Button>
+            
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={!canApprove || isApproving}
+              onClick={() => onApprove?.(id)}
+              className={!canApprove ? 'opacity-50' : ''}
+            >
+              {isApproving ? (
+                <Loader className="h-3 w-3 animate-spin mr-1" />
+              ) : (
+                <CheckCircle className="h-3 w-3 mr-1" />
+              )}
+              Approve
+            </Button>
+            
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => onSendNote?.(patientId, weekNumber)}
+            >
+              <MessageSquare className="h-3 w-3 mr-1" />
+              Note
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default ReviewCard;
