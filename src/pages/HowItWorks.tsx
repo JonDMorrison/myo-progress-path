@@ -27,12 +27,12 @@ const HowItWorks = () => {
         <title>{getPageTitle("How It Works")}</title>
         <meta 
           name="description" 
-          content="From PDF to progress in three simple steps. Learn how Montrose Myo helps clinics deliver structured myofunctional therapy programs."
+          content="Your step-by-step guide to myofunctional therapy. Learn how to complete exercises, track progress, and get personalized feedback from your therapist."
         />
         <meta property="og:title" content={getPageTitle("How It Works")} />
         <meta 
           property="og:description" 
-          content="From PDF to progress in three simple steps. Learn how Montrose Myo helps clinics deliver structured myofunctional therapy programs." 
+          content="Your step-by-step guide to myofunctional therapy. Learn how to complete exercises, track progress, and get personalized feedback from your therapist." 
         />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/placeholder.svg" />
@@ -56,10 +56,10 @@ const HowItWorks = () => {
             </div>
             <div className="container max-w-4xl text-center relative">
               <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                From PDF to Progress—In Three Steps
+                Your Journey to Better Breathing
               </h1>
               <p className="text-xl text-muted-foreground">
-                Montrose Myo transforms how you deliver myofunctional therapy programs
+                A simple, guided program that fits into your daily routine
               </p>
             </div>
           </section>
@@ -70,18 +70,18 @@ const HowItWorks = () => {
               <div className="grid gap-12">
                 <StepCard
                   stepNumber={1}
-                  title="Assign the Program"
-                  description="Import your weekly exercises using our template and enroll your patient. Define which weeks require BOLT scores, which need video uploads, and add any custom instructions."
+                  title="Start Your Program"
+                  description="After enrolling, you'll see your personalized 24-week program with clear exercises for each week. Everything you need is in one place—instructions, videos, and progress tracking."
                 />
                 <StepCard
                   stepNumber={2}
-                  title="Guide & Track"
-                  description="Patients see their current week, check off exercises, record BOLT scores and percentages. They can message you with questions and track their progress streak."
+                  title="Practice & Record"
+                  description="Complete your daily exercises at home, check them off as you go, and record your BOLT score and breathing metrics. Upload videos of your technique so your therapist can see your progress."
                 />
                 <StepCard
                   stepNumber={3}
-                  title="Review & Approve"
-                  description="Review submissions with one click to approve and unlock the next week. Compare first vs. last attempt videos side-by-side and receive AI-powered technique suggestions."
+                  title="Get Feedback & Advance"
+                  description="Your therapist reviews your submissions and provides personalized feedback. Once approved, your next week unlocks automatically. If adjustments are needed, you'll receive clear guidance."
                 />
               </div>
             </div>
@@ -91,42 +91,42 @@ const HowItWorks = () => {
           <section className="py-16">
             <div className="container">
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Everything You Need</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">What You'll Get</h2>
                 <p className="text-xl text-muted-foreground">
-                  Comprehensive features for modern therapy delivery
+                  Tools designed to help you succeed
                 </p>
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <FeatureCard
                   icon={FileText}
-                  title="Programs & Weeks"
-                  description="Content editor with flags for BOLT scores and required uploads. Import from templates or create custom programs."
+                  title="Weekly Exercise Plans"
+                  description="Clear instructions and video demonstrations for each exercise. You'll always know exactly what to do and how to do it."
                 />
                 <FeatureCard
                   icon={MessageSquare}
-                  title="Messaging & Notes"
-                  description="Built-in messaging keeps communication in context. Add private therapist notes for internal tracking."
+                  title="Direct Communication"
+                  description="Message your therapist anytime with questions or concerns. Get answers without waiting for your next appointment."
                 />
                 <FeatureCard
                   icon={CheckCircle}
-                  title="Approvals Workflow"
-                  description="One-click approve or request more practice. Patients only advance when ready."
+                  title="Personalized Feedback"
+                  description="Your therapist reviews your progress and provides guidance tailored to your technique and needs."
                 />
                 <FeatureCard
                   icon={Video}
-                  title="Video Uploads & Thumbnails"
-                  description="Patients upload exercise attempts. Auto-generated thumbnails for quick review."
+                  title="Video Check-ins"
+                  description="Upload videos of your exercises so your therapist can see your form and provide specific corrections."
                 />
                 <FeatureCard
                   icon={BarChart3}
-                  title="Reports & Exports"
-                  description="Track adherence, completion trends, and BOLT progression. Export patient data for records."
+                  title="Progress Tracking"
+                  description="Watch your BOLT scores improve and see your breathing metrics trend upward over the 24 weeks."
                 />
                 <FeatureCard
                   icon={Award}
-                  title="Gamification"
-                  description="Streaks, points, badges, and optional leaderboards boost patient engagement and adherence."
+                  title="Stay Motivated"
+                  description="Earn badges and build streaks as you complete exercises. Celebrate your consistency and progress."
                 />
               </div>
             </div>
@@ -135,16 +135,16 @@ const HowItWorks = () => {
           {/* Getting Started */}
           <section className="py-16">
             <div className="container max-w-3xl text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Getting Started</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Begin?</h2>
               <p className="text-xl text-muted-foreground mb-8">
-                Ready to transform your therapy delivery? Create your account and start onboarding patients today.
+                If you've been referred by Montrose Dental Centre, you'll receive a passcode to create your account and start your program.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg">
-                  <Link to="/auth">Create Your Account</Link>
+                  <Link to="/auth">Sign In</Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
-                  <a href="mailto:sam@montrosedental.ca">Book a Demo</a>
+                  <a href="mailto:sam@montrosedental.ca">Questions? Contact Us</a>
                 </Button>
               </div>
             </div>
