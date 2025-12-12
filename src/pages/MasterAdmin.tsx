@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ExportButton } from "@/components/admin/ExportButton";
-import { Shield, Search, Download, X } from "lucide-react";
+import { Shield, Search, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { MasterPatientTable } from "@/components/admin/MasterPatientTable";
 import { fetchMasterPatientList, fetchAllClinics, type MasterPatientFilters } from "@/lib/masterAdmin";
 import { exportPatientsToCSV } from "@/lib/exportCSV";
 import { toast } from "sonner";
+import { AdminLayout } from "@/components/layout/AdminLayout";
 
 const MasterAdmin = () => {
   const navigate = useNavigate();
@@ -35,7 +35,6 @@ const MasterAdmin = () => {
     pageSize: 50
   });
 
-  // Check authorization
   useEffect(() => {
     checkAuthorization();
   }, []);
@@ -49,7 +48,6 @@ const MasterAdmin = () => {
         return;
       }
 
-      // Check if user is super_admin
       const { data: userData, error } = await supabase
         .from('users')
         .select('role')
@@ -99,7 +97,6 @@ const MasterAdmin = () => {
     }
   };
 
-  // Reload data when filters change
   useEffect(() => {
     if (isAuthorized) {
       loadData();
@@ -133,7 +130,6 @@ const MasterAdmin = () => {
     });
   };
 
-  // Calculate average completion
   const avgCompletion = patients.length > 0
     ? Math.round(
         patients
@@ -148,12 +144,8 @@ const MasterAdmin = () => {
   }
 
   return (
-    <>
-      <Helmet>
-        <title>Master Admin - Montrose Myo</title>
-      </Helmet>
-
-      <div className="container mx-auto py-8 space-y-6">
+    <AdminLayout title="Master Dashboard" description="View and manage all patients across the platform">
+      <div className="space-y-6">
         {/* Security Banner */}
         <Alert className="border-primary">
           <Shield className="h-4 w-4" />
@@ -161,12 +153,6 @@ const MasterAdmin = () => {
             <strong>Master Admin Access:</strong> You are viewing platform-wide data across all clinics.
           </AlertDescription>
         </Alert>
-
-        {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold">Master Admin Dashboard</h1>
-          <p className="text-muted-foreground">View and manage all patients across the platform</p>
-        </div>
 
         {/* Filters */}
         <div className="space-y-4">
@@ -331,7 +317,7 @@ const MasterAdmin = () => {
           <MasterPatientTable patients={patients} onExport={handleExportCSV} />
         )}
       </div>
-    </>
+    </AdminLayout>
   );
 };
 
