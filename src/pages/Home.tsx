@@ -53,7 +53,7 @@ const Home = () => {
     answer: "Your assigned therapist at Montrose reviews your weekly submissions and provides feedback on your exercises."
   }, {
     question: "How do video check-ins work?",
-    answer: "For select weeks, you can upload videos of your exercises for your therapist to review and provide guidance."
+    answer: "Each week, you upload videos of your exercises for your therapist to review and provide personalized guidance."
   }];
   return <>
       <Helmet>
@@ -317,11 +317,11 @@ const Home = () => {
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
                       <Video className="w-6 h-6 text-primary" />
                     </div>
-                    <CardTitle>Instructional Videos</CardTitle>
+                    <CardTitle>Clear, Concise Instructions</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Clear video demonstrations for each exercise, accessible anytime on your device
+                      Video and written explanations for each exercise, accessible anytime on your device
                     </p>
                   </CardContent>
                 </Card>
