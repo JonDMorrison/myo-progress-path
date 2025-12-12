@@ -56,6 +56,8 @@ Myofunctional therapy focuses on achieving four primary goals that work together
 
 **Why it matters:** The tongue should rest on the roof of the mouth at the "spot" (incisive papilla) behind the upper front teeth. This position supports the palate, maintains the airway, and supports proper facial growth.
 
+![Photo D: The Tongue](/images/learn/the-tongue.jpg)
+
 **Key benefits:**
 - Supports the palate and maxilla
 - Keeps the airway open
