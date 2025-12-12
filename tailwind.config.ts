@@ -60,11 +60,7 @@ export default {
       boxShadow: {
         'card': 'var(--shadow-card)',
         'elevated': 'var(--shadow-elevated)',
-        'progress': 'var(--shadow-progress)',
-      },
-      backgroundImage: {
-        'gradient-hero': 'var(--gradient-hero)',
-        'gradient-card': 'var(--gradient-card)',
+        'focus': 'var(--shadow-focus)',
       },
       borderRadius: {
         lg: "var(--radius)",

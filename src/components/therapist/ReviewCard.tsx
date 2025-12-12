@@ -73,10 +73,10 @@ const ReviewCard = ({
   
   return (
     <Card className={cn(
-      borderClass, 
-      "shadow-sm hover:shadow-md transition-all",
-      isExiting && "opacity-0 scale-95 transition-all duration-300",
-      selected && "ring-2 ring-primary"
+      "bg-card shadow-card hover:shadow-elevated transition-shadow duration-200",
+      borderClass,
+      isExiting && "opacity-0 scale-[0.98] transition-all duration-200",
+      selected && "ring-2 ring-primary ring-offset-2 ring-offset-background"
     )}>
       <CardContent className="py-4">
         <div className="flex items-start justify-between gap-4">

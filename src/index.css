@@ -8,8 +8,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* MyoCoach Design System - Vibrant Blue & Orange */
-    --background: 0 0% 100%;
+    /* MyoCoach Design System - Calm & Professional */
+    --background: 220 20% 97%;
     --foreground: 220 15% 20%;
 
     --card: 0 0% 100%;
@@ -18,88 +18,85 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 15% 20%;
 
-    /* Primary: Vibrant Blue */
-    --primary: 205 100% 42%;
+    /* Primary: Calm Blue */
+    --primary: 205 85% 45%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 205 100% 55%;
+    --primary-light: 205 75% 55%;
     
-    /* Secondary: Warm Orange */
-    --secondary: 30 100% 62%;
-    --secondary-foreground: 0 0% 100%;
+    /* Secondary: Muted Warm */
+    --secondary: 220 15% 92%;
+    --secondary-foreground: 220 15% 30%;
 
     /* Muted: Soft Neutral */
-    --muted: 220 15% 95%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 45%;
 
-    /* Accent: Light Blue */
-    --accent: 205 100% 96%;
-    --accent-foreground: 205 100% 35%;
+    /* Accent: Very Light Blue */
+    --accent: 205 60% 96%;
+    --accent-foreground: 205 85% 40%;
 
-    /* Success: Medical Green */
-    --success: 142 71% 45%;
+    /* Success: Calm Green - High contrast */
+    --success: 145 55% 42%;
     --success-foreground: 0 0% 100%;
     
-    /* Warning: Gentle Amber */
-    --warning: 38 92% 50%;
+    /* Warning: Muted Amber - High contrast */
+    --warning: 35 80% 48%;
     --warning-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 205 100% 42%;
+    --input: 220 15% 90%;
+    --ring: 205 85% 45%;
 
-    --radius: 0.75rem;
+    --radius: 0.625rem;
 
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(205 100% 42%) 0%, hsl(205 100% 55%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 99%) 100%);
-    
-    /* Shadows */
-    --shadow-card: 0 2px 8px -2px hsl(220 15% 20% / 0.08);
-    --shadow-elevated: 0 4px 16px -4px hsl(220 15% 20% / 0.12);
-    --shadow-progress: 0 0 20px hsl(205 100% 42% / 0.25);
+    /* Shadows - subtle and soft */
+    --shadow-card: 0 1px 3px 0 hsl(220 15% 20% / 0.04), 0 1px 2px -1px hsl(220 15% 20% / 0.04);
+    --shadow-elevated: 0 4px 6px -1px hsl(220 15% 20% / 0.06), 0 2px 4px -2px hsl(220 15% 20% / 0.04);
+    --shadow-focus: 0 0 0 3px hsl(205 85% 45% / 0.15);
 
-    /* Transitions */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Transitions - smooth, no bounce */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    --background: 220 25% 10%;
-    --foreground: 0 0% 98%;
+    --background: 220 20% 10%;
+    --foreground: 220 10% 92%;
 
-    --card: 220 20% 15%;
-    --card-foreground: 0 0% 98%;
+    --card: 220 18% 14%;
+    --card-foreground: 220 10% 92%;
 
-    --popover: 220 20% 15%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 220 18% 14%;
+    --popover-foreground: 220 10% 92%;
 
-    --primary: 205 100% 50%;
+    --primary: 205 80% 55%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 205 100% 60%;
+    --primary-light: 205 75% 65%;
 
-    --secondary: 30 100% 65%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 220 10% 85%;
 
-    --muted: 220 15% 22%;
-    --muted-foreground: 220 10% 65%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 55%;
 
-    --accent: 220 20% 20%;
-    --accent-foreground: 205 100% 60%;
+    --accent: 220 18% 18%;
+    --accent-foreground: 205 80% 60%;
 
-    --success: 142 65% 50%;
+    --success: 145 50% 48%;
     --success-foreground: 0 0% 100%;
     
-    --warning: 38 90% 55%;
+    --warning: 35 75% 52%;
     --warning-foreground: 0 0% 100%;
 
-    --destructive: 0 75% 55%;
+    --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 25%;
-    --input: 220 15% 25%;
-    --ring: 205 100% 50%;
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 205 80% 55%;
   }
 }
 
@@ -229,11 +226,20 @@ All colors MUST be HSL.
   }
 }
 
-/* Modern Animation Utilities */
+/* Calm Animation Utilities - subtle fade/shift only */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
@@ -241,72 +247,59 @@ All colors MUST be HSL.
   }
 }
 
-@keyframes scaleIn {
+@keyframes fadeOut {
   from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
     opacity: 1;
     transform: scale(1);
   }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(5deg);
-  }
-}
-
-@keyframes float-delayed {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-15px) rotate(-5deg);
-  }
-}
-
-@keyframes glow {
-  0%, 100% {
-    opacity: 0.5;
-    filter: blur(20px);
-  }
-  50% {
-    opacity: 0.8;
-    filter: blur(30px);
+  to {
+    opacity: 0;
+    transform: scale(0.98);
   }
 }
 
 @layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-out forwards;
+  }
+
   .animate-fade-in-up {
-    animation: fadeInUp 0.3s ease-out forwards;
+    animation: fadeInUp 0.2s ease-out forwards;
+  }
+
+  .animate-fade-out {
+    animation: fadeOut 0.2s ease-out forwards;
   }
   
-  .animate-scale-in {
-    animation: scaleIn 0.2s ease-out forwards;
-  }
-  
+  /* Subtle hover - no bounce, just lift */
   .hover-lift {
-    @apply transition-all duration-200 hover:scale-[1.01] hover:shadow-md;
+    @apply transition-shadow duration-200 hover:shadow-elevated;
   }
 
-  .animate-float {
-    animation: float 8s ease-in-out infinite;
+  /* Focus states - high contrast ring */
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 
-  .animate-float-delayed {
-    animation: float-delayed 6s ease-in-out infinite;
+  /* Card styles - calm and professional */
+  .card-calm {
+    @apply bg-card rounded-lg border border-border shadow-card transition-shadow duration-200;
   }
 
-  .animate-glow {
-    animation: glow 4s ease-in-out infinite;
+  .card-calm:hover {
+    @apply shadow-elevated;
   }
 
-  .glassmorphic {
-    @apply backdrop-blur-xl bg-white/10 dark:bg-white/5 border border-white/20 shadow-2xl;
+  /* Triage border colors - high contrast */
+  .triage-green {
+    @apply border-l-[3px] border-l-success;
+  }
+
+  .triage-yellow {
+    @apply border-l-[3px] border-l-warning;
+  }
+
+  .triage-red {
+    @apply border-l-[3px] border-l-destructive;
   }
 }
