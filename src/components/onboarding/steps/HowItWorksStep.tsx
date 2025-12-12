@@ -10,68 +10,51 @@ export const HowItWorksStep = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left column - Feature cards */}
-        <div className="space-y-4">
-          <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
-            <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-              <CheckCircle className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold mb-1">Daily Exercises</h3>
-              <p className="text-sm text-muted-foreground">
-                Practice your assigned exercises consistently. Consistency is key to building new muscle memory and breathing patterns.
-              </p>
-            </div>
+      <div className="space-y-4">
+        <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
+          <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+            <CheckCircle className="w-6 h-6 text-primary" />
           </div>
-
-          <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
-            <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-              <Video className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold mb-1">Weekly Check-ins</h3>
-              <p className="text-sm text-muted-foreground">
-                Submit your BOLT score, breathing percentages, and video recordings. This helps your therapist track your progress.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
-            <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-              <MessageSquare className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold mb-1">Therapist Feedback</h3>
-              <p className="text-sm text-muted-foreground">
-                Your therapist reviews your submissions and provides feedback. They may approve your week or request more practice.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
-            <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-              <Trophy className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold mb-1">Earn Rewards</h3>
-              <p className="text-sm text-muted-foreground">
-                Build streaks, earn points, and unlock badges as you progress. Gamification makes the journey more engaging!
-              </p>
-            </div>
+          <div>
+            <h3 className="font-semibold mb-1">Daily Exercises</h3>
+            <p className="text-sm text-muted-foreground">
+              Practice your assigned exercises consistently. Consistency is key to building new muscle memory and breathing patterns.
+            </p>
           </div>
         </div>
 
-        {/* Right column - The Spot image */}
-        <div className="flex items-center justify-center">
-          <div className="max-w-xs text-center">
-            <img 
-              src="/images/learn/the-spot.jpg" 
-              alt="Photo E: The Spot - The incisive papilla where your tongue should rest"
-              className="rounded-lg shadow-md w-full"
-            />
-            <p className="text-xs text-muted-foreground mt-2">
-              The Spot: Where your tongue should rest
+        <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
+          <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+            <Video className="w-6 h-6 text-primary" />
+          </div>
+          <div>
+            <h3 className="font-semibold mb-1">Weekly Check-ins</h3>
+            <p className="text-sm text-muted-foreground">
+              Submit your BOLT score, breathing percentages, and video recordings. This helps your therapist track your progress.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
+          <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+            <MessageSquare className="w-6 h-6 text-primary" />
+          </div>
+          <div>
+            <h3 className="font-semibold mb-1">Therapist Feedback</h3>
+            <p className="text-sm text-muted-foreground">
+              Your therapist reviews your submissions and provides feedback. They may approve your week or request more practice.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex gap-4 p-4 bg-muted/50 rounded-lg">
+          <div className="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+            <Trophy className="w-6 h-6 text-primary" />
+          </div>
+          <div>
+            <h3 className="font-semibold mb-1">Earn Rewards</h3>
+            <p className="text-sm text-muted-foreground">
+              Build streaks, earn points, and unlock badges as you progress. Gamification makes the journey more engaging!
             </p>
           </div>
         </div>
