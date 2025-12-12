@@ -136,48 +136,56 @@ const TherapistDashboard = () => {
         );
       }
 
-      // For each progress, get uploads and messages counts
-      const enrichedData = await Promise.all(
-        filteredData.map(async (review: any) => {
-          // Get uploads
-          const { data: uploads } = await supabase
-            .from("uploads")
-            .select("id, ai_feedback, ai_feedback_status")
-            .eq("patient_id", review.patient_id)
-            .eq("week_id", review.week_id);
+      // Batch fetch uploads and messages for all reviews at once (performance optimization)
+      const reviewPatientWeekPairs = filteredData.map((r: any) => ({
+        patient_id: r.patient_id,
+        week_id: r.week_id
+      }));
+      
+      // Get unique patient_ids and week_ids for batch queries
+      const patientIds = [...new Set(reviewPatientWeekPairs.map(p => p.patient_id))];
+      const weekIds = [...new Set(reviewPatientWeekPairs.map(p => p.week_id))];
+      
+      // Batch fetch uploads
+      const { data: allUploads } = await supabase
+        .from("uploads")
+        .select("id, patient_id, week_id, ai_feedback, ai_feedback_status")
+        .in("patient_id", patientIds)
+        .in("week_id", weekIds);
+      
+      // Batch fetch messages
+      const { data: allMessages } = await supabase
+        .from("messages")
+        .select("id, patient_id, week_id")
+        .in("patient_id", patientIds)
+        .in("week_id", weekIds);
+      
+      // Group by patient_id + week_id for fast lookup
+      const uploadsMap = new Map<string, typeof allUploads>();
+      const messagesMap = new Map<string, typeof allMessages>();
+      
+      (allUploads || []).forEach(u => {
+        const key = `${u.patient_id}_${u.week_id}`;
+        if (!uploadsMap.has(key)) uploadsMap.set(key, []);
+        uploadsMap.get(key)!.push(u);
+      });
+      
+      (allMessages || []).forEach(m => {
+        const key = `${m.patient_id}_${m.week_id}`;
+        if (!messagesMap.has(key)) messagesMap.set(key, []);
+        messagesMap.get(key)!.push(m);
+      });
 
-          // Get messages count
-          const { data: messages } = await supabase
-            .from("messages")
-            .select("id")
-            .eq("patient_id", review.patient_id)
-            .eq("week_id", review.week_id);
-
-          // Calculate consecutive needs_more count
-          const { data: historyData } = await supabase
-            .from("patient_week_progress")
-            .select("status")
-            .eq("patient_id", review.patient_id)
-            .eq("week_id", review.week_id)
-            .order("completed_at", { ascending: false })
-            .limit(5);
-
-          let consecutiveNeedsMore = 0;
-          if (historyData) {
-            for (const h of historyData) {
-              if (h.status === "needs_more") consecutiveNeedsMore++;
-              else break;
-            }
-          }
-
-          return {
-            ...review,
-            uploads: uploads || [],
-            messages: messages || [],
-            consecutiveNeedsMore,
-          };
-        })
-      );
+      // Enrich data without N+1 queries
+      const enrichedData = filteredData.map((review: any) => {
+        const key = `${review.patient_id}_${review.week_id}`;
+        return {
+          ...review,
+          uploads: uploadsMap.get(key) || [],
+          messages: messagesMap.get(key) || [],
+          consecutiveNeedsMore: 0, // Simplified - calculate on detail view only
+        };
+      });
 
       setReviews(enrichedData);
     } catch (error: any) {

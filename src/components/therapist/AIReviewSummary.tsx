@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, CheckCircle, AlertTriangle, HelpCircle } from "lucide-react";
+import { ChevronDown, ChevronUp, CheckCircle, AlertTriangle, HelpCircle, Loader, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 interface AIFeedback {
   strengths?: string[];
@@ -61,6 +62,12 @@ function getConfidenceConfig(level: ConfidenceLevel) {
 const AIReviewSummary = ({ uploads }: AIReviewSummaryProps) => {
   const [expanded, setExpanded] = useState(false);
 
+  // Check for pending/error states
+  const hasPending = uploads.some(u => u.ai_feedback_status === "pending");
+  const hasError = uploads.some(u => u.ai_feedback_status === "error");
+  const pendingCount = uploads.filter(u => u.ai_feedback_status === "pending").length;
+  const errorCount = uploads.filter(u => u.ai_feedback_status === "error").length;
+
   // Aggregate confidence across all uploads
   const confidenceLevels = uploads.map(u => 
     getConfidenceLevel(u.ai_feedback, u.ai_feedback_status)
@@ -90,9 +97,30 @@ const AIReviewSummary = ({ uploads }: AIReviewSummaryProps) => {
   });
 
   const hasDetails = allStrengths.length > 0 || allIssues.length > 0 || allSuggestions.length > 0;
+  
+  // Show status banner if pending or error
+  const showStatusBanner = hasPending || hasError;
 
   return (
     <div className={cn("rounded-lg border", config.bgClassName)}>
+      {/* Status banner for pending/error states */}
+      {showStatusBanner && (
+        <div className="px-4 py-2 border-b flex items-center gap-2 text-sm">
+          {hasPending && (
+            <Badge variant="outline" className="bg-muted text-muted-foreground gap-1">
+              <Loader className="h-3 w-3 animate-spin" />
+              {pendingCount} analyzing...
+            </Badge>
+          )}
+          {hasError && (
+            <Badge variant="outline" className="bg-destructive/10 text-destructive gap-1">
+              <XCircle className="h-3 w-3" />
+              {errorCount} failed
+            </Badge>
+          )}
+        </div>
+      )}
+      
       <Button
         variant="ghost"
         className="w-full justify-between px-4 py-3 h-auto"

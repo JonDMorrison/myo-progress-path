@@ -146,23 +146,26 @@ const ReviewPanel = ({
 
       setMessages(messagesData || []);
 
-      // Load week metrics
+      // Load week metrics and check concurrent reviewer
       const { data: progressData } = await supabase
         .from("patient_week_progress")
-        .select("bolt_score, nasal_breathing_pct, tongue_on_spot_pct, ai_summary")
+        .select("bolt_score, nasal_breathing_pct, tongue_on_spot_pct, ai_summary, reviewing_by, reviewing_since")
         .eq("id", progressId)
         .single();
 
       setWeekMetrics(progressData);
 
-      // Check if someone else is reviewing
-      if (progressData?.ai_summary?.startsWith("REVIEWING:")) {
-        const reviewerId = progressData.ai_summary.split(":")[1];
-        if (reviewerId !== user?.id) {
+      // Check if someone else is reviewing (with 30-min timeout)
+      if (progressData?.reviewing_by && progressData.reviewing_by !== user?.id) {
+        const reviewingSince = progressData.reviewing_since ? new Date(progressData.reviewing_since) : null;
+        const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+        
+        // Only consider locked if review started within 30 minutes
+        if (reviewingSince && reviewingSince > thirtyMinutesAgo) {
           const { data: reviewerData } = await supabase
             .from("users")
             .select("name")
-            .eq("id", reviewerId)
+            .eq("id", progressData.reviewing_by)
             .single();
           setReviewingBy(reviewerData?.name || "Another therapist");
         }
@@ -180,7 +183,10 @@ const ReviewPanel = ({
 
     await supabase
       .from("patient_week_progress")
-      .update({ ai_summary: `REVIEWING:${user.id}` })
+      .update({ 
+        reviewing_by: user.id,
+        reviewing_since: new Date().toISOString()
+      })
       .eq("id", progressId);
   };
 
@@ -188,18 +194,12 @@ const ReviewPanel = ({
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    const { data } = await supabase
+    // Only clear if this user owns the lock
+    await supabase
       .from("patient_week_progress")
-      .select("ai_summary")
+      .update({ reviewing_by: null, reviewing_since: null })
       .eq("id", progressId)
-      .single();
-
-    if (data?.ai_summary === `REVIEWING:${user.id}`) {
-      await supabase
-        .from("patient_week_progress")
-        .update({ ai_summary: null })
-        .eq("id", progressId);
-    }
+      .eq("reviewing_by", user.id);
   };
 
   const handleApprove = async (withNote: boolean) => {
@@ -480,11 +480,11 @@ const ReviewPanel = ({
               </div>
             </ScrollArea>
 
-            {/* Fixed Action Bar */}
-            <div className="border-t px-6 py-4 bg-card">
-              <div className="flex gap-2">
+            {/* Fixed Action Bar - Mobile optimized */}
+            <div className="border-t px-4 sm:px-6 py-3 sm:py-4 bg-card">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <Button
-                  className="flex-1"
+                  className="flex-1 h-10 sm:h-9"
                   onClick={() => handleApprove(false)}
                   disabled={submitting}
                 >
@@ -498,7 +498,7 @@ const ReviewPanel = ({
 
                 <Button
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 h-10 sm:h-9"
                   onClick={() => {
                     if (!showNoteField) {
                       setShowNoteField(true);
@@ -509,12 +509,12 @@ const ReviewPanel = ({
                   disabled={submitting || (showNoteField && !note.trim())}
                 >
                   <AlertTriangle className="h-4 w-4 mr-2" />
-                  {showNoteField && note.trim() ? "Approve + Note" : "Add Note"}
+                  <span className="truncate">{showNoteField && note.trim() ? "Approve + Note" : "Add Note"}</span>
                 </Button>
 
                 <Button
                   variant="destructive"
-                  className="flex-1"
+                  className="flex-1 h-10 sm:h-9"
                   onClick={() => {
                     if (!showNoteField) {
                       setShowNoteField(true);
@@ -525,7 +525,7 @@ const ReviewPanel = ({
                   disabled={submitting || (showNoteField && !note.trim())}
                 >
                   <XCircle className="h-4 w-4 mr-2" />
-                  Needs Correction
+                  <span className="truncate">Needs Correction</span>
                 </Button>
               </div>
             </div>

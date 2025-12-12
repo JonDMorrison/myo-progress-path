@@ -105,30 +105,68 @@ export async function uploadVideo(
 }
 
 /**
+ * Check if a signed URL is expired or about to expire
+ */
+function isUrlExpired(url: string): boolean {
+  if (!url.includes('token=')) return true;
+  
+  // Extract token expiry from URL (Supabase uses exp parameter)
+  try {
+    const urlObj = new URL(url);
+    const token = urlObj.searchParams.get('token');
+    if (!token) return true;
+    
+    // Decode JWT payload (base64) to get exp
+    const parts = token.split('.');
+    if (parts.length !== 3) return true;
+    
+    const payload = JSON.parse(atob(parts[1]));
+    const expiry = payload.exp * 1000; // Convert to ms
+    const now = Date.now();
+    const buffer = 5 * 60 * 1000; // 5 minute buffer
+    
+    return now >= (expiry - buffer);
+  } catch {
+    return true; // Assume expired if we can't parse
+  }
+}
+
+/**
+ * Extract file path from a storage URL or signed URL
+ */
+function extractFilePath(fileUrl: string): string | null {
+  // Handle both signed URLs and direct paths
+  const urlParts = fileUrl.split('/patient-videos/');
+  if (urlParts.length < 2) return null;
+  
+  // Remove query params
+  return urlParts[1].split('?')[0];
+}
+
+/**
  * Get signed URL for viewing a video (admin/therapist access)
+ * Always generates a fresh URL to avoid expiry issues
  */
 export async function getVideoUrl(fileUrl: string): Promise<string> {
-  // If it's already a signed URL, return it
-  if (fileUrl.includes('token=')) {
+  // Always refresh if URL is expired or near expiry
+  if (fileUrl.includes('token=') && !isUrlExpired(fileUrl)) {
     return fileUrl;
   }
 
-  // Extract the path from the URL
-  const urlParts = fileUrl.split('/patient-videos/');
-  if (urlParts.length < 2) {
+  const filePath = extractFilePath(fileUrl);
+  if (!filePath) {
+    console.warn('Could not extract file path from URL:', fileUrl);
     return fileUrl;
   }
 
-  const filePath = urlParts[1];
-
-  // Generate new signed URL
+  // Generate new signed URL (1 hour expiry)
   const { data, error } = await supabase.storage
     .from('patient-videos')
-    .createSignedUrl(filePath, 3600); // 1 hour
+    .createSignedUrl(filePath, 3600);
 
   if (error) {
     console.error('Error generating signed URL:', error);
-    return fileUrl;
+    throw new Error('Video not available - please try again');
   }
 
   return data.signedUrl;
