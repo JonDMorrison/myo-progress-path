@@ -2,6 +2,8 @@
 
 In this context, **compensations** are the result of stronger neck, face and oral muscles taking over for muscles that are underdeveloped. To retrain these underdeveloped muscles, it is very important to prevent compensations. Compensations will need to be evaluated and controlled **before your tongue tie release is approved**.
 
+![Photo D: The Tongue](/images/learn/the-tongue.jpg)
+
 ## Neck Engagement
 
 *Muscles of the neck compensating for weak facial muscles*

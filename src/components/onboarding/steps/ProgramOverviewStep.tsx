@@ -36,6 +36,20 @@ export const ProgramOverviewStep = () => {
         </div>
       </div>
 
+      {/* Tongue anatomy reference */}
+      <div className="mt-6 flex justify-center">
+        <div className="max-w-xs">
+          <img 
+            src="/images/learn/the-tongue.jpg" 
+            alt="Photo D: The Tongue - Understanding tongue anatomy for myofunctional therapy"
+            className="rounded-lg shadow-md w-full"
+          />
+          <p className="text-xs text-center text-muted-foreground mt-2">
+            Understanding tongue anatomy is key to your exercises
+          </p>
+        </div>
+      </div>
+
       <div className="mt-8 p-6 bg-primary/10 border border-primary/20 rounded-lg">
         <h3 className="font-semibold mb-2">What to Expect</h3>
         <ul className="space-y-2 text-sm">
