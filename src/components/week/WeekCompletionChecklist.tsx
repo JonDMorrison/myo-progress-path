@@ -8,13 +8,17 @@ interface WeekCompletionChecklistProps {
   week: any;
   uploads: any[];
   exercises?: any[];
+  weekNumber?: number;
+  programVariant?: string;
 }
 
 export function WeekCompletionChecklist({ 
   progress, 
   week, 
   uploads,
-  exercises = []
+  exercises = [],
+  weekNumber = 0,
+  programVariant
 }: WeekCompletionChecklistProps) {
   // Handle null week
   if (!week) {
@@ -28,6 +32,9 @@ export function WeekCompletionChecklist({
   ).length;
   const totalExercises = exercises.length;
   const allExercisesComplete = totalExercises > 0 && completedExercises === totalExercises;
+
+  // Check if frenectomy consult is required (Week 1, frenectomy pathway only)
+  const isFrenectomyWeek1 = weekNumber === 1 && programVariant === 'frenectomy';
 
   const requirements = [
     {
@@ -59,6 +66,12 @@ export function WeekCompletionChecklist({
       label: `Exercises Completed (${completedExercises}/${totalExercises})`,
       complete: allExercisesComplete,
       required: totalExercises > 0
+    },
+    // Frenectomy consult task - only for Week 1 frenectomy pathway
+    {
+      label: 'Frenectomy Consult Booked',
+      complete: progress?.frenectomy_consult_booked === true,
+      required: isFrenectomyWeek1
     }
   ];
 

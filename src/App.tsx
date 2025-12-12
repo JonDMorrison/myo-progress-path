@@ -38,6 +38,9 @@ import Learn from "./pages/Learn";
 import LearnArticle from "./pages/LearnArticle";
 import WhatIsMyofunctionalTherapy from "./pages/WhatIsMyofunctionalTherapy";
 import Resources from "./pages/Resources";
+import PatientProgress from "./pages/PatientProgress";
+import PatientMessages from "./pages/PatientMessages";
+import PatientAccount from "./pages/PatientAccount";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +70,9 @@ const App = () => {
             <Route path="/update-password" element={<UpdatePassword />} />
             <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
             <Route path="/patient" element={<PatientDashboard />} />
+            <Route path="/patient/progress" element={<PatientProgress />} />
+            <Route path="/patient/messages" element={<PatientMessages />} />
+            <Route path="/patient/account" element={<PatientAccount />} />
             <Route path="/therapist" element={<TherapistDashboard />} />
             <Route path="/therapist/patients" element={<TherapistPatients />} />
             <Route path="/admin/content" element={<AdminContent />} />
