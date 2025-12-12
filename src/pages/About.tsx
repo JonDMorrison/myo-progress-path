@@ -107,11 +107,11 @@ const About = () => {
                         <h3 className="text-2xl font-bold mb-2">Samantha</h3>
                         <p className="text-primary font-semibold mb-3">Myofunctional Therapist</p>
                         <p className="text-muted-foreground text-lg">
-                          Samantha is a certified myofunctional therapist passionate about helping patients 
+                          Samantha is an Orofacial Myofunctional Therapist passionate about helping patients 
                           achieve better breathing, sleep, and overall health. With specialized training in 
                           orofacial myology, she guides patients through targeted exercises that retrain 
                           oral and facial muscles for optimal function. Samantha's insights have been 
-                          instrumental in shaping this platform — her recommendations led to weekly video 
+                          instrumental in shaping this platform — her recommendations led to biweekly video 
                           submissions and real-time progress tracking, ensuring patients stay accountable 
                           and therapists can provide personalized feedback throughout the 24-week journey.
                         </p>
