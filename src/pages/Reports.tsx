@@ -50,8 +50,8 @@ const Reports = () => {
       .eq("id", session.user.id)
       .single();
 
-    if (!userData || (userData.role !== "therapist" && userData.role !== "admin")) {
-      navigate("/");
+    if (!userData || (userData.role !== "therapist" && userData.role !== "admin" && userData.role !== "super_admin")) {
+      navigate("/auth");
       return;
     }
 

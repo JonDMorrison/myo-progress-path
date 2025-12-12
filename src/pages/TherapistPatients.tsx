@@ -223,7 +223,11 @@ export default function TherapistPatients() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => navigate(`/patient/${patient.patient_id}`)}
+                          onClick={() => {
+                            // Navigate to the review page for the patient's current week
+                            const weekNum = patient.current_week_number || 1;
+                            navigate(`/review/${patient.patient_id}/${weekNum}`);
+                          }}
                         >
                           View
                         </Button>

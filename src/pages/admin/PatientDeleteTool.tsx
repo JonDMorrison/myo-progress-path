@@ -72,7 +72,7 @@ export default function PatientDeleteTool() {
         description: "Super admin privileges required.",
         variant: "destructive",
       });
-      navigate("/");
+      navigate("/therapist");
       return;
     }
 

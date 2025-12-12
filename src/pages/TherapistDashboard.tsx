@@ -498,15 +498,9 @@ const TherapistDashboard = () => {
               <span className="mr-2">📊</span>
               Reports
             </Button>
-            {isSuperAdmin && (
-              <Button variant="outline" size="sm" onClick={() => navigate("/admin/master")}>
-                <span className="mr-2">👑</span>
-                Master
-              </Button>
-            )}
             {isAdmin && (
-              <Button variant="outline" size="sm" onClick={() => navigate("/admin/content")}>
-                <span className="mr-2">⚙️</span>
+              <Button variant="outline" size="sm" onClick={() => navigate(isSuperAdmin ? "/admin/master" : "/admin/content")}>
+                <span className="mr-2">{isSuperAdmin ? "👑" : "⚙️"}</span>
                 Admin
               </Button>
             )}

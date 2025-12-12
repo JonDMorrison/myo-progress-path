@@ -37,13 +37,13 @@ const AdminContent = () => {
       .eq("id", user.id)
       .single();
 
-    if (!userData || userData.role !== "admin") {
+    if (!userData || (userData.role !== "admin" && userData.role !== "super_admin")) {
       toast({
         title: "Access Denied",
         description: "Admin privileges required.",
         variant: "destructive",
       });
-      navigate("/");
+      navigate("/therapist");
       return;
     }
 

@@ -56,7 +56,7 @@ const MasterAdmin = () => {
 
       if (error || userData?.role !== 'super_admin') {
         toast.error('Access denied. Super admin privileges required.');
-        navigate('/dashboard');
+        navigate('/therapist');
         return;
       }
 

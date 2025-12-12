@@ -1190,6 +1190,7 @@ export type Database = {
           status: Database["public"]["Enums"]["week_status"]
         }[]
       }
+      is_own_patient_record: { Args: { _patient_id: string }; Returns: boolean }
       is_super_admin: { Args: never; Returns: boolean }
       release_stale_review_locks: { Args: never; Returns: undefined }
     }
