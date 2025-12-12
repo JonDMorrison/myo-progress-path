@@ -146,14 +146,22 @@ Please analyze this myofunctional therapy exercise and provide feedback.`;
 
     const feedback = JSON.parse(toolCall.function.arguments);
 
-    // Update upload with AI feedback
+    // Update upload with AI feedback and status
     const { error: updateError } = await supabase
       .from("uploads")
-      .update({ ai_feedback: feedback })
+      .update({ 
+        ai_feedback: feedback,
+        ai_feedback_status: 'complete'
+      })
       .eq("id", uploadId);
 
     if (updateError) {
       console.error("Error updating upload:", updateError);
+      // Set error status
+      await supabase
+        .from("uploads")
+        .update({ ai_feedback_status: 'error' })
+        .eq("id", uploadId);
       throw updateError;
     }
 
@@ -168,6 +176,24 @@ Please analyze this myofunctional therapy exercise and provide feedback.`;
     );
   } catch (error: any) {
     console.error("Error in analyze-video:", error);
+    
+    // Try to update status to error if we have uploadId
+    try {
+      const { uploadId } = await req.clone().json();
+      if (uploadId) {
+        const supabase = createClient(
+          Deno.env.get("SUPABASE_URL") ?? "",
+          Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+        );
+        await supabase
+          .from("uploads")
+          .update({ ai_feedback_status: 'error' })
+          .eq("id", uploadId);
+      }
+    } catch (e) {
+      console.error("Failed to update error status:", e);
+    }
+    
     return new Response(
       JSON.stringify({ error: error.message }),
       {

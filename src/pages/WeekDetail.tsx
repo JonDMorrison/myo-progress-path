@@ -82,7 +82,7 @@ const WeekDetail = () => {
 
       // Get week - filter by patient's program variant
       const variant = patientData.program_variant || 'frenectomy';
-      const programTitle = variant === 'frenectomy' 
+      const programTitle = variant === 'frenectomy' || variant === 'standard'
         ? 'Frenectomy Program' 
         : 'Non-Frenectomy Program';
 
