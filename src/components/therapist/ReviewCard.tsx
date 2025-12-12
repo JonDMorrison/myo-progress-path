@@ -1,11 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Video, MessageSquare, AlertTriangle, Loader, CheckCircle } from "lucide-react";
 import { 
   calculateTriageLevel, 
   getTriageBorderClass, 
   formatWaitingTime,
+  type TriageLevel,
 } from "@/lib/triageUtils";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +30,10 @@ interface ReviewCardProps {
   onSendNote?: (patientId: string, weekNumber: number) => void;
   isApproving?: boolean;
   isExiting?: boolean;
+  // Batch selection
+  selectable?: boolean;
+  selected?: boolean;
+  onSelect?: (id: string, selected: boolean) => void;
 }
 
 const ReviewCard = ({
@@ -49,6 +55,9 @@ const ReviewCard = ({
   onSendNote,
   isApproving,
   isExiting,
+  selectable,
+  selected,
+  onSelect,
 }: ReviewCardProps) => {
   const triage = calculateTriageLevel(status, submittedAt, consecutiveNeedsMore, uploads);
   const borderClass = getTriageBorderClass(triage.level);
@@ -60,15 +69,28 @@ const ReviewCard = ({
   const hasAiIssues = uploads.some(u => u.ai_feedback?.issues?.length > 0);
   
   const canApprove = triage.level !== 'red';
+  const isGreen = triage.level === 'green';
   
   return (
     <Card className={cn(
       borderClass, 
       "shadow-sm hover:shadow-md transition-all",
-      isExiting && "opacity-0 scale-95 transition-all duration-300"
+      isExiting && "opacity-0 scale-95 transition-all duration-300",
+      selected && "ring-2 ring-primary"
     )}>
       <CardContent className="py-4">
         <div className="flex items-start justify-between gap-4">
+          {/* Checkbox for batch selection (GREEN cards only) */}
+          {selectable && isGreen && (
+            <div className="shrink-0 pt-1">
+              <Checkbox
+                checked={selected}
+                onCheckedChange={(checked) => onSelect?.(id, !!checked)}
+                aria-label={`Select ${patientName} Week ${weekNumber}`}
+              />
+            </div>
+          )}
+          
           {/* Left: Patient info */}
           <div className="flex-1 min-w-0">
             {/* Patient name - strongest visual anchor */}
@@ -180,6 +202,16 @@ const ReviewCard = ({
       </CardContent>
     </Card>
   );
+};
+
+// Export triage level getter for parent components
+export const getCardTriageLevel = (
+  status: string,
+  submittedAt: string | null,
+  consecutiveNeedsMore: number,
+  uploads: { ai_feedback: any; ai_feedback_status: string | null }[]
+): TriageLevel => {
+  return calculateTriageLevel(status, submittedAt, consecutiveNeedsMore, uploads).level;
 };
 
 export default ReviewCard;
