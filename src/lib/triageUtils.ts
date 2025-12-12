@@ -68,16 +68,16 @@ export function calculateTriageLevel(
 }
 
 /**
- * Get CSS classes for triage border color
+ * Get CSS classes for triage border color - high contrast, subtle
  */
 export function getTriageBorderClass(level: TriageLevel): string {
   switch (level) {
     case 'red':
-      return 'border-l-4 border-l-destructive';
+      return 'border-l-[3px] border-l-destructive';
     case 'yellow':
-      return 'border-l-4 border-l-warning';
+      return 'border-l-[3px] border-l-warning';
     case 'green':
-      return 'border-l-4 border-l-success';
+      return 'border-l-[3px] border-l-success';
   }
 }
 
