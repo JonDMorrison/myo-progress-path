@@ -144,7 +144,7 @@ const HowItWorks = () => {
                   <Link to="/auth">Sign In</Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
-                  <a href="mailto:sam@montrosedental.ca">Questions? Contact Us</a>
+                  <a href="mailto:info@montrosedentalcentre.com">Questions? Contact Us</a>
                 </Button>
               </div>
             </div>

@@ -42,7 +42,7 @@ export const FooterPublic = () => {
                 </Link>
               </li>
               <li>
-                <a href="mailto:sam@montrosedental.ca" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="mailto:info@montrosedentalcentre.com" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Contact
                 </a>
               </li>
