@@ -7,6 +7,7 @@ import { LogOut, Users, Inbox, CheckCircle2, History, Loader } from "lucide-reac
 import { useToast } from "@/hooks/use-toast";
 import ReviewCard from "@/components/therapist/ReviewCard";
 import SendNoteDialog from "@/components/therapist/SendNoteDialog";
+import ReviewPanel from "@/components/therapist/ReviewPanel";
 import { approveWeek } from "@/lib/reviewActions";
 
 interface ReviewItem {
@@ -34,10 +35,21 @@ const TherapistDashboard = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("needs-review");
   const [approvingId, setApprovingId] = useState<string | null>(null);
+  const [exitingId, setExitingId] = useState<string | null>(null);
   
   // Send note dialog state
   const [noteDialog, setNoteDialog] = useState<{
     open: boolean;
+    patientId: string;
+    patientName: string;
+    weekNumber: number;
+    weekId: string;
+  } | null>(null);
+
+  // Review panel state
+  const [reviewPanel, setReviewPanel] = useState<{
+    open: boolean;
+    progressId: string;
     patientId: string;
     patientName: string;
     weekNumber: number;
@@ -262,6 +274,37 @@ const TherapistDashboard = () => {
     });
   };
 
+  const handleOpenReviewPanel = (progressId: string, patientId: string, weekNumber: number, weekId: string) => {
+    const review = reviews.find(r => r.id === progressId);
+    if (!review) return;
+
+    setReviewPanel({
+      open: true,
+      progressId,
+      patientId,
+      patientName: review.patient.user.name,
+      weekNumber,
+      weekId,
+    });
+  };
+
+  const handleReviewComplete = (action: "approved" | "needs_more") => {
+    if (!reviewPanel) return;
+    
+    // Animate card exit
+    setExitingId(reviewPanel.progressId);
+    
+    // Update status in local state after animation
+    setTimeout(() => {
+      setReviews(prev =>
+        prev.map(r =>
+          r.id === reviewPanel.progressId ? { ...r, status: action === "approved" ? "approved" : "needs_more" } : r
+        )
+      );
+      setExitingId(null);
+    }, 300);
+  };
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     navigate("/auth");
@@ -365,6 +408,7 @@ const TherapistDashboard = () => {
                   patientId={review.patient.id}
                   patientName={review.patient.user.name}
                   weekNumber={review.week.number}
+                  weekId={review.week_id}
                   weekTitle={review.week.title}
                   programVariant={review.patient.program_variant}
                   submittedAt={review.completed_at}
@@ -373,9 +417,11 @@ const TherapistDashboard = () => {
                   videoCount={review.uploads.length}
                   messageCount={review.messages.length}
                   uploads={review.uploads}
+                  onReview={handleOpenReviewPanel}
                   onApprove={handleQuickApprove}
                   onSendNote={handleOpenNoteDialog}
                   isApproving={approvingId === review.id}
+                  isExiting={exitingId === review.id}
                 />
               ))
             )}
@@ -394,6 +440,7 @@ const TherapistDashboard = () => {
                   patientId={review.patient.id}
                   patientName={review.patient.user.name}
                   weekNumber={review.week.number}
+                  weekId={review.week_id}
                   weekTitle={review.week.title}
                   programVariant={review.patient.program_variant}
                   submittedAt={review.completed_at}
@@ -402,6 +449,7 @@ const TherapistDashboard = () => {
                   videoCount={review.uploads.length}
                   messageCount={review.messages.length}
                   uploads={review.uploads}
+                  onReview={handleOpenReviewPanel}
                 />
               ))
             )}
@@ -420,6 +468,7 @@ const TherapistDashboard = () => {
                   patientId={review.patient.id}
                   patientName={review.patient.user.name}
                   weekNumber={review.week.number}
+                  weekId={review.week_id}
                   weekTitle={review.week.title}
                   programVariant={review.patient.program_variant}
                   submittedAt={review.completed_at}
@@ -428,6 +477,7 @@ const TherapistDashboard = () => {
                   videoCount={review.uploads.length}
                   messageCount={review.messages.length}
                   uploads={review.uploads}
+                  onReview={handleOpenReviewPanel}
                 />
               ))
             )}
@@ -443,6 +493,20 @@ const TherapistDashboard = () => {
           patientName={noteDialog.patientName}
           weekNumber={noteDialog.weekNumber}
           onSend={handleSendNote}
+        />
+      )}
+
+      {/* Review Panel */}
+      {reviewPanel && (
+        <ReviewPanel
+          open={reviewPanel.open}
+          onOpenChange={(open) => setReviewPanel(open ? reviewPanel : null)}
+          progressId={reviewPanel.progressId}
+          patientId={reviewPanel.patientId}
+          patientName={reviewPanel.patientName}
+          weekNumber={reviewPanel.weekNumber}
+          weekId={reviewPanel.weekId}
+          onComplete={handleReviewComplete}
         />
       )}
     </div>
