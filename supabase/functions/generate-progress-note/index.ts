@@ -52,31 +52,49 @@ serve(async (req) => {
       `${u.kind}: ${JSON.stringify(u.ai_feedback)}`
     ).join("\n") || "No video feedback available";
 
+    // Get prior needs_more history (last 5 occurrences)
+    const { data: priorNeeds } = await supabase
+      .from("events")
+      .select("meta, created_at")
+      .eq("patient_id", patientId)
+      .eq("type", "needs_more")
+      .order("created_at", { ascending: false })
+      .limit(5);
+
+    const needsMoreHistory = priorNeeds?.length 
+      ? priorNeeds.map(e => `- Week ${e.meta?.week_number}: ${e.meta?.comment || "No comment"}`).join("\n")
+      : "None";
+
     // Call Lovable AI for progress note
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY not configured");
     }
 
-    const systemPrompt = `You are a myofunctional therapist writing progress notes. 
-Create concise, professional notes that:
-1. Acknowledge patient effort and progress
-2. Highlight specific improvements or concerns
-3. Suggest next focus areas
-Keep it to 2-3 sentences. Be encouraging but accurate.`;
+    const systemPrompt = `You are a myofunctional therapist writing progress notes for patients.
+Create friendly, specific, actionable notes that:
+1. Acknowledge the patient's effort and specific achievements
+2. Reference any issues or patterns from AI video analysis
+3. Suggest concrete focus areas for continued practice
+4. Address any recurring concerns if there's a history of "needs more practice"
 
-    const userPrompt = `Write a progress note for ${patient.users.name}, Week ${progress.weeks.number}:
+Keep notes to 3-6 sentences. Be warm and encouraging while providing useful guidance.
+Do NOT use clinical jargon. Write as if speaking directly to the patient.`;
 
-Data:
+    const userPrompt = `Write a progress note for ${patient.users?.name || "the patient"}, Week ${progress.weeks?.number || weekId}:
+
+Week Metrics:
 - BOLT Score: ${progress.bolt_score || "Not recorded"}
 - Nasal Breathing: ${progress.nasal_breathing_pct !== null ? progress.nasal_breathing_pct + "%" : "Not recorded"}
 - Tongue on Spot: ${progress.tongue_on_spot_pct !== null ? progress.tongue_on_spot_pct + "%" : "Not recorded"}
-- Status: ${progress.status}
 
 AI Video Feedback:
 ${aiFeedbackSummary}
 
-Generate a professional progress note.`;
+Prior "Needs More Practice" History:
+${needsMoreHistory}
+
+Generate a warm, specific, actionable progress note.`;
 
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -94,21 +112,13 @@ Generate a professional progress note.`;
     });
 
     if (!aiResponse.ok) {
+      const errorText = await aiResponse.text();
+      console.error("AI API error:", aiResponse.status, errorText);
       throw new Error("AI note generation failed");
     }
 
     const aiData = await aiResponse.json();
     const note = aiData.choices?.[0]?.message?.content || "";
-
-    // Update progress with AI summary
-    const { error: updateError } = await supabase
-      .from("patient_week_progress")
-      .update({ ai_summary: note })
-      .eq("id", progress.id);
-
-    if (updateError) {
-      throw updateError;
-    }
 
     console.log(`Progress note generated for patient ${patientId}, week ${weekId}`);
 
