@@ -2,19 +2,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Video, MessageSquare, AlertTriangle, Loader, CheckCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { 
   calculateTriageLevel, 
   getTriageBorderClass, 
   formatWaitingTime,
-  TriageLevel 
 } from "@/lib/triageUtils";
+import { cn } from "@/lib/utils";
 
 interface ReviewCardProps {
   id: string;
   patientId: string;
   patientName: string;
   weekNumber: number;
+  weekId: string;
   weekTitle: string;
   programVariant: string;
   submittedAt: string | null;
@@ -23,9 +23,11 @@ interface ReviewCardProps {
   videoCount: number;
   messageCount: number;
   uploads: { ai_feedback: any; ai_feedback_status: string | null }[];
+  onReview?: (progressId: string, patientId: string, weekNumber: number, weekId: string) => void;
   onApprove?: (progressId: string) => void;
   onSendNote?: (patientId: string, weekNumber: number) => void;
   isApproving?: boolean;
+  isExiting?: boolean;
 }
 
 const ReviewCard = ({
@@ -33,6 +35,7 @@ const ReviewCard = ({
   patientId,
   patientName,
   weekNumber,
+  weekId,
   weekTitle,
   programVariant,
   submittedAt,
@@ -41,12 +44,12 @@ const ReviewCard = ({
   videoCount,
   messageCount,
   uploads,
+  onReview,
   onApprove,
   onSendNote,
   isApproving,
+  isExiting,
 }: ReviewCardProps) => {
-  const navigate = useNavigate();
-  
   const triage = calculateTriageLevel(status, submittedAt, consecutiveNeedsMore, uploads);
   const borderClass = getTriageBorderClass(triage.level);
   const waitingTime = formatWaitingTime(submittedAt);
@@ -59,7 +62,11 @@ const ReviewCard = ({
   const canApprove = triage.level !== 'red';
   
   return (
-    <Card className={`${borderClass} shadow-sm hover:shadow-md transition-shadow`}>
+    <Card className={cn(
+      borderClass, 
+      "shadow-sm hover:shadow-md transition-all",
+      isExiting && "opacity-0 scale-95 transition-all duration-300"
+    )}>
       <CardContent className="py-4">
         <div className="flex items-start justify-between gap-4">
           {/* Left: Patient info */}
@@ -140,7 +147,7 @@ const ReviewCard = ({
           <div className="flex flex-col gap-2 shrink-0">
             <Button
               size="sm"
-              onClick={() => navigate(`/review/${patientId}/${weekNumber}`)}
+              onClick={() => onReview?.(id, patientId, weekNumber, weekId)}
             >
               Review
             </Button>
