@@ -99,7 +99,7 @@ Premature infants may have underdeveloped systems:
 
 ### Prolonged Pacifier Use
 
-While pacifiers can be soothing, prolonged use beyond 6 months can cause problems:
+While pacifiers can be soothing, it's important to limit pacifier use after 6 months. Prolonged use can cause problems:
 
 - Narrow the palate
 - Cause open bite

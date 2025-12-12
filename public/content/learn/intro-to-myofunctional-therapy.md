@@ -27,8 +27,6 @@ Through consistent practice of specific exercises, patients develop:
 3. **Effective swallowing** - Swallowing without using the lips or facial muscles
 4. **Better oral habits** - Eliminating harmful habits that affect facial development
 
-![Photo D: The Tongue](/images/learn/the-tongue.jpg)
-
 ## What to Expect
 
 Myofunctional therapy is a commitment that requires daily practice, typically twice per day for best results. The program is designed to be progressive, building on previous weeks' exercises to create lasting change in muscle patterns and habits.
