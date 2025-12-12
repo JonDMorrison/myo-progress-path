@@ -64,7 +64,7 @@ export function WhyMontroseDifferent() {
             <CardContent className="text-muted-foreground">
               <p className="mb-4">
                 Practice at home on your schedule, submit your progress online, and receive 
-                feedback digitally. No need for weekly in-office visits.
+                feedback digitally. Just biweekly check-ins instead of frequent in-office visits.
               </p>
               <p>
                 We're here when you need us, but you don't have to disrupt your busy 
