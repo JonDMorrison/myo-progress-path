@@ -102,8 +102,8 @@ const Privacy = () => {
                   </ul>
                   <p className="mt-4">
                     To exercise these rights, contact us at{" "}
-                    <a href="mailto:sam@montrosedental.ca" className="text-primary hover:underline">
-                      sam@montrosedental.ca
+                    <a href="mailto:info@montrosedentalcentre.com" className="text-primary hover:underline">
+                      info@montrosedentalcentre.com
                     </a>
                   </p>
                 </section>
@@ -131,8 +131,8 @@ const Privacy = () => {
                     <p className="font-semibold">Privacy Officer</p>
                     <p>
                       Email:{" "}
-                      <a href="mailto:sam@montrosedental.ca" className="text-primary hover:underline">
-                        sam@montrosedental.ca
+                      <a href="mailto:info@montrosedentalcentre.com" className="text-primary hover:underline">
+                        info@montrosedentalcentre.com
                       </a>
                     </p>
                   </div>

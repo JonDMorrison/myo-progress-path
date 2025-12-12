@@ -109,8 +109,8 @@ const Terms = () => {
                     <p className="font-semibold">Montrose Myo Support</p>
                     <p>
                       Email:{" "}
-                      <a href="mailto:sam@montrosedental.ca" className="text-primary hover:underline">
-                        sam@montrosedental.ca
+                      <a href="mailto:info@montrosedentalcentre.com" className="text-primary hover:underline">
+                        info@montrosedentalcentre.com
                       </a>
                     </p>
                   </div>
