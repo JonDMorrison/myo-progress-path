@@ -195,8 +195,8 @@ const About = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Secure messaging and weekly feedback from your therapist during regular 
-                      review sessions.
+                      Secure messaging and biweekly feedback from your therapist to keep you 
+                      on track throughout your journey.
                     </p>
                   </CardContent>
                 </Card>
