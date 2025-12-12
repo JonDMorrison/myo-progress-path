@@ -8,6 +8,7 @@ import {
   Upload,
   LogOut,
   ChevronDown,
+  Trash2,
 } from "lucide-react";
 import {
   Sidebar,
@@ -35,6 +36,7 @@ const navItems = {
   ],
   users: [
     { title: "Super Admins", url: "/admin/super-admins", icon: Shield },
+    { title: "Delete Patients", url: "/admin/delete-patients", icon: Trash2 },
   ],
   content: [
     { title: "Content Import", url: "/admin/content", icon: FileJson },
