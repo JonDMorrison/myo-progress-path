@@ -485,26 +485,26 @@ const TherapistDashboard = () => {
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => navigate("/therapist/patients")}>
-              <Users className="mr-2 h-4 w-4" />
-              Patients
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Button variant="outline" size="sm" onClick={() => navigate("/therapist/patients")} className="px-2 sm:px-3">
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline ml-2">Patients</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate("/therapist/ai-assist")}>
-              <span className="mr-2">✨</span>
-              AI
+            <Button variant="outline" size="sm" onClick={() => navigate("/therapist/ai-assist")} className="px-2 sm:px-3">
+              <span>✨</span>
+              <span className="hidden sm:inline ml-2">AI</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate("/reports")}>
-              <span className="mr-2">📊</span>
-              Reports
+            <Button variant="outline" size="sm" onClick={() => navigate("/reports")} className="px-2 sm:px-3">
+              <span>📊</span>
+              <span className="hidden sm:inline ml-2">Reports</span>
             </Button>
             {isAdmin && (
-              <Button variant="outline" size="sm" onClick={() => navigate(isSuperAdmin ? "/admin/master" : "/admin/content")}>
-                <span className="mr-2">{isSuperAdmin ? "👑" : "⚙️"}</span>
-                Admin
+              <Button variant="outline" size="sm" onClick={() => navigate(isSuperAdmin ? "/admin/master" : "/admin/content")} className="px-2 sm:px-3">
+                <span>{isSuperAdmin ? "👑" : "⚙️"}</span>
+                <span className="hidden sm:inline ml-2">Admin</span>
               </Button>
             )}
-            <Button variant="ghost" size="sm" onClick={handleSignOut}>
+            <Button variant="ghost" size="sm" onClick={handleSignOut} className="px-2 sm:px-3">
               <LogOut className="h-4 w-4" />
             </Button>
           </div>
@@ -536,51 +536,53 @@ const TherapistDashboard = () => {
 
           {/* Filter chips - only on needs-review tab */}
           {activeTab === "needs-review" && (
-            <div className="flex flex-wrap items-center gap-2 mb-4">
-              <span className="text-sm text-muted-foreground mr-1">Filter:</span>
-              
-              <Button
-                variant={activeFilter === "all" ? "secondary" : "outline"}
-                size="sm"
-                onClick={() => setActiveFilter("all")}
-                className="h-7 text-xs"
-              >
-                All
-              </Button>
-              
-              <Button
-                variant={activeFilter === "red" ? "secondary" : "outline"}
-                size="sm"
-                onClick={() => setActiveFilter("red")}
-                className="h-7 text-xs"
-              >
-                <AlertCircle className="h-3 w-3 mr-1 text-destructive" />
-                Red {triageCounts.red > 0 && `(${triageCounts.red})`}
-              </Button>
-              
-              <Button
-                variant={activeFilter === "yellow" ? "secondary" : "outline"}
-                size="sm"
-                onClick={() => setActiveFilter("yellow")}
-                className="h-7 text-xs"
-              >
-                <AlertCircle className="h-3 w-3 mr-1 text-warning" />
-                Yellow {triageCounts.yellow > 0 && `(${triageCounts.yellow})`}
-              </Button>
-              
-              <Button
-                variant={activeFilter === "waiting48h" ? "secondary" : "outline"}
-                size="sm"
-                onClick={() => setActiveFilter("waiting48h")}
-                className="h-7 text-xs"
-              >
-                <Clock className="h-3 w-3 mr-1" />
-                &gt; 48h {triageCounts.waiting48h > 0 && `(${triageCounts.waiting48h})`}
-              </Button>
+            <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 mb-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-sm text-muted-foreground mr-1">Filter:</span>
+                
+                <Button
+                  variant={activeFilter === "all" ? "secondary" : "outline"}
+                  size="sm"
+                  onClick={() => setActiveFilter("all")}
+                  className="h-7 text-xs"
+                >
+                  All
+                </Button>
+                
+                <Button
+                  variant={activeFilter === "red" ? "secondary" : "outline"}
+                  size="sm"
+                  onClick={() => setActiveFilter("red")}
+                  className="h-7 text-xs"
+                >
+                  <AlertCircle className="h-3 w-3 mr-1 text-destructive" />
+                  Red {triageCounts.red > 0 && `(${triageCounts.red})`}
+                </Button>
+                
+                <Button
+                  variant={activeFilter === "yellow" ? "secondary" : "outline"}
+                  size="sm"
+                  onClick={() => setActiveFilter("yellow")}
+                  className="h-7 text-xs"
+                >
+                  <AlertCircle className="h-3 w-3 mr-1 text-warning" />
+                  Yellow {triageCounts.yellow > 0 && `(${triageCounts.yellow})`}
+                </Button>
+                
+                <Button
+                  variant={activeFilter === "waiting48h" ? "secondary" : "outline"}
+                  size="sm"
+                  onClick={() => setActiveFilter("waiting48h")}
+                  className="h-7 text-xs"
+                >
+                  <Clock className="h-3 w-3 mr-1" />
+                  &gt; 48h {triageCounts.waiting48h > 0 && `(${triageCounts.waiting48h})`}
+                </Button>
+              </div>
               
               {/* Batch selection controls */}
               {selectableItems.length > 0 && (
-                <div className="flex items-center gap-2 ml-auto">
+                <div className="flex items-center gap-2 sm:ml-auto">
                   <Button
                     variant="ghost"
                     size="sm"
