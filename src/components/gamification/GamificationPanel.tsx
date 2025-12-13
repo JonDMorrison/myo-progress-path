@@ -22,17 +22,20 @@ export function GamificationPanel({ patientId, clinicId }: GamificationPanelProp
       <CardContent>
         <Tabs defaultValue="badges" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="badges" className="gap-2">
-              <Award className="h-4 w-4" />
-              Badges
+            <TabsTrigger value="badges" className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3">
+              <Award className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Badges</span>
+              <span className="sm:hidden">🏅</span>
             </TabsTrigger>
-            <TabsTrigger value="challenges" className="gap-2">
-              <Target className="h-4 w-4" />
-              Challenges
+            <TabsTrigger value="challenges" className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3">
+              <Target className="h-3 w-3 sm:h-4 sm:w-4 hidden sm:block" />
+              <span className="hidden sm:inline">Challenges</span>
+              <span className="sm:hidden">🎯</span>
             </TabsTrigger>
-            <TabsTrigger value="points" className="gap-2">
-              <Trophy className="h-4 w-4" />
-              Points
+            <TabsTrigger value="points" className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3">
+              <Trophy className="h-3 w-3 sm:h-4 sm:w-4 hidden sm:block" />
+              <span className="hidden sm:inline">Points</span>
+              <span className="sm:hidden">🏆</span>
             </TabsTrigger>
           </TabsList>
           

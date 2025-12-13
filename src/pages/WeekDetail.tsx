@@ -425,7 +425,7 @@ const WeekDetail = () => {
           ) : undefined}
         />
 
-        <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-7xl">
+        <main className="container mx-auto px-3 sm:px-6 py-4 sm:py-8 max-w-7xl">
           <MobileContainer>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Main Content */}
@@ -442,9 +442,9 @@ const WeekDetail = () => {
                 {/* Introduction */}
                 {week?.overview && (
                   <Section delay={0}>
-                    <Card className="rounded-2xl border shadow-sm">
-                      <CardContent className="pt-6">
-                        <p className="text-muted-foreground leading-relaxed">{week.overview}</p>
+                    <Card className="rounded-xl sm:rounded-2xl border shadow-sm">
+                      <CardContent className="p-4 sm:pt-6 sm:p-6">
+                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{week.overview}</p>
                       </CardContent>
                     </Card>
                   </Section>
@@ -477,7 +477,7 @@ const WeekDetail = () => {
                 {/* Coaching Video */}
                 {week?.video_url && (
                   <Section delay={200}>
-                    <Card className="rounded-2xl border shadow-sm overflow-hidden">
+                    <Card className="rounded-xl sm:rounded-2xl border shadow-sm overflow-hidden">
                       <CardContent className="p-0">
                         <ResponsiveVideo
                           src={week.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
@@ -514,8 +514,8 @@ const WeekDetail = () => {
                 {/* Progress Form */}
                 {progress && week && (
                   <Section delay={400}>
-                    <Card className="rounded-2xl border shadow-sm">
-                      <CardContent className="pt-6">
+                    <Card className="rounded-xl sm:rounded-2xl border shadow-sm">
+                      <CardContent className="p-4 sm:pt-6 sm:p-6">
                         <WeekProgressForm
                           progress={progress}
                           week={week}
