@@ -83,25 +83,25 @@ export function WeekCompletionChecklist({
     : 0;
 
   return (
-    <Card className="sticky top-24 rounded-2xl border shadow-sm">
-      <CardHeader>
-        <CardTitle className="text-lg">Completion</CardTitle>
+    <Card className="lg:sticky lg:top-24 rounded-xl sm:rounded-2xl border shadow-sm">
+      <CardHeader className="p-4 sm:p-6">
+        <CardTitle className="text-base sm:text-lg">Completion</CardTitle>
         <Progress value={percentComplete} className="mt-2" />
-        <p className="text-sm text-muted-foreground mt-2">
+        <p className="text-xs sm:text-sm text-muted-foreground mt-2">
           {completedCount} of {requiredCount} completed
         </p>
       </CardHeader>
-      <CardContent>
-        <ul className="space-y-3">
+      <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
+        <ul className="space-y-2 sm:space-y-3">
           {requiredItems.map((req, index) => (
             <li key={index} className="flex items-center gap-2">
               {req.complete ? (
-                <CheckCircle2 className="h-5 w-5 text-success flex-shrink-0" />
+                <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-success flex-shrink-0" />
               ) : (
-                <Circle className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                <Circle className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground flex-shrink-0" />
               )}
               <span className={cn(
-                "text-sm",
+                "text-xs sm:text-sm",
                 req.complete && "line-through text-muted-foreground"
               )}>
                 {req.label}

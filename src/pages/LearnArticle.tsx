@@ -140,12 +140,12 @@ export default function LearnArticle() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 pb-24 sm:pb-16 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8 lg:gap-12">
+      <div className="container mx-auto px-3 sm:px-6 py-6 sm:py-12 pb-24 sm:pb-16 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 sm:gap-8 lg:gap-12">
           {/* Main Content */}
           <div className="space-y-6">
             {/* Article Hero Card */}
-            <Card className="relative overflow-hidden p-6 sm:p-8 border-2 shadow-lg glassmorphic">
+            <Card className="relative overflow-hidden p-4 sm:p-6 md:p-8 border-2 shadow-lg glassmorphic">
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 pointer-events-none" />
 
@@ -160,7 +160,7 @@ export default function LearnArticle() {
                       {readingTime} min read
                     </span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent leading-tight pb-1">
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent leading-tight pb-1">
                     {article.title}
                   </h1>
                 </div>
@@ -168,7 +168,7 @@ export default function LearnArticle() {
             </Card>
 
             {/* Article Content */}
-            <Card className="p-6 sm:p-10 shadow-lg">
+            <Card className="p-4 sm:p-6 md:p-10 shadow-lg">
               <article className="prose">
                 <ReactMarkdown
                   components={{
