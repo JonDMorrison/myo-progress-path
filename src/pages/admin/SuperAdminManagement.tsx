@@ -151,52 +151,84 @@ export default function SuperAdminManagement() {
             />
           </div>
 
-          {/* Users Table */}
+          {/* Users Table - Desktop */}
           {loading ? (
             <div className="text-center py-8 text-muted-foreground">Loading users...</div>
           ) : (
-            <div className="border rounded-lg">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>User</TableHead>
-                    <TableHead>Current Role</TableHead>
-                    <TableHead className="text-right">Super Admin</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredUsers.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>
-                        <div>
-                          <p className="font-medium">{user.name || "No name"}</p>
-                          <p className="text-sm text-muted-foreground">{user.email}</p>
+            <>
+              <div className="hidden sm:block border rounded-lg overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>User</TableHead>
+                      <TableHead>Current Role</TableHead>
+                      <TableHead className="text-right">Super Admin</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredUsers.map((user) => (
+                      <TableRow key={user.id}>
+                        <TableCell>
+                          <div>
+                            <p className="font-medium">{user.name || "No name"}</p>
+                            <p className="text-sm text-muted-foreground">{user.email}</p>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant={user.role === "super_admin" ? "default" : "secondary"}>
+                            {user.role}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Switch
+                            checked={user.role === "super_admin"}
+                            onCheckedChange={() => toggleSuperAdmin(user.id, user.role)}
+                            disabled={updating === user.id}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {filteredUsers.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                          No users found
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="grid grid-cols-1 gap-3 sm:hidden">
+                {filteredUsers.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground border rounded-lg">
+                    No users found
+                  </div>
+                ) : (
+                  filteredUsers.map((user) => (
+                    <div key={user.id} className="border rounded-xl p-4 bg-card">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium truncate">{user.name || "No name"}</p>
+                          <p className="text-sm text-muted-foreground truncate">{user.email}</p>
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={user.role === "super_admin" ? "default" : "secondary"}>
-                          {user.role}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
                         <Switch
                           checked={user.role === "super_admin"}
                           onCheckedChange={() => toggleSuperAdmin(user.id, user.role)}
                           disabled={updating === user.id}
                         />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  {filteredUsers.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                        No users found
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
+                      </div>
+                      <div className="mt-2">
+                        <Badge variant={user.role === "super_admin" ? "default" : "secondary"}>
+                          {user.role}
+                        </Badge>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

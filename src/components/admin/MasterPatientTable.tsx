@@ -45,7 +45,8 @@ export const MasterPatientTable = ({ patients, onExport }: MasterPatientTablePro
         )}
       </div>
 
-      <div className="border rounded-lg">
+      {/* Desktop Table View */}
+      <div className="hidden md:block border rounded-lg overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -141,6 +142,68 @@ export const MasterPatientTable = ({ patients, onExport }: MasterPatientTablePro
             )}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="grid grid-cols-1 gap-3 md:hidden">
+        {patients.length === 0 ? (
+          <div className="text-center text-muted-foreground py-8 border rounded-lg">
+            No patients found
+          </div>
+        ) : (
+          patients.map((patient) => (
+            <div key={patient.patient_id} className="border rounded-xl p-4 space-y-3 bg-card hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="font-medium">{patient.patient_name}</div>
+                  <div className="text-sm text-muted-foreground">{patient.patient_email}</div>
+                </div>
+                <Badge variant={getStatusColor(patient.patient_status)}>
+                  {patient.patient_status}
+                </Badge>
+              </div>
+              
+              <div className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">{patient.clinic_name}</span>
+                {patient.therapist_name && ` • ${patient.therapist_name}`}
+              </div>
+              
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  {patient.current_week_number ? (
+                    <>
+                      <span>Week {patient.current_week_number}</span>
+                      {patient.current_week_status && (
+                        <Badge variant={getWeekStatusColor(patient.current_week_status)} className="text-xs">
+                          {patient.current_week_status}
+                        </Badge>
+                      )}
+                    </>
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </div>
+                {patient.adherence_14d !== null && (
+                  <span className="font-medium">{patient.adherence_14d}%</span>
+                )}
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground">
+                  {patient.last_activity 
+                    ? formatDistanceToNow(new Date(patient.last_activity), { addSuffix: true })
+                    : 'Never active'}
+                </span>
+                <Button asChild variant="outline" size="sm">
+                  <Link to={`/admin/patients/${patient.patient_id}`}>
+                    <Eye className="h-4 w-4 mr-2" />
+                    View
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -156,89 +156,142 @@ export default function TherapistPatients() {
           </CardContent>
         </Card>
 
-        {/* Patients Table */}
-        <Card>
+        {/* Patients Table - Desktop */}
+        <Card className="hidden sm:block">
           <CardHeader>
             <CardTitle>Patients</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Patient</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Current Week</TableHead>
-                  <TableHead>Week Status</TableHead>
-                  <TableHead>Last Activity</TableHead>
-                  <TableHead>Adherence (14d)</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredPatients.length === 0 ? (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
-                      No patients found
-                    </TableCell>
+                    <TableHead>Patient</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Current Week</TableHead>
+                    <TableHead>Week Status</TableHead>
+                    <TableHead>Last Activity</TableHead>
+                    <TableHead>Adherence (14d)</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ) : (
-                  filteredPatients.map(patient => (
-                    <TableRow key={patient.patient_id}>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">{patient.patient_name}</div>
-                          <div className="text-sm text-muted-foreground">
-                            {patient.patient_email}
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>{getStatusBadge(patient.patient_status)}</TableCell>
-                      <TableCell>Week {patient.current_week_number || 'N/A'}</TableCell>
-                      <TableCell>
-                        {patient.current_week_status
-                          ? getWeekStatusBadge(patient.current_week_status)
-                          : <span className="text-muted-foreground">—</span>}
-                      </TableCell>
-                      <TableCell>
-                        {patient.last_activity ? (
-                          <span className="text-sm">
-                            {formatDistanceToNow(new Date(patient.last_activity), {
-                              addSuffix: true,
-                            })}
-                          </span>
-                        ) : (
-                          <span className="text-muted-foreground">Never</span>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {patient.adherence_14d !== null ? (
-                          <span className="font-medium">
-                            {Math.round(patient.adherence_14d)}%
-                          </span>
-                        ) : (
-                          <span className="text-muted-foreground">—</span>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            // Navigate to the review page for the patient's current week
-                            const weekNum = patient.current_week_number || 1;
-                            navigate(`/review/${patient.patient_id}/${weekNum}`);
-                          }}
-                        >
-                          View
-                        </Button>
+                </TableHeader>
+                <TableBody>
+                  {filteredPatients.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                        No patients found
                       </TableCell>
                     </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
+                  ) : (
+                    filteredPatients.map(patient => (
+                      <TableRow key={patient.patient_id}>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{patient.patient_name}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {patient.patient_email}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>{getStatusBadge(patient.patient_status)}</TableCell>
+                        <TableCell>Week {patient.current_week_number || 'N/A'}</TableCell>
+                        <TableCell>
+                          {patient.current_week_status
+                            ? getWeekStatusBadge(patient.current_week_status)
+                            : <span className="text-muted-foreground">—</span>}
+                        </TableCell>
+                        <TableCell>
+                          {patient.last_activity ? (
+                            <span className="text-sm">
+                              {formatDistanceToNow(new Date(patient.last_activity), {
+                                addSuffix: true,
+                              })}
+                            </span>
+                          ) : (
+                            <span className="text-muted-foreground">Never</span>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {patient.adherence_14d !== null ? (
+                            <span className="font-medium">
+                              {Math.round(patient.adherence_14d)}%
+                            </span>
+                          ) : (
+                            <span className="text-muted-foreground">—</span>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              const weekNum = patient.current_week_number || 1;
+                              navigate(`/review/${patient.patient_id}/${weekNum}`);
+                            }}
+                          >
+                            View
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
+
+        {/* Patients Cards - Mobile */}
+        <div className="grid grid-cols-1 gap-3 sm:hidden">
+          {filteredPatients.length === 0 ? (
+            <Card className="rounded-2xl">
+              <CardContent className="p-6 text-center text-muted-foreground">
+                No patients found
+              </CardContent>
+            </Card>
+          ) : (
+            filteredPatients.map(patient => (
+              <Card key={patient.patient_id} className="rounded-2xl border hover:shadow-md transition-shadow">
+                <CardContent className="p-4 space-y-3">
+                  <div>
+                    <div className="font-medium text-base">{patient.patient_name}</div>
+                    <div className="text-sm text-muted-foreground">{patient.patient_email}</div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Week {patient.current_week_number || 'N/A'}</span>
+                    {patient.current_week_status && getWeekStatusBadge(patient.current_week_status)}
+                  </div>
+
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">
+                      {patient.last_activity 
+                        ? formatDistanceToNow(new Date(patient.last_activity), { addSuffix: true })
+                        : 'Never active'}
+                    </span>
+                    {patient.adherence_14d !== null && (
+                      <span className="font-medium">{Math.round(patient.adherence_14d)}%</span>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center justify-between gap-2">
+                    {getStatusBadge(patient.patient_status)}
+                    <Button 
+                      size="sm" 
+                      onClick={() => {
+                        const weekNum = patient.current_week_number || 1;
+                        navigate(`/review/${patient.patient_id}/${weekNum}`);
+                      }}
+                      className="h-9"
+                    >
+                      View
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

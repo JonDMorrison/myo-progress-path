@@ -169,9 +169,9 @@ export const OnboardingWizard = () => {
   const isLastStep = currentStepIndex === steps.length - 1;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-accent flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-background to-accent flex items-center justify-center p-3 sm:p-4">
       <Card className="w-full max-w-3xl shadow-elevated">
-        <CardContent className="p-8">
+        <CardContent className="p-4 sm:p-6 md:p-8">
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
@@ -186,7 +186,7 @@ export const OnboardingWizard = () => {
           </div>
 
           {/* Step Content */}
-          <div className="min-h-[400px] mb-8">
+          <div className="min-h-[300px] sm:min-h-[400px] mb-6 sm:mb-8">
             <StepComponent 
               onConsentChange={currentStep.id === 'consent' ? setConsentAccepted : undefined}
               onPathwayChange={currentStep.id === 'pathway' ? setSelectedPathway : undefined}

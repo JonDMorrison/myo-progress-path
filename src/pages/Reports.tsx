@@ -232,17 +232,17 @@ const Reports = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-background p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => navigate("/therapist")}>
+            <Button variant="ghost" size="sm" onClick={() => navigate("/therapist")}>
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
+              <span className="hidden sm:inline">Back</span>
             </Button>
-            <h1 className="text-3xl font-bold">Reports & Analytics</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold">Reports & Analytics</h1>
           </div>
-          <Button onClick={handleExportCSV}>
+          <Button onClick={handleExportCSV} size="sm" className="w-full sm:w-auto">
             <Download className="h-4 w-4 mr-2" />
             Export CSV
           </Button>
@@ -250,11 +250,11 @@ const Reports = () => {
 
         {/* Filters */}
         <Card>
-          <CardHeader>
-            <CardTitle>Filters</CardTitle>
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="text-lg sm:text-xl">Filters</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="sm:col-span-2 lg:col-span-1">
               <label className="text-sm font-medium mb-2 block">Patients</label>
               <PatientMultiSelect
                 patients={patients}
