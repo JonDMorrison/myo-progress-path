@@ -57,13 +57,26 @@ export async function awardPoints(
   }
 }
 
+export interface BadgeInfo {
+  key: string;
+  name: string;
+  icon: string;
+  description: string;
+}
+
+export interface GrantBadgeResult {
+  success: boolean;
+  alreadyEarned?: boolean;
+  badge?: BadgeInfo;
+}
+
 /**
  * Grant a badge to a patient (idempotent)
  */
 export async function grantBadge(
   patientId: string,
   badgeKey: string
-): Promise<{ success: boolean; alreadyEarned?: boolean }> {
+): Promise<GrantBadgeResult> {
   try {
     const { data, error } = await supabase.functions.invoke("grant-badge", {
       body: { patientId, badgeKey },
@@ -75,6 +88,26 @@ export async function grantBadge(
     console.error("Error granting badge:", error);
     return { success: false };
   }
+}
+
+/**
+ * Grant a badge and show a toast notification if newly earned
+ */
+export async function grantBadgeWithToast(
+  patientId: string,
+  badgeKey: string,
+  toastFn: (opts: { title: string; description: string }) => void
+): Promise<GrantBadgeResult> {
+  const result = await grantBadge(patientId, badgeKey);
+  
+  if (result.success && !result.alreadyEarned && result.badge) {
+    toastFn({
+      title: `${result.badge.icon} Badge Earned!`,
+      description: `You unlocked "${result.badge.name}"`,
+    });
+  }
+  
+  return result;
 }
 
 /**

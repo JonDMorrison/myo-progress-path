@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Section } from "@/components/ui/Section";
 import { WeekIntroductionModal } from "@/components/WeekIntroductionModal";
 import { notifyTherapistSubmission } from "@/lib/notify";
-import { grantBadge } from "@/lib/gamification";
+import { grantBadgeWithToast } from "@/lib/gamification";
 import { ResponsiveVideo } from "@/components/week/ResponsiveVideo";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
@@ -262,8 +262,8 @@ const WeekDetail = () => {
 
       if (error) throw error;
 
-      // Grant first_week_submitted badge (idempotent)
-      grantBadge(patient.id, "first_week_submitted").catch(console.error);
+      // Grant first_week_submitted badge (idempotent - shows toast only on first earn)
+      grantBadgeWithToast(patient.id, "first_week_submitted", toast).catch(console.error);
 
       await supabase.from("events").insert({
         patient_id: patient.id,
