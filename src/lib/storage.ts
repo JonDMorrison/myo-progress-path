@@ -42,7 +42,7 @@ export async function uploadVideo(
   weekId: string,
   kind: 'first_attempt' | 'last_attempt',
   onProgress?: (progress: number) => void
-): Promise<{ success: boolean; fileUrl?: string; error?: string }> {
+): Promise<{ success: boolean; fileUrl?: string; uploadId?: string; error?: string }> {
   try {
     // Validate file
     const validation = validateVideoFile(file);
@@ -75,29 +75,38 @@ export async function uploadVideo(
 
     const fileUrl = urlData?.signedUrl || '';
 
-    // Create upload record in database
-    const { error: insertError } = await supabase
+    // Create upload record in database and get the ID
+    const { data: insertData, error: insertError } = await supabase
       .from('uploads')
       .insert({
         patient_id: patientId,
         week_id: weekId,
         kind,
         file_url: fileUrl,
-      });
+      })
+      .select('id')
+      .single();
 
-    if (insertError) {
+    if (insertError || !insertData) {
       console.error('Database insert error:', insertError);
       // Try to clean up uploaded file
       await supabase.storage.from('patient-videos').remove([filename]);
-      return { success: false, error: insertError.message };
+      return { success: false, error: insertError?.message || 'Failed to create upload record' };
     }
+
+    // Trigger AI video analysis in the background (fire-and-forget)
+    supabase.functions.invoke('analyze-video', {
+      body: { uploadId: insertData.id }
+    }).catch(err => {
+      console.warn('AI analysis trigger failed:', err);
+    });
 
     // Simulate progress for better UX (actual upload is already complete)
     if (onProgress) {
       onProgress(100);
     }
 
-    return { success: true, fileUrl };
+    return { success: true, fileUrl, uploadId: insertData.id };
   } catch (error: any) {
     console.error('Upload error:', error);
     return { success: false, error: error.message || 'Upload failed' };
