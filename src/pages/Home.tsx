@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NavPublic } from "@/components/public/NavPublic";
 import { FooterPublic } from "@/components/public/FooterPublic";
@@ -18,9 +18,12 @@ import digitalTherapy from "@/assets/orofacial-therapy.jpg";
 const Home = () => {
   const schemaData = getSchemaOrgData();
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  
   useEffect(() => {
     checkAuthAndRedirect();
   }, []);
+  
   const checkAuthAndRedirect = async () => {
     const {
       data: {
@@ -28,6 +31,7 @@ const Home = () => {
       }
     } = await supabase.auth.getSession();
     if (session) {
+      setIsLoggedIn(true);
       // User is logged in, redirect to appropriate dashboard
       const {
         data: userData
@@ -37,6 +41,8 @@ const Home = () => {
       } else if (userData?.role === "therapist" || userData?.role === "admin") {
         navigate("/therapist");
       }
+    } else {
+      setIsLoggedIn(false);
     }
   };
   const faqItems = [{
@@ -85,7 +91,9 @@ const Home = () => {
                   <p className="text-xl text-muted-foreground mb-8">Built by the Montrose Dental Centre team in Abbotsford, this secure app turns weekly exercises into simple steps with feedback and video check-ins.</p>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button asChild size="lg">
-                      <Link to="/register">Get Started</Link>
+                      <Link to={isLoggedIn ? "/dashboard" : "/register"}>
+                        {isLoggedIn ? "Continue to Dashboard" : "Get Started"}
+                      </Link>
                     </Button>
                     <Button asChild size="lg" variant="outline">
                       <Link to="/how-it-works">How It Works</Link>
