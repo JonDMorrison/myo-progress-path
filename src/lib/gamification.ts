@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import confetti from "canvas-confetti";
 
 const POINTS_PER_LEVEL = 500;
 const MAX_DAILY_POINTS = 500;
@@ -101,6 +102,15 @@ export async function grantBadgeWithToast(
   const result = await grantBadge(patientId, badgeKey);
   
   if (result.success && !result.alreadyEarned && result.badge) {
+    // Trigger celebratory confetti
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#FFD700', '#FFA500', '#FF6347', '#9370DB', '#00CED1'],
+    });
+    
+    // Show toast notification
     toastFn({
       title: `${result.badge.icon} Badge Earned!`,
       description: `You unlocked "${result.badge.name}"`,
