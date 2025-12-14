@@ -37,10 +37,16 @@ serve(async (req) => {
     }
 
     // Extract the file path from file_url
-    // file_url format can be either:
-    // 1. Full URL: https://xxx.supabase.co/storage/v1/object/public/patient-videos/user_id/week_n/file.mp4
-    // 2. Relative path: user_id/week_n/file.mp4
+    // file_url formats can be:
+    // 1. Signed URL: https://xxx.supabase.co/storage/v1/object/sign/patient-videos/path/file.mp4?token=...
+    // 2. Public URL: https://xxx.supabase.co/storage/v1/object/public/patient-videos/path/file.mp4
+    // 3. Relative path: user_id/week_n/file.mp4
     let filePath = upload.file_url;
+    
+    // Remove query string first (for signed URLs)
+    if (filePath.includes('?')) {
+      filePath = filePath.split('?')[0];
+    }
     
     // If it's a full URL, extract the path after the bucket name
     if (filePath.includes('/patient-videos/')) {
