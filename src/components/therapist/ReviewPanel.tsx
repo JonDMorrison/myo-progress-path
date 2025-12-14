@@ -14,7 +14,8 @@ import {
   Loader,
   Lock,
   MessageSquare,
-  Sparkles
+  Sparkles,
+  RefreshCw
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -319,6 +320,38 @@ const ReviewPanel = ({
     }
   };
 
+  const handleRetryAnalysis = async (uploadId: string) => {
+    try {
+      // Update status to pending
+      await supabase
+        .from('uploads')
+        .update({ ai_feedback_status: 'pending', ai_feedback: null })
+        .eq('id', uploadId);
+      
+      // Trigger re-analysis
+      const { error } = await supabase.functions.invoke('analyze-video', {
+        body: { uploadId }
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Analysis Restarted",
+        description: "AI video analysis has been re-triggered.",
+      });
+
+      // Reload panel data to show updated status
+      loadPanelData();
+    } catch (error: any) {
+      console.error('Retry analysis error:', error);
+      toast({
+        title: "Retry Failed",
+        description: error.message || "Could not restart analysis.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleTakeover = async () => {
     setReviewingBy(null);
     await markAsReviewing();
@@ -372,6 +405,27 @@ const ReviewPanel = ({
               <div className="py-4 space-y-4">
                 {/* Video Player */}
                 <VideoPlayer uploads={uploads} />
+
+                {/* AI Analysis Status / Retry for Errors */}
+                {uploads.some(u => u.ai_feedback_status === 'error') && (
+                  <div className="flex items-center justify-between p-3 rounded-lg border border-destructive/30 bg-destructive/5">
+                    <div className="flex items-center gap-2 text-sm text-destructive">
+                      <AlertTriangle className="h-4 w-4" />
+                      <span>AI analysis failed for some videos</span>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        const errorUpload = uploads.find(u => u.ai_feedback_status === 'error');
+                        if (errorUpload) handleRetryAnalysis(errorUpload.id);
+                      }}
+                    >
+                      <RefreshCw className="h-3 w-3 mr-1" />
+                      Retry
+                    </Button>
+                  </div>
+                )}
 
                 {/* AI Review Summary (collapsed by default) */}
                 <AIReviewSummary uploads={uploads} />
