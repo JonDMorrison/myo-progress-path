@@ -1,9 +1,21 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Heart, Activity, Brain, Smile } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { PhoneMockup } from "./PhoneMockup";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Hero = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsLoggedIn(!!session);
+    };
+    checkAuth();
+  }, []);
+
   return (
     <section className="relative py-16 md:py-24 lg:py-32 overflow-hidden">
       {/* Animated Background Elements */}
@@ -27,8 +39,8 @@ export const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
-                <Link to="/register">
-                  Get Started
+                <Link to={isLoggedIn ? "/dashboard" : "/register"}>
+                  {isLoggedIn ? "Continue to Dashboard" : "Get Started"}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -36,12 +48,14 @@ export const Hero = () => {
                 <Link to="/how-it-works">How It Works</Link>
               </Button>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Existing patients:{" "}
-              <Link to="/auth" className="text-primary hover:underline">
-                Sign in here
-              </Link>
-            </p>
+            {!isLoggedIn && (
+              <p className="text-sm text-muted-foreground">
+                Existing patients:{" "}
+                <Link to="/auth" className="text-primary hover:underline">
+                  Sign in here
+                </Link>
+              </p>
+            )}
           </div>
           
           <div className="flex items-center justify-center relative">
