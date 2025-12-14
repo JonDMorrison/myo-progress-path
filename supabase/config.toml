@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.pre-launch-audit]
 verify_jwt = false
+
+[functions.analyze-video]
+verify_jwt = false
