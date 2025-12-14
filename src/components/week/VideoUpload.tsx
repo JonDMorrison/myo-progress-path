@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { uploadVideo } from "@/lib/storage";
 import { useToast } from "@/hooks/use-toast";
-import { grantBadge } from "@/lib/gamification";
+import { grantBadgeWithToast } from "@/lib/gamification";
 
 interface VideoUploadProps {
   patientId: string;
@@ -68,8 +68,8 @@ export function VideoUpload({
           description: "Your video has been uploaded successfully.",
         });
         
-        // Grant first_upload badge (idempotent)
-        grantBadge(patientId, "first_upload").catch(console.error);
+        // Grant first_upload badge (idempotent - shows toast only on first earn)
+        grantBadgeWithToast(patientId, "first_upload", toast).catch(console.error);
         
         // Call completion callback after a brief delay
         setTimeout(() => {

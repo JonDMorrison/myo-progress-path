@@ -84,7 +84,16 @@ serve(async (req) => {
     console.log(`Granted badge ${badgeKey} to patient ${patientId}`);
 
     return new Response(
-      JSON.stringify({ success: true, alreadyEarned: false }),
+      JSON.stringify({ 
+        success: true, 
+        alreadyEarned: false,
+        badge: {
+          key: badge.key,
+          name: badge.name,
+          icon: badge.icon,
+          description: badge.description,
+        }
+      }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,

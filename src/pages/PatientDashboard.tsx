@@ -17,7 +17,7 @@ import { StatsOverview } from "@/components/dashboard/StatsOverview";
 import { GamificationPanel } from "@/components/gamification/GamificationPanel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
-import { grantBadge } from "@/lib/gamification";
+import { grantBadgeWithToast } from "@/lib/gamification";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { PatientHeader } from "@/components/layout/PatientHeader";
@@ -91,8 +91,8 @@ const PatientDashboard = () => {
         return;
       }
 
-      // Grant first_login badge (idempotent - won't duplicate)
-      grantBadge(patientData.id, "first_login").catch(console.error);
+      // Grant first_login badge (idempotent - shows toast only on first earn)
+      grantBadgeWithToast(patientData.id, "first_login", toast).catch(console.error);
 
       // Load user progress
       const progress = await getUserProgress(patientData.id);
