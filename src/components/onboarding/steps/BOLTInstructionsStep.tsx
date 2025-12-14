@@ -34,7 +34,18 @@ export const BOLTInstructionsStep = () => {
         </div>
       </div>
 
-      {/* Tongue position reminder */}
+      {/* Baseline BOLT clarification */}
+      <div className="flex gap-4 items-center p-4 bg-amber-50 dark:bg-amber-950/20 rounded-lg border border-amber-200 dark:border-amber-800">
+        <div>
+          <h4 className="font-semibold text-sm text-amber-900 dark:text-amber-100">Important: Baseline Measurement</h4>
+          <p className="text-xs text-amber-800 dark:text-amber-200">
+            Your first BOLT score is a <strong>baseline</strong> measured with your tongue in its natural resting position—not on the spot. 
+            As your therapy progresses, you'll learn to rest your tongue on the spot naturally, which will improve your score over time.
+          </p>
+        </div>
+      </div>
+
+      {/* Measurement frequency */}
       <div className="flex gap-4 items-center p-4 bg-accent/30 rounded-lg border border-accent">
         <img 
           src="/images/learn/the-spot.jpg" 
@@ -42,9 +53,10 @@ export const BOLTInstructionsStep = () => {
           className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
         />
         <div>
-          <h4 className="font-semibold text-sm">Remember: Tongue Position</h4>
+          <h4 className="font-semibold text-sm">When to Measure BOLT</h4>
           <p className="text-xs text-muted-foreground">
-            During the BOLT test, keep your tongue resting on the spot (incisive papilla) behind your upper front teeth.
+            BOLT is measured at key milestones: Week 1 (baseline), midpoint (Week 12), and end of program (Week 24). 
+            You won't need to track it every week.
           </p>
         </div>
       </div>

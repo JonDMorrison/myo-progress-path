@@ -6,13 +6,15 @@ import { Eye, Download } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 import { MasterPatientListItem } from "@/lib/masterAdmin";
+import { TherapistAssignmentSelect } from "./TherapistAssignmentSelect";
 
 interface MasterPatientTableProps {
   patients: MasterPatientListItem[];
   onExport?: () => void;
+  onRefresh?: () => void;
 }
 
-export const MasterPatientTable = ({ patients, onExport }: MasterPatientTableProps) => {
+export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPatientTableProps) => {
   const getStatusColor = (status: string): "default" | "secondary" | "destructive" => {
     switch (status) {
       case 'completed': return 'secondary';
@@ -78,14 +80,12 @@ export const MasterPatientTable = ({ patients, onExport }: MasterPatientTablePro
                   </TableCell>
                   <TableCell>{patient.clinic_name}</TableCell>
                   <TableCell>
-                    {patient.therapist_name ? (
-                      <div>
-                        <div className="text-sm">{patient.therapist_name}</div>
-                        <div className="text-xs text-muted-foreground">{patient.therapist_email}</div>
-                      </div>
-                    ) : (
-                      <span className="text-muted-foreground text-sm">Unassigned</span>
-                    )}
+                    <TherapistAssignmentSelect
+                      patientId={patient.patient_id}
+                      currentTherapistId={patient.therapist_id}
+                      currentTherapistName={patient.therapist_name}
+                      onAssigned={onRefresh}
+                    />
                   </TableCell>
                   <TableCell>
                     {patient.current_week_number ? (
@@ -163,9 +163,14 @@ export const MasterPatientTable = ({ patients, onExport }: MasterPatientTablePro
                 </Badge>
               </div>
               
-              <div className="text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">{patient.clinic_name}</span>
-                {patient.therapist_name && ` • ${patient.therapist_name}`}
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-muted-foreground font-medium">{patient.clinic_name}</span>
+                <TherapistAssignmentSelect
+                  patientId={patient.patient_id}
+                  currentTherapistId={patient.therapist_id}
+                  currentTherapistName={patient.therapist_name}
+                  onAssigned={onRefresh}
+                />
               </div>
               
               <div className="flex items-center justify-between text-sm">
