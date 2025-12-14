@@ -17,6 +17,7 @@ import { StatsOverview } from "@/components/dashboard/StatsOverview";
 import { GamificationPanel } from "@/components/gamification/GamificationPanel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
+import { grantBadge } from "@/lib/gamification";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { PatientHeader } from "@/components/layout/PatientHeader";
@@ -89,6 +90,9 @@ const PatientDashboard = () => {
         navigate("/onboarding");
         return;
       }
+
+      // Grant first_login badge (idempotent - won't duplicate)
+      grantBadge(patientData.id, "first_login").catch(console.error);
 
       // Load user progress
       const progress = await getUserProgress(patientData.id);
