@@ -36,14 +36,30 @@ serve(async (req) => {
       throw new Error("Upload not found");
     }
 
-    // Get signed URL for video
-    const { data: signedData } = await supabase.storage
-      .from("patient-videos")
-      .createSignedUrl(upload.file_url.split("/").pop()!, 300);
-
-    if (!signedData?.signedUrl) {
-      throw new Error("Failed to generate signed URL");
+    // Extract the file path from file_url
+    // file_url format can be either:
+    // 1. Full URL: https://xxx.supabase.co/storage/v1/object/public/patient-videos/user_id/week_n/file.mp4
+    // 2. Relative path: user_id/week_n/file.mp4
+    let filePath = upload.file_url;
+    
+    // If it's a full URL, extract the path after the bucket name
+    if (filePath.includes('/patient-videos/')) {
+      filePath = filePath.split('/patient-videos/')[1];
     }
+    
+    console.log(`Extracting signed URL for path: ${filePath}`);
+    
+    // Get signed URL for video
+    const { data: signedData, error: signedError } = await supabase.storage
+      .from("patient-videos")
+      .createSignedUrl(filePath, 300);
+
+    if (signedError || !signedData?.signedUrl) {
+      console.error("Failed to generate signed URL:", signedError);
+      throw new Error(`Failed to generate signed URL: ${signedError?.message || 'Unknown error'}`);
+    }
+    
+    console.log(`Generated signed URL successfully`);
 
     // Get exercise info
     const { data: exercises } = await supabase

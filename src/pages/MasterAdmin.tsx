@@ -314,7 +314,7 @@ const MasterAdmin = () => {
             <div className="text-muted-foreground">Loading...</div>
           </div>
         ) : (
-          <MasterPatientTable patients={patients} onExport={handleExportCSV} />
+          <MasterPatientTable patients={patients} onExport={handleExportCSV} onRefresh={loadData} />
         )}
       </div>
     </AdminLayout>

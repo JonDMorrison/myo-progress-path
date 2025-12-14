@@ -21,7 +21,8 @@ export const VideoGuideStep = () => {
           </div>
           <ul className="space-y-2 text-sm text-green-800 dark:text-green-200">
             <li>✓ Good lighting (natural light is best)</li>
-            <li>✓ Clear view of your face/mouth</li>
+            <li>✓ <strong>Full face, neck, and lower face visible</strong></li>
+            <li>✓ <strong>Clear intraoral view when demonstrating exercises</strong></li>
             <li>✓ Stable camera position</li>
             <li>✓ Quiet environment</li>
             <li>✓ 30-60 seconds length</li>
