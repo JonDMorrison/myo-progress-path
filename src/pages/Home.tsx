@@ -38,7 +38,7 @@ const Home = () => {
       } = await supabase.from("users").select("role").eq("id", session.user.id).single();
       if (userData?.role === "patient") {
         navigate("/patient");
-      } else if (userData?.role === "therapist" || userData?.role === "admin") {
+      } else if (userData?.role === "therapist" || userData?.role === "admin" || userData?.role === "super_admin") {
         navigate("/therapist");
       }
     } else {
