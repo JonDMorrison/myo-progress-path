@@ -41,6 +41,7 @@ import Resources from "./pages/Resources";
 import PatientProgress from "./pages/PatientProgress";
 import PatientMessages from "./pages/PatientMessages";
 import PatientAccount from "./pages/PatientAccount";
+import ClinicalTesting from "./pages/ClinicalTesting";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,7 @@ const App = () => {
             <Route path="/learn/:slug" element={<LearnArticle />} />
             <Route path="/resources" element={<Resources />} />
             <Route path="/what-is-myofunctional-therapy" element={<WhatIsMyofunctionalTherapy />} />
+            <Route path="/clinical-testing" element={<ClinicalTesting />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/update-password" element={<UpdatePassword />} />
             <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
