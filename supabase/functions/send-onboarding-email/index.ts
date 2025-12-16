@@ -49,7 +49,7 @@ serve(async (req: Request) => {
     const loginUrl = `${appUrl}/auth`;
     
     const safeName = name?.trim() || "there";
-    const subject = "Welcome to MyoCoach — Let's Get Started";
+    const subject = "Welcome to Montrose Myo — Let's Get Started";
     const brandBlue = "#0B5EA8";
     const brandOrange = "#F7941D";
     const supportEmail = "myo@montrosedentalcentre.com";
@@ -73,7 +73,7 @@ serve(async (req: Request) => {
                 Welcome, ${safeName} 👋
               </h1>
               <p style="margin:0;color:#353a44;line-height:1.6;font-size:16px;">
-                I'm <strong>Dr. Matt Francisco</strong>. We're excited to start your MyoCoach program.
+                I'm <strong>Dr. Matt Francisco</strong>. We're excited to start your Montrose Myo program.
                 Over the next weeks, you'll build healthy habits for <strong>tongue posture</strong>, <strong>nasal breathing</strong>,
                 <strong>chewing</strong>, and <strong>swallowing</strong> — at a relaxed, sustainable pace.
               </p>
@@ -83,7 +83,7 @@ serve(async (req: Request) => {
           <tr>
             <td style="padding:20px 28px 0 28px;">
               <a href="${loginUrl}" style="display:inline-block;background:${brandBlue};color:#ffffff;text-decoration:none;padding:12px 18px;border-radius:12px;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,.12);">
-                Log In to MyoCoach
+                Log In to Montrose Myo
               </a>
               <p style="margin:10px 0 0;color:#6b7280;font-size:13px;">Use your email to sign in securely.</p>
             </td>
@@ -122,7 +122,7 @@ serve(async (req: Request) => {
 
           <tr>
             <td style="padding:8px 28px 24px 28px;text-align:center;color:#6b7280;font-size:12px;">
-              © ${new Date().getFullYear()} Montrose Dental Centre • MyoCoach
+              © ${new Date().getFullYear()} Montrose Dental Centre • Montrose Myo
             </td>
           </tr>
         </table>
@@ -132,9 +132,9 @@ serve(async (req: Request) => {
 </body>
 </html>`;
 
-    const text = `Welcome to MyoCoach, ${safeName}!
+    const text = `Welcome to Montrose Myo, ${safeName}!
 
-I'm Dr. Matt Francisco. We're excited to start your MyoCoach program.
+I'm Dr. Matt Francisco. We're excited to start your Montrose Myo program.
 
 Log in here: ${loginUrl}
 

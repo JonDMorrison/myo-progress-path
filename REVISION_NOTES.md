@@ -5,7 +5,7 @@
 
 ## Summary
 
-Implemented comprehensive user feedback fixes focusing on content accuracy, copy clarity, and UX improvements across the MyoCoach platform.
+Implemented comprehensive user feedback fixes focusing on content accuracy, copy clarity, and UX improvements across the Montrose Myo platform.
 
 ## Changes Applied
 

@@ -124,7 +124,7 @@ const ClinicalTesting = () => {
   return (
     <>
       <Helmet>
-        <title>Clinical Testing Protocol | MyoCoach</title>
+        <title>Clinical Testing Protocol | Montrose Myo</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
@@ -333,7 +333,7 @@ const ClinicalTesting = () => {
 
           {/* Footer */}
           <div className="text-center text-sm text-muted-foreground py-8">
-            <p>Thank you for testing MyoCoach.</p>
+            <p>Thank you for testing Montrose Myo.</p>
             <p>Your clinical expertise ensures this tool is safe and effective for patients.</p>
           </div>
         </div>

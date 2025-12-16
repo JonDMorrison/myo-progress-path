@@ -1,6 +1,6 @@
 # Learn Hub Content
 
-This directory contains all educational articles for the MyoCoach Learn Hub.
+This directory contains all educational articles for the Montrose Myo Learn Hub.
 
 ## File Structure
 
