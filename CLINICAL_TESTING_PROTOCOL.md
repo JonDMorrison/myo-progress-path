@@ -1,5 +1,5 @@
 # Clinical Testing Protocol
-## MyoCoach Application — Pre-Launch Validation
+## Montrose Myo Application — Pre-Launch Validation
 
 **For:** Dr. Matt Francisco & Samantha  
 **Date:** December 16, 2024  
@@ -11,7 +11,7 @@
 
 ### What We Are Testing
 
-This testing phase validates that the MyoCoach application works correctly for real clinical use. We need to confirm:
+This testing phase validates that the Montrose Myo application works correctly for real clinical use. We need to confirm:
 
 - Patients can register, complete onboarding, and progress through weekly exercises
 - Therapists can review patient submissions and provide feedback
@@ -427,4 +427,4 @@ If you encounter a blocking issue that prevents testing:
 
 ---
 
-*Thank you for your time testing MyoCoach. Your clinical expertise is essential to ensuring this tool is safe and effective for patients.*
+*Thank you for your time testing Montrose Myo. Your clinical expertise is essential to ensuring this tool is safe and effective for patients.*
