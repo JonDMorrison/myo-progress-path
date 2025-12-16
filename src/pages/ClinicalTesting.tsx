@@ -7,14 +7,12 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { 
-  CheckCircle2, 
   AlertCircle, 
   FileText, 
   Stethoscope, 
   UserCheck, 
   ClipboardList,
-  Download,
-  RotateCcw
+  Download
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
@@ -58,13 +56,6 @@ const ClinicalTesting = () => {
     setNotes(prev => ({ ...prev, [id]: value }));
   };
 
-  const resetProgress = () => {
-    if (confirm("Are you sure you want to reset all progress and notes?")) {
-      setChecklist({});
-      setNotes({});
-      toast({ title: "Progress reset", description: "All checkboxes and notes have been cleared." });
-    }
-  };
 
   const exportReport = () => {
     const patientItems = [
@@ -136,17 +127,10 @@ const ClinicalTesting = () => {
               <ClipboardList className="h-8 w-8 text-primary" />
               <h1 className="text-3xl font-bold">Clinical Testing Protocol</h1>
             </div>
-            <p className="text-muted-foreground">
-              For Dr. Matt Francisco & Samantha — December 2024
-            </p>
             <div className="flex gap-2 mt-4">
               <Button variant="outline" size="sm" onClick={exportReport}>
                 <Download className="h-4 w-4 mr-2" />
                 Export Report
-              </Button>
-              <Button variant="ghost" size="sm" onClick={resetProgress}>
-                <RotateCcw className="h-4 w-4 mr-2" />
-                Reset Progress
               </Button>
             </div>
           </div>
