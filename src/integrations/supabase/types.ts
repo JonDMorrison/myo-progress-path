@@ -213,6 +213,45 @@ export type Database = {
           },
         ]
       }
+      clinical_testing_feedback: {
+        Row: {
+          bugs_notes: string | null
+          checklist_state: Json | null
+          clinical_notes: string | null
+          created_at: string | null
+          id: string
+          patient_notes: string | null
+          tester_email: string | null
+          tester_name: string | null
+          therapist_notes: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          bugs_notes?: string | null
+          checklist_state?: Json | null
+          clinical_notes?: string | null
+          created_at?: string | null
+          id?: string
+          patient_notes?: string | null
+          tester_email?: string | null
+          tester_name?: string | null
+          therapist_notes?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          bugs_notes?: string | null
+          checklist_state?: Json | null
+          clinical_notes?: string | null
+          created_at?: string | null
+          id?: string
+          patient_notes?: string | null
+          tester_email?: string | null
+          tester_name?: string | null
+          therapist_notes?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       clinics: {
         Row: {
           created_at: string | null

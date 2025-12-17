@@ -2,19 +2,24 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { 
   AlertCircle, 
   FileText, 
   Stethoscope, 
   UserCheck, 
   ClipboardList,
-  Download
+  Download,
+  Save,
+  Loader2
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface ChecklistState {
   [key: string]: boolean;
@@ -26,17 +31,33 @@ interface NotesState {
 
 const STORAGE_KEY_CHECKLIST = "clinical-testing-checklist";
 const STORAGE_KEY_NOTES = "clinical-testing-notes";
+const STORAGE_KEY_TESTER = "clinical-testing-tester";
+const STORAGE_KEY_FEEDBACK_ID = "clinical-testing-feedback-id";
 
 const ClinicalTesting = () => {
   const [checklist, setChecklist] = useState<ChecklistState>({});
   const [notes, setNotes] = useState<NotesState>({});
+  const [testerName, setTesterName] = useState("");
+  const [testerEmail, setTesterEmail] = useState("");
+  const [feedbackId, setFeedbackId] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   // Load from localStorage on mount
   useEffect(() => {
     const savedChecklist = localStorage.getItem(STORAGE_KEY_CHECKLIST);
     const savedNotes = localStorage.getItem(STORAGE_KEY_NOTES);
+    const savedTester = localStorage.getItem(STORAGE_KEY_TESTER);
+    const savedFeedbackId = localStorage.getItem(STORAGE_KEY_FEEDBACK_ID);
+    
     if (savedChecklist) setChecklist(JSON.parse(savedChecklist));
     if (savedNotes) setNotes(JSON.parse(savedNotes));
+    if (savedTester) {
+      const { name, email } = JSON.parse(savedTester);
+      setTesterName(name || "");
+      setTesterEmail(email || "");
+    }
+    if (savedFeedbackId) setFeedbackId(savedFeedbackId);
   }, []);
 
   // Save to localStorage on change
@@ -48,6 +69,10 @@ const ClinicalTesting = () => {
     localStorage.setItem(STORAGE_KEY_NOTES, JSON.stringify(notes));
   }, [notes]);
 
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY_TESTER, JSON.stringify({ name: testerName, email: testerEmail }));
+  }, [testerName, testerEmail]);
+
   const toggleCheck = (id: string) => {
     setChecklist(prev => ({ ...prev, [id]: !prev[id] }));
   };
@@ -56,6 +81,65 @@ const ClinicalTesting = () => {
     setNotes(prev => ({ ...prev, [id]: value }));
   };
 
+  const saveToDatabase = async () => {
+    if (!testerName || !testerEmail) {
+      toast({ 
+        title: "Please enter your details", 
+        description: "Name and email are required to save feedback.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const feedbackData = {
+        tester_name: testerName,
+        tester_email: testerEmail,
+        checklist_state: checklist,
+        patient_notes: notes["patient-notes"] || null,
+        therapist_notes: notes["therapist-notes"] || null,
+        bugs_notes: notes["bugs"] || null,
+        clinical_notes: notes["clinical-concerns"] || null,
+        updated_at: new Date().toISOString()
+      };
+
+      if (feedbackId) {
+        // Update existing record
+        const { error } = await supabase
+          .from("clinical_testing_feedback")
+          .update(feedbackData)
+          .eq("id", feedbackId);
+
+        if (error) throw error;
+      } else {
+        // Create new record
+        const { data, error } = await supabase
+          .from("clinical_testing_feedback")
+          .insert(feedbackData)
+          .select("id")
+          .single();
+
+        if (error) throw error;
+        if (data) {
+          setFeedbackId(data.id);
+          localStorage.setItem(STORAGE_KEY_FEEDBACK_ID, data.id);
+        }
+      }
+
+      setLastSaved(new Date());
+      toast({ title: "Feedback saved", description: "Your feedback has been saved to the database." });
+    } catch (error: any) {
+      console.error("Error saving feedback:", error);
+      toast({ 
+        title: "Error saving feedback", 
+        description: error.message || "Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const exportReport = () => {
     const patientItems = [
@@ -71,7 +155,8 @@ const ClinicalTesting = () => {
     const therapistComplete = therapistItems.filter(id => checklist[id]).length;
 
     let report = `# Clinical Testing Report\n`;
-    report += `Generated: ${new Date().toLocaleString()}\n\n`;
+    report += `Generated: ${new Date().toLocaleString()}\n`;
+    report += `Tester: ${testerName} (${testerEmail})\n\n`;
     report += `## Summary\n`;
     report += `- Patient Testing: ${patientComplete}/${patientItems.length} complete\n`;
     report += `- Therapist Testing: ${therapistComplete}/${therapistItems.length} complete\n\n`;
@@ -127,13 +212,55 @@ const ClinicalTesting = () => {
               <ClipboardList className="h-8 w-8 text-primary" />
               <h1 className="text-3xl font-bold">Clinical Testing Protocol</h1>
             </div>
-            <div className="flex gap-2 mt-4">
+            <div className="flex flex-wrap gap-2 mt-4">
+              <Button variant="default" size="sm" onClick={saveToDatabase} disabled={saving}>
+                {saving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Save className="h-4 w-4 mr-2" />}
+                Save Feedback
+              </Button>
               <Button variant="outline" size="sm" onClick={exportReport}>
                 <Download className="h-4 w-4 mr-2" />
                 Export Report
               </Button>
             </div>
+            {lastSaved && (
+              <p className="text-xs text-muted-foreground mt-2">
+                Last saved: {lastSaved.toLocaleString()}
+              </p>
+            )}
           </div>
+
+          {/* Tester Info */}
+          <Card className="mb-6 border-primary/20 bg-primary/5">
+            <CardHeader>
+              <CardTitle className="text-lg">Your Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="tester-name">Your Name *</Label>
+                  <Input
+                    id="tester-name"
+                    placeholder="Dr. Matt Francisco"
+                    value={testerName}
+                    onChange={(e) => setTesterName(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="tester-email">Your Email *</Label>
+                  <Input
+                    id="tester-email"
+                    type="email"
+                    placeholder="matt@montrosedentalcentre.com"
+                    value={testerEmail}
+                    onChange={(e) => setTesterEmail(e.target.value)}
+                  />
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground mt-3">
+                Required to save your feedback. Click "Save Feedback" to sync your progress to the database.
+              </p>
+            </CardContent>
+          </Card>
 
           {/* Purpose Section */}
           <Card className="mb-6">

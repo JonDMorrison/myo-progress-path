@@ -9,6 +9,7 @@ import {
   LogOut,
   ChevronDown,
   Trash2,
+  ClipboardList,
 } from "lucide-react";
 import {
   Sidebar,
@@ -33,6 +34,7 @@ import { cn } from "@/lib/utils";
 const navItems = {
   overview: [
     { title: "Master Dashboard", url: "/admin/master", icon: LayoutDashboard },
+    { title: "Testing Feedback", url: "/admin/testing-feedback", icon: ClipboardList },
   ],
   users: [
     { title: "Super Admins", url: "/admin/super-admins", icon: Shield },
