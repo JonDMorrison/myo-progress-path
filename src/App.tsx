@@ -32,6 +32,7 @@ import UpdateWeeks5And6 from "./pages/admin/UpdateWeeks5And6";
 import MediaAudit from "./pages/admin/MediaAudit";
 import SuperAdminManagement from "./pages/admin/SuperAdminManagement";
 import PatientDeleteTool from "./pages/admin/PatientDeleteTool";
+import TestingFeedback from "./pages/admin/TestingFeedback";
 import NotFound from "./pages/NotFound";
 import Week0 from "./pages/Week0";
 import Learn from "./pages/Learn";
@@ -86,6 +87,7 @@ const App = () => {
             <Route path="/admin/media-audit" element={<MediaAudit />} />
             <Route path="/admin/super-admins" element={<SuperAdminManagement />} />
             <Route path="/admin/delete-patients" element={<PatientDeleteTool />} />
+            <Route path="/admin/testing-feedback" element={<TestingFeedback />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/therapist/ai-assist" element={<TherapistAIAssist />} />
             <Route path="/week/:weekNumber" element={<WeekDetail />} />
