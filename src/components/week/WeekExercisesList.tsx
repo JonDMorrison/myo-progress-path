@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
 import { ResponsiveVideo } from "./ResponsiveVideo";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
+
 interface WeekExercisesListProps {
   exercises: any[];
   patientId: string;
@@ -92,8 +94,21 @@ export function WeekExercisesList({
     );
   }
 
+  const hasActiveExercises = exercises.some(e => e.type === 'active');
+
   return (
-    <Accordion type="single" collapsible className="w-full space-y-2">
+    <div className="space-y-4">
+      {hasActiveExercises && (
+        <Alert className="border-primary/20 bg-primary/5">
+          <AlertDescription className="flex items-center gap-2">
+            <span className="text-lg">🪞</span>
+            <span>
+              <strong>Active exercises (🏃) require a mirror</strong> to ensure proper form and minimize compensations.
+            </span>
+          </AlertDescription>
+        </Alert>
+      )}
+      <Accordion type="single" collapsible className="w-full space-y-2">
       {exercises.map((exercise, index) => {
         const mediaBadge = getMediaStatusBadge(exercise.media_status);
         const hasImage = isImageUrl(exercise.demo_video_url);
@@ -257,6 +272,7 @@ export function WeekExercisesList({
           </AccordionItem>
         );
       })}
-    </Accordion>
+      </Accordion>
+    </div>
   );
 }
