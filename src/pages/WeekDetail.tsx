@@ -23,6 +23,7 @@ import { FrenectomyConsultTask } from "@/components/week/FrenectomyConsultTask";
 import { FrenectomyConsultReminder } from "@/components/week/FrenectomyConsultReminder";
 import { LearnHubReviewTask } from "@/components/week/LearnHubReviewTask";
 import { PreOpPreparationCard } from "@/components/week/PreOpPreparationCard";
+import { PostOpProtocolCard } from "@/components/week/PostOpProtocolCard";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -461,6 +462,14 @@ const WeekDetail = () => {
                  [7, 8].includes(parseInt(weekNumber || "0")) && (
                   <Section delay={50}>
                     <PreOpPreparationCard />
+                  </Section>
+                )}
+
+                {/* Post-Op Protocol Card - Frenectomy Pathway Weeks 9-10 */}
+                {patient?.program_variant === 'frenectomy' && 
+                 [9, 10].includes(parseInt(weekNumber || "0")) && (
+                  <Section delay={50}>
+                    <PostOpProtocolCard />
                   </Section>
                 )}
 
