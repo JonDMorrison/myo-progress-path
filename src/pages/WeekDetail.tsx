@@ -22,6 +22,7 @@ import { ExerciseProgressSummary } from "@/components/week/ExerciseProgressSumma
 import { FrenectomyConsultTask } from "@/components/week/FrenectomyConsultTask";
 import { FrenectomyConsultReminder } from "@/components/week/FrenectomyConsultReminder";
 import { LearnHubReviewTask } from "@/components/week/LearnHubReviewTask";
+import { PreOpPreparationCard } from "@/components/week/PreOpPreparationCard";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -452,6 +453,14 @@ const WeekDetail = () => {
                         <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{week.overview}</p>
                       </CardContent>
                     </Card>
+                  </Section>
+                )}
+
+                {/* Pre-Op Preparation Card - Frenectomy Pathway Weeks 7-8 */}
+                {patient?.program_variant === 'frenectomy' && 
+                 [7, 8].includes(parseInt(weekNumber || "0")) && (
+                  <Section delay={50}>
+                    <PreOpPreparationCard />
                   </Section>
                 )}
 
