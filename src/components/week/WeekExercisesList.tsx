@@ -50,6 +50,12 @@ const isImageUrl = (url: string | null | undefined): boolean => {
   return imageExtensions.some(ext => url.toLowerCase().endsWith(ext));
 };
 
+// Check if demo_video_url contains multiple images (comma-separated)
+const hasMultipleImages = (url: string | null | undefined): boolean => {
+  if (!url) return false;
+  return url.includes(',') && url.split(',').every(u => isImageUrl(u.trim()));
+};
+
 // Check if exercise is an elastic hold type that should show "The Spot" reference
 const isElasticHoldExercise = (title: string): boolean => {
   const lowerTitle = title.toLowerCase();
@@ -107,11 +113,12 @@ export function WeekExercisesList({
   // Render media section with tabbed videos when modified_video_url exists
   const renderMedia = (exercise: any) => {
     const hasImage = isImageUrl(exercise.demo_video_url);
+    const hasMultiImages = hasMultipleImages(exercise.demo_video_url);
     const hasModifiedVideo = exercise.modified_video_url && !isImageUrl(exercise.modified_video_url);
     const showSpotReference = isElasticHoldExercise(exercise.title);
 
     // If we have both regular and modified videos, show tabbed interface
-    if (!hasImage && exercise.demo_video_url && hasModifiedVideo) {
+    if (!hasImage && !hasMultiImages && exercise.demo_video_url && hasModifiedVideo) {
       return (
         <div className="space-y-4">
           <Tabs defaultValue="regular" className="w-full">
@@ -138,7 +145,38 @@ export function WeekExercisesList({
       );
     }
 
-    // If it's an image (e.g., elastic hold photo)
+    // If we have multiple images (comma-separated), show side-by-side gallery
+    if (hasMultiImages) {
+      const imageUrls = exercise.demo_video_url.split(',').map((url: string) => url.trim());
+      return (
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-3">
+            {imageUrls.map((url: string, idx: number) => (
+              <div key={idx} className="rounded-lg overflow-hidden border">
+                <img 
+                  src={url} 
+                  alt={`${exercise.title} demonstration ${idx + 1}`}
+                  className="w-full object-contain"
+                />
+              </div>
+            ))}
+          </div>
+          {/* Show "The Spot" reference for elastic hold exercises */}
+          {showSpotReference && (
+            <div className="border rounded-lg p-3 bg-muted/30">
+              <p className="text-xs font-medium text-muted-foreground mb-2">Reference: The Spot (incisive papilla)</p>
+              <img 
+                src="/images/learn/the-spot.jpg" 
+                alt="The Spot - incisive papilla location"
+                className="w-full object-contain rounded"
+              />
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // If it's a single image (e.g., elastic hold photo)
     if (hasImage) {
       return (
         <div className="space-y-4">
