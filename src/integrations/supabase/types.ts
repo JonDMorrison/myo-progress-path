@@ -691,6 +691,7 @@ export type Database = {
           frenectomy_consult_booked: boolean | null
           id: string
           introduction_viewed: boolean | null
+          learn_hub_reviewed: boolean | null
           nasal_breathing_pct: number | null
           patient_id: string | null
           reviewing_by: string | null
@@ -707,6 +708,7 @@ export type Database = {
           frenectomy_consult_booked?: boolean | null
           id?: string
           introduction_viewed?: boolean | null
+          learn_hub_reviewed?: boolean | null
           nasal_breathing_pct?: number | null
           patient_id?: string | null
           reviewing_by?: string | null
@@ -723,6 +725,7 @@ export type Database = {
           frenectomy_consult_booked?: boolean | null
           id?: string
           introduction_viewed?: boolean | null
+          learn_hub_reviewed?: boolean | null
           nasal_breathing_pct?: number | null
           patient_id?: string | null
           reviewing_by?: string | null

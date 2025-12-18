@@ -79,32 +79,22 @@ const Resources = () => {
     }
   ];
 
-  // Clinical and professional organizations
+  // Clinical and professional organizations - curated for patient helpfulness
   const clinicalResources = [
     {
       name: "International Association of Orofacial Myology (IAOM)",
-      description: "Professional organization setting educational standards for orofacial myofunctional therapy.",
+      description: "The main professional organization for orofacial myofunctional therapy. Sets training and certification standards for therapists. Use their Find a Provider directory to locate certified therapists near you.",
       url: "https://iaom.com/"
     },
     {
-      name: "American Academy of Physiological Medicine & Dentistry (AAPMD)",
-      description: "Multidisciplinary organization focused on airway health and sleep-disordered breathing.",
-      url: "https://www.aapmd.org/"
+      name: "MyoMentor",
+      description: "Education and training resource focused on myofunctional therapy. Provides basic explanations about what myofunctional therapy is, why it matters, and how exercises are taught and applied in practice.",
+      url: "https://www.myomentor.com/"
     },
     {
-      name: "American Academy of Dental Sleep Medicine (AADSM)",
-      description: "Professional society for dentists treating sleep-disordered breathing.",
-      url: "https://www.aadsm.org/"
-    },
-    {
-      name: "Sleep Foundation",
-      description: "Patient-friendly explanations of sleep disorders, breathing, and treatment options.",
-      url: "https://www.sleepfoundation.org/"
-    },
-    {
-      name: "National Library of Medicine (PubMed)",
-      description: "Free access to peer-reviewed medical and scientific research.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/"
+      name: "Air Voel",
+      description: "CPAP supply and sleep apnea equipment provider. Helpful for finding machines, masks, and accessories if you have sleep-disordered breathing or use a CPAP device.",
+      url: "https://airvoel.ca/"
     }
   ];
 

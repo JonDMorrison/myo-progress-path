@@ -21,6 +21,7 @@ import { SubmitButton } from "@/components/week/SubmitBar";
 import { ExerciseProgressSummary } from "@/components/week/ExerciseProgressSummary";
 import { FrenectomyConsultTask } from "@/components/week/FrenectomyConsultTask";
 import { FrenectomyConsultReminder } from "@/components/week/FrenectomyConsultReminder";
+import { LearnHubReviewTask } from "@/components/week/LearnHubReviewTask";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -463,6 +464,19 @@ const WeekDetail = () => {
                       patientId={patient.id}
                       weekId={week.id}
                       isCompleted={progress?.frenectomy_consult_booked || false}
+                      onUpdate={handleProgressUpdate}
+                    />
+                  </Section>
+                )}
+
+                {/* Learn Hub Review Task - Week 1 All Pathways */}
+                {parseInt(weekNumber || "0") === 1 && 
+                 patient?.id && week?.id && (
+                  <Section delay={75}>
+                    <LearnHubReviewTask
+                      patientId={patient.id}
+                      weekId={week.id}
+                      isCompleted={progress?.learn_hub_reviewed || false}
                       onUpdate={handleProgressUpdate}
                     />
                   </Section>
