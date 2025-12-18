@@ -404,6 +404,7 @@ export type Database = {
           media_approved: boolean | null
           media_status: Database["public"]["Enums"]["media_status"] | null
           media_waiting_on_clinician: boolean | null
+          modified_video_url: string | null
           props: string | null
           requires_clinician_confirmation: boolean | null
           title: string
@@ -422,6 +423,7 @@ export type Database = {
           media_approved?: boolean | null
           media_status?: Database["public"]["Enums"]["media_status"] | null
           media_waiting_on_clinician?: boolean | null
+          modified_video_url?: string | null
           props?: string | null
           requires_clinician_confirmation?: boolean | null
           title: string
@@ -440,6 +442,7 @@ export type Database = {
           media_approved?: boolean | null
           media_status?: Database["public"]["Enums"]["media_status"] | null
           media_waiting_on_clinician?: boolean | null
+          modified_video_url?: string | null
           props?: string | null
           requires_clinician_confirmation?: boolean | null
           title?: string
@@ -920,6 +923,7 @@ export type Database = {
             | Database["public"]["Enums"]["ai_feedback_status"]
             | null
           created_at: string | null
+          exercise_id: string | null
           file_url: string | null
           id: string
           kind: Database["public"]["Enums"]["upload_kind"] | null
@@ -934,6 +938,7 @@ export type Database = {
             | Database["public"]["Enums"]["ai_feedback_status"]
             | null
           created_at?: string | null
+          exercise_id?: string | null
           file_url?: string | null
           id?: string
           kind?: Database["public"]["Enums"]["upload_kind"] | null
@@ -948,6 +953,7 @@ export type Database = {
             | Database["public"]["Enums"]["ai_feedback_status"]
             | null
           created_at?: string | null
+          exercise_id?: string | null
           file_url?: string | null
           id?: string
           kind?: Database["public"]["Enums"]["upload_kind"] | null
@@ -957,6 +963,13 @@ export type Database = {
           week_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "uploads_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "uploads_patient_id_fkey"
             columns: ["patient_id"]
