@@ -114,6 +114,88 @@ export async function uploadVideo(
 }
 
 /**
+ * Upload video for a specific exercise
+ */
+export async function uploadVideoForExercise(
+  file: File,
+  patientId: string,
+  weekId: string,
+  exerciseId: string,
+  kind: 'first_attempt' | 'last_attempt',
+  onProgress?: (progress: number) => void
+): Promise<{ success: boolean; fileUrl?: string; uploadId?: string; error?: string }> {
+  try {
+    // Validate file
+    const validation = validateVideoFile(file);
+    if (!validation.valid) {
+      return { success: false, error: validation.error };
+    }
+
+    // Generate unique filename with exercise ID
+    const timestamp = Date.now();
+    const ext = file.name.split('.').pop();
+    const filename = `${patientId}/${weekId}/exercise_${exerciseId}/${kind}_${timestamp}.${ext}`;
+
+    // Upload to storage bucket (patient-videos is private)
+    const { data, error: uploadError } = await supabase.storage
+      .from('patient-videos')
+      .upload(filename, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (uploadError) {
+      console.error('Upload error:', uploadError);
+      return { success: false, error: uploadError.message };
+    }
+
+    // Generate signed URL (not public URL since bucket is private)
+    const { data: urlData } = await supabase.storage
+      .from('patient-videos')
+      .createSignedUrl(filename, 60 * 60 * 24 * 365); // 1 year expiry
+
+    const fileUrl = urlData?.signedUrl || '';
+
+    // Create upload record in database with exercise_id
+    const { data: insertData, error: insertError } = await supabase
+      .from('uploads')
+      .insert({
+        patient_id: patientId,
+        week_id: weekId,
+        exercise_id: exerciseId,
+        kind,
+        file_url: fileUrl,
+      })
+      .select('id')
+      .single();
+
+    if (insertError || !insertData) {
+      console.error('Database insert error:', insertError);
+      // Try to clean up uploaded file
+      await supabase.storage.from('patient-videos').remove([filename]);
+      return { success: false, error: insertError?.message || 'Failed to create upload record' };
+    }
+
+    // Trigger AI video analysis in the background (fire-and-forget)
+    supabase.functions.invoke('analyze-video', {
+      body: { uploadId: insertData.id }
+    }).catch(err => {
+      console.warn('AI analysis trigger failed:', err);
+    });
+
+    // Simulate progress for better UX (actual upload is already complete)
+    if (onProgress) {
+      onProgress(100);
+    }
+
+    return { success: true, fileUrl, uploadId: insertData.id };
+  } catch (error: any) {
+    console.error('Upload error:', error);
+    return { success: false, error: error.message || 'Upload failed' };
+  }
+}
+
+/**
  * Check if a signed URL is expired or about to expire
  */
 function isUrlExpired(url: string): boolean {

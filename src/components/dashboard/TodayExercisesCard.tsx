@@ -79,7 +79,7 @@ export function TodayExercisesCard({
 
         {!isCompleted && (
           <p className="text-xs text-center text-muted-foreground">
-            ~15 minutes daily • Best done in the morning
+            ~15 minutes daily • Best done morning and night
           </p>
         )}
       </CardContent>
