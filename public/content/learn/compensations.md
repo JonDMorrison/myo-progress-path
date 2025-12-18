@@ -32,7 +32,7 @@ This article is for **educational purposes only**—to help you understand what 
 
 ![Floor of Mouth Activation](/images/learn/compensations/floor-of-mouth.jpg)
 
-**What it looks like:** The area under the chin (floor of the mouth) bulges or lifts during tongue exercises.
+**What it looks like:** The area under the tongue or behind the chin (floor of the mouth) bulges or lifts during tongue exercises.
 
 **Why it happens:** The floor of the mouth lifts to compensate for weak posterior tongue muscles or restricted movement from a tongue tie.
 
@@ -72,7 +72,7 @@ As you practice your exercises:
 - Use a mirror to observe your face and neck
 - Notice if your neck tenses during tongue movements
 - Watch for jaw shifting or chin tension
-- Check if the area under your chin bulges
+- Check if the area under your tongue or behind your chin bulges
 - Pay attention to overall body tension
 
 Awareness is the first step. Once you can recognize compensations, you can work with your therapist to gradually eliminate them.

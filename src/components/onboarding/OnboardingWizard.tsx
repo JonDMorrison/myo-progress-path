@@ -10,6 +10,7 @@ import { WelcomeStep } from "./steps/WelcomeStep";
 import { PathwayStep } from "./steps/PathwayStep";
 import { ProgramOverviewStep } from "./steps/ProgramOverviewStep";
 import { HowItWorksStep } from "./steps/HowItWorksStep";
+import { LearnHubStep } from "./steps/LearnHubStep";
 import { BOLTInstructionsStep } from "./steps/BOLTInstructionsStep";
 import { VideoGuideStep } from "./steps/VideoGuideStep";
 import { GoalsStep } from "./steps/GoalsStep";
@@ -21,6 +22,7 @@ const steps = [
   { id: 'pathway', component: PathwayStep, title: 'Treatment Pathway' },
   { id: 'program', component: ProgramOverviewStep, title: 'Program Overview' },
   { id: 'how-it-works', component: HowItWorksStep, title: 'How It Works' },
+  { id: 'learn-hub', component: LearnHubStep, title: 'Learning Resources' },
   { id: 'bolt-instructions', component: BOLTInstructionsStep, title: 'BOLT Test' },
   { id: 'videos', component: VideoGuideStep, title: 'Video Uploads' },
   { id: 'goals', component: GoalsStep, title: 'Your Goals' },
