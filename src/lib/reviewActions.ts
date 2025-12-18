@@ -19,6 +19,7 @@ export async function approveWeek(
     }
 
     // Generate AI progress note if no note provided
+    let isAiGenerated = false;
     if (!note || note.trim().length === 0) {
       const { data: aiNote } = await supabase.functions.invoke("generate-progress-note", {
         body: {
@@ -28,7 +29,9 @@ export async function approveWeek(
       });
       
       if (aiNote?.note) {
-        note = aiNote.note;
+        // Prefix AI-generated notes so therapist and patient know it's automated
+        note = `[AI-generated] ${aiNote.note}`;
+        isAiGenerated = true;
       }
     }
 

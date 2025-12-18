@@ -228,7 +228,7 @@ export function WeekExercisesList({
           </AlertDescription>
         </Alert>
       )}
-      <Accordion type="single" collapsible className="w-full space-y-2">
+      <Accordion type="single" collapsible className="w-full space-y-2" data-scroll-lock="true">
       {exercises.map((exercise, index) => {
         const mediaBadge = getMediaStatusBadge(exercise.media_status);
         const hasMedia = exercise.demo_video_url || exercise.modified_video_url;
