@@ -302,4 +302,10 @@ All colors MUST be HSL.
   .triage-red {
     @apply border-l-[3px] border-l-destructive;
   }
+
+  /* Prevent accordion from auto-scrolling when opening */
+  [data-scroll-lock="true"] [data-state="open"] {
+    scroll-margin-top: 0;
+    overflow-anchor: none;
+  }
 }

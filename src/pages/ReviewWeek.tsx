@@ -180,7 +180,7 @@ const ReviewWeek = () => {
       if (result.success) {
         toast({
           title: "Feedback Sent",
-          description: "Patient has been notified to practice more.",
+          description: `Patient "${patient?.user?.name}" has been notified that Week ${weekNumber} needs more practice. Your feedback message has been sent.`,
         });
         navigate("/therapist");
       } else {
