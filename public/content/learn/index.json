@@ -1,16 +1,76 @@
 {
   "articles": [
-    { "slug": "intro-to-myofunctional-therapy", "title": "Introduction to Myofunctional Therapy", "tags": ["overview"] },
-    { "slug": "four-goals", "title": "The Four Goals of Myofunctional Therapy", "tags": ["nasal-breathing","lip-seal","chewing-swallowing","tongue-posture"] },
-    { "slug": "expectations", "title": "Expectations for Myofunctional Therapy", "tags": ["program"] },
-    { "slug": "structural-changes", "title": "Structural Changes Caused by Myofunctional Disorders", "tags": ["oral","facial"] },
-    { "slug": "health-effects", "title": "Health/Systemic Effects Associated with Myofunctional Disorders", "tags": ["systemic"] },
-    { "slug": "sleep-apnea", "title": "How Myofunctional Therapy Improves Sleep Apnea", "tags": ["sleep"] },
-    { "slug": "children-signs", "title": "Signs of Sleep-Disordered Breathing in Children", "tags": ["pediatrics"] },
-    { "slug": "causes-in-infancy", "title": "Causes of Myofunctional Disorders During Infancy", "tags": ["infancy"] },
-    { "slug": "program-specifics", "title": "Myofunctional Therapy Program Specifics", "tags": ["program","format"] },
-    { "slug": "compensations", "title": "Compensations to Limit (with photos)", "tags": ["technique","breathing"] },
-    { "slug": "frenectomy-pathway", "title": "Frenectomy Pathway (Readiness & Timeline)", "tags": ["frenectomy"] },
-    { "slug": "therapy-kit", "title": "Your Myofunctional Therapy Kit", "tags": ["kit"] }
+    { 
+      "slug": "intro-to-myofunctional-therapy", 
+      "title": "Introduction to Myofunctional Therapy", 
+      "tags": ["overview"],
+      "description": "Learn what myofunctional therapy is, how it works, and who can benefit from this evidence-based approach to improving oral function."
+    },
+    { 
+      "slug": "four-goals", 
+      "title": "The Four Goals of Myofunctional Therapy", 
+      "tags": ["nasal-breathing","lip-seal","chewing-swallowing","tongue-posture"],
+      "description": "Discover the four foundational goals: nasal breathing, lip seal, proper chewing/swallowing, and correct tongue posture."
+    },
+    { 
+      "slug": "expectations", 
+      "title": "Expectations for Myofunctional Therapy", 
+      "tags": ["program"],
+      "description": "Understand the time commitment, what results to expect, and how to get the most out of your therapy program."
+    },
+    { 
+      "slug": "structural-changes", 
+      "title": "Structural Changes Caused by Myofunctional Disorders", 
+      "tags": ["oral","facial"],
+      "description": "Explore how myofunctional disorders affect facial development, palate shape, dental alignment, and airway structure."
+    },
+    { 
+      "slug": "health-effects", 
+      "title": "Health/Systemic Effects Associated with Myofunctional Disorders", 
+      "tags": ["systemic"],
+      "description": "Learn about the wide-ranging health impacts including sleep quality, cardiovascular health, and cognitive function."
+    },
+    { 
+      "slug": "sleep-apnea", 
+      "title": "How Myofunctional Therapy Improves Sleep Apnea", 
+      "tags": ["sleep"],
+      "description": "Understand how strengthening oral muscles and improving tongue posture can reduce sleep apnea symptoms."
+    },
+    { 
+      "slug": "children-signs", 
+      "title": "Signs of Sleep-Disordered Breathing in Children", 
+      "tags": ["pediatrics"],
+      "description": "Recognize the warning signs of sleep-disordered breathing in children, from snoring to behavioral changes."
+    },
+    { 
+      "slug": "causes-in-infancy", 
+      "title": "Causes of Myofunctional Disorders During Infancy", 
+      "tags": ["infancy"],
+      "description": "Discover how feeding practices, pacifier use, and other infant factors can contribute to myofunctional disorders."
+    },
+    { 
+      "slug": "program-specifics", 
+      "title": "Myofunctional Therapy Program Specifics", 
+      "tags": ["program","format"],
+      "description": "Details about our 24-week program structure, session format, and what to expect each week."
+    },
+    { 
+      "slug": "compensations", 
+      "title": "Compensations to Limit (with photos)", 
+      "tags": ["technique","breathing"],
+      "description": "Visual guide to common compensatory patterns like neck tension and jaw movement that should be avoided."
+    },
+    { 
+      "slug": "frenectomy-pathway", 
+      "title": "Frenectomy Pathway (Readiness & Timeline)", 
+      "tags": ["frenectomy"],
+      "description": "Information about tongue-tie release, when it's recommended, and how to prepare for the procedure."
+    },
+    { 
+      "slug": "therapy-kit", 
+      "title": "Your Myofunctional Therapy Kit", 
+      "tags": ["kit"],
+      "description": "Overview of the supplies included in your therapy kit and how each item is used during exercises."
+    }
   ]
 }
