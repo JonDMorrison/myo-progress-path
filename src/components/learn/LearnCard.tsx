@@ -12,7 +12,7 @@ interface LearnCardProps {
 export function LearnCard({ slug, title, tags }: LearnCardProps) {
   return (
     <Link to={`/learn/${slug}`} className="block h-full group">
-      <Card className="h-full hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50 bg-gradient-to-br from-card via-card to-accent/10 overflow-hidden">
+      <Card className="relative h-full hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/50 bg-gradient-to-br from-card via-card to-accent/10 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/0 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <CardHeader className="pb-3 relative">
           <div className="flex items-start gap-3">
