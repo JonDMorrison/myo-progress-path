@@ -29,6 +29,7 @@ export interface LearnArticle {
   slug: string;
   title: string;
   tags: string[];
+  description?: string;
   content?: string;
 }
 
