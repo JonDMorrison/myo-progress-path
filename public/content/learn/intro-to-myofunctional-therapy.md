@@ -1,8 +1,8 @@
 # Introduction to Myofunctional Therapy
 
-Myofunctional therapy is a specialized program of exercises designed to correct improper function of the tongue and facial muscles. These exercises help retrain the muscles of the mouth, tongue, and face to work together properly for breathing, swallowing, speaking, and resting positions.
-
 ![The tongue and its connection to overall health](/images/learn/the-tongue.jpg)
+
+Myofunctional therapy is a specialized program of exercises designed to correct improper function of the tongue and facial muscles. These exercises help retrain the muscles of the mouth, tongue, and face to work together properly for breathing, swallowing, speaking, and resting positions.
 
 ## What is Myofunctional Therapy?
 
@@ -22,6 +22,8 @@ Myofunctional therapy effectively treats these oral dysfunctions:
 
 ## How Does It Work?
 
+![Correct tongue resting position on the palate](/images/learn/correct-tongue-posture.jpg)
+
 Through consistent practice of specific exercises, patients develop:
 
 1. **Proper nasal breathing** - Learning to breathe through the nose rather than the mouth
@@ -29,12 +31,10 @@ Through consistent practice of specific exercises, patients develop:
 3. **Effective swallowing** - Swallowing without using the lips or facial muscles
 4. **Better oral habits** - Eliminating harmful habits that affect facial development
 
-![Correct tongue resting position on the palate](/images/learn/correct-tongue-posture.jpg)
-
 ## What to Expect
 
-Myofunctional therapy is a commitment that requires daily practice, typically twice per day for best results. The program is designed to be progressive, building on previous weeks' exercises to create lasting change in muscle patterns and habits.
-
 ![The spot where your tongue should rest](/images/learn/the-spot.jpg)
+
+Myofunctional therapy is a commitment that requires daily practice, typically twice per day for best results. The program is designed to be progressive, building on previous weeks' exercises to create lasting change in muscle patterns and habits.
 
 Results vary by individual, but many patients report improvements in breathing, sleep quality, facial appearance, and overall well-being when exercises are performed consistently and correctly.

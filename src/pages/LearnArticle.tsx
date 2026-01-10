@@ -198,7 +198,7 @@ export default function LearnArticle() {
                     img: ({node, ...props}) => (
                       <img 
                         {...props} 
-                        className="float-right w-1/2 ml-6 mb-4 mt-2 rounded-lg shadow-md clear-right max-sm:float-none max-sm:w-full max-sm:ml-0"
+                        className="float-right w-[30%] ml-6 mb-4 mt-1 rounded-lg shadow-md clear-right max-sm:float-none max-sm:w-full max-sm:ml-0"
                       />
                     ),
                   }}
