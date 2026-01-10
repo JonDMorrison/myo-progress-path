@@ -24,6 +24,8 @@ During sleep, the tongue can fall back and obstruct the airway, especially when:
 - There is mouth breathing
 - The airway space is already reduced
 
+![Correct tongue resting position](/images/learn/correct-tongue-posture.jpg)
+
 **Proper tongue posture** keeps the tongue forward and up, maintaining airway space even during sleep.
 
 ## How Myofunctional Therapy Helps

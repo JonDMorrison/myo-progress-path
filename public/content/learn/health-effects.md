@@ -2,6 +2,8 @@
 
 Myofunctional disorders affect more than just the mouth and face—they can impact overall health and well-being in numerous ways.
 
+![The tongue's connection to overall health](/images/learn/the-tongue.jpg)
+
 ## Sleep and Breathing Issues
 
 ### Obstructive Sleep Apnea (OSA)

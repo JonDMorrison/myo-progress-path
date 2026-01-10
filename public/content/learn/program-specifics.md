@@ -2,6 +2,8 @@
 
 Each set of exercises will typically follow a similar format: each day there will be **three active exercises**, **one passive exercise** and **one breathing or posture exercise** unless otherwise noted. Some weeks may vary slightly from this format, such as pre and post frenectomy weeks.
 
+![The spot where your tongue should rest](/images/learn/the-spot.jpg)
+
 ## Exercise Types
 
 **Active exercises** require a **mirror** to ensure that exercises are being completed as instructed while minimizing **compensations** (more information on compensations later).

@@ -8,6 +8,8 @@ Myofunctional disorders can cause significant structural changes to the face, mo
 
 When the tongue doesn't rest on the roof of the mouth, significant structural changes occur:
 
+![Normal vs high-arched palate comparison](/images/learn/palate-comparison.jpg)
+
 - High and narrow (vaulted)
 - Constricted, reducing nasal breathing space
 - More likely to cause crowded teeth
