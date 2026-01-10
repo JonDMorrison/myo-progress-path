@@ -168,8 +168,8 @@ export default function LearnArticle() {
             </Card>
 
             {/* Article Content */}
-            <Card className="p-4 sm:p-6 md:p-10 shadow-lg">
-              <article className="prose prose-img:float-right prose-img:w-1/2 prose-img:ml-6 prose-img:mb-4 prose-img:rounded-lg prose-img:shadow-md">
+            <Card className="p-4 sm:p-6 md:p-10 shadow-lg overflow-hidden">
+              <article className="prose max-w-none">
                 <ReactMarkdown
                   components={{
                     h1: () => null, // Skip all h1s since title is in hero card
@@ -183,10 +183,22 @@ export default function LearnArticle() {
                       const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                       return <h3 id={id} {...props} />;
                     },
+                    p: ({node, children, ...props}) => {
+                      // Check if paragraph contains only an image
+                      const hasOnlyImage = node?.children?.length === 1 && 
+                        node.children[0].type === 'element' && 
+                        node.children[0].tagName === 'img';
+                      
+                      if (hasOnlyImage) {
+                        // Return children directly without p wrapper so img float works
+                        return <>{children}</>;
+                      }
+                      return <p {...props}>{children}</p>;
+                    },
                     img: ({node, ...props}) => (
                       <img 
                         {...props} 
-                        className="float-right w-1/2 ml-6 mb-4 mt-2 rounded-lg shadow-md max-sm:float-none max-sm:w-full max-sm:ml-0"
+                        className="float-right w-1/2 ml-6 mb-4 mt-2 rounded-lg shadow-md clear-right max-sm:float-none max-sm:w-full max-sm:ml-0"
                       />
                     ),
                   }}
