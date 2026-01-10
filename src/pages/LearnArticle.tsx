@@ -169,20 +169,26 @@ export default function LearnArticle() {
 
             {/* Article Content */}
             <Card className="p-4 sm:p-6 md:p-10 shadow-lg">
-              <article className="prose">
+              <article className="prose prose-img:float-right prose-img:w-1/2 prose-img:ml-6 prose-img:mb-4 prose-img:rounded-lg prose-img:shadow-md">
                 <ReactMarkdown
                   components={{
                     h1: () => null, // Skip all h1s since title is in hero card
                     h2: ({node, ...props}) => {
                       const text = String(props.children);
                       const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-                      return <h2 id={id} {...props} />;
+                      return <h2 id={id} className="clear-both" {...props} />;
                     },
                     h3: ({node, ...props}) => {
                       const text = String(props.children);
                       const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
                       return <h3 id={id} {...props} />;
                     },
+                    img: ({node, ...props}) => (
+                      <img 
+                        {...props} 
+                        className="float-right w-1/2 ml-6 mb-4 mt-2 rounded-lg shadow-md max-sm:float-none max-sm:w-full max-sm:ml-0"
+                      />
+                    ),
                   }}
                 >
                   {article.content}
