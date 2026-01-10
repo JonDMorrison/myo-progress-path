@@ -58,9 +58,9 @@ Everyone progresses at their own pace based on several factors:
 
 ## Long-Term Maintenance
 
-After completing the program, you won't need to continue daily exercises if you maintain **awareness** of your new habits:
+![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 
-![Photo E: The Spot](/images/learn/the-spot.jpg)
+After completing the program, you won't need to continue daily exercises if you maintain **awareness** of your new habits:
 
 - Nasal breathing throughout the day
 - Tongue resting on the spot (incisive papilla)

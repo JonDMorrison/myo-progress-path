@@ -1,5 +1,7 @@
 # The Four Goals of Myofunctional Therapy
 
+![Normal vs High-Arched Palate](/images/learn/palate-comparison.jpg)
+
 Myofunctional therapy focuses on achieving four primary goals that work together to improve oral and facial muscle function. These goals form the foundation of the entire program.
 
 ## Nasal Breathing
@@ -50,13 +52,11 @@ Myofunctional therapy focuses on achieving four primary goals that work together
 - Proper swallowing without using facial muscles
 - Awareness of tongue position during swallowing
 
-![Photo A: Normal vs High-Arched Palate](/images/learn/palate-comparison.jpg)
-
 ## Tongue Posture
 
-**Why it matters:** The tongue should rest on the roof of the mouth at the "spot" (incisive papilla) behind the upper front teeth. This position supports the palate, maintains the airway, and supports proper facial growth.
+![The Tongue](/images/learn/the-tongue.jpg)
 
-![Photo D: The Tongue](/images/learn/the-tongue.jpg)
+**Why it matters:** The tongue should rest on the roof of the mouth at the "spot" (incisive papilla) behind the upper front teeth. This position supports the palate, maintains the airway, and supports proper facial growth.
 
 **Key benefits:**
 - Supports the palate and maxilla
@@ -70,10 +70,8 @@ Myofunctional therapy focuses on achieving four primary goals that work together
 - Exercises to strengthen tongue position
 - Maintaining tongue posture all day
 
-![Photo B: The "Spot"](/images/learn/the-spot.jpg)
-
 ## How These Goals Work Together
 
-All four goals are interconnected. Nasal breathing requires a lip seal. A lip seal supports proper tongue posture. Proper tongue posture improves swallowing and chewing. When all four work together, the result is improved breathing, better sleep, enhanced facial development, and overall better health.
+![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 
-![Photo C: Vu and Hickey](/images/learn/correct-tongue-posture.jpg)
+All four goals are interconnected. Nasal breathing requires a lip seal. A lip seal supports proper tongue posture. Proper tongue posture improves swallowing and chewing. When all four work together, the result is improved breathing, better sleep, enhanced facial development, and overall better health.
