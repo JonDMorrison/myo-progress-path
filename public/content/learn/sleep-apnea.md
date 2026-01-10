@@ -17,14 +17,14 @@ The severity is measured by the Apnea-Hypopnea Index (AHI):
 
 ## How Tongue Position Affects the Airway
 
+![Correct tongue resting position](/images/learn/correct-tongue-posture.jpg)
+
 During sleep, the tongue can fall back and obstruct the airway, especially when:
 
 - The tongue is weak or has poor muscle tone
 - The tongue rests low in the mouth (not on the palate)
 - There is mouth breathing
 - The airway space is already reduced
-
-![Correct tongue resting position](/images/learn/correct-tongue-posture.jpg)
 
 **Proper tongue posture** keeps the tongue forward and up, maintaining airway space even during sleep.
 
