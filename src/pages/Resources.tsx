@@ -11,71 +11,87 @@ import breathBook from "@/assets/books/breath-book.jpg";
 import oxygenBook from "@/assets/books/oxygen-advantage-book.jpg";
 
 const Resources = () => {
-  // Peer-reviewed research from PubMed and academic journals
+  // Peer-reviewed research - Sam's curated list with publicly available links
   const researchArticles = [
+    {
+      title: "The Anatomical Relationships of the Tongue with the Body System",
+      authors: "Bordoni B, Morabito B, Mitrano R, et al.",
+      journal: "Cureus",
+      year: "2019",
+      description: "Explores how the tongue connects anatomically to multiple body systems and functions.",
+      url: "https://pubmed.ncbi.nlm.nih.gov/30838167/"
+    },
+    {
+      title: "Functional Improvements of Speech, Feeding, and Sleep After Lingual Frenectomy Tongue-Tie Release: A Prospective Cohort Study",
+      authors: "Baxter R, Merkel-Walsh R, Baxter BS, et al.",
+      journal: "Clinical Pediatrics",
+      year: "2020",
+      description: "Demonstrates improvements in speech, feeding, and sleep after tongue-tie release procedures.",
+      url: "https://tonguetieal.com/wp-content/uploads/2020/05/Baxter-et-al-2020-Feeding-Speech-Sleep-Improvements.pdf"
+    },
+    {
+      title: "Breastfeeding and Snoring: A Birth Cohort Study",
+      authors: "Montgomery-Downs HE, Crabtree VM, Sans Capdevila O, et al.",
+      journal: "PLoS ONE",
+      year: "2007",
+      description: "Birth cohort study examining the relationship between breastfeeding duration and childhood snoring.",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3885662/"
+    },
+    {
+      title: "Effects of Orofacial Myofunctional Therapy on Temporomandibular Disorders",
+      authors: "De Felício CM, De Oliveira MM, Da Silva MA.",
+      journal: "Cranio",
+      year: "2010",
+      description: "Shows how myofunctional therapy can help reduce temporomandibular joint (TMJ) dysfunction symptoms.",
+      url: "https://rachelbarnhartdds.com/wp-content/uploads/2018/09/effects-of-orofacial-myofunctional-therapy-on-temporomandibular-disorders.pdf"
+    },
+    {
+      title: "Gastroesophageal Reflux Disease and Sleep Disorders: Evidence for a Causal Link and Therapeutic Implications",
+      authors: "Orr WC.",
+      journal: "Journal of Neurogastroenterology and Motility",
+      year: "2010",
+      description: "Examines the bidirectional relationship between GERD and sleep disorders.",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2879818/"
+    },
+    {
+      title: "Implications of Mouth Breathing on the Pulmonary Function and Respiratory Muscles",
+      authors: "Trabalon M, Schaal B.",
+      journal: "International Journal of Pediatrics",
+      year: "2012",
+      description: "Explains how mouth breathing affects lung function and respiratory muscle development.",
+      url: "https://www.redalyc.org/pdf/1693/169344655028.pdf"
+    },
+    {
+      title: "Assessment of Lingual Frenulum Lengths in Skeletal Malocclusion",
+      authors: "Arora R, Verma S, Sharma R.",
+      journal: "Journal of Clinical and Diagnostic Research",
+      year: "2014",
+      description: "Investigates the connection between tongue-tie and skeletal bite problems.",
+      url: "http://pmc.ncbi.nlm.nih.gov/articles/PMC4003643/"
+    },
+    {
+      title: "Mouth Breathing and Its Relationship to Some Oral and Medical Conditions: Physiopathological Mechanisms Involved",
+      authors: "Pacheco MC, Casagrande CF, Teixeira LP, et al.",
+      journal: "Revista CEFAC",
+      year: "2015",
+      description: "Reviews how chronic mouth breathing contributes to various oral and systemic health conditions.",
+      url: "https://www.redalyc.org/pdf/1804/180445640008.pdf"
+    },
     {
       title: "Myofunctional Therapy to Treat Obstructive Sleep Apnea: A Systematic Review and Meta-analysis",
       authors: "Camacho M, Certal V, Abdullatif J, et al.",
       journal: "Sleep",
       year: "2015",
       description: "Landmark review showing myofunctional therapy significantly reduces sleep apnea severity in both children and adults.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/25348130/"
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4402674/"
     },
     {
-      title: "Effects of Orofacial Myofunctional Therapy on Obstructive Sleep Apnea in Children",
-      authors: "Villa MP, Brasili L, Ferretti A, et al.",
-      journal: "Sleep and Breathing",
-      year: "2015",
-      description: "Pediatric study demonstrating improvements in sleep-disordered breathing after myofunctional therapy.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/25819416/"
-    },
-    {
-      title: "Orofacial Myofunctional Disorders: A Review",
-      authors: "Huang YS, Guilleminault C.",
-      journal: "Sleep Medicine Clinics",
-      year: "2017",
-      description: "Comprehensive overview of how orofacial myofunctional disorders affect breathing and sleep.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/28778231/"
-    },
-    {
-      title: "Mouth Breathing, Allergies, and 'Adenoid Face'",
-      authors: "Jefferson Y.",
-      journal: "General Dentistry",
-      year: "2010",
-      description: "Explains how chronic mouth breathing affects facial development and overall health.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/20478797/"
-    },
-    {
-      title: "Myofunctional Therapy (Oropharyngeal Exercises) for Obstructive Sleep Apnea",
-      authors: "Guimarães KC, Drager LF, Genta PR, et al.",
-      journal: "American Journal of Respiratory and Critical Care Medicine",
-      year: "2009",
-      description: "Early clinical trial showing oropharyngeal exercises reduce snoring and sleep apnea severity.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/19406983/"
-    },
-    {
-      title: "The Effects of Tongue Position on Mandibular Muscle Activity",
-      authors: "Ohmure H, Miyawaki S, Nagata J, et al.",
-      journal: "Journal of Oral Rehabilitation",
-      year: "2008",
-      description: "Research on how tongue posture influences jaw muscle function and stability.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/18318771/"
-    },
-    {
-      title: "Nasal Airway Obstruction and Craniofacial Development",
-      authors: "Harari D, Redlich M, Miri S, et al.",
+      title: "Relapse of Anterior Open Bites Treated with Orthodontic Appliances with and without Orofacial Myofunctional Therapy",
+      authors: "Justiniano IC.",
       journal: "American Journal of Orthodontics and Dentofacial Orthopedics",
-      year: "2010",
-      description: "Study linking nasal obstruction to changes in facial growth patterns in children.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/20197169/"
-    },
-    {
-      title: "The Effect of Myofunctional Therapy on Orthodontic Treatment Outcomes",
-      authors: "Saccomanno S, Antonini G, D'Alatri L, et al.",
-      journal: "European Journal of Paediatric Dentistry",
-      year: "2012",
-      description: "Demonstrates how myofunctional therapy supports orthodontic treatment stability.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/22762173/"
+      year: "2017",
+      description: "Demonstrates that myofunctional therapy helps prevent relapse after orthodontic treatment for open bite.",
+      url: "https://aomtinfo.org/wp-content/uploads/2017/04/AJODO_RelapseAnteriorOpenBite.pdf"
     }
   ];
 
