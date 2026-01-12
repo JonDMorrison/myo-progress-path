@@ -30,3 +30,15 @@ export const STANDARD_WEEK_REQUIREMENTS = {
   requires_last_attempt: true,
   requires_bolt: false,
 } as const;
+
+// Module configuration
+export const MODULE_CONFIG = {
+  // Post-frenectomy weeks that remain weekly (not grouped into modules)
+  FRENECTOMY_WEEKLY_WEEKS: [3, 4, 5, 6],
+  // Total weeks in program
+  TOTAL_WEEKS: 24,
+  // Labels
+  PRE_OP_LABEL: 'Pre-Op Module',
+  POST_OP_PREFIX: 'Post-Op Week',
+  MODULE_PREFIX: 'Module',
+} as const;

@@ -321,6 +321,7 @@ const PatientDashboard = () => {
               <TimelineCard
                 completedWeeks={completedWeeks}
                 currentWeek={currentWeek.number}
+                programVariant={patient?.program_variant || 'frenectomy'}
                 onWeekClick={handleNavigateToWeek}
                 isSuperAdmin={isSuperAdmin}
               />

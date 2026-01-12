@@ -428,6 +428,7 @@ const WeekDetail = () => {
         <WeekHeader
           week={week}
           progress={progress}
+          programVariant={patient?.program_variant || 'frenectomy'}
           onBack={() => navigate("/patient")}
           isReadOnly={isReadOnly}
           action={progress && (progress.status === "open" || progress.status === "needs_more") && !isReadOnly ? (

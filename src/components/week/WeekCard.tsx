@@ -3,14 +3,18 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Lock, CheckCircle2, AlertCircle, ChevronRight, Clock, RotateCcw } from "lucide-react";
 import { WeekProgress } from "@/lib/userProgress";
+import { getModuleInfo } from "@/lib/moduleUtils";
 
 interface WeekCardProps {
   week: WeekProgress;
   weekTitle?: string;
+  programVariant?: string;
   onNavigate: (weekNumber: number) => void;
 }
 
-export function WeekCard({ week, weekTitle, onNavigate }: WeekCardProps) {
+export function WeekCard({ week, weekTitle, programVariant = 'frenectomy', onNavigate }: WeekCardProps) {
+  const moduleInfo = getModuleInfo(week.weekNumber, programVariant);
+  
   const getStatusBadge = () => {
     if (week.isComplete) {
       return (
@@ -57,9 +61,26 @@ export function WeekCard({ week, weekTitle, onNavigate }: WeekCardProps) {
   // Determine the lock reason message
   const getLockMessage = () => {
     if (week.awaitingApproval) {
-      return "Awaiting therapist approval for previous week";
+      return "Awaiting therapist approval for previous module";
     }
-    return "Complete and get approval for previous week to unlock";
+    return "Complete and get approval for previous module to unlock";
+  };
+  
+  // Get display label - use module label for biweekly, show week for weekly post-op
+  const getDisplayTitle = () => {
+    if (moduleInfo.isWeekly) {
+      return moduleInfo.displayLabel;
+    }
+    return moduleInfo.moduleLabel;
+  };
+  
+  const getSubtitle = () => {
+    if (moduleInfo.isWeekly) {
+      return weekTitle || undefined;
+    }
+    // For biweekly modules, show which week within the module
+    const weekPosition = week.weekNumber === moduleInfo.weekRange[0] ? 'Week 1' : 'Week 2';
+    return weekTitle ? `${weekPosition} • ${weekTitle}` : `${weekPosition} of 2`;
   };
 
   return (
@@ -73,17 +94,19 @@ export function WeekCard({ week, weekTitle, onNavigate }: WeekCardProps) {
           ? "bg-warning/5 border-warning/30"
           : needsMorePractice
           ? "bg-destructive/5 border-destructive/30"
+          : moduleInfo.isWeekly
+          ? "border-warning/30"
           : ""
       }`}
       onClick={() => !week.isLocked && onNavigate(week.weekNumber)}
     >
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Week {week.weekNumber}</CardTitle>
+          <CardTitle className="text-lg">{getDisplayTitle()}</CardTitle>
           {getStatusBadge()}
         </div>
-        {weekTitle && (
-          <p className="text-sm text-muted-foreground mt-1">{weekTitle}</p>
+        {getSubtitle() && (
+          <p className="text-sm text-muted-foreground mt-1">{getSubtitle()}</p>
         )}
       </CardHeader>
       <CardContent className="pt-0">
@@ -121,8 +144,8 @@ export function WeekCard({ week, weekTitle, onNavigate }: WeekCardProps) {
               : needsMorePractice
               ? "Continue Practice"
               : week.isComplete
-              ? "Review Week"
-              : "Continue Week"}
+              ? "Review"
+              : "Continue"}
             <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
         )}

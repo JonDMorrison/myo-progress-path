@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle2, Clock, RotateCcw } from "lucide-react";
+import { getModuleInfo } from "@/lib/moduleUtils";
 
 interface ProgramCardProps {
   firstName?: string;
   weekNumber: number;
   weekTitle?: string;
+  programVariant?: string;
   status?: string;
   completedWeeks: number;
   totalWeeks: number;
@@ -18,23 +20,31 @@ export function ProgramCard({
   firstName = "there",
   weekNumber,
   weekTitle,
+  programVariant = 'frenectomy',
   status = "open",
   completedWeeks,
   totalWeeks,
   onContinue,
 }: ProgramCardProps) {
   const progressPercent = (completedWeeks / totalWeeks) * 100;
+  const moduleInfo = getModuleInfo(weekNumber, programVariant);
+  
+  // Get display label for current position
+  const currentLabel = moduleInfo.isWeekly 
+    ? moduleInfo.displayLabel 
+    : `${moduleInfo.moduleLabel} (Week ${weekNumber})`;
 
   const getStatusDisplay = () => {
+    const contentLabel = moduleInfo.isWeekly ? '' : '';
     switch (status) {
       case "approved":
-        return { icon: CheckCircle2, text: "Review Week", variant: "success" as const };
+        return { icon: CheckCircle2, text: "Review", variant: "success" as const };
       case "submitted":
         return { icon: Clock, text: "Awaiting Approval", variant: "warning" as const };
       case "needs_more":
         return { icon: RotateCcw, text: "Continue Practice", variant: "destructive" as const };
       default:
-        return { icon: ArrowRight, text: "Continue Week", variant: "default" as const };
+        return { icon: ArrowRight, text: "Continue", variant: "default" as const };
     }
   };
 
@@ -71,7 +81,7 @@ export function ProgramCard({
           <div>
             <CardTitle className="text-2xl mb-1">Welcome back, {firstName} 👋</CardTitle>
             <p className="text-muted-foreground">
-              You're on Week {weekNumber} {weekTitle && `— ${weekTitle}`}
+              You're on {currentLabel} {weekTitle && `— ${weekTitle}`}
             </p>
           </div>
           {badgeConfig && (
@@ -87,13 +97,13 @@ export function ProgramCard({
         {/* Show helpful message based on status */}
         {status === "submitted" && (
           <p className="text-sm text-warning bg-warning/10 p-3 rounded-lg">
-            🕐 Your Week {weekNumber} submission is being reviewed by your therapist. 
+            🕐 Your submission is being reviewed by your therapist. 
             You'll be notified when it's approved.
           </p>
         )}
         {status === "needs_more" && (
           <p className="text-sm text-destructive bg-destructive/10 p-3 rounded-lg">
-            ⚠️ Your therapist has requested additional practice for Week {weekNumber}. 
+            ⚠️ Your therapist has requested additional practice. 
             Check their feedback and continue practicing.
           </p>
         )}
@@ -122,7 +132,7 @@ export function ProgramCard({
             size="lg"
           >
             <StatusIcon className="mr-2 h-5 w-5" />
-            {statusDisplay.text} {weekNumber}
+            {statusDisplay.text}
           </Button>
         </div>
       </CardContent>
