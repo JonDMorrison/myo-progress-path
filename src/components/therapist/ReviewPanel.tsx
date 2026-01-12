@@ -17,7 +17,8 @@ import {
   Sparkles,
   RefreshCw,
   Send,
-  Undo2
+  Undo2,
+  Award
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -66,6 +67,21 @@ const NOTE_TEMPLATES = [
   { label: "Slow down", text: "Slow down and reduce tension." },
   { label: "Watch jaw", text: "Watch jaw compensation." },
 ];
+
+// Completion note template for Week 24
+const COMPLETION_NOTE_TEMPLATE = `Congratulations on completing your myofunctional therapy program! 
+
+You've made remarkable progress in developing healthy breathing and tongue posture habits. Here are my observations:
+
+**Key achievements:**
+- [Note specific improvements you've observed]
+
+**Moving forward:**
+- Continue to be mindful of nasal breathing throughout the day
+- Maintain your tongue on "the spot" - this should now feel natural
+- If you notice old habits returning during stress, gently redirect
+
+I'm proud of your dedication and commitment to this journey. Your new habits will serve you well for life!`;
 
 const ReviewPanel = ({
   open,
@@ -416,7 +432,14 @@ const ReviewPanel = ({
       <SheetContent className="w-full sm:max-w-lg p-0 flex flex-col">
         <SheetHeader className="px-6 py-4 border-b">
           <SheetTitle className="flex items-center justify-between">
-            <span>{patientName} · Week {weekNumber}</span>
+            <div className="flex items-center gap-2">
+              <span>{patientName} · Week {weekNumber}</span>
+              {weekNumber === 24 && (
+                <Badge className="bg-success/10 text-success border-success/20">
+                  Final Week
+                </Badge>
+              )}
+            </div>
             {isLocked && (
               <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
                 <Lock className="h-3 w-3 mr-1" />
@@ -537,39 +560,64 @@ const ReviewPanel = ({
                   Send Rich Feedback (Video/Photo/Text)
                 </Button>
 
-                {/* Quick Templates */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label className="text-sm font-medium text-muted-foreground">Quick notes</label>
+                {/* Week 24 Special Completion Note Section */}
+                {weekNumber === 24 && (
+                  <div className="bg-success/5 border border-success/20 rounded-lg p-4 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Award className="h-5 w-5 text-success" />
+                      <h4 className="font-semibold text-success">Program Completion Note</h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      This is the final week! Write a personalized completion note emphasizing 
+                      habit awareness, long-term carryover, and self-monitoring skills.
+                    </p>
                     <Button
-                      variant="ghost"
+                      variant="outline"
                       size="sm"
-                      onClick={handleDraftWithAI}
-                      disabled={drafting}
-                      className="h-7 text-xs"
+                      onClick={() => applyTemplate(COMPLETION_NOTE_TEMPLATE)}
+                      className="w-full border-success/30 hover:bg-success/10"
                     >
-                      {drafting ? (
-                        <Loader className="h-3 w-3 animate-spin mr-1" />
-                      ) : (
-                        <Sparkles className="h-3 w-3 mr-1" />
-                      )}
-                      Draft with AI
+                      <Sparkles className="h-4 w-4 mr-2 text-success" />
+                      Use Completion Template
                     </Button>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {NOTE_TEMPLATES.map((tpl) => (
+                )}
+
+                {/* Quick Templates (hidden for week 24 to emphasize completion note) */}
+                {weekNumber !== 24 && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm font-medium text-muted-foreground">Quick notes</label>
                       <Button
-                        key={tpl.label}
-                        variant="outline"
+                        variant="ghost"
                         size="sm"
-                        onClick={() => applyTemplate(tpl.text)}
+                        onClick={handleDraftWithAI}
+                        disabled={drafting}
                         className="h-7 text-xs"
                       >
-                        {tpl.label}
+                        {drafting ? (
+                          <Loader className="h-3 w-3 animate-spin mr-1" />
+                        ) : (
+                          <Sparkles className="h-3 w-3 mr-1" />
+                        )}
+                        Draft with AI
                       </Button>
-                    ))}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {NOTE_TEMPLATES.map((tpl) => (
+                        <Button
+                          key={tpl.label}
+                          variant="outline"
+                          size="sm"
+                          onClick={() => applyTemplate(tpl.text)}
+                          className="h-7 text-xs"
+                        >
+                          {tpl.label}
+                        </Button>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Note Input (only when needed) */}
                 {showNoteField && (

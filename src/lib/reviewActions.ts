@@ -67,9 +67,31 @@ export async function approveWeek(
       },
     });
 
-    // Auto-unlock next week
-    const nextWeekNumber = currentWeekNumber + 1;
-    if (nextWeekNumber <= 24) {
+    // Check if this is the final week (program completion)
+    if (currentWeekNumber === 24) {
+      // Mark program as complete and save completion note
+      await supabase
+        .from("patients")
+        .update({
+          status: "completed",
+          completed_at: new Date().toISOString(),
+          completion_note: note || null,
+        })
+        .eq("id", patientId);
+
+      // Log program completion event
+      await supabase.from("events").insert({
+        patient_id: patientId,
+        type: "program_completed",
+        meta: {
+          completion_note: note || "",
+          timestamp: new Date().toISOString(),
+        },
+      });
+    } else {
+      // Auto-unlock next week (only if not the final week)
+      const nextWeekNumber = currentWeekNumber + 1;
+      
       // Get patient's program variant to filter weeks correctly
       const { data: patientData } = await supabase
         .from("patients")
