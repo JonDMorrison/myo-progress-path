@@ -786,6 +786,8 @@ export type Database = {
         Row: {
           assigned_therapist_id: string | null
           clinic_id: string
+          completed_at: string | null
+          completion_note: string | null
           consent_accepted_at: string | null
           consent_payload: Json | null
           consent_signature: string | null
@@ -798,6 +800,8 @@ export type Database = {
         Insert: {
           assigned_therapist_id?: string | null
           clinic_id: string
+          completed_at?: string | null
+          completion_note?: string | null
           consent_accepted_at?: string | null
           consent_payload?: Json | null
           consent_signature?: string | null
@@ -812,6 +816,8 @@ export type Database = {
         Update: {
           assigned_therapist_id?: string | null
           clinic_id?: string
+          completed_at?: string | null
+          completion_note?: string | null
           consent_accepted_at?: string | null
           consent_payload?: Json | null
           consent_signature?: string | null

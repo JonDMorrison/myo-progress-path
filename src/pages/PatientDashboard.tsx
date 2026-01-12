@@ -36,6 +36,7 @@ const PatientDashboard = () => {
   const [user, setUser] = useState<any>(null);
   const [userProgress, setUserProgress] = useState<any>(null);
   const [showCompletion, setShowCompletion] = useState(false);
+  const [completionData, setCompletionData] = useState<{ note?: string; therapistName?: string } | null>(null);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -120,6 +121,27 @@ const PatientDashboard = () => {
 
         // If week 24 is approved but badge doesn't exist, show modal and grant badge
         if (!badge) {
+          // Fetch completion note and therapist name
+          const { data: completionInfo } = await supabase
+            .from("patients")
+            .select("completion_note, assigned_therapist_id")
+            .eq("id", patientData.id)
+            .single();
+          
+          let therapistName = 'Your Therapist';
+          if (completionInfo?.assigned_therapist_id) {
+            const { data: therapistData } = await supabase
+              .from("users")
+              .select("name")
+              .eq("id", completionInfo.assigned_therapist_id)
+              .single();
+            therapistName = therapistData?.name || 'Your Therapist';
+          }
+          
+          setCompletionData({
+            note: completionInfo?.completion_note || undefined,
+            therapistName,
+          });
           setShowCompletion(true);
           
           // Grant the completion badge
@@ -352,7 +374,9 @@ const PatientDashboard = () => {
       {/* Program Completion Celebration */}
       <ProgramCompletionModal 
         open={showCompletion} 
-        onClose={() => setShowCompletion(false)} 
+        onClose={() => setShowCompletion(false)}
+        completionNote={completionData?.note}
+        therapistName={completionData?.therapistName}
       />
     </div>
   );
