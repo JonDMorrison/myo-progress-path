@@ -9,7 +9,7 @@ export const VideoGuideStep = () => {
         </div>
         <h2 className="text-3xl font-bold mb-4">Video Upload Guide</h2>
         <p className="text-lg text-muted-foreground">
-          Some weeks require video submissions for your therapist to review
+          Your therapist may request video submissions as part of your biweekly check-ins
         </p>
       </div>
 
@@ -47,7 +47,7 @@ export const VideoGuideStep = () => {
       <div className="mt-6 p-6 bg-muted/50 rounded-lg">
         <h3 className="font-semibold mb-2">When Videos Are Required</h3>
         <p className="text-sm text-muted-foreground mb-4">
-          Certain weeks require "first attempt" and "last attempt" videos to show your progress with new exercises.
+          Your therapist will let you know when "first attempt" and "last attempt" videos are needed to track your progress with new exercises.
         </p>
         <p className="text-sm text-muted-foreground">
           <strong>Privacy Note:</strong> Your videos are only visible to your assigned therapist and are stored securely. They are never shared without your consent.
