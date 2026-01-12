@@ -3,16 +3,18 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, CheckCircle2, Clock, RotateCcw, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
+import { getWeekDisplayLabel } from "@/lib/moduleUtils";
 
 interface WeekHeaderProps {
   week: any;
   progress: any;
+  programVariant?: string;
   onBack: () => void;
   action?: ReactNode;
   isReadOnly?: boolean;
 }
 
-export function WeekHeader({ week, progress, onBack, action, isReadOnly }: WeekHeaderProps) {
+export function WeekHeader({ week, progress, programVariant = 'frenectomy', onBack, action, isReadOnly }: WeekHeaderProps) {
   const getStatusConfig = (status: string) => {
     switch (status) {
       case 'approved':
@@ -44,6 +46,9 @@ export function WeekHeader({ week, progress, onBack, action, isReadOnly }: WeekH
 
   const statusConfig = progress ? getStatusConfig(progress.status) : null;
   const StatusIcon = statusConfig?.icon;
+  
+  // Get module-aware display labels
+  const displayLabels = week ? getWeekDisplayLabel(week.number, week.title, programVariant) : null;
 
   return (
     <header className="sticky top-0 z-50 border-b bg-card/95 backdrop-blur-sm shadow-sm">
@@ -70,11 +75,16 @@ export function WeekHeader({ week, progress, onBack, action, isReadOnly }: WeekH
         </div>
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold mb-1">
-            {week?.title || `Week ${week?.number}`}
+            {displayLabels?.primary || `Week ${week?.number}`}
           </h1>
+          {displayLabels?.secondary && (
+            <p className="text-sm text-muted-foreground mb-1">
+              {displayLabels.secondary}
+            </p>
+          )}
           {isReadOnly && (
             <p className="text-sm text-muted-foreground">
-              Viewing completed week • Exercises are read-only
+              Viewing completed content • Exercises are read-only
             </p>
           )}
           {progress?.status === 'submitted' && !isReadOnly && (
