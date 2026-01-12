@@ -15,13 +15,15 @@ import {
   Lock,
   MessageSquare,
   Sparkles,
-  RefreshCw
+  RefreshCw,
+  Send
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice } from "@/lib/reviewActions";
 import VideoPlayer from "./VideoPlayer";
 import AIReviewSummary from "./AIReviewSummary";
+import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
 
 interface ReviewPanelProps {
   open: boolean;
@@ -86,6 +88,7 @@ const ReviewPanel = ({
   const [reviewingBy, setReviewingBy] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [weekMetrics, setWeekMetrics] = useState<any>(null);
+  const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   
   const { toast } = useToast();
 
@@ -484,6 +487,16 @@ const ReviewPanel = ({
                   </CollapsibleContent>
                 </Collapsible>
 
+                {/* Rich Feedback Button */}
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={() => setShowFeedbackDialog(true)}
+                >
+                  <Send className="h-4 w-4 mr-2" />
+                  Send Rich Feedback (Video/Photo/Text)
+                </Button>
+
                 {/* Quick Templates */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
@@ -585,6 +598,18 @@ const ReviewPanel = ({
             </div>
           </>
         )}
+
+        {/* Therapist Feedback Dialog */}
+        <TherapistFeedbackDialog
+          open={showFeedbackDialog}
+          onOpenChange={setShowFeedbackDialog}
+          patientId={patientId}
+          patientName={patientName}
+          weekId={weekId}
+          weekNumber={weekNumber}
+          progressId={progressId}
+          onSuccess={loadPanelData}
+        />
       </SheetContent>
     </Sheet>
   );
