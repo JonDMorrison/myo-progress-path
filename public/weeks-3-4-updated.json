@@ -65,10 +65,10 @@
           "frequency": "1x/day",
           "duration": "5 minutes",
           "completion_target": 14,
-          "instructions": "Place elastic on the middle of the tongue (See photo F below) and hold it to the roof of the mouth\n\nIf concerned about swallowing tie a piece of floss to elastic to keep between lips",
+          "instructions": "Place elastic on the middle of the tongue (See Photo C) and hold it to the roof of the mouth.\n\nIf concerned about swallowing, tie a piece of floss to elastic to keep between lips.",
           "props": "1 Elastic",
           "compensations": null,
-          "demo_video_url": null
+          "demo_video_url": "/images/exercises/middle-tongue-elastic-hold.jpg"
         }
       ]
     },
@@ -137,10 +137,10 @@
           "frequency": "1x/day",
           "duration": "5 minutes",
           "completion_target": 14,
-          "instructions": "Place elastic on the middle of the tongue (See photo F below) and hold it to the roof of the mouth\n\nIf concerned about swallowing tie a piece of floss to elastic to keep between lips",
+          "instructions": "Place elastic on the middle of the tongue (See Photo C) and hold it to the roof of the mouth.\n\nIf concerned about swallowing, tie a piece of floss to elastic to keep between lips.",
           "props": "1 Elastic",
           "compensations": null,
-          "demo_video_url": null
+          "demo_video_url": "/images/exercises/middle-tongue-elastic-hold.jpg"
         }
       ]
     }
