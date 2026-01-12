@@ -16,11 +16,12 @@ import {
   MessageSquare,
   Sparkles,
   RefreshCw,
-  Send
+  Send,
+  Undo2
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { approveWeek, requestMorePractice } from "@/lib/reviewActions";
+import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import VideoPlayer from "./VideoPlayer";
 import AIReviewSummary from "./AIReviewSummary";
 import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
@@ -33,7 +34,8 @@ interface ReviewPanelProps {
   patientName: string;
   weekNumber: number;
   weekId: string;
-  onComplete: (action: "approved" | "needs_more") => void;
+  weekStatus?: string;
+  onComplete: (action: "approved" | "needs_more" | "reassigned") => void;
 }
 
 interface Upload {
@@ -73,6 +75,7 @@ const ReviewPanel = ({
   patientName,
   weekNumber,
   weekId,
+  weekStatus,
   onComplete,
 }: ReviewPanelProps) => {
   const [loading, setLoading] = useState(true);
@@ -369,6 +372,43 @@ const ReviewPanel = ({
     setShowNoteField(true);
   };
 
+  const handleReassign = async () => {
+    setSubmitting(true);
+    try {
+      const result = await reassignWeek(
+        progressId,
+        patientId,
+        weekNumber,
+        note.trim() || undefined
+      );
+
+      if (result.success) {
+        toast({
+          title: "Week Reassigned",
+          description: `Week ${weekNumber} has been unlocked for ${patientName} to practice again.`,
+        });
+        onComplete("reassigned");
+        onOpenChange(false);
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Failed to reassign week.",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const isReassignable = weekStatus === "approved" || weekStatus === "submitted";
+
   const isLocked = reviewingBy !== null;
 
   return (
@@ -549,6 +589,39 @@ const ReviewPanel = ({
 
             {/* Fixed Action Bar - Mobile optimized */}
             <div className="border-t px-4 sm:px-6 py-3 sm:py-4 bg-card">
+              {/* Reassign button for completed weeks */}
+              {isReassignable && (
+                <div className="mb-3 pb-3 border-b">
+                  <Button
+                    variant="secondary"
+                    className="w-full h-10 sm:h-9"
+                    onClick={() => {
+                      if (!showNoteField) {
+                        setShowNoteField(true);
+                        setNote("");
+                        return;
+                      }
+                      handleReassign();
+                    }}
+                    disabled={submitting}
+                  >
+                    {submitting ? (
+                      <Loader className="h-4 w-4 animate-spin mr-2" />
+                    ) : (
+                      <Undo2 className="h-4 w-4 mr-2" />
+                    )}
+                    <span className="truncate">
+                      {showNoteField ? "Confirm Reassign for Practice" : "Reassign for Practice"}
+                    </span>
+                  </Button>
+                  {showNoteField && (
+                    <p className="text-xs text-muted-foreground mt-2 text-center">
+                      This will unlock the week for the patient to practice again
+                    </p>
+                  )}
+                </div>
+              )}
+              
               <div className="flex flex-col sm:flex-row gap-2">
                 <Button
                   className="flex-1 h-10 sm:h-9"

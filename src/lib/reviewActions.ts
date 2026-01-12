@@ -181,3 +181,77 @@ export async function requestMorePractice(
     return { success: false, error: error.message };
   }
 }
+
+export async function reassignWeek(
+  progressId: string,
+  patientId: string,
+  weekNumber: number,
+  reason?: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Get week data
+    const { data: progressData } = await supabase
+      .from("patient_week_progress")
+      .select("week_id, status")
+      .eq("id", progressId)
+      .single();
+
+    if (!progressData) {
+      throw new Error("Progress not found");
+    }
+
+    // Only allow reassigning approved or submitted weeks
+    if (progressData.status !== "approved" && progressData.status !== "submitted") {
+      return { 
+        success: false, 
+        error: "Can only reassign approved or submitted weeks" 
+      };
+    }
+
+    // Update status back to open (unlocks the week for patient)
+    const { error: updateError } = await supabase
+      .from("patient_week_progress")
+      .update({
+        status: "open",
+        completed_at: null, // Clear completion timestamp
+      })
+      .eq("id", progressId);
+
+    if (updateError) throw updateError;
+
+    // Save therapist message if reason provided
+    if (reason && reason.trim().length > 0) {
+      const { data: { user } } = await supabase.auth.getUser();
+      await supabase.from("messages").insert({
+        patient_id: patientId,
+        week_id: progressData.week_id,
+        therapist_id: user?.id,
+        body: `Week ${weekNumber} has been reassigned for additional practice. ${reason}`,
+      });
+    }
+
+    // Create notification for patient
+    await supabase.from("notifications").insert({
+      patient_id: patientId,
+      body: `Week ${weekNumber} has been unlocked for additional practice by your therapist.${reason ? ` Reason: ${reason}` : ""}`,
+      read: false,
+    });
+
+    // Log event
+    await supabase.from("events").insert({
+      patient_id: patientId,
+      type: "reassigned_week",
+      meta: {
+        week_number: weekNumber,
+        reason: reason || "",
+        previous_status: progressData.status,
+        timestamp: new Date().toISOString(),
+      },
+    });
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Reassign week error:", error);
+    return { success: false, error: error.message };
+  }
+}
