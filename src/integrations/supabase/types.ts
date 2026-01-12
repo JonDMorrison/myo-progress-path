@@ -916,6 +916,112 @@ export type Database = {
         }
         Relationships: []
       }
+      therapist_feedback: {
+        Row: {
+          created_at: string
+          exercise_id: string | null
+          feedback_text: string | null
+          id: string
+          patient_id: string
+          photo_url: string | null
+          progress_id: string | null
+          read_at: string | null
+          therapist_id: string
+          video_url: string | null
+          week_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          exercise_id?: string | null
+          feedback_text?: string | null
+          id?: string
+          patient_id: string
+          photo_url?: string | null
+          progress_id?: string | null
+          read_at?: string | null
+          therapist_id: string
+          video_url?: string | null
+          week_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          exercise_id?: string | null
+          feedback_text?: string | null
+          id?: string
+          patient_id?: string
+          photo_url?: string | null
+          progress_id?: string | null
+          read_at?: string | null
+          therapist_id?: string
+          video_url?: string | null
+          week_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "therapist_feedback_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "therapist_feedback_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "therapist_feedback_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
+          },
+          {
+            foreignKeyName: "therapist_feedback_progress_id_fkey"
+            columns: ["progress_id"]
+            isOneToOne: false
+            referencedRelation: "patient_week_progress"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "therapist_feedback_progress_id_fkey"
+            columns: ["progress_id"]
+            isOneToOne: false
+            referencedRelation: "v_weekly_metrics"
+            referencedColumns: ["progress_id"]
+          },
+          {
+            foreignKeyName: "therapist_feedback_therapist_id_fkey"
+            columns: ["therapist_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "therapist_feedback_therapist_id_fkey"
+            columns: ["therapist_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
+          },
+          {
+            foreignKeyName: "therapist_feedback_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
+            referencedRelation: "v_weekly_metrics"
+            referencedColumns: ["week_id"]
+          },
+          {
+            foreignKeyName: "therapist_feedback_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
+            referencedRelation: "weeks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       uploads: {
         Row: {
           ai_feedback: Json | null

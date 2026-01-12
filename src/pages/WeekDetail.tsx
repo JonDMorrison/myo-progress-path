@@ -24,6 +24,7 @@ import { FrenectomyConsultReminder } from "@/components/week/FrenectomyConsultRe
 import { LearnHubReviewTask } from "@/components/week/LearnHubReviewTask";
 import { PreOpPreparationCard } from "@/components/week/PreOpPreparationCard";
 import { PostOpProtocolCard } from "@/components/week/PostOpProtocolCard";
+import TherapistFeedbackList from "@/components/week/TherapistFeedbackList";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -576,6 +577,14 @@ const WeekDetail = () => {
 
               {/* Sidebar */}
               <div className="space-y-6">
+                {/* Therapist Feedback */}
+                {patient?.id && week?.id && (
+                  <TherapistFeedbackList
+                    patientId={patient.id}
+                    weekId={week.id}
+                  />
+                )}
+
                 {/* Completion Checklist */}
                 <WeekCompletionChecklist
                   progress={progress}
