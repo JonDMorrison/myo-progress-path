@@ -16,6 +16,7 @@ interface WeekExercisesListProps {
   weekId: string;
   existingCompletions?: Record<string, number>;
   onUpdate?: () => void;
+  readOnly?: boolean;
 }
 
 const getExerciseIcon = (type: string) => {
@@ -67,7 +68,8 @@ export function WeekExercisesList({
   patientId,
   weekId,
   existingCompletions = {},
-  onUpdate
+  onUpdate,
+  readOnly = false
 }: WeekExercisesListProps) {
   const [completions, setCompletions] = useState<Record<string, number>>(existingCompletions);
 
@@ -76,7 +78,7 @@ export function WeekExercisesList({
   }, [existingCompletions]);
 
   const handleMarkDone = async (exerciseId: string, target: number) => {
-    if (!patientId || !weekId) return;
+    if (!patientId || !weekId || readOnly) return;
 
     const currentCount = completions[exerciseId] || 0;
     if (currentCount >= target) return;
@@ -355,7 +357,7 @@ export function WeekExercisesList({
               )}
 
               {/* Per-Exercise Video Upload for Active Exercises */}
-              {isActiveExercise && patientId && weekId && (
+              {isActiveExercise && patientId && weekId && !readOnly && (
                 <ExerciseVideoUpload
                   patientId={patientId}
                   weekId={weekId}
@@ -370,21 +372,27 @@ export function WeekExercisesList({
                 <span className="text-sm text-muted-foreground">
                   {currentCount} of {target} completed
                 </span>
-                <Button
-                  size="sm"
-                  onClick={() => handleMarkDone(exercise.id, target)}
-                  disabled={isComplete}
-                  variant={isComplete ? "outline" : "default"}
-                >
-                  {isComplete ? (
-                    <span className="flex items-center gap-1">
-                      <CheckCircle2 className="h-4 w-4" />
-                      Completed
-                    </span>
-                  ) : (
-                    "Mark Done"
-                  )}
-                </Button>
+                {readOnly ? (
+                  <Badge variant={isComplete ? "default" : "secondary"} className={isComplete ? "bg-success" : ""}>
+                    {isComplete ? "Completed" : "Not completed"}
+                  </Badge>
+                ) : (
+                  <Button
+                    size="sm"
+                    onClick={() => handleMarkDone(exercise.id, target)}
+                    disabled={isComplete}
+                    variant={isComplete ? "outline" : "default"}
+                  >
+                    {isComplete ? (
+                      <span className="flex items-center gap-1">
+                        <CheckCircle2 className="h-4 w-4" />
+                        Completed
+                      </span>
+                    ) : (
+                      "Mark Done"
+                    )}
+                  </Button>
+                )}
               </div>
             </AccordionContent>
           </AccordionItem>

@@ -9,13 +9,15 @@ interface WeekFormData {
   tonguePct: string;
 }
 
-export function useWeekForm(progressId: string, initialData: WeekFormData) {
+export function useWeekForm(progressId: string, initialData: WeekFormData, readOnly: boolean = false) {
   const [formData, setFormData] = useState<WeekFormData>(initialData);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
-  // Auto-save after 3 seconds of inactivity
+  // Auto-save after 3 seconds of inactivity (disabled in read-only mode)
   const debouncedSave = useDebouncedCallback(async (data: WeekFormData) => {
+    if (readOnly) return;
+    
     setIsSaving(true);
     try {
       const { error } = await supabase
@@ -42,10 +44,12 @@ export function useWeekForm(progressId: string, initialData: WeekFormData) {
   }, 3000);
 
   const updateField = useCallback((field: keyof WeekFormData, value: string) => {
+    if (readOnly) return;
+    
     const newData = { ...formData, [field]: value };
     setFormData(newData);
     debouncedSave(newData);
-  }, [formData, debouncedSave]);
+  }, [formData, debouncedSave, readOnly]);
 
   // Load draft from localStorage on mount
   useEffect(() => {

@@ -10,7 +10,7 @@ import { grantBadgeWithToast } from "@/lib/gamification";
 import { ResponsiveVideo } from "@/components/week/ResponsiveVideo";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
-import { isWeekAccessible } from "@/lib/userProgress";
+import { isWeekAccessible, isWeekReadOnly } from "@/lib/userProgress";
 import { WeekHeader } from "@/components/week/WeekHeader";
 import { WeekObjectives } from "@/components/week/WeekObjectives";
 import { WeekProgressForm } from "@/components/week/WeekProgressForm";
@@ -41,6 +41,7 @@ const WeekDetail = () => {
   const [uploads, setUploads] = useState<any[]>([]);
   const [canSubmitState, setCanSubmitState] = useState(false);
   const [missingRequirements, setMissingRequirements] = useState<string[]>([]);
+  const [isReadOnly, setIsReadOnly] = useState(false);
 
   useEffect(() => {
     loadWeekData();
@@ -86,6 +87,10 @@ const WeekDetail = () => {
           return;
         }
       }
+
+      // Check if week is read-only (completed/submitted)
+      const readOnly = await isWeekReadOnly(patientData.id, parseInt(weekNumber || "1"));
+      setIsReadOnly(readOnly && !isSuperAdmin);
 
       // Get week - filter by patient's program variant
       const variant = patientData.program_variant || 'frenectomy';
@@ -424,7 +429,8 @@ const WeekDetail = () => {
           week={week}
           progress={progress}
           onBack={() => navigate("/patient")}
-          action={progress && (progress.status === "open" || progress.status === "needs_more") ? (
+          isReadOnly={isReadOnly}
+          action={progress && (progress.status === "open" || progress.status === "needs_more") && !isReadOnly ? (
             <SubmitButton
               onComplete={handleSubmitForReview}
               canSubmit={canSubmitState}
@@ -544,6 +550,7 @@ const WeekDetail = () => {
                       weekId={week?.id}
                       existingCompletions={progress?.exercise_completions || {}}
                       onUpdate={handleProgressUpdate}
+                      readOnly={isReadOnly}
                     />
                   </Section>
                 )}
@@ -557,6 +564,7 @@ const WeekDetail = () => {
                           progress={progress}
                           week={week}
                           patientId={patient?.id}
+                          readOnly={isReadOnly}
                         />
                       </CardContent>
                     </Card>
@@ -564,7 +572,7 @@ const WeekDetail = () => {
                 )}
 
                 {/* Bottom Submit Button */}
-                {progress && (progress.status === "open" || progress.status === "needs_more") && (
+                {!isReadOnly && progress && (progress.status === "open" || progress.status === "needs_more") && (
                   <div className="flex justify-end">
                     <SubmitButton
                       onComplete={handleSubmitForReview}

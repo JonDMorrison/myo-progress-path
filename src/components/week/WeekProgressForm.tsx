@@ -14,16 +14,18 @@ interface WeekProgressFormProps {
   progress: any;
   week: any;
   patientId?: string;
+  readOnly?: boolean;
 }
 
-export function WeekProgressForm({ progress, week, patientId }: WeekProgressFormProps) {
+export function WeekProgressForm({ progress, week, patientId, readOnly = false }: WeekProgressFormProps) {
   const { formData, updateField, isSaving, lastSaved } = useWeekForm(
     progress.id,
     {
       boltScore: progress.bolt_score?.toString() || '',
       nasalPct: progress.nasal_breathing_pct?.toString() || '',
       tonguePct: progress.tongue_on_spot_pct?.toString() || ''
-    }
+    },
+    readOnly // Pass readOnly to prevent updates
   );
 
   const [uploads, setUploads] = useState<any[]>([]);
@@ -52,23 +54,29 @@ export function WeekProgressForm({ progress, week, patientId }: WeekProgressForm
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold">Weekly Progress</h3>
+      <h3 className="text-lg font-semibold">
+        {readOnly ? "Progress Summary" : "Weekly Progress"}
+      </h3>
       
-      {/* Auto-save indicator */}
-      <div className="text-sm text-muted-foreground text-right">
-        {isSaving && <span>Saving...</span>}
-        {lastSaved && !isSaving && (
-          <span>Saved {Math.floor((Date.now() - lastSaved.getTime()) / 1000)}s ago</span>
-        )}
-      </div>
+      {/* Auto-save indicator - only show when not read-only */}
+      {!readOnly && (
+        <div className="text-sm text-muted-foreground text-right">
+          {isSaving && <span>Saving...</span>}
+          {lastSaved && !isSaving && (
+            <span>Saved {Math.floor((Date.now() - lastSaved.getTime()) / 1000)}s ago</span>
+          )}
+        </div>
+      )}
 
       {/* Video Uploads Section */}
       {(week?.requires_video_first || week?.requires_video_last) && patientId && (
         <div className="space-y-4 p-4 bg-muted/30 rounded-xl border border-border/50">
           <h4 className="font-medium text-sm">Exercise Videos</h4>
-          <p className="text-sm text-muted-foreground">
-            Record yourself performing the exercises. Your therapist will review these to provide personalized feedback.
-          </p>
+          {!readOnly && (
+            <p className="text-sm text-muted-foreground">
+              Record yourself performing the exercises. Your therapist will review these to provide personalized feedback.
+            </p>
+          )}
           
           {week?.requires_video_first && (
             <div className="space-y-2">
@@ -79,7 +87,7 @@ export function WeekProgressForm({ progress, week, patientId }: WeekProgressForm
                 kind="first_attempt"
                 onUploadComplete={loadUploads}
                 hasExisting={hasFirstVideo}
-                disabled={progress?.status === 'submitted' || progress?.status === 'approved'}
+                disabled={readOnly || progress?.status === 'submitted' || progress?.status === 'approved'}
               />
             </div>
           )}
@@ -93,7 +101,7 @@ export function WeekProgressForm({ progress, week, patientId }: WeekProgressForm
                 kind="last_attempt"
                 onUploadComplete={loadUploads}
                 hasExisting={hasLastVideo}
-                disabled={progress?.status === 'submitted' || progress?.status === 'approved'}
+                disabled={readOnly || progress?.status === 'submitted' || progress?.status === 'approved'}
               />
             </div>
           )}
@@ -122,6 +130,8 @@ export function WeekProgressForm({ progress, week, patientId }: WeekProgressForm
             value={formData.boltScore}
             onChange={(e) => updateField('boltScore', e.target.value)}
             placeholder="Enter your BOLT score"
+            disabled={readOnly}
+            className={readOnly ? "bg-muted" : ""}
           />
           <p className="text-xs text-muted-foreground">
             0-120 seconds. Higher is better.
@@ -150,6 +160,8 @@ export function WeekProgressForm({ progress, week, patientId }: WeekProgressForm
           value={formData.nasalPct}
           onChange={(e) => updateField('nasalPct', e.target.value)}
           placeholder="Enter percentage"
+          disabled={readOnly}
+          className={readOnly ? "bg-muted" : ""}
         />
         <div className="flex items-center justify-between">
           <p className="text-xs text-muted-foreground">
@@ -189,6 +201,8 @@ export function WeekProgressForm({ progress, week, patientId }: WeekProgressForm
           value={formData.tonguePct}
           onChange={(e) => updateField('tonguePct', e.target.value)}
           placeholder="Enter percentage"
+          disabled={readOnly}
+          className={readOnly ? "bg-muted" : ""}
         />
         <p className="text-xs text-muted-foreground">
           Estimate the percentage of time your tongue was on the "spot".

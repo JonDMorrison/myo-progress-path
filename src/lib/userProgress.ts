@@ -142,6 +142,7 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
 
 /**
  * Check if a specific week is accessible for a patient
+ * Accessible means: not locked OR already completed (approved/submitted)
  */
 export async function isWeekAccessible(
   patientId: string,
@@ -154,7 +155,31 @@ export async function isWeekAccessible(
     (w) => w.weekNumber === weekNumber
   );
 
-  return !weekStatus?.isLocked;
+  // Allow access if:
+  // 1. Week is not locked (current or future unlocked week)
+  // 2. Week is already completed (approved) - for historical access
+  // 3. Week is submitted (under review) - patient can view their submission
+  return !weekStatus?.isLocked || 
+         weekStatus?.status === "approved" || 
+         weekStatus?.status === "submitted";
+}
+
+/**
+ * Check if a week is read-only (completed and not reassigned)
+ */
+export async function isWeekReadOnly(
+  patientId: string,
+  weekNumber: number
+): Promise<boolean> {
+  const progress = await getUserProgress(patientId);
+  if (!progress) return false;
+
+  const weekStatus = progress.weekStatuses.find(
+    (w) => w.weekNumber === weekNumber
+  );
+
+  // Week is read-only if it's approved or submitted
+  return weekStatus?.status === "approved" || weekStatus?.status === "submitted";
 }
 
 /**
