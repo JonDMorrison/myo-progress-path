@@ -7,6 +7,7 @@ export interface WeekProgress {
   completedAt?: string;
   isLocked: boolean;
   isComplete: boolean;
+  awaitingApproval?: boolean; // True if previous week is submitted but not yet approved
 }
 
 export interface UserProgress {
@@ -69,7 +70,7 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
     let currentWeek = 1;
     let currentWeekFound = false;
     let lastApprovedWeek = 0;
-    let lastSubmittedOrApprovedWeek = 0;
+    let previousWeekStatus: string | null = null;
 
     // Process each week
     for (const week of weeks || []) {
@@ -81,17 +82,19 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
         lastApprovedWeek = week.number;
       }
 
-      // Track submitted or approved weeks
-      if (progress?.status === "submitted" || progress?.status === "approved") {
-        lastSubmittedOrApprovedWeek = Math.max(lastSubmittedOrApprovedWeek, week.number);
-      }
-
+      // STRICT THERAPIST APPROVAL GATING:
       // Week is locked if:
-      // - Week 1 and Week 0 not complete
-      // - Any week where previous week is not at least submitted
+      // - Week 1 and Week 0 (onboarding) not complete
+      // - Any week > 1 where previous week is NOT "approved" by therapist
+      // This prevents progression until therapist explicitly approves
       const isLocked =
         (week.number === 1 && !week0Complete) ||
-        (week.number > 1 && lastSubmittedOrApprovedWeek < week.number - 1);
+        (week.number > 1 && lastApprovedWeek < week.number - 1);
+
+      // Check if this week is locked because previous week is awaiting approval
+      const awaitingApproval = isLocked && 
+        previousWeekStatus === "submitted" && 
+        week.number > 1;
 
       const statusValue = progress?.status || "open";
       weekStatuses.push({
@@ -100,19 +103,22 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
         completedAt: progress?.completed_at,
         isLocked,
         isComplete,
+        awaitingApproval,
       });
 
+      // Track this week's status for next iteration
+      previousWeekStatus = statusValue;
+
       // Current week is the first unlocked week that's not yet submitted or approved
-      // This allows progression to the next week while the previous is in review
       if (!currentWeekFound && !isLocked && statusValue !== "submitted" && statusValue !== "approved") {
         currentWeek = week.number;
         currentWeekFound = true;
       }
     }
 
-    // If no open weeks were found (all submitted/approved), show the last submitted/approved week
-    if (!currentWeekFound && lastSubmittedOrApprovedWeek > 0) {
-      currentWeek = lastSubmittedOrApprovedWeek;
+    // If no open weeks were found, show the last approved week or the first submitted week awaiting approval
+    if (!currentWeekFound && lastApprovedWeek > 0) {
+      currentWeek = lastApprovedWeek;
     }
 
     // Get last activity date
