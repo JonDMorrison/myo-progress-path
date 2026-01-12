@@ -30,7 +30,7 @@ export const BOLTInstructionsStep = () => {
         <div className="flex flex-col items-center text-center p-4 rounded-lg bg-muted/50">
           <Activity className="h-8 w-8 text-primary mb-2" />
           <h3 className="font-semibold mb-1">Track Progress</h3>
-          <p className="text-sm text-muted-foreground">Record your score weekly</p>
+          <p className="text-sm text-muted-foreground">Record your scores as required by your therapist</p>
         </div>
       </div>
 
@@ -39,24 +39,19 @@ export const BOLTInstructionsStep = () => {
         <div>
           <h4 className="font-semibold text-sm text-amber-900 dark:text-amber-100">Important: Baseline Measurement</h4>
           <p className="text-xs text-amber-800 dark:text-amber-200">
-            Your first BOLT score is a <strong>baseline</strong> measured with your tongue in its natural resting position—not on the spot. 
-            As your therapy progresses, you'll learn to rest your tongue on the spot naturally, which will improve your score over time.
+            Your first BOLT score is a <strong>baseline</strong> measured with your tongue in its current, natural resting position. 
+            As your therapy progresses, you'll learn habits that will improve your score over time.
           </p>
         </div>
       </div>
 
       {/* Measurement frequency */}
       <div className="flex gap-4 items-center p-4 bg-accent/30 rounded-lg border border-accent">
-        <img 
-          src="/images/learn/the-spot.jpg" 
-          alt="The Spot - tongue rest position"
-          className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
-        />
         <div>
           <h4 className="font-semibold text-sm">When to Measure BOLT</h4>
           <p className="text-xs text-muted-foreground">
             BOLT is measured at key milestones: Week 1 (baseline), midpoint (Week 12), and end of program (Week 24). 
-            You won't need to track it every week.
+            Record your scores as required by your therapist.
           </p>
         </div>
       </div>
@@ -67,7 +62,7 @@ export const BOLTInstructionsStep = () => {
 
       <div className="bg-accent/50 border border-accent rounded-lg p-4">
         <p className="text-sm">
-          <strong>Important:</strong> You'll be asked to record your BOLT score each week. Don't worry if your first score is low—most people start with scores under 20 seconds. The goal is steady improvement through consistent practice.
+          <strong>Important:</strong> Don't worry if your first score is low—most people start with scores under 20 seconds. The goal is steady improvement through consistent practice.
         </p>
       </div>
     </div>
