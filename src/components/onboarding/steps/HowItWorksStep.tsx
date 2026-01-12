@@ -6,7 +6,7 @@ export const HowItWorksStep = () => {
       <div className="text-center">
         <h2 className="text-3xl font-bold mb-4">How It Works</h2>
         <p className="text-lg text-muted-foreground">
-          Your weekly routine made simple
+          Your routine made simple
         </p>
       </div>
 
@@ -28,9 +28,9 @@ export const HowItWorksStep = () => {
             <Video className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h3 className="font-semibold mb-1">Weekly Check-ins</h3>
+            <h3 className="font-semibold mb-1">Biweekly Check-ins</h3>
             <p className="text-sm text-muted-foreground">
-              Submit your BOLT score, breathing percentages, and video recordings. This helps your therapist track your progress.
+              Every two weeks, submit your BOLT score, breathing percentages, and video recordings. This helps your therapist track your progress.
             </p>
           </div>
         </div>
