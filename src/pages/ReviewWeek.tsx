@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Sparkles, Play, Loader, RefreshCw } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Sparkles, Play, Loader, RefreshCw, Undo2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { approveWeek, requestMorePractice } from "@/lib/reviewActions";
+import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import { getVideoUrl } from "@/lib/storage";
 
 import AIFeedbackCard from "@/components/AIFeedbackCard";
@@ -200,6 +200,44 @@ const ReviewWeek = () => {
       setSubmitting(false);
     }
   };
+
+  const handleReassign = async () => {
+    if (!progress || !patient) return;
+
+    setSubmitting(true);
+    try {
+      const result = await reassignWeek(
+        progress.id,
+        patient.id,
+        parseInt(weekNumber || "1"),
+        note.trim() || undefined
+      );
+
+      if (result.success) {
+        toast({
+          title: "Week Reassigned",
+          description: `Week ${weekNumber} has been unlocked for ${patient?.user?.name} to practice again.`,
+        });
+        navigate("/therapist");
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Failed to reassign week.",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const isReassignable = progress?.status === "approved" || progress?.status === "submitted";
 
   const handleDownloadSummary = async () => {
     if (!patientId) return;
@@ -544,6 +582,24 @@ const ReviewWeek = () => {
                   />
                 </div>
 
+                {/* Reassign button for already reviewed weeks */}
+                {isReassignable && progress?.status !== "submitted" && (
+                  <div className="mb-4 pb-4 border-b">
+                    <Button
+                      variant="secondary"
+                      onClick={handleReassign}
+                      disabled={submitting}
+                      className="w-full"
+                    >
+                      <Undo2 className="mr-2 h-4 w-4" />
+                      Reassign for Practice
+                    </Button>
+                    <p className="text-xs text-muted-foreground mt-2 text-center">
+                      This will unlock the week for the patient to practice again
+                    </p>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-2 gap-3">
                   <Button
                     variant="success"
@@ -565,7 +621,7 @@ const ReviewWeek = () => {
                   </Button>
                 </div>
 
-                {progress?.status !== "submitted" && (
+                {progress?.status !== "submitted" && !isReassignable && (
                   <p className="text-xs text-center text-muted-foreground">
                     This week has already been reviewed
                   </p>

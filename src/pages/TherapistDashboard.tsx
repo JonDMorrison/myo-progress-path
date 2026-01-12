@@ -65,6 +65,7 @@ const TherapistDashboard = () => {
     patientName: string;
     weekNumber: number;
     weekId: string;
+    weekStatus?: string;
   } | null>(null);
   
   const navigate = useNavigate();
@@ -434,10 +435,11 @@ const TherapistDashboard = () => {
       patientName: review.patient.user.name,
       weekNumber,
       weekId,
+      weekStatus: review.status,
     });
   };
 
-  const handleReviewComplete = (action: "approved" | "needs_more") => {
+  const handleReviewComplete = (action: "approved" | "needs_more" | "reassigned") => {
     if (!reviewPanel) return;
     
     setExitingId(reviewPanel.progressId);
@@ -445,7 +447,9 @@ const TherapistDashboard = () => {
     setTimeout(() => {
       setReviews(prev =>
         prev.map(r =>
-          r.id === reviewPanel.progressId ? { ...r, status: action === "approved" ? "approved" : "needs_more" } : r
+          r.id === reviewPanel.progressId 
+            ? { ...r, status: action === "approved" ? "approved" : action === "reassigned" ? "open" : "needs_more" } 
+            : r
         )
       );
       setExitingId(null);
@@ -734,6 +738,7 @@ const TherapistDashboard = () => {
           patientName={reviewPanel.patientName}
           weekNumber={reviewPanel.weekNumber}
           weekId={reviewPanel.weekId}
+          weekStatus={reviewPanel.weekStatus}
           onComplete={handleReviewComplete}
         />
       )}
