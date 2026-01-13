@@ -18,11 +18,13 @@ import {
   RefreshCw,
   Send,
   Undo2,
-  Award
+  Award,
+  Wrench
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
+import { moveToMaintenance } from "@/lib/maintenanceActions";
 import VideoPlayer from "./VideoPlayer";
 import AIReviewSummary from "./AIReviewSummary";
 import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
@@ -670,6 +672,81 @@ const ReviewPanel = ({
                 </div>
               )}
               
+              {/* Week 24 Maintenance Mode Option */}
+              {weekNumber === 24 && (
+                <div className="flex flex-col gap-2 mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
+                  <p className="text-sm font-medium text-primary flex items-center gap-2">
+                    <Award className="h-4 w-4" />
+                    Program Completion Options
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button
+                      className="flex-1 h-10 sm:h-9"
+                      onClick={() => handleApprove(note.trim() ? true : false)}
+                      disabled={submitting}
+                    >
+                      {submitting ? (
+                        <Loader className="h-4 w-4 animate-spin mr-2" />
+                      ) : (
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                      )}
+                      Complete Program
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="flex-1 h-10 sm:h-9 border-primary/50 text-primary hover:bg-primary/10"
+                      onClick={async () => {
+                        setSubmitting(true);
+                        try {
+                          // First approve Week 24
+                          const approveResult = await approveWeek(
+                            progressId,
+                            patientId,
+                            weekNumber,
+                            note.trim() ? note : ""
+                          );
+                          
+                          if (!approveResult.success) {
+                            throw new Error(approveResult.error);
+                          }
+                          
+                          // Then move to maintenance
+                          const maintenanceResult = await moveToMaintenance(patientId);
+                          
+                          if (maintenanceResult.success) {
+                            toast({
+                              title: "Moved to Maintenance Mode",
+                              description: `${patientName} has been moved to maintenance mode for ongoing therapist-directed practice.`,
+                            });
+                            onComplete("approved");
+                            onOpenChange(false);
+                          } else {
+                            throw new Error(maintenanceResult.error);
+                          }
+                        } catch (error: any) {
+                          toast({
+                            title: "Error",
+                            description: error.message,
+                            variant: "destructive",
+                          });
+                        } finally {
+                          setSubmitting(false);
+                        }
+                      }}
+                      disabled={submitting}
+                    >
+                      <Wrench className="h-4 w-4 mr-2" />
+                      Move to Maintenance
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    <strong>Complete Program:</strong> Marks patient as completed. <br />
+                    <strong>Maintenance Mode:</strong> Keeps patient active for weekly check-ins and therapist-assigned practice.
+                  </p>
+                </div>
+              )}
+              
+              {weekNumber !== 24 && (
               <div className="flex flex-col sm:flex-row gap-2">
                 <Button
                   className="flex-1 h-10 sm:h-9"
@@ -716,6 +793,7 @@ const ReviewPanel = ({
                   <span className="truncate">Needs Correction</span>
                 </Button>
               </div>
+              )}
             </div>
           </>
         )}
