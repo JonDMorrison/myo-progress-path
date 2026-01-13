@@ -63,12 +63,12 @@ export function MaintenanceCheckinCard({ patientId, onCheckinComplete }: Mainten
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
           <ClipboardCheck className="h-5 w-5 text-primary" />
-          Weekly Maintenance Check-in
+          Maintenance Check-in
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <p className="text-sm text-muted-foreground">
-          Track your progress during the maintenance phase. Submit a quick check-in each week to stay on track.
+          Track your progress during the maintenance phase. Submit regular check-ins to stay on track.
         </p>
 
         <div className="space-y-4">

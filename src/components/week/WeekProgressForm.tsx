@@ -27,7 +27,7 @@ export function WeekProgressForm({ progress, week, readOnly = false }: WeekProgr
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-semibold">
-        {readOnly ? "Progress Summary" : "Weekly Progress"}
+        {readOnly ? "Progress Summary" : "Biweekly Progress"}
       </h3>
       
       {/* Auto-save indicator - only show when not read-only */}

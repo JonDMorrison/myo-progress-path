@@ -19,7 +19,7 @@ export async function moveToMaintenance(
     // Create notification for patient
     await supabase.from("notifications").insert({
       patient_id: patientId,
-      body: "Congratulations on completing the program! You've been moved to Maintenance Mode. Continue your progress with weekly check-ins and therapist-assigned practice.",
+      body: "Congratulations on completing the program! You've been moved to Maintenance Mode. Continue your progress with regular check-ins and therapist-assigned practice.",
       read: false,
     });
 

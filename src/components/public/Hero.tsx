@@ -35,7 +35,7 @@ export const Hero = () => {
               Deliver Myofunctional Therapy Programs Your Patients Will Actually Follow
             </h1>
             <p className="text-xl text-muted-foreground">
-              One place for weekly exercises, therapist feedback, and video reviews.
+              One place for daily exercises, therapist feedback, and biweekly video reviews.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="shadow-lg hover:shadow-xl transition-shadow">
