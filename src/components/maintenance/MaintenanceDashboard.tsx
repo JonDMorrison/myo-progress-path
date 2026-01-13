@@ -136,7 +136,7 @@ export function MaintenanceDashboard({ patientId, clinicId, userName }: Maintena
                 </Badge>
               </div>
               <p className="text-muted-foreground">
-                Congratulations on completing the program! Continue your progress with weekly check-ins and therapist-assigned practice.
+                Congratulations on completing the program! Continue your progress with regular check-ins and therapist-assigned practice.
               </p>
             </div>
           </div>

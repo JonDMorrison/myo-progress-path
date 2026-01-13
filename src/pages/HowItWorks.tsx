@@ -100,7 +100,7 @@ const HowItWorks = () => {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <FeatureCard
                   icon={FileText}
-                  title="Weekly Exercise Plans"
+                  title="Biweekly Exercise Plans"
                   description="Clear instructions and video demonstrations for each exercise. You'll always know exactly what to do and how to do it."
                 />
                 <FeatureCard

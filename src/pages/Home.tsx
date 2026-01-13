@@ -56,7 +56,7 @@ const Home = () => {
     answer: "Yes — we use secure accounts, private storage, and strict access controls to protect your information."
   }, {
     question: "Who reviews my progress?",
-    answer: "Your assigned therapist at Montrose reviews your weekly submissions and provides feedback on your exercises."
+    answer: "Your assigned therapist at Montrose reviews your biweekly submissions and provides feedback on your exercises."
   }, {
     question: "How do video check-ins work?",
     answer: "Each week, you upload videos of your exercises for your therapist to review and provide personalized guidance."
@@ -88,7 +88,7 @@ const Home = () => {
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                     Trusted Montrose care — now in a guided myofunctional program you can follow from home
                   </h1>
-                  <p className="text-xl text-muted-foreground mb-8">Built by the Montrose Dental Centre team in Abbotsford, this secure app turns weekly exercises into simple steps with feedback and video check-ins.</p>
+                  <p className="text-xl text-muted-foreground mb-8">Built by the Montrose Dental Centre team in Abbotsford, this secure app turns daily exercises into simple steps with feedback and biweekly video check-ins.</p>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button asChild size="lg">
                       <Link to={isLoggedIn ? "/dashboard" : "/register"}>

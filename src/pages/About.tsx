@@ -180,7 +180,7 @@ const About = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Weekly plans with step-by-step guidance and checklists. You always know what 
+                      Biweekly plans with step-by-step guidance and checklists. You always know what 
                       comes next.
                     </p>
                   </CardContent>
