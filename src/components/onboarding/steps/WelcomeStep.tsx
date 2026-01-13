@@ -27,7 +27,7 @@ export const WelcomeStep = () => {
           </li>
           <li className="flex items-start">
             <span className="text-primary mr-2">✓</span>
-            <span>How weekly check-ins work</span>
+            <span>How biweekly check-ins work</span>
           </li>
           <li className="flex items-start">
             <span className="text-primary mr-2">✓</span>

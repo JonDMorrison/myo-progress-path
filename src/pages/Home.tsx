@@ -129,7 +129,7 @@ const Home = () => {
                         <Check className="w-4 h-4 text-primary" />
                       </div>
                       <div>
-                        <p className="font-semibold">Weekly guided exercises</p>
+                        <p className="font-semibold">Guided exercises</p>
                         <p className="text-muted-foreground">Clear instructions for each week's focus, from tongue posture to breathing techniques</p>
                       </div>
                     </div>
@@ -147,7 +147,7 @@ const Home = () => {
                         <Check className="w-4 h-4 text-primary" />
                       </div>
                       <div>
-                        <p className="font-semibold">Weekly progress reviews</p>
+                        <p className="font-semibold">Progress reviews</p>
                         <p className="text-muted-foreground">Receive timely feedback from your therapist at scheduled review intervals</p>
                       </div>
                     </div>
