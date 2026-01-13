@@ -1,7 +1,5 @@
 # Introduction to Myofunctional Therapy
 
-![The tongue and its connection to overall health](/images/learn/the-tongue.jpg)
-
 Myofunctional therapy is a specialized program of exercises designed to correct improper function of the tongue and facial muscles. These exercises help retrain the muscles of the mouth, tongue, and face to work together properly for breathing, swallowing, speaking, and resting positions.
 
 ## What is Myofunctional Therapy?
@@ -22,8 +20,6 @@ Myofunctional therapy effectively treats these oral dysfunctions:
 
 ## How Does It Work?
 
-![Correct tongue resting position on the palate](/images/learn/correct-tongue-posture.jpg)
-
 Through consistent practice of specific exercises, patients develop:
 
 1. **Proper nasal breathing** - Learning to breathe through the nose rather than the mouth
@@ -32,8 +28,6 @@ Through consistent practice of specific exercises, patients develop:
 4. **Better oral habits** - Eliminating harmful habits that affect facial development
 
 ## What to Expect
-
-![The spot where your tongue should rest](/images/learn/the-spot.jpg)
 
 Myofunctional therapy is a commitment that requires daily practice, typically twice per day for best results. The program is designed to be progressive, building on previous weeks' exercises to create lasting change in muscle patterns and habits.
 

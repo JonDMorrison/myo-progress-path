@@ -50,15 +50,13 @@ Everyone progresses at their own pace based on several factors:
 
 ## Communicating with Your Therapist
 
-**Weekly Check-ins:** Submit your progress weekly so your therapist can provide feedback.
+**Biweekly Check-ins:** Submit your progress every two weeks so your therapist can provide feedback.
 
 **Ask Questions:** If you're unsure about an exercise, ask! It's better to clarify than practice incorrectly.
 
 **Report Challenges:** If you experience pain, difficulty, or other concerns, let your therapist know immediately.
 
 ## Long-Term Maintenance
-
-![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 
 After completing the program, you won't need to continue daily exercises if you maintain **awareness** of your new habits:
 

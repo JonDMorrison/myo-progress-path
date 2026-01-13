@@ -128,7 +128,7 @@ export default function Week0() {
             <div>
               <h3 className="font-semibold mb-2">Supporting Materials</h3>
               <p className="text-muted-foreground">
-                Videos and photos guide each exercise. Charts help track your nasal breathing % and tongue-on-spot %.
+                Videos and photos guide each exercise. Check-ins help track your nasal breathing % and tongue-on-spot %.
               </p>
             </div>
             <Button variant="outline" className="w-full" onClick={() => navigate("/learn/program-specifics")}>
