@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertCircle, ClipboardList } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ClipboardList } from "lucide-react";
 
 export function PreOpPreparationCard() {
   return (
@@ -8,41 +7,81 @@ export function PreOpPreparationCard() {
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
           <ClipboardList className="h-5 w-5 text-primary" />
-          Pre-Operative Preparation
+          Functional Frenuloplasty Pre-Operative Protocol
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-          At this time, there is no separate written pre-operative protocol document to review.
+          A minimum of 6 weeks of myofunctional therapy is needed to prepare for a functional tongue tie release. However, the myofunctional therapist will determine when you are ready to proceed.
         </p>
         
         <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-          Preparation for your procedure typically begins with a consultation. During this visit, your dental or medical provider will review your specific situation, explain what to expect, and give you any instructions needed to prepare.
-        </p>
-        
-        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-          Because preparation can vary depending on the individual and the type of procedure, it is important to follow the guidance provided directly by your care team.
+          Leading up to the procedure, focus on goals and elimination of compensations as much as possible. Referral to a body worker may be recommended as well, depending on symptoms.
         </p>
 
-        <div className="pt-2">
-          <h4 className="font-semibold text-foreground mb-2">What This Means for You</h4>
-          <ul className="list-disc list-inside space-y-1 text-sm sm:text-base text-muted-foreground">
-            <li>There are no additional pre-operative steps required unless they are given to you directly by your provider</li>
-            <li>Any preparation instructions will be discussed during your consultation</li>
-            <li>If myofunctional therapy is part of your care plan, your therapist will explain how it fits into your overall treatment timeline</li>
-          </ul>
+        <div className="space-y-4">
+          <h3 className="font-semibold text-lg text-foreground">Goals</h3>
+          
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-semibold text-foreground">1. Tongue Tone and Control</h4>
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                Work towards being able to move and point the tongue without struggling or compensations.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-foreground">2. Lingual Palatal Suction</h4>
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                You will need to be able to hold a suction for 60 seconds without compensations prior to surgery. Focus on learning to maintain a suction without lifting the floor of the mouth and ensuring the back of the tongue is up and the tongue is contained within the upper arch / not overflowing onto the teeth.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-foreground">3. Compensations are reduced / eliminated as much as possible</h4>
+              <div className="mt-2 space-y-3 pl-4">
+                <div>
+                  <p className="font-medium text-foreground">Floor of mouth elevation:</p>
+                  <p className="text-sm sm:text-base text-muted-foreground">
+                    Can you lift the tongue and suction without the floor of mouth also elevating?
+                  </p>
+                </div>
+                
+                <div>
+                  <p className="font-medium text-foreground">Jaw lateralization:</p>
+                  <p className="text-sm sm:text-base text-muted-foreground">
+                    Can you move the tongue left and right without also moving the jaw?
+                  </p>
+                </div>
+                
+                <div>
+                  <p className="font-medium text-foreground">Jaw protrusion:</p>
+                  <p className="text-sm sm:text-base text-muted-foreground">
+                    Can you stick the tongue out without protruding the jaw?
+                  </p>
+                </div>
+                
+                <div>
+                  <p className="font-medium text-foreground">Neck engagement:</p>
+                  <p className="text-sm sm:text-base text-muted-foreground">
+                    Can you smile without engaging the neck?
+                  </p>
+                </div>
+                
+                <div>
+                  <p className="font-medium text-foreground">Facial grimace:</p>
+                  <p className="text-sm sm:text-base text-muted-foreground">
+                    Can you do your exercises with a neutral face?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-          If you have questions about how to prepare, please raise them during your consultation or contact your therapist for clarification.
+        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-medium">
+          Accomplishing all of these goals prior to the surgery will help you achieve optimal results and a better surgical outcome.
         </p>
-
-        <Alert variant="default" className="bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-800">
-          <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-          <AlertDescription className="text-amber-800 dark:text-amber-200">
-            <strong>Important Reminder:</strong> Always follow the instructions provided by your dental or medical provider. If you are unsure whether additional preparation is needed before your procedure, ask your provider or therapist before moving forward.
-          </AlertDescription>
-        </Alert>
       </CardContent>
     </Card>
   );
