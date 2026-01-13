@@ -24,6 +24,7 @@ import { PatientHeader } from "@/components/layout/PatientHeader";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { ProgramCompletionModal } from "@/components/ProgramCompletionModal";
+import { MaintenanceDashboard } from "@/components/maintenance/MaintenanceDashboard";
 
 const PatientDashboard = () => {
   const [patient, setPatient] = useState<any>(null);
@@ -307,7 +308,14 @@ const PatientDashboard = () => {
 
       <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-7xl">
         <MobileContainer>
-        {!currentWeek ? (
+        {/* Maintenance Mode Dashboard */}
+        {patient?.status === "maintenance" ? (
+          <MaintenanceDashboard 
+            patientId={patient.id}
+            clinicId={patient.clinic_id}
+            userName={user?.user_metadata?.name}
+          />
+        ) : !currentWeek ? (
           <Section>
             <Card className="rounded-2xl border shadow-sm">
               <CardContent className="py-16 text-center">

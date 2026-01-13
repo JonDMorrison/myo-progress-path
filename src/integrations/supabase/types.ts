@@ -528,6 +528,133 @@ export type Database = {
           },
         ]
       }
+      maintenance_assignments: {
+        Row: {
+          assigned_at: string
+          assigned_by: string
+          completed_at: string | null
+          due_date: string | null
+          id: string
+          notes: string | null
+          patient_id: string
+          status: string
+          week_id: string
+        }
+        Insert: {
+          assigned_at?: string
+          assigned_by: string
+          completed_at?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          patient_id: string
+          status?: string
+          week_id: string
+        }
+        Update: {
+          assigned_at?: string
+          assigned_by?: string
+          completed_at?: string | null
+          due_date?: string | null
+          id?: string
+          notes?: string | null
+          patient_id?: string
+          status?: string
+          week_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_assignments_assigned_by_fkey"
+            columns: ["assigned_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_assignments_assigned_by_fkey"
+            columns: ["assigned_by"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["therapist_id"]
+          },
+          {
+            foreignKeyName: "maintenance_assignments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_assignments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
+          },
+          {
+            foreignKeyName: "maintenance_assignments_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
+            referencedRelation: "v_weekly_metrics"
+            referencedColumns: ["week_id"]
+          },
+          {
+            foreignKeyName: "maintenance_assignments_week_id_fkey"
+            columns: ["week_id"]
+            isOneToOne: false
+            referencedRelation: "weeks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maintenance_checkins: {
+        Row: {
+          bolt_score: number | null
+          checkin_date: string
+          created_at: string
+          id: string
+          nasal_breathing_percent: number | null
+          notes: string | null
+          patient_id: string
+          tongue_on_spot_percent: number | null
+        }
+        Insert: {
+          bolt_score?: number | null
+          checkin_date?: string
+          created_at?: string
+          id?: string
+          nasal_breathing_percent?: number | null
+          notes?: string | null
+          patient_id: string
+          tongue_on_spot_percent?: number | null
+        }
+        Update: {
+          bolt_score?: number | null
+          checkin_date?: string
+          created_at?: string
+          id?: string
+          nasal_breathing_percent?: number | null
+          notes?: string | null
+          patient_id?: string
+          tongue_on_spot_percent?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_checkins_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_checkins_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "v_master_patient_list"
+            referencedColumns: ["patient_id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           body: string
@@ -1370,7 +1497,7 @@ export type Database = {
         | "needs_photo"
         | "description_only"
         | "pending"
-      patient_status: "active" | "inactive" | "completed"
+      patient_status: "active" | "inactive" | "completed" | "maintenance"
       program_variant: "standard" | "frenectomy" | "non_frenectomy"
       upload_kind: "first_attempt" | "last_attempt" | "progress"
       user_role: "patient" | "therapist" | "admin" | "super_admin"
@@ -1511,7 +1638,7 @@ export const Constants = {
         "description_only",
         "pending",
       ],
-      patient_status: ["active", "inactive", "completed"],
+      patient_status: ["active", "inactive", "completed", "maintenance"],
       program_variant: ["standard", "frenectomy", "non_frenectomy"],
       upload_kind: ["first_attempt", "last_attempt", "progress"],
       user_role: ["patient", "therapist", "admin", "super_admin"],
