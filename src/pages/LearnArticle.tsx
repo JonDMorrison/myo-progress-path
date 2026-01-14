@@ -6,6 +6,7 @@ import { StickyTOC } from "@/components/learn/StickyTOC";
 import { loadArticle } from "@/lib/learn";
 import { ArrowLeft, BookOpen, Clock, Lock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import { NavPublic } from "@/components/public/NavPublic";
 import { PatientHeader } from "@/components/layout/PatientHeader";
 import { BottomNav } from "@/components/layout/BottomNav";
@@ -171,6 +172,7 @@ export default function LearnArticle() {
             <Card className="p-4 sm:p-6 md:p-10 shadow-lg overflow-hidden">
               <article className="prose max-w-none">
                 <ReactMarkdown
+                  rehypePlugins={[rehypeRaw]}
                   components={{
                     h1: () => null, // Skip all h1s since title is in hero card
                     h2: ({node, ...props}) => {
@@ -201,6 +203,19 @@ export default function LearnArticle() {
                         className="float-right w-[30%] ml-6 mb-4 mt-1 rounded-lg shadow-md clear-right max-sm:float-none max-sm:w-full max-sm:ml-0"
                       />
                     ),
+                    // Style Vimeo embeds responsively
+                    div: ({node, ...props}) => {
+                      const style = props.style as React.CSSProperties | undefined;
+                      if (style?.position === 'relative' && style?.padding) {
+                        return (
+                          <div 
+                            {...props} 
+                            className="my-6 rounded-lg overflow-hidden shadow-lg"
+                          />
+                        );
+                      }
+                      return <div {...props} />;
+                    },
                   }}
                 >
                   {article.content}

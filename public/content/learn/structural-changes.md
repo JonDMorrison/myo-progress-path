@@ -36,7 +36,7 @@ Improper muscle patterns can cause painful jaw dysfunction:
 - Limited jaw movement
 - Grinding or clenching
 
-**Impact:** Compensatory muscle use puts stress on the temporomandibular joint.
+**Impact:** Compensatory muscle patterns put stress on the temporomandibular joint.
 
 ## Facial Structural Changes
 

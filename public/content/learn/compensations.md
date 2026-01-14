@@ -6,7 +6,7 @@ This article is for **educational purposes only**—to help you understand what 
 
 ## Neck Engagement
 
-![Neck Engagement](/images/learn/compensations/neck-engagement.jpg)
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1143170064?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Neck Engagement"></iframe></div>
 
 **What it looks like:** The muscles of the neck visibly contract or strain during oral exercises, especially during tongue movements or swallowing.
 
@@ -14,7 +14,7 @@ This article is for **educational purposes only**—to help you understand what 
 
 ## Jaw Protrusion
 
-![Jaw Protrusion](/images/learn/compensations/jaw-protrusion.jpg)
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1143169821?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Jaw Protrusion"></iframe></div>
 
 **What it looks like:** The jaw shifts forward noticeably during tongue exercises or swallowing.
 
@@ -22,7 +22,7 @@ This article is for **educational purposes only**—to help you understand what 
 
 ## Jaw Lateralization
 
-![Jaw Lateralization](/images/learn/compensations/jaw-lateralization.jpg)
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1143169739?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Jaw Lateralization"></iframe></div>
 
 **What it looks like:** The jaw shifts side to side during exercises or swallowing.
 

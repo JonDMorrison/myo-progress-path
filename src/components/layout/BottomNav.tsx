@@ -1,5 +1,5 @@
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { Home, TrendingUp, MessageSquare, User } from "lucide-react";
+import { NavLink, useLocation } from "react-router-dom";
+import { Home, TrendingUp, MessageSquare, User, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -11,6 +11,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: "/patient", label: "Home", icon: Home },
+  { href: "/learn", label: "Learn", icon: BookOpen },
   { href: "/patient/progress", label: "Progress", icon: TrendingUp },
   { href: "/patient/messages", label: "Messages", icon: MessageSquare },
   { href: "/patient/account", label: "Account", icon: User },
@@ -24,7 +25,7 @@ export function BottomNav() {
       className="fixed bottom-0 inset-x-0 z-40 border-t bg-card/95 backdrop-blur-sm safe-bottom md:hidden"
       aria-label="Mobile navigation"
     >
-      <ul className="grid grid-cols-4 text-center">
+      <ul className="grid grid-cols-5 text-center">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.href || 
