@@ -58,7 +58,8 @@ Myofunctional therapy focuses on achieving four primary goals that work together
 
 ![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 
-![Correct Tongue Position](/images/learn/correct-tongue-posture.jpg)
+![Correct vs Incorrect Tongue Position](/images/learn/tongue-position-comparison.png)
+*(Image credit: Vu and Hickey)*
 
 **Why it matters:** The tongue should rest on the roof of the mouth at the "spot" (incisive papilla) behind the upper front teeth. This position supports the palate, maintains the airway, and supports proper facial growth.
 
