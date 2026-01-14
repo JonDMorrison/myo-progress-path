@@ -77,27 +77,32 @@ const TherapistFeedbackDialog = ({
     }
   };
 
-  const uploadFile = async (file: File, type: "video" | "photo"): Promise<string | null> => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return null;
+  const uploadFile = async (
+    file: File,
+    type: "video" | "photo",
+    folderId: string
+  ): Promise<string> => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) throw new Error("Not authenticated");
+
+    if (!folderId) throw new Error("Missing patient folder");
 
     const ext = file.name.split(".").pop();
-    const fileName = `${patientId}/${type}_${Date.now()}.${ext}`;
+    const fileName = `${folderId}/${type}_${Date.now()}.${ext}`;
 
     const { error } = await supabase.storage
       .from("therapist-feedback")
-      .upload(fileName, file);
+      .upload(fileName, file, { upsert: true });
 
     if (error) {
       console.error("Upload error:", error);
       throw new Error(`Failed to upload ${type}`);
     }
 
-    const { data: urlData } = supabase.storage
-      .from("therapist-feedback")
-      .getPublicUrl(fileName);
-
-    return urlData.publicUrl;
+    // Store the storage path; the patient UI will generate a signed URL when viewing.
+    return fileName;
   };
 
   const handleSubmit = async () => {
@@ -112,56 +117,59 @@ const TherapistFeedbackDialog = ({
 
     setUploading(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      let videoUrl: string | null = null;
-      let photoUrl: string | null = null;
-
-      // Upload files if present
-      if (videoFile) {
-        videoUrl = await uploadFile(videoFile, "video");
-      }
-      if (photoFile) {
-        photoUrl = await uploadFile(photoFile, "photo");
-      }
-
-      // Insert feedback record
-      const { error: insertError } = await supabase
-        .from("therapist_feedback")
-        .insert({
-          therapist_id: user.id,
-          patient_id: patientId,
-          week_id: weekId || null,
-          exercise_id: exerciseId || null,
-          progress_id: progressId || null,
-          feedback_text: feedbackText.trim() || null,
-          video_url: videoUrl,
-          photo_url: photoUrl,
-        });
-
-      if (insertError) throw insertError;
-
-      // Create notification for patient
-      const { data: patientData } = await supabase
+      // Fetch the patient's auth user id. We use this as the storage folder so
+      // patients can access attachments with their own session.
+      const { data: patientRow, error: patientError } = await supabase
         .from("patients")
         .select("user_id")
         .eq("id", patientId)
         .single();
 
-      if (patientData) {
-        const context = exerciseTitle 
-          ? `for "${exerciseTitle}"` 
-          : weekNumber 
-            ? `for Week ${weekNumber}` 
-            : "";
-        
-        await supabase.from("notifications").insert({
-          patient_id: patientId,
-          body: `Your therapist has sent you feedback ${context}. Check your messages!`,
-          read: false,
-        });
+      if (patientError) throw patientError;
+      const patientUserId = patientRow?.user_id;
+      if (!patientUserId) throw new Error("Patient account not found");
+
+      let videoPath: string | null = null;
+      let photoPath: string | null = null;
+
+      // Upload files if present
+      if (videoFile) {
+        videoPath = await uploadFile(videoFile, "video", patientUserId);
       }
+      if (photoFile) {
+        photoPath = await uploadFile(photoFile, "photo", patientUserId);
+      }
+
+      // Insert feedback record
+      const { error: insertError } = await supabase.from("therapist_feedback").insert({
+        therapist_id: user.id,
+        patient_id: patientId,
+        week_id: weekId || null,
+        exercise_id: exerciseId || null,
+        progress_id: progressId || null,
+        feedback_text: feedbackText.trim() || null,
+        video_url: videoPath,
+        photo_url: photoPath,
+      });
+
+      if (insertError) throw insertError;
+
+      const context = exerciseTitle
+        ? `for "${exerciseTitle}"`
+        : weekNumber
+          ? `for Week ${weekNumber}`
+          : "";
+
+      await supabase.from("notifications").insert({
+        patient_id: patientId,
+        body: `Your therapist has sent you feedback ${context}. Check your week for details.`,
+        read: false,
+      });
 
       toast({
         title: "Feedback Sent",

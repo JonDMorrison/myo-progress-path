@@ -3,9 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Video, Image, Check, ExternalLink } from "lucide-react";
+import { MessageSquare, Video, Image, Check, Loader } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 
 interface TherapistFeedback {
   id: string;
@@ -30,6 +31,8 @@ interface TherapistFeedbackListProps {
 const TherapistFeedbackList = ({ patientId, weekId }: TherapistFeedbackListProps) => {
   const [feedback, setFeedback] = useState<TherapistFeedback[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openingKey, setOpeningKey] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     loadFeedback();
