@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -7,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { ExternalLink } from "lucide-react";
 
 interface ConsentDialogProps {
   open: boolean;
@@ -84,14 +86,64 @@ export function ConsentDialog({ open, patientId, onConsent }: ConsentDialogProps
         </DialogHeader>
         
         <ScrollArea className="h-[400px] rounded-md border p-4">
-          <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ 
-            __html: consentText
-              .replace(/^# (.+)$/gm, '<h1 class="text-xl font-bold mt-4 mb-2">$1</h1>')
-              .replace(/^## (.+)$/gm, '<h2 class="text-lg font-semibold mt-4 mb-2">$1</h2>')
-              .replace(/^### (.+)$/gm, '<h3 class="text-base font-semibold mt-3 mb-1">$1</h3>')
-              .replace(/\n\n/g, '</p><p class="mb-2">')
-              .replace(/^(.+)$/gm, '<p class="mb-2">$1</p>')
-          }} />
+          <div className="prose prose-sm max-w-none">
+            <h1 className="text-xl font-bold mb-4">Informed Consent</h1>
+            
+            <h2 className="text-lg font-semibold mt-4 mb-3">Before You Continue</h2>
+            <p className="text-muted-foreground mb-4">
+              Please review these important articles in the Learning Hub to understand your treatment:
+            </p>
+            
+            <div className="space-y-2 mb-6">
+              <Link 
+                to="/learn/program-details" 
+                target="_blank"
+                className="flex items-center gap-2 p-3 rounded-lg border bg-accent/50 hover:bg-accent transition-colors group"
+              >
+                <span className="font-medium">Program Details</span>
+                <span className="text-sm text-muted-foreground">— 24-week structure, family enrollment, multidisciplinary support</span>
+                <ExternalLink className="h-4 w-4 ml-auto text-muted-foreground group-hover:text-primary" />
+              </Link>
+              <Link 
+                to="/learn/treatment-outcomes" 
+                target="_blank"
+                className="flex items-center gap-2 p-3 rounded-lg border bg-accent/50 hover:bg-accent transition-colors group"
+              >
+                <span className="font-medium">Treatment Outcomes</span>
+                <span className="text-sm text-muted-foreground">— Limitations, risks, results, relapse prevention</span>
+                <ExternalLink className="h-4 w-4 ml-auto text-muted-foreground group-hover:text-primary" />
+              </Link>
+              <Link 
+                to="/learn/specific-treatment-concerns" 
+                target="_blank"
+                className="flex items-center gap-2 p-3 rounded-lg border bg-accent/50 hover:bg-accent transition-colors group"
+              >
+                <span className="font-medium">Specific Treatment Concerns</span>
+                <span className="text-sm text-muted-foreground">— TMJ, speech, orthodontics, allergies, tongue-tie</span>
+                <ExternalLink className="h-4 w-4 ml-auto text-muted-foreground group-hover:text-primary" />
+              </Link>
+            </div>
+
+            <hr className="my-4" />
+
+            <h2 className="text-lg font-semibold mt-4 mb-3">Consent to Undergo Myofunctional Therapy Treatment</h2>
+            
+            <p className="mb-3">
+              I acknowledge that I have read and fully understand the treatment considerations presented in the articles linked above and in this form. I also understand that there are problems that can occur and that actual results may differ from the anticipated results.
+            </p>
+            
+            <p className="mb-3">
+              I acknowledge that I have been given the opportunity to discuss this form and ask any questions.
+            </p>
+            
+            <p className="mb-3">
+              I consent to the Myofunctional Therapy program provided by Matt Francisco, DDS and Samantha Raniak, RDH, OMT at Montrose Dental Centre.
+            </p>
+            
+            <p className="text-muted-foreground">
+              I understand that my program fee covers only Myofunctional Therapy, and that treatment provided by other dental or medical professionals is not included in the cost.
+            </p>
+          </div>
         </ScrollArea>
 
         <div className="space-y-4">
