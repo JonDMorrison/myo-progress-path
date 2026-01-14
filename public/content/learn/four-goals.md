@@ -56,6 +56,10 @@ Myofunctional therapy focuses on achieving four primary goals that work together
 
 ![The Tongue](/images/learn/the-tongue.jpg)
 
+![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
+
+![Correct Tongue Position](/images/learn/correct-tongue-posture.jpg)
+
 **Why it matters:** The tongue should rest on the roof of the mouth at the "spot" (incisive papilla) behind the upper front teeth. This position supports the palate, maintains the airway, and supports proper facial growth.
 
 **Key benefits:**
@@ -71,7 +75,5 @@ Myofunctional therapy focuses on achieving four primary goals that work together
 - Maintaining tongue posture all day
 
 ## How These Goals Work Together
-
-![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 
 All four goals are interconnected. Nasal breathing requires a lip seal. A lip seal supports proper tongue posture. Proper tongue posture improves swallowing and chewing. When all four work together, the result is improved breathing, better sleep, enhanced facial development, and overall better health.
