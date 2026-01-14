@@ -46,18 +46,23 @@ Stock images detract from the clinical credibility of educational content. Artic
 
 ## 3. Exercise Deletions
 
-### Self Study Exercises — DELETED
-All exercises with titles starting with "Self Study" have been removed from the database.
-
-**Affected Weeks:** Multiple weeks throughout the 24-week program
-
 ### Meal Practice Exercises — DELETED
 All "Meal Practice" exercises have been removed from the database.
 
 **Affected Weeks:** Multiple weeks throughout the program
 
-### Rationale
-These exercise types were determined to be unnecessary for the clinical workflow and created confusion in the patient experience.
+**Rationale**: These exercises were not part of the core clinical workflow.
+
+### ~~Self Study Exercises~~ — REVERTED ✅
+**Self Study exercises have been RESTORED** (originally deleted in error based on misunderstanding).
+
+**Restored Exercises:**
+| Week | Exercises |
+|------|-----------|
+| Week 23 | Self Study - Exercise 1, 2, 3 |
+| Week 24 | Self Study - Exercise 1, 2, 3 |
+
+**Purpose**: Patients need access to review previous weeks' exercise instructions to complete this task. These exercises guide patients to practice exercises they previously struggled with.
 
 ---
 
@@ -91,20 +96,26 @@ The program uses a **biweekly submission cadence** (every two weeks) with **dail
 
 ---
 
-## 5. BOLT Test Placement
+## 5. BOLT Test Placement — CORRECTED ✅
 
-### Changes Made
-- **Removed** BOLT exercises from Weeks 1, 12, 13, and 17
-- **Retained** only the Week 24 "BOLT Test (Final Check In)"
+### ~~Previous Changes~~ — REVERTED
+~~Removed BOLT exercises from Weeks 1, 12, 13, and 17~~
 
-### Current BOLT Configuration
-| Week | BOLT Exercise | Status |
-|------|--------------|--------|
-| 1-23 | None | ✓ Correct |
-| 24 | BOLT Test (Final Check In) | ✓ Retained |
+### Corrected BOLT Configuration (Per Sam's Clarification)
+BOLT should be present in **BOTH pathways** (Frenectomy and Non-Frenectomy) with the following schedule:
 
-### Rationale
-Sam's clinical intent is for the BOLT test to serve as a **final assessment** at program completion, not as an ongoing metric throughout the program.
+| Week | Exercise Title | Purpose |
+|------|---------------|---------|
+| **Week 1** | BOLT Test | Baseline measurement |
+| **Week 13** | BOLT Score Assessment | Midway check-in |
+| **Week 24** | BOLT Test (Final Check In) | Final assessment |
+
+**All three BOLT tests are now present in both programs.**
+
+### Clinical Rationale
+- **Week 1 (Baseline)**: Establishes starting point for breathing health
+- **Week 13 (Midway)**: Tracks progress at program midpoint
+- **Week 24 (Final)**: Measures improvement at program completion
 
 ---
 
@@ -156,11 +167,11 @@ The frenectomy pathway content was already correctly implemented.
 |------|--------|-------|
 | Learn Hub access control | ✅ Complete | 4 articles restricted to patients |
 | Stock images removed | ✅ Complete | 7 articles cleaned |
-| Self Study exercises deleted | ✅ Complete | 0 remaining in database |
+| Self Study exercises | ✅ **RESTORED** | 6 exercises in Weeks 23-24 |
 | Meal Practice exercises deleted | ✅ Complete | 0 remaining in database |
 | Charts → Check-ins | ✅ Complete | All instances updated |
 | Weekly → Biweekly/Daily | ✅ Complete | 12 instances updated |
-| BOLT only in Week 24 | ✅ Complete | Only final check-in remains |
+| BOLT tests | ✅ **CORRECTED** | Week 1, 13, 24 (both programs) |
 | Weeks 9/10 Mouth Tape | ✅ Complete | Verbatim overnight instructions |
 | Frenectomy pre-op content | ✅ Verified | Already present |
 
@@ -168,11 +179,15 @@ The frenectomy pathway content was already correctly implemented.
 
 ## Database Queries for Verification
 
-### Verify No Self Study Exercises
+### Verify Self Study Exercises (RESTORED)
 ```sql
-SELECT title, week_id FROM exercises 
-WHERE title ILIKE '%self study%';
--- Expected: 0 rows
+SELECT e.title, w.number as week_number, p.title as program
+FROM exercises e 
+JOIN weeks w ON e.week_id = w.id 
+JOIN programs p ON w.program_id = p.id
+WHERE title ILIKE '%self study%'
+ORDER BY p.title, w.number;
+-- Expected: 12 rows (6 per program, Weeks 23-24)
 ```
 
 ### Verify No Meal Practice Exercises
@@ -182,13 +197,15 @@ WHERE title ILIKE '%meal practice%';
 -- Expected: 0 rows
 ```
 
-### Verify BOLT Exercises
+### Verify BOLT Exercises (CORRECTED)
 ```sql
-SELECT e.title, w.number as week_number 
+SELECT e.title, w.number as week_number, p.title as program
 FROM exercises e 
 JOIN weeks w ON e.week_id = w.id 
-WHERE e.title ILIKE '%bolt%';
--- Expected: 1 row (Week 24 only)
+JOIN programs p ON w.program_id = p.id
+WHERE e.title ILIKE '%bolt%'
+ORDER BY p.title, w.number;
+-- Expected: 6 rows (Weeks 1, 13, 24 in both programs)
 ```
 
 ### Verify Mouth Taping in Weeks 9-10
