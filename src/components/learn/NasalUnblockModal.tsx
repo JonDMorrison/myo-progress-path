@@ -25,6 +25,19 @@ export function NasalUnblockModal() {
         
         <ScrollArea className="flex-1 px-6">
           <div className="space-y-6 py-6">
+            {/* Video demonstration */}
+            <section>
+              <h3 className="font-semibold text-lg mb-3">Video Demonstration</h3>
+              <div className="aspect-video rounded-lg overflow-hidden bg-muted">
+                <iframe
+                  src="https://player.vimeo.com/video/1143179571?badge=0&autopause=0&player_id=0&app_id=58479"
+                  className="w-full h-full"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                  title="Nasal Unblocking Exercises"
+                />
+              </div>
+            </section>
+
             <section>
               <h3 className="font-semibold text-lg mb-3">Exercise 1 – Sinus Massage</h3>
               <ul className="list-disc pl-5 space-y-2">
