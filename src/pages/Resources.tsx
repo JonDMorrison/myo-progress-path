@@ -9,6 +9,8 @@ import { getPageTitle } from "@/lib/seo";
 import resourcesHero from "@/assets/resources-hero.jpg";
 import breathBook from "@/assets/books/breath-book.jpg";
 import oxygenBook from "@/assets/books/oxygen-advantage-book.jpg";
+import tongueTiedBook from "@/assets/books/tongue-tied-book.jpg";
+import gaspBook from "@/assets/books/gasp-book.jpg";
 
 const Resources = () => {
   // Peer-reviewed research - Sam's curated list with publicly available links
@@ -126,13 +128,13 @@ const Resources = () => {
       title: "Tongue-Tied",
       author: "Richard Baxter, DMD, MS",
       description: "Comprehensive guide to tongue-tie and its effects on feeding, speech, sleep, and development.",
-      cover: null
+      cover: tongueTiedBook
     },
     {
       title: "GASP!: Airway Health – The Hidden Path to Wellness",
       author: "Dr. Michael Gelb",
       description: "Explains the connection between airway health, breathing, and whole-body wellness.",
-      cover: null
+      cover: gaspBook
     },
     {
       title: "The Oxygen Advantage",
