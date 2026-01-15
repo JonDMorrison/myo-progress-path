@@ -25,6 +25,7 @@ import { LearnHubReviewTask } from "@/components/week/LearnHubReviewTask";
 import { PreOpPreparationCard } from "@/components/week/PreOpPreparationCard";
 import { PostOpProtocolCard } from "@/components/week/PostOpProtocolCard";
 import TherapistFeedbackList from "@/components/week/TherapistFeedbackList";
+import { SelfStudyReview } from "@/components/week/SelfStudyReview";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -552,6 +553,17 @@ const WeekDetail = () => {
                       existingCompletions={progress?.exercise_completions || {}}
                       onUpdate={handleProgressUpdate}
                       readOnly={isReadOnly}
+                    />
+                  </Section>
+                )}
+
+                {/* Self-Study Review - Weeks 17-24 only */}
+                {patient?.id && (
+                  <Section delay={375}>
+                    <SelfStudyReview
+                      patientId={patient.id}
+                      currentWeekNumber={parseInt(weekNumber || "0")}
+                      programVariant={patient.program_variant || 'frenectomy'}
                     />
                   </Section>
                 )}
