@@ -69,7 +69,7 @@ const Resources = () => {
       journal: "Journal of Clinical and Diagnostic Research",
       year: "2014",
       description: "Investigates the connection between tongue-tie and skeletal bite problems.",
-      url: "http://pmc.ncbi.nlm.nih.gov/articles/PMC4003643/"
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4003643/"
     },
     {
       title: "Mouth Breathing and Its Relationship to Some Oral and Medical Conditions: Physiopathological Mechanisms Involved",
