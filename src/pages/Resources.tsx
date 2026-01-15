@@ -21,7 +21,7 @@ const Resources = () => {
       journal: "Cureus",
       year: "2019",
       description: "Explores how the tongue connects anatomically to multiple body systems and functions.",
-      url: "https://pubmed.ncbi.nlm.nih.gov/30838167/"
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6390887/"
     },
     {
       title: "Functional Improvements of Speech, Feeding, and Sleep After Lingual Frenectomy Tongue-Tie Release: A Prospective Cohort Study",
