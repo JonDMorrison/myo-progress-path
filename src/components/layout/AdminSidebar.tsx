@@ -42,6 +42,8 @@ const navItems = {
   ],
   content: [
     { title: "Content Import", url: "/admin/content", icon: FileJson },
+    { title: "Exercise Editor", url: "/admin/exercise-editor", icon: FileJson },
+    { title: "Week Settings", url: "/admin/week-settings", icon: FileJson },
     { title: "Media Audit", url: "/admin/media-audit", icon: Image },
   ],
   programTools: [
