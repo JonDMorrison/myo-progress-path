@@ -86,6 +86,9 @@ export function FrenectomyConsultTask({
             <p className="text-sm text-muted-foreground mt-1">
               Before you can complete Week 1, please contact Vedder Dental to schedule your frenectomy consultation appointment.
             </p>
+            <p className="text-sm text-primary font-medium mt-2">
+              💡 Tip: Prebook your frenectomy for 8 weeks into your myo program
+            </p>
           </div>
         </div>
         
