@@ -409,6 +409,7 @@ export type Database = {
           requires_clinician_confirmation: boolean | null
           title: string
           type: Database["public"]["Enums"]["exercise_type"]
+          video_required: boolean
           week_id: string | null
         }
         Insert: {
@@ -428,6 +429,7 @@ export type Database = {
           requires_clinician_confirmation?: boolean | null
           title: string
           type: Database["public"]["Enums"]["exercise_type"]
+          video_required?: boolean
           week_id?: string | null
         }
         Update: {
@@ -447,6 +449,7 @@ export type Database = {
           requires_clinician_confirmation?: boolean | null
           title?: string
           type?: Database["public"]["Enums"]["exercise_type"]
+          video_required?: boolean
           week_id?: string | null
         }
         Relationships: [
