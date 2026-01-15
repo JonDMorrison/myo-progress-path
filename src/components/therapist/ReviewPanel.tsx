@@ -28,6 +28,7 @@ import { moveToMaintenance } from "@/lib/maintenanceActions";
 import VideoPlayer from "./VideoPlayer";
 import AIReviewSummary from "./AIReviewSummary";
 import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
+import { ExerciseVideoToggle } from "./ExerciseVideoToggle";
 
 interface ReviewPanelProps {
   open: boolean;
@@ -54,6 +55,7 @@ interface Exercise {
   id: string;
   title: string;
   instructions: string | null;
+  video_required: boolean;
 }
 
 interface Message {
@@ -152,10 +154,10 @@ const ReviewPanel = ({
 
       setUploads(uploadsData || []);
 
-      // Load exercises
+      // Load exercises with video_required field
       const { data: exercisesData } = await supabase
         .from("exercises")
-        .select("id, title, instructions")
+        .select("id, title, instructions, video_required")
         .eq("week_id", weekId)
         .order("title");
 
@@ -498,22 +500,30 @@ const ReviewPanel = ({
                 {/* AI Review Summary (collapsed by default) */}
                 <AIReviewSummary uploads={uploads} />
 
-                {/* Exercise Instructions (collapsed) */}
+                {/* Exercise Instructions & Video Settings (collapsed) */}
                 {exercises.length > 0 && (
                   <Collapsible open={exercisesExpanded} onOpenChange={setExercisesExpanded}>
                     <CollapsibleTrigger asChild>
                       <Button variant="ghost" className="w-full justify-between px-4 py-3 h-auto border rounded-lg">
-                        <span className="font-medium">Exercise Instructions ({exercises.length})</span>
+                        <span className="font-medium">Exercise Settings ({exercises.length})</span>
                         {exercisesExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                       </Button>
                     </CollapsibleTrigger>
                     <CollapsibleContent className="px-4 py-3 space-y-3 border border-t-0 rounded-b-lg -mt-1">
                       {exercises.map((ex) => (
-                        <div key={ex.id}>
-                          <p className="text-sm font-medium">{ex.title}</p>
-                          {ex.instructions && (
-                            <p className="text-xs text-muted-foreground mt-1">{ex.instructions}</p>
-                          )}
+                        <div key={ex.id} className="flex items-start justify-between gap-3 py-2 border-b last:border-0">
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">{ex.title}</p>
+                            {ex.instructions && (
+                              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{ex.instructions}</p>
+                            )}
+                          </div>
+                          <ExerciseVideoToggle
+                            exerciseId={ex.id}
+                            exerciseTitle={ex.title}
+                            videoRequired={ex.video_required ?? false}
+                            onUpdate={loadPanelData}
+                          />
                         </div>
                       ))}
                     </CollapsibleContent>
