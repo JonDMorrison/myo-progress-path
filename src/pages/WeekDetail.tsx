@@ -25,7 +25,7 @@ import { LearnHubReviewTask } from "@/components/week/LearnHubReviewTask";
 import { PreOpPreparationCard } from "@/components/week/PreOpPreparationCard";
 import { PostOpProtocolCard } from "@/components/week/PostOpProtocolCard";
 import TherapistFeedbackList from "@/components/week/TherapistFeedbackList";
-import { SelfStudyReview } from "@/components/week/SelfStudyReview";
+import { PreviousWeeksReview } from "@/components/week/PreviousWeeksReview";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -557,10 +557,10 @@ const WeekDetail = () => {
                   </Section>
                 )}
 
-                {/* Self-Study Review - Weeks 17-24 only */}
+                {/* Previous Weeks Review - Weeks 17-24 only */}
                 {patient?.id && (
                   <Section delay={375}>
-                    <SelfStudyReview
+                    <PreviousWeeksReview
                       patientId={patient.id}
                       currentWeekNumber={parseInt(weekNumber || "0")}
                       programVariant={patient.program_variant || 'frenectomy'}
