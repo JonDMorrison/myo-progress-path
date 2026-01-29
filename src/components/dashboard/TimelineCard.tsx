@@ -28,7 +28,7 @@ export function TimelineCard({
         <CardTitle className="text-lg">Progress Timeline</CardTitle>
         <CardDescription>
           {isFrenectomy 
-            ? `Your therapy journey: ${totalModules} modules including post-op recovery`
+            ? `Your therapy journey: ${totalModules} items including protocols and post-op recovery`
             : `Your ${totalModules}-module therapy journey`
           }
         </CardDescription>
@@ -55,10 +55,16 @@ export function TimelineCard({
             <span>Upcoming</span>
           </div>
           {isFrenectomy && (
-            <div className="flex items-center gap-1 sm:gap-2">
-              <div className="h-2 w-2 rounded-full bg-muted border-2 border-warning" />
-              <span>Post-Op</span>
-            </div>
+            <>
+              <div className="flex items-center gap-1 sm:gap-2">
+                <div className="h-2 w-2 rounded-full bg-muted border-2 border-warning" />
+                <span>Post-Op</span>
+              </div>
+              <div className="flex items-center gap-1 sm:gap-2">
+                <div className="h-2 w-2 rounded-sm bg-primary/20 border border-primary/50" />
+                <span>Protocol</span>
+              </div>
+            </>
           )}
         </div>
       </CardContent>
