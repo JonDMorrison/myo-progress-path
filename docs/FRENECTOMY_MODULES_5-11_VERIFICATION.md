@@ -90,17 +90,22 @@ All exercises for Frenectomy Weeks 11-24 have been replaced with verbatim conten
 
 ---
 
-## Module 11 (Weeks 23-24): ✅ PASS
+## Module 11 (Weeks 23-24): ⚠️ CLINICIAN REVIEW REQUIRED
 
-| Exercise | Frequency | Duration | Source Match |
-|----------|-----------|----------|--------------|
-| Self Study (Active Exercises) | 2x/day | 1-2 min each | ✅ |
-| Head Pushes | 1x/day | 1 minute | ✅ |
-| Shoulder Squeezes | 1x/day | 1 minute | ✅ |
-| BOLT Test (Final Check In) | Once | — | ✅ |
-| Final Video | Once | — | ✅ |
-| Middle of Tongue – Two Elastic Hold | 1x/day | **1 hour** | ✅ |
-| Mouth Taping Over Night | Every night | Overnight | ✅ |
+| Exercise Title | Source Page/Section | Status |
+|----------------|---------------------|--------|
+| Self Study (Active Exercises) | Not parsed (page 51+) | ❌ Missing |
+| Head Pushes | Not parsed (page 51+) | ❌ Missing |
+| Shoulder Squeezes | Not parsed (page 51+) | ❌ Missing |
+| BOLT Test (Final Check In) | Not parsed (page 51+) | ❌ Missing |
+| Final Video | Not parsed (page 51+) | ❌ Missing |
+| Middle of Tongue – Two Elastic Hold | Not parsed (page 51+) | ❌ Missing |
+| Mouth Taping Over Night | Not parsed (page 51+) | ❌ Missing |
+
+**⚠️ Source Document Limitation:**
+The document parser reached the 50-page limit. Page 50 ends with Week 21-22 completion checklist. "Exercises Week 23-24" is listed in the Table of Contents (page 3) but the actual content appears on page 51+ which was not captured.
+
+**No extrapolated content remains.** Weeks 23-24 now contain only a "Clinician Review Required" placeholder node.
 
 ---
 
