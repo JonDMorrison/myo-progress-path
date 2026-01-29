@@ -131,7 +131,37 @@ Alternating exercises marked correctly:
 
 ---
 
+## Self Study Exercises - RESTORED
+
+Self Study exercises have been recreated **verbatim** from `MFT_without_Frenectomy.docx`.
+
+**NOTE**: Self Study appears **ONLY** in the Non-Frenectomy Program. It is NOT in the Frenectomy document.
+
+| Module | Weeks | Exercise Title | Frequency | Exercise ID |
+|--------|-------|----------------|-----------|-------------|
+| Module 9 | 17 | Self Study (Active Exercise) | 1-2 minutes 2x/day | `0d0576d1-c9f1-4f0f-8b07-d2f614f85626` |
+| Module 9 | 18 | Self Study (Active Exercise) | 1-2 minutes 2x/day | `3201d891-be93-4886-adf8-1e86a5ee82b0` |
+| Module 10 | 19 | Self Study (Active Exercises) - Optional | 1-2 minutes 2x/day for each exercise | `d936b7da-8e7f-426d-a2a3-8e29b2ea2db0` |
+| Module 10 | 20 | Self Study (Active Exercises) - Optional | 1-2 minutes 2x/day for each exercise | `90376801-be24-48b3-8dad-362ae74eb432` |
+| Module 11 | 21 | Self Study (Active Exercises) - Optional | 1-2 minutes 2x/day for each exercise | `00624f8a-6a83-42b4-b920-a1f4c65f0fc3` |
+| Module 11 | 22 | Self Study (Active Exercises) - Optional | 1-2 minutes 2x/day for each exercise | `e3834e07-d369-4145-a8a5-eb6003b39b6a` |
+| Module 12 | 23 | Self Study (Active Exercises) - Optional | 1-2 minutes 2x/day for each exercise | `75498001-4289-4ed5-a6d2-d92c4e1e0b81` |
+| Module 12 | 24 | Self Study (Active Exercises) - Optional | 1-2 minutes 2x/day for each exercise | `f633c7cc-c2f5-444f-a40f-f76ad630574b` |
+
+### Verbatim Instructions (from source)
+
+**Weeks 17-18 (single exercise):**
+> - Look back through the active exercises in this program and review one of the exercises that you struggled with the most previously.
+> - Practice these exercises for the next 2 weeks.
+
+**Weeks 19-24 (3 exercises combined, optional):**
+> - Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously
+> - Practice these exercises for the next 2 weeks
+
+---
+
 ## Verification Status
 
 - ✅ Exercises from source documents: Cadence verified and corrected
+- ✅ Self Study exercises: Restored verbatim from Non-Frenectomy source document
 - ⚠️ Exercises NOT in source documents: Flagged for clinical review (see table above)
