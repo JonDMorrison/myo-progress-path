@@ -197,12 +197,23 @@ export default function LearnArticle() {
                       }
                       return <p {...props}>{children}</p>;
                     },
-                    img: ({node, ...props}) => (
-                      <img 
-                        {...props} 
-                        className="float-right w-[30%] ml-6 mb-4 mt-1 rounded-lg shadow-md clear-right max-sm:float-none max-sm:w-full max-sm:ml-0"
-                      />
-                    ),
+                    img: ({node, ...props}) => {
+                      // Check if this is the myokit image or inside a special container
+                      const className = props.className || '';
+                      const src = props.src || '';
+                      
+                      // Don't apply float styling to myokit image
+                      if (className.includes('myokit-image') || src.includes('myokit')) {
+                        return <img {...props} />;
+                      }
+                      
+                      return (
+                        <img 
+                          {...props} 
+                          className="float-right w-[30%] ml-6 mb-4 mt-1 rounded-lg shadow-md clear-right max-sm:float-none max-sm:w-full max-sm:ml-0"
+                        />
+                      );
+                    },
                     // Style Vimeo embeds responsively
                     div: ({node, ...props}) => {
                       const style = props.style as React.CSSProperties | undefined;

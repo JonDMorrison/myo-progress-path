@@ -1,24 +1,24 @@
 # Your Myofunctional Therapy Kit
 
-![Myofunctional Therapy Kit](/images/learn/myokit-labeled.png)
-
 The program includes a **kit** with the supplies you'll need. Not all items are used in every week. Need a replacement? Kits are **$20** or **$2/item** (many items are common household supplies).
 
-## Included in each kit:
+<div class="myokit-labeled-container">
+  <img src="/images/learn/myokit-labeled.png" alt="Myofunctional Therapy Kit with labeled items" class="myokit-image" />
+</div>
 
-Your kit includes the following essential supplies for the program:
+## What's In Your Kit
 
-| Label | Item |
-|-------|------|
-| **a** | 1 Toothbrush |
-| **b** | 1 Pipette |
-| **c** | 1 Button on string |
-| **d** | 1 Popsicle stick |
-| **e** | 1 Chopsticks |
-| **f** | 1 Straw |
-| **g** | 24 Elastics |
-| **h** | 6 sheets of Mouth Tape |
-| **i** | 2 Latex Tubes (*latex-free available*) |
-| **j** | 1 Bite block |
+<div class="kit-items-grid">
+  <div class="kit-item"><span class="kit-label">a</span><span class="kit-name">1 Toothbrush</span></div>
+  <div class="kit-item"><span class="kit-label">b</span><span class="kit-name">1 Pipette</span></div>
+  <div class="kit-item"><span class="kit-label">c</span><span class="kit-name">1 Button on string</span></div>
+  <div class="kit-item"><span class="kit-label">d</span><span class="kit-name">1 Popsicle stick</span></div>
+  <div class="kit-item"><span class="kit-label">e</span><span class="kit-name">1 Chopsticks</span></div>
+  <div class="kit-item"><span class="kit-label">f</span><span class="kit-name">1 Straw</span></div>
+  <div class="kit-item"><span class="kit-label">g</span><span class="kit-name">24 Elastics</span></div>
+  <div class="kit-item"><span class="kit-label">h</span><span class="kit-name">6 sheets of Mouth Tape</span></div>
+  <div class="kit-item"><span class="kit-label">i</span><span class="kit-name">2 Latex Tubes</span><span class="kit-note">(latex-free available)</span></div>
+  <div class="kit-item"><span class="kit-label">j</span><span class="kit-name">1 Bite block</span></div>
+</div>
 
 > *Gloves or 2×2 Gauze may be helpful but are not provided.*
