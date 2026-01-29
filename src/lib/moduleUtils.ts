@@ -68,9 +68,11 @@ export function getTotalModules(programVariant: string): number {
   if (programVariant === 'frenectomy' || programVariant === 'standard') {
     // Frenectomy per source document:
     // Modules 1-4: Weeks 1-8 (4 biweekly modules)
+    // Pre-Operative Protocol (1 standalone)
     // Post-Op: Weeks 9-10 (2 individual weeks with day subdivisions)
+    // Post-Operative Protocol (1 standalone)
     // Modules 5-11: Weeks 11-24 (7 biweekly modules)
-    return 4 + 2 + 7; // = 13 total navigation items
+    return 4 + 1 + 2 + 1 + 7; // = 15 total navigation items
   }
   // Non-frenectomy: all weeks are biweekly modules
   return 12; // 24 weeks / 2 = 12 modules
@@ -163,10 +165,12 @@ export function getModuleInfo(weekNumber: number, programVariant: string): Modul
  */
 export interface TimelineItem {
   id: string;
-  weekNumbers: number[]; // Which weeks this item represents
+  weekNumbers: number[]; // Which weeks this item represents (empty for protocol pages)
   label: string;
   shortLabel: string;
   isPostOp: boolean;
+  isProtocol?: boolean; // True for standalone protocol pages (not weeks)
+  protocolSlug?: string; // URL slug for protocol pages
   order: number; // For sorting
 }
 
@@ -188,6 +192,18 @@ export function getTimelineItems(programVariant: string): TimelineItem[] {
       });
     }
     
+    // Pre-Operative Protocol (between Module 4 and Post-Op Week 9)
+    items.push({
+      id: 'pre-op-protocol',
+      weekNumbers: [], // Not a week
+      label: "Dr. Caylor's Pre-Operative Protocol",
+      shortLabel: 'Pre-Op',
+      isPostOp: false,
+      isProtocol: true,
+      protocolSlug: 'pre-op-protocol',
+      order: 8.5, // Between Module 4 (order 7) and Week 9 (order 9)
+    });
+    
     // Post-Op Weeks 9-10 (individual) with day-based labels
     // Week 9 contains sub-sections: Days 1-3 and Days 4-7
     items.push({
@@ -206,6 +222,18 @@ export function getTimelineItems(programVariant: string): TimelineItem[] {
       shortLabel: 'D8-14',
       isPostOp: true,
       order: 10,
+    });
+    
+    // Post-Operative Protocol (between Post-Op Week 10 and Module 5)
+    items.push({
+      id: 'post-op-protocol',
+      weekNumbers: [], // Not a week
+      label: "Dr. Caylor's Post-Operative Protocol",
+      shortLabel: 'Post-Op',
+      isPostOp: false,
+      isProtocol: true,
+      protocolSlug: 'post-op-protocol',
+      order: 10.5, // Between Week 10 (order 10) and Module 5 (order 11)
     });
     
     // Modules 5-11: Weeks 11-24 (Post-Recovery)

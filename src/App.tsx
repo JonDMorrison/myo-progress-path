@@ -45,6 +45,7 @@ import PatientProgress from "./pages/PatientProgress";
 import PatientMessages from "./pages/PatientMessages";
 import PatientAccount from "./pages/PatientAccount";
 import ClinicalTesting from "./pages/ClinicalTesting";
+import ProtocolDetail from "./pages/ProtocolDetail";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +96,7 @@ const App = () => {
             <Route path="/reports" element={<Reports />} />
             <Route path="/therapist/ai-assist" element={<TherapistAIAssist />} />
             <Route path="/week/:weekNumber" element={<WeekDetail />} />
+            <Route path="/protocol/:slug" element={<ProtocolDetail />} />
             <Route path="/review/:patientId/:weekNumber" element={<ReviewWeek />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
