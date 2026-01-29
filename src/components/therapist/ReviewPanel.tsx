@@ -15,7 +15,7 @@ import {
   Lock,
   MessageSquare,
   Sparkles,
-  RefreshCw,
+  // RefreshCw removed - AI analysis disabled
   Send,
   Undo2,
   Award,
@@ -26,7 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import { moveToMaintenance } from "@/lib/maintenanceActions";
 import VideoPlayer from "./VideoPlayer";
-import AIReviewSummary from "./AIReviewSummary";
+// AIReviewSummary removed - AI feedback disabled, therapist provides all feedback
 import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
 import { ExerciseVideoToggle } from "./ExerciseVideoToggle";
 
@@ -346,37 +346,7 @@ const ReviewPanel = ({
     }
   };
 
-  const handleRetryAnalysis = async (uploadId: string) => {
-    try {
-      // Update status to pending
-      await supabase
-        .from('uploads')
-        .update({ ai_feedback_status: 'pending', ai_feedback: null })
-        .eq('id', uploadId);
-      
-      // Trigger re-analysis
-      const { error } = await supabase.functions.invoke('analyze-video', {
-        body: { uploadId }
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Analysis Restarted",
-        description: "AI video analysis has been re-triggered.",
-      });
-
-      // Reload panel data to show updated status
-      loadPanelData();
-    } catch (error: any) {
-      console.error('Retry analysis error:', error);
-      toast({
-        title: "Retry Failed",
-        description: error.message || "Could not restart analysis.",
-        variant: "destructive",
-      });
-    }
-  };
+  // AI analysis retry removed - therapist provides all feedback
 
   const handleTakeover = async () => {
     setReviewingBy(null);
@@ -476,29 +446,7 @@ const ReviewPanel = ({
                 {/* Video Player */}
                 <VideoPlayer uploads={uploads} />
 
-                {/* AI Analysis Status / Retry for Errors */}
-                {uploads.some(u => u.ai_feedback_status === 'error') && (
-                  <div className="flex items-center justify-between p-3 rounded-lg border border-destructive/30 bg-destructive/5">
-                    <div className="flex items-center gap-2 text-sm text-destructive">
-                      <AlertTriangle className="h-4 w-4" />
-                      <span>AI analysis failed for some videos</span>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => {
-                        const errorUpload = uploads.find(u => u.ai_feedback_status === 'error');
-                        if (errorUpload) handleRetryAnalysis(errorUpload.id);
-                      }}
-                    >
-                      <RefreshCw className="h-3 w-3 mr-1" />
-                      Retry
-                    </Button>
-                  </div>
-                )}
-
-                {/* AI Review Summary (collapsed by default) */}
-                <AIReviewSummary uploads={uploads} />
+                {/* AI Analysis Status and AI Review Summary removed - therapist provides all feedback */}
 
                 {/* Exercise Instructions & Video Settings (collapsed) */}
                 {exercises.length > 0 && (

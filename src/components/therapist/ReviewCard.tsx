@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Video, MessageSquare, AlertTriangle, Loader, CheckCircle } from "lucide-react";
+import { Video, MessageSquare, CheckCircle, Loader } from "lucide-react";
 import { 
   calculateTriageLevel, 
   getTriageBorderClass, 
@@ -24,7 +24,7 @@ interface ReviewCardProps {
   consecutiveNeedsMore: number;
   videoCount: number;
   messageCount: number;
-  uploads: { ai_feedback: any; ai_feedback_status: string | null }[];
+  uploads?: { ai_feedback?: any; ai_feedback_status?: string | null }[]; // Kept for API compatibility
   onReview?: (progressId: string, patientId: string, weekNumber: number, weekId: string) => void;
   onApprove?: (progressId: string) => void;
   onSendNote?: (patientId: string, weekNumber: number) => void;
@@ -49,7 +49,7 @@ const ReviewCard = ({
   consecutiveNeedsMore,
   videoCount,
   messageCount,
-  uploads,
+  uploads = [],
   onReview,
   onApprove,
   onSendNote,
@@ -59,14 +59,10 @@ const ReviewCard = ({
   selected,
   onSelect,
 }: ReviewCardProps) => {
-  const triage = calculateTriageLevel(status, submittedAt, consecutiveNeedsMore, uploads);
+  // AI-based triage has been disabled - triage based on time and status only
+  const triage = calculateTriageLevel(status, submittedAt, consecutiveNeedsMore);
   const borderClass = getTriageBorderClass(triage.level);
   const waitingTime = formatWaitingTime(submittedAt);
-  
-  // Check AI status across uploads
-  const hasAiPending = uploads.some(u => u.ai_feedback_status === 'pending');
-  const hasAiError = uploads.some(u => u.ai_feedback_status === 'error');
-  const hasAiIssues = uploads.some(u => u.ai_feedback?.issues?.length > 0);
   
   const canApprove = triage.level !== 'red';
   const isGreen = triage.level === 'green';
@@ -140,28 +136,6 @@ const ReviewCard = ({
                   <span className="text-xs">{messageCount}</span>
                 </div>
               )}
-              
-              {/* AI indicators - secondary and muted */}
-              {hasAiPending && (
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <Loader className="h-3 w-3 animate-spin" />
-                  <span className="text-xs">AI processing</span>
-                </div>
-              )}
-              
-              {hasAiError && (
-                <div className="flex items-center gap-1 text-destructive/70">
-                  <AlertTriangle className="h-3 w-3" />
-                  <span className="text-xs">AI error</span>
-                </div>
-              )}
-              
-              {hasAiIssues && !hasAiError && !hasAiPending && (
-                <div className="flex items-center gap-1 text-warning/70">
-                  <AlertTriangle className="h-3 w-3" />
-                  <span className="text-xs">Issues found</span>
-                </div>
-              )}
             </div>
           </div>
           
@@ -209,9 +183,9 @@ export const getCardTriageLevel = (
   status: string,
   submittedAt: string | null,
   consecutiveNeedsMore: number,
-  uploads: { ai_feedback: any; ai_feedback_status: string | null }[]
+  _uploads?: { ai_feedback?: any; ai_feedback_status?: string | null }[] // Kept for API compatibility
 ): TriageLevel => {
-  return calculateTriageLevel(status, submittedAt, consecutiveNeedsMore, uploads).level;
+  return calculateTriageLevel(status, submittedAt, consecutiveNeedsMore).level;
 };
 
 export default ReviewCard;

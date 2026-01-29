@@ -6,12 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Sparkles, Play, Loader, RefreshCw, Undo2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Play, Loader, Undo2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import { getVideoUrl } from "@/lib/storage";
 
-import AIFeedbackCard from "@/components/AIFeedbackCard";
+// AI feedback has been disabled - therapist feedback only
 
 const ReviewWeek = () => {
   const { patientId, weekNumber } = useParams();
@@ -30,7 +30,7 @@ const ReviewWeek = () => {
   const [uploads, setUploads] = useState<any[]>([]);
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
   const [loadingVideo, setLoadingVideo] = useState<string | null>(null);
-  const [retryingAnalysis, setRetryingAnalysis] = useState<string | null>(null);
+  // AI analysis state removed - therapist feedback only
 
   useEffect(() => {
     loadReviewData();
@@ -285,37 +285,7 @@ const ReviewWeek = () => {
     }
   };
 
-  const handleRetryAnalysis = async (uploadId: string) => {
-    setRetryingAnalysis(uploadId);
-    try {
-      const { data, error } = await supabase.functions.invoke("analyze-video", {
-        body: { uploadId },
-      });
-
-      if (error) throw error;
-
-      // Update local state with new feedback
-      setUploads(prev => prev.map(u => 
-        u.id === uploadId 
-          ? { ...u, ai_feedback: data.feedback, ai_feedback_status: 'complete' }
-          : u
-      ));
-
-      toast({
-        title: "Analysis Complete",
-        description: "AI feedback has been generated.",
-      });
-    } catch (error: any) {
-      console.error("Error retrying analysis:", error);
-      toast({
-        title: "Analysis Failed",
-        description: error.message || "Failed to analyze video.",
-        variant: "destructive",
-      });
-    } finally {
-      setRetryingAnalysis(null);
-    }
-  };
+  // AI analysis retry function removed - therapist feedback only
 
   if (loading) {
     return (
@@ -521,35 +491,7 @@ const ReviewWeek = () => {
                           )}
                         </div>
                         
-                        {/* AI Feedback Status */}
-                        {upload.ai_feedback ? (
-                          <AIFeedbackCard feedback={upload.ai_feedback} compact />
-                        ) : upload.ai_feedback_status === 'pending' ? (
-                          <div className="flex items-center gap-2 p-3 bg-muted rounded-lg text-sm text-muted-foreground">
-                            <Loader className="h-4 w-4 animate-spin" />
-                            AI analysis in progress...
-                          </div>
-                        ) : upload.ai_feedback_status === 'error' ? (
-                          <div className="flex items-center justify-between p-3 bg-destructive/10 rounded-lg">
-                            <div className="flex items-center gap-2 text-sm text-destructive">
-                              <AlertCircle className="h-4 w-4" />
-                              AI analysis failed
-                            </div>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleRetryAnalysis(upload.id)}
-                              disabled={retryingAnalysis === upload.id}
-                            >
-                              {retryingAnalysis === upload.id ? (
-                                <Loader className="h-3 w-3 animate-spin mr-1" />
-                              ) : (
-                                <RefreshCw className="h-3 w-3 mr-1" />
-                              )}
-                              Retry
-                            </Button>
-                          </div>
-                        ) : null}
+                        {/* AI feedback section removed - therapist provides all feedback */}
                       </div>
                     ))}
                   </div>
@@ -566,12 +508,7 @@ const ReviewWeek = () => {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="note">Note for Patient (optional for approval, required for needs more)</Label>
-                  {progress?.ai_summary && (
-                    <div className="flex items-center gap-2 mb-2 p-2 bg-primary/10 rounded text-sm">
-                      <Sparkles className="h-4 w-4 text-primary" />
-                      <span className="text-muted-foreground">AI-generated note (editable)</span>
-                    </div>
-                  )}
+                  {/* AI summary indicator removed - therapist writes all feedback */}
                   <Textarea
                     id="note"
                     value={note}

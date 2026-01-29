@@ -94,12 +94,7 @@ export async function uploadVideo(
       return { success: false, error: insertError?.message || 'Failed to create upload record' };
     }
 
-    // Trigger AI video analysis in the background (fire-and-forget)
-    supabase.functions.invoke('analyze-video', {
-      body: { uploadId: insertData.id }
-    }).catch(err => {
-      console.warn('AI analysis trigger failed:', err);
-    });
+    // AI video analysis disabled - feedback is therapist-only
 
     // Simulate progress for better UX (actual upload is already complete)
     if (onProgress) {
@@ -176,12 +171,7 @@ export async function uploadVideoForExercise(
       return { success: false, error: insertError?.message || 'Failed to create upload record' };
     }
 
-    // Trigger AI video analysis in the background (fire-and-forget)
-    supabase.functions.invoke('analyze-video', {
-      body: { uploadId: insertData.id }
-    }).catch(err => {
-      console.warn('AI analysis trigger failed:', err);
-    });
+    // AI video analysis disabled - feedback is therapist-only
 
     // Simulate progress for better UX (actual upload is already complete)
     if (onProgress) {
