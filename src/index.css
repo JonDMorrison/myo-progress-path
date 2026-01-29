@@ -216,6 +216,36 @@ All colors MUST be HSL.
   .prose hr {
     @apply border-border my-8;
   }
+
+  /* MyoKit Labeled Image - Full Width with High Visibility */
+  .prose .myokit-labeled-container {
+    @apply w-full my-8 rounded-xl overflow-hidden shadow-lg bg-white border-2 border-primary/20;
+  }
+
+  .prose .myokit-image {
+    @apply w-full h-auto block !float-none !ml-0 !mr-0 !my-0 !rounded-none !shadow-none;
+  }
+
+  /* Kit Items Grid - High Contrast Labels */
+  .prose .kit-items-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-3 my-6 p-0;
+  }
+
+  .prose .kit-item {
+    @apply flex items-center gap-3 p-3 rounded-lg bg-accent/50 border border-border;
+  }
+
+  .prose .kit-label {
+    @apply inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground font-bold text-sm shrink-0 shadow-md;
+  }
+
+  .prose .kit-name {
+    @apply font-medium text-foreground text-base;
+  }
+
+  .prose .kit-note {
+    @apply text-sm text-muted-foreground ml-1;
+  }
 }
 
 /* Reduced motion preferences */
