@@ -1,23 +1,5 @@
 {
   "articles": [
-    {
-      "slug": "program-details",
-      "title": "Program Details",
-      "tags": ["program", "overview"],
-      "description": "Learn about the 24-week program structure, family enrollment options, and multidisciplinary support available."
-    },
-    {
-      "slug": "treatment-outcomes",
-      "title": "Treatment Outcomes",
-      "tags": ["program", "results"],
-      "description": "Understand expected outcomes, limitations, risks, and how to prevent relapse after completing therapy."
-    },
-    {
-      "slug": "specific-treatment-concerns",
-      "title": "Specific Treatment Concerns",
-      "tags": ["TMJ", "speech", "orthodontics", "frenectomy", "allergies"],
-      "description": "Information about TMJ, speech therapy, orthodontics, allergies, and ankyloglossia (tongue-tie) treatment."
-    },
     { 
       "slug": "intro-to-myofunctional-therapy", 
       "title": "Introduction to Myofunctional Therapy", 
@@ -65,6 +47,36 @@
       "title": "Causes of Myofunctional Disorders During Infancy", 
       "tags": ["infancy"],
       "description": "Discover how feeding practices, pacifier use, and other infant factors can contribute to myofunctional disorders."
+    },
+    { 
+      "slug": "reading-list", 
+      "title": "Optional Reading List", 
+      "tags": ["resources", "books"],
+      "description": "Recommended books and resources to deepen your understanding of myofunctional therapy and related topics."
+    },
+    {
+      "slug": "program-details",
+      "title": "Program Details",
+      "tags": ["program", "overview"],
+      "description": "Learn about the 24-week program structure, family enrollment options, and multidisciplinary support available."
+    },
+    {
+      "slug": "treatment-outcomes",
+      "title": "Treatment Outcomes",
+      "tags": ["program", "results"],
+      "description": "Understand expected outcomes, limitations, risks, and how to prevent relapse after completing therapy."
+    },
+    {
+      "slug": "specific-treatment-concerns",
+      "title": "Specific Treatment Concerns",
+      "tags": ["TMJ", "speech", "orthodontics", "frenectomy", "allergies"],
+      "description": "Information about TMJ, speech therapy, orthodontics, allergies, and ankyloglossia (tongue-tie) treatment."
+    },
+    { 
+      "slug": "consent", 
+      "title": "Consent to Undergo Myofunctional Therapy Treatment", 
+      "tags": ["consent", "legal"],
+      "description": "Information about consent requirements for myofunctional therapy treatment."
     },
     { 
       "slug": "program-specifics", 
