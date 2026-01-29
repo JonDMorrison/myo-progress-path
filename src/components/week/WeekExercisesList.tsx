@@ -3,13 +3,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, AlertTriangle } from "lucide-react";
 import { ResponsiveVideo } from "./ResponsiveVideo";
 import { ExerciseVideoUpload } from "./ExerciseVideoUpload";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
-
 interface WeekExercisesListProps {
   exercises: any[];
   patientId: string;
@@ -63,6 +63,11 @@ const isElasticHoldExercise = (title: string): boolean => {
   return lowerTitle.includes('elastic') && lowerTitle.includes('hold');
 };
 
+// Check if exercise is a clinician review placeholder
+const isClinicianReviewPlaceholder = (title: string): boolean => {
+  return title === 'Clinician Review Required';
+};
+
 export function WeekExercisesList({ 
   exercises,
   patientId,
@@ -111,6 +116,28 @@ export function WeekExercisesList({
   }
 
   const hasActiveExercises = exercises.some(e => e.type === 'active');
+  const hasClinicianReviewPlaceholder = exercises.some(e => isClinicianReviewPlaceholder(e.title));
+
+  // Render a special card for clinician review placeholders
+  const renderClinicianReviewCard = (exercise: any) => {
+    return (
+      <Card key={exercise.id} className="border-warning bg-warning/5">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-warning" />
+            <CardTitle className="text-base font-semibold text-warning">
+              {exercise.title}
+            </CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-2">
+          <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+            <ReactMarkdown>{exercise.instructions}</ReactMarkdown>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
   // Render media section with tabbed videos when modified_video_url exists
   const renderMedia = (exercise: any) => {
@@ -220,7 +247,17 @@ export function WeekExercisesList({
 
   return (
     <div className="space-y-4">
-      {hasActiveExercises && (
+      {/* Clinician Review Banner - non-dismissable */}
+      {hasClinicianReviewPlaceholder && (
+        <Alert className="border-warning bg-warning/10">
+          <AlertTriangle className="h-4 w-4 text-warning" />
+          <AlertDescription className="text-warning font-medium">
+            Awaiting clinician confirmation.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {hasActiveExercises && !hasClinicianReviewPlaceholder && (
         <Alert className="border-primary/20 bg-primary/5">
           <AlertDescription className="flex items-center gap-2">
             <span className="text-lg">🪞</span>
@@ -230,8 +267,15 @@ export function WeekExercisesList({
           </AlertDescription>
         </Alert>
       )}
+
+      {/* Render clinician review placeholders as special cards */}
+      {exercises.filter(e => isClinicianReviewPlaceholder(e.title)).map(exercise => 
+        renderClinicianReviewCard(exercise)
+      )}
+
+      {/* Render normal exercises in accordion */}
       <Accordion type="single" collapsible className="w-full space-y-2" data-scroll-lock="true">
-      {exercises.map((exercise, index) => {
+      {exercises.filter(e => !isClinicianReviewPlaceholder(e.title)).map((exercise, index) => {
         const mediaBadge = getMediaStatusBadge(exercise.media_status);
         const hasMedia = exercise.demo_video_url || exercise.modified_video_url;
         const target = Math.max(1, exercise.completion_target || 0);
