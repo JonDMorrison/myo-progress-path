@@ -1,23 +1,25 @@
 /**
- * Module/Biweekly grouping utilities
+ * Module-based grouping utilities
  * 
  * Program structure:
- * - Most weeks are grouped into biweekly modules (2 weeks each)
- * - Exception: Frenectomy pathway weeks 3-6 remain weekly (post-op recovery)
+ * Non-Frenectomy: 12 modules (Module 1-12, each covering 2 weeks)
+ * Frenectomy: Module 1 (Weeks 1-2), Post-Op Days (Weeks 3-6), Module 2-10 (Weeks 7-24)
+ * 
+ * Post-frenectomy content may reference days (Days 1-3, Days 4-7) as per clinical documents.
  */
 
-// Post-frenectomy weekly weeks (these stay as individual weeks, not grouped into modules)
+// Post-frenectomy weekly weeks (these stay as individual weeks for recovery tracking)
 export const FRENECTOMY_WEEKLY_WEEKS = [3, 4, 5, 6];
 
 // Total weeks in program
 export const TOTAL_PROGRAM_WEEKS = 24;
 
-// Calculate total modules based on pathway
+// Calculate total navigation items based on pathway
 export function getTotalModules(programVariant: string): number {
   if (programVariant === 'frenectomy' || programVariant === 'standard') {
-    // Frenectomy: Module 1 (weeks 1-2), then 4 weekly weeks (3-6), then biweekly modules for 7-24
+    // Frenectomy: Module 1 (weeks 1-2), then 4 weekly weeks (3-6), then Modules 2-10 for weeks 7-24
     // Module 1: weeks 1-2
-    // Weekly: weeks 3, 4, 5, 6 (4 individual items)
+    // Post-Op: weeks 3, 4, 5, 6 (4 individual items)
     // Modules 2-10: weeks 7-8, 9-10, 11-12, 13-14, 15-16, 17-18, 19-20, 21-22, 23-24 (9 modules)
     return 1 + 4 + 9; // = 14 total navigation items
   }
@@ -42,14 +44,22 @@ export function getModuleInfo(weekNumber: number, programVariant: string): Modul
   
   // Frenectomy pathway: weeks 3-6 are weekly (post-op recovery)
   if (isFrenectomy && FRENECTOMY_WEEKLY_WEEKS.includes(weekNumber)) {
-    const postOpWeekNumber = weekNumber - 2; // Week 3 = Post-Op Week 1, etc.
+    // Map week 3 = Days 1-3, week 4 = Days 4-7, week 5 = Days 8-14, week 6 = Days 15-21
+    const dayLabels: Record<number, string> = {
+      3: 'Days 1–3',
+      4: 'Days 4–7',
+      5: 'Week 2',
+      6: 'Week 3',
+    };
+    const dayLabel = dayLabels[weekNumber] || `Post-Op ${weekNumber - 2}`;
+    
     return {
       moduleNumber: weekNumber, // Use week number for uniqueness
-      moduleLabel: `Post-Op Week ${postOpWeekNumber}`,
+      moduleLabel: `Post-Op ${dayLabel}`,
       isWeekly: true,
       weekRange: [weekNumber, weekNumber],
-      displayLabel: `Post-Op Week ${postOpWeekNumber}`,
-      shortLabel: `PO${postOpWeekNumber}`,
+      displayLabel: `Post-Op ${dayLabel}`,
+      shortLabel: weekNumber === 3 ? 'D1-3' : weekNumber === 4 ? 'D4-7' : `W${weekNumber - 4}`,
     };
   }
   
@@ -60,7 +70,7 @@ export function getModuleInfo(weekNumber: number, programVariant: string): Modul
   
   if (isFrenectomy) {
     if (weekNumber <= 2) {
-      // Module 1: weeks 1-2 (Pre-Op)
+      // Module 1: weeks 1-2
       moduleNum = 1;
       weekStart = 1;
       weekEnd = 2;
@@ -77,26 +87,20 @@ export function getModuleInfo(weekNumber: number, programVariant: string): Modul
       weekEnd = weekNumber;
     }
   } else {
-    // Non-frenectomy: simple biweekly modules
+    // Non-frenectomy: simple biweekly modules (Module 1-12)
     moduleNum = Math.ceil(weekNumber / 2);
     weekStart = (moduleNum - 1) * 2 + 1;
     weekEnd = weekStart + 1;
   }
   
-  // Determine module label
-  let moduleLabel: string;
-  if (isFrenectomy && weekNumber <= 2) {
-    moduleLabel = 'Pre-Op Module';
-  } else {
-    moduleLabel = `Module ${moduleNum}`;
-  }
+  const moduleLabel = `Module ${moduleNum}`;
   
   return {
     moduleNumber: moduleNum,
     moduleLabel,
     isWeekly: false,
     weekRange: [weekStart, weekEnd],
-    displayLabel: `${moduleLabel} (Weeks ${weekStart}-${weekEnd})`,
+    displayLabel: `${moduleLabel} (Weeks ${weekStart}–${weekEnd})`,
     shortLabel: `M${moduleNum}`,
   };
 }
@@ -119,35 +123,43 @@ export function getTimelineItems(programVariant: string): TimelineItem[] {
   const items: TimelineItem[] = [];
   
   if (isFrenectomy) {
-    // Pre-Op Module (Weeks 1-2)
+    // Module 1 (Weeks 1-2)
     items.push({
       id: 'module-1',
       weekNumbers: [1, 2],
-      label: 'Pre-Op Module',
-      shortLabel: 'Pre',
+      label: 'Module 1 (Weeks 1–2)',
+      shortLabel: 'M1',
       isPostOp: false,
       order: 1,
     });
     
-    // Post-Op Weeks 3-6 (individual)
-    for (let week = 3; week <= 6; week++) {
+    // Post-Op Weeks 3-6 (individual) with day-based labels
+    const postOpLabels: { label: string; short: string }[] = [
+      { label: 'Post-Op Days 1–3', short: 'D1-3' },
+      { label: 'Post-Op Days 4–7', short: 'D4-7' },
+      { label: 'Post-Op Week 2', short: 'W2' },
+      { label: 'Post-Op Week 3', short: 'W3' },
+    ];
+    
+    for (let i = 0; i < 4; i++) {
+      const week = 3 + i;
       items.push({
         id: `postop-week-${week}`,
         weekNumbers: [week],
-        label: `Post-Op Week ${week - 2}`,
-        shortLabel: `PO${week - 2}`,
+        label: postOpLabels[i].label,
+        shortLabel: postOpLabels[i].short,
         isPostOp: true,
         order: week,
       });
     }
     
-    // Maintenance Modules (Weeks 7-24)
+    // Modules 2-10 (Weeks 7-24)
     let moduleNum = 2;
     for (let weekStart = 7; weekStart <= 23; weekStart += 2) {
       items.push({
         id: `module-${moduleNum}`,
         weekNumbers: [weekStart, weekStart + 1],
-        label: `Module ${moduleNum}`,
+        label: `Module ${moduleNum} (Weeks ${weekStart}–${weekStart + 1})`,
         shortLabel: `M${moduleNum}`,
         isPostOp: false,
         order: weekStart,
@@ -155,13 +167,13 @@ export function getTimelineItems(programVariant: string): TimelineItem[] {
       moduleNum++;
     }
   } else {
-    // Non-frenectomy: all biweekly modules
+    // Non-frenectomy: all biweekly modules (Module 1-12)
     for (let moduleNum = 1; moduleNum <= 12; moduleNum++) {
       const weekStart = (moduleNum - 1) * 2 + 1;
       items.push({
         id: `module-${moduleNum}`,
         weekNumbers: [weekStart, weekStart + 1],
-        label: `Module ${moduleNum}`,
+        label: `Module ${moduleNum} (Weeks ${weekStart}–${weekStart + 1})`,
         shortLabel: `M${moduleNum}`,
         isPostOp: false,
         order: weekStart,
@@ -182,7 +194,7 @@ export function getWeekDisplayLabel(weekNumber: number, weekTitle: string | null
   const moduleInfo = getModuleInfo(weekNumber, programVariant);
   
   if (moduleInfo.isWeekly) {
-    // Post-op week - show "Post-Op Week X" with optional title
+    // Post-op day/week - show with optional title
     return {
       primary: moduleInfo.displayLabel,
       secondary: weekTitle || '',
@@ -190,10 +202,10 @@ export function getWeekDisplayLabel(weekNumber: number, weekTitle: string | null
   }
   
   // Biweekly module
-  const weekLabel = `Week ${weekNumber} of ${moduleInfo.weekRange[0]}-${moduleInfo.weekRange[1]}`;
+  const weekPosition = weekNumber === moduleInfo.weekRange[0] ? 'Week 1' : 'Week 2';
   return {
     primary: moduleInfo.moduleLabel,
-    secondary: weekTitle ? `${weekLabel} • ${weekTitle}` : weekLabel,
+    secondary: weekTitle ? `${weekPosition} • ${weekTitle}` : `${weekPosition} of 2`,
   };
 }
 
