@@ -17,6 +17,7 @@ import { WeekProgressForm } from "@/components/week/WeekProgressForm";
 import { WeekMessagesPanel } from "@/components/week/WeekMessagesPanel";
 import { WeekCompletionChecklist } from "@/components/week/WeekCompletionChecklist";
 import { WeekExercisesList } from "@/components/week/WeekExercisesList";
+import { PostOpSectionedContent } from "@/components/week/PostOpSectionedContent";
 import { SubmitButton } from "@/components/week/SubmitBar";
 import { ExerciseProgressSummary } from "@/components/week/ExerciseProgressSummary";
 import { FrenectomyConsultTask } from "@/components/week/FrenectomyConsultTask";
@@ -26,6 +27,7 @@ import { PreOpPreparationCard } from "@/components/week/PreOpPreparationCard";
 import { PostOpProtocolCard } from "@/components/week/PostOpProtocolCard";
 import TherapistFeedbackList from "@/components/week/TherapistFeedbackList";
 import { PreviousWeeksReview } from "@/components/week/PreviousWeeksReview";
+import { FRENECTOMY_POST_OP_WEEKS } from "@/lib/moduleUtils";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -543,17 +545,30 @@ const WeekDetail = () => {
                   </Section>
                 )}
 
-                {/* Exercises */}
+                {/* Exercises - Use sectioned layout for post-op weeks */}
                 {exercises.length > 0 && (
                   <Section delay={350}>
-                    <WeekExercisesList
-                      exercises={exercises}
-                      patientId={patient?.id}
-                      weekId={week?.id}
-                      existingCompletions={progress?.exercise_completions || {}}
-                      onUpdate={handleProgressUpdate}
-                      readOnly={isReadOnly}
-                    />
+                    {patient?.program_variant === 'frenectomy' && 
+                     FRENECTOMY_POST_OP_WEEKS.includes(parseInt(weekNumber || "0")) ? (
+                      <PostOpSectionedContent
+                        weekNumber={parseInt(weekNumber || "0")}
+                        exercises={exercises}
+                        patientId={patient?.id}
+                        weekId={week?.id}
+                        existingCompletions={progress?.exercise_completions || {}}
+                        onUpdate={handleProgressUpdate}
+                        readOnly={isReadOnly}
+                      />
+                    ) : (
+                      <WeekExercisesList
+                        exercises={exercises}
+                        patientId={patient?.id}
+                        weekId={week?.id}
+                        existingCompletions={progress?.exercise_completions || {}}
+                        onUpdate={handleProgressUpdate}
+                        readOnly={isReadOnly}
+                      />
+                    )}
                   </Section>
                 )}
 

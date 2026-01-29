@@ -28,6 +28,41 @@ export const FRENECTOMY_POST_OP_WEEKS = [9, 10];
 // Total weeks in program
 export const TOTAL_PROGRAM_WEEKS = 24;
 
+// Week 9 sub-sections per source document (Days 1-3 and Days 4-7)
+export interface PostOpSubSection {
+  id: string;
+  label: string;
+  shortLabel: string;
+  dayRange: string;
+  description: string;
+}
+
+export const WEEK_9_SUBSECTIONS: PostOpSubSection[] = [
+  {
+    id: 'days-1-3',
+    label: 'Days 1–3',
+    shortLabel: 'D1-3',
+    dayRange: '1-3',
+    description: 'Minimal activity. Gently lift tongue up/down, left/right. Focus on healing and rest.',
+  },
+  {
+    id: 'days-4-7',
+    label: 'Days 4–7',
+    shortLabel: 'D4-7',
+    dayRange: '4-7',
+    description: 'Begin gentle exercises: Lingual Palatal Suction, Tongue Trace, Floor of Mouth Massage.',
+  },
+];
+
+// Week 10 represents Days 8-14 (single section)
+export const WEEK_10_INFO = {
+  id: 'days-8-14',
+  label: 'Days 8–14',
+  shortLabel: 'D8-14',
+  dayRange: '8-14',
+  description: 'Resume full exercise routine with Tongue Stretch, Forklift Stretch, and begin Mouth Taping.',
+};
+
 // Calculate total navigation items based on pathway
 export function getTotalModules(programVariant: string): number {
   if (programVariant === 'frenectomy' || programVariant === 'standard') {
@@ -154,10 +189,11 @@ export function getTimelineItems(programVariant: string): TimelineItem[] {
     }
     
     // Post-Op Weeks 9-10 (individual) with day-based labels
+    // Week 9 contains sub-sections: Days 1-3 and Days 4-7
     items.push({
       id: 'postop-week-9',
       weekNumbers: [9],
-      label: 'Post-Op Days 1–7',
+      label: 'Post-Op Days 1–7 (Recovery Week)',
       shortLabel: 'D1-7',
       isPostOp: true,
       order: 9,
