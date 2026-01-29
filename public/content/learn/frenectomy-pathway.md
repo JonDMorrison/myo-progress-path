@@ -1,16 +1,19 @@
 # Frenectomy Pathway (Readiness & Timeline)
 
-It is recommended that you contact **Vedder Dental Clinic** to book your frenectomy consultation with **Dr. Laura Caylor** **before** beginning your myofunctional therapy program. After your consultation, **prebook your frenectomy for 8 weeks ahead**. This period allows time to progress through therapy and prepare; if more time is needed, reschedule.
+It is recommended that you contact **Vedder Dental Clinic** to book your frenectomy consultation with **Dr Laura Caylor** before beginning your myofunctional therapy program. After your consultation, you should prebook your frenectomy for 8 weeks ahead. This waiting period will give you enough time to progress through the myofunctional therapy exercises and prepare for the frenectomy, although if extra time is needed to prepare, this appointment can be postponed.
 
 ## Readiness Goals (Pre-Release)
 
-Before your frenectomy can be approved, you should have achieved these milestones:
+Some of the goals to work on before the frenectomy include:
 
-- The **4 goals** of myofunctional therapy are underway (nasal breathing, lip seal, chewing/swallowing, tongue posture).
-- **Compensations** minimized (see the "Compensations to Limit" guide).
-- Hold **lingual palatal suction for 60 seconds** without compensations.
-- Move/point the tongue with control and without compensations.
-- **Nasal breathing established**; congestion/allergies managed.
-- **Sleep apnea** monitored/controlled; **current sleep study** on file if indicated.
+- The 4 goals of myofunctional therapy
+- Elimination of compensations as much as possible
+- Holding a lingual palatal suction for 60 seconds without compensations
+- Moving and pointing the tongue without compensations
 
-Your care team will confirm readiness and coordinate post-release exercises.
+Before your tongue tie release:
+
+- Nasal breathing must be established
+- Nasal blockages/allergies/congestion needs to be manageable
+- Sleep apnea needs to be controlled
+- An up to date sleep study needs to be done

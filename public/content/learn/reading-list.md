@@ -1,5 +1,7 @@
 # Optional Reading List
 
-This section contains recommended books and resources to deepen your understanding of myofunctional therapy and related topics.
-
-*Content to be added from source document.*
+- Breath - James Nestor
+- Tongue-Tied - Richard Baxter
+- GASP - Dr Michael Gelb
+- The Oxygen Advantage - Patrick McKeown
+- See Included Supporting Research at the End of the Document
