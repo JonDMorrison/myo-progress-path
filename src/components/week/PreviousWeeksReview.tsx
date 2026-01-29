@@ -39,17 +39,17 @@ interface WeekWithExercises {
   exercises: Exercise[];
 }
 
-interface SelfStudyReviewProps {
+interface PreviousWeeksReviewProps {
   patientId: string;
   currentWeekNumber: number;
   programVariant: string;
 }
 
-export function SelfStudyReview({ 
+export function PreviousWeeksReview({ 
   patientId, 
   currentWeekNumber, 
   programVariant 
-}: SelfStudyReviewProps) {
+}: PreviousWeeksReviewProps) {
   const [previousWeeks, setPreviousWeeks] = useState<WeekWithExercises[]>([]);
   const [selectedWeek, setSelectedWeek] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -154,9 +154,9 @@ export function SelfStudyReview({
               <BookOpen className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <CardTitle className="text-base sm:text-lg">Self-Study Review</CardTitle>
+              <CardTitle className="text-base sm:text-lg">Review Previous Exercises</CardTitle>
               <p className="text-sm text-muted-foreground mt-0.5">
-                Review exercises from previous weeks
+                Practice exercises from earlier modules (read-only)
               </p>
             </div>
           </div>
