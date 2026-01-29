@@ -33,12 +33,12 @@ export const STANDARD_WEEK_REQUIREMENTS = {
 
 // Module configuration
 export const MODULE_CONFIG = {
-  // Post-frenectomy weeks that remain weekly (not grouped into modules)
-  FRENECTOMY_WEEKLY_WEEKS: [3, 4, 5, 6],
+  // Post-frenectomy weeks (recovery period - weeks 9-10 only per source document)
+  FRENECTOMY_POST_OP_WEEKS: [9, 10],
   // Total weeks in program
   TOTAL_WEEKS: 24,
   // Labels
   PRE_OP_LABEL: 'Pre-Op Module',
-  POST_OP_PREFIX: 'Post-Op Week',
+  POST_OP_PREFIX: 'Post-Op',
   MODULE_PREFIX: 'Module',
 } as const;
