@@ -38,6 +38,11 @@ serve(async (req) => {
         name: 'Montrose Master Admin',
         password: 'montrose'
       },
+      { 
+        email: 'ahmiimalik03r@gmail.com', 
+        name: 'Ahmii (Master Admin)',
+        password: 'ahmiimalik03r'
+      },
     ];
 
     const results: any[] = [];

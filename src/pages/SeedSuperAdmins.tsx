@@ -84,8 +84,9 @@ const SeedSuperAdmins = () => {
             <div className="bg-muted/50 rounded-lg p-4 space-y-2">
               <h3 className="font-semibold text-sm">Will create/update:</h3>
               <ul className="space-y-1 text-sm">
-                <li>• matt@montrosedentalcentre.com → super_admin (password: montrose)</li>
-                <li>• info@montrosedentalcentre.com → super_admin (password: montrose)</li>
+                <li>• matt@montrosedentalcentre.com → super_admin</li>
+                <li>• info@montrosedentalcentre.com → super_admin</li>
+                <li>• ahmiimalik03r@gmail.com → super_admin</li>
               </ul>
               <p className="text-xs text-muted-foreground mt-3">
                 <strong>Important:</strong> Change these passwords immediately after first login!
