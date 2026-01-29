@@ -135,11 +135,11 @@ export function PreviousWeeksReview({
 
   const getWeekLabel = (weekNumber: number) => {
     const moduleInfo = getModuleInfo(weekNumber, programVariant);
-    if (!moduleInfo.isWeekly) {
-      // Biweekly module
-      return `Weeks ${moduleInfo.weekRange[0]}/${moduleInfo.weekRange[1]}`;
+    if (moduleInfo.isWeekly) {
+      // Post-op days/weeks
+      return moduleInfo.displayLabel;
     }
-    return `Week ${weekNumber}`;
+    return `${moduleInfo.moduleLabel} (Weeks ${moduleInfo.weekRange[0]}–${moduleInfo.weekRange[1]})`;
   };
 
   return (

@@ -28,7 +28,7 @@ export function TimelineCard({
         <CardTitle className="text-lg">Progress Timeline</CardTitle>
         <CardDescription>
           {isFrenectomy 
-            ? "Your therapy journey: Pre-Op → Post-Op Recovery → Maintenance"
+            ? `Your therapy journey: ${totalModules} modules including post-op recovery`
             : `Your ${totalModules}-module therapy journey`
           }
         </CardDescription>

@@ -66,16 +66,14 @@ export function WeekCard({ week, weekTitle, programVariant = 'frenectomy', onNav
     return "Complete and get approval for previous module to unlock";
   };
   
-  // Get display label - use module label for biweekly, show week for weekly post-op
+  // Get display label - use module label for all, with week position for biweekly
   const getDisplayTitle = () => {
-    if (moduleInfo.isWeekly) {
-      return moduleInfo.displayLabel;
-    }
     return moduleInfo.moduleLabel;
   };
   
   const getSubtitle = () => {
     if (moduleInfo.isWeekly) {
+      // Post-op days/weeks - show title if available
       return weekTitle || undefined;
     }
     // For biweekly modules, show which week within the module
