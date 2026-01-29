@@ -9,7 +9,6 @@ import { Section } from "@/components/ui/Section";
 import { TimelineCard } from "@/components/dashboard/TimelineCard";
 import { MessagesCard } from "@/components/dashboard/MessagesCard";
 import { StreakBadge } from "@/components/dashboard/StreakBadge";
-import { WeekCard } from "@/components/week/WeekCard";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 import { TodayExercisesCard } from "@/components/dashboard/TodayExercisesCard";
 import { TodayExercisesCardWithProgress } from "@/components/dashboard/TodayExercisesCardWithProgress";
