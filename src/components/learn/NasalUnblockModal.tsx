@@ -49,13 +49,23 @@ export function NasalUnblockModal() {
 
             <section>
               <h3 className="font-semibold text-lg mb-3">Exercise 2 – Breath-Hold Reset</h3>
-              <ol className="list-decimal pl-5 space-y-2">
-                <li>Take 3 normal breaths, in and out naturally.</li>
-                <li>After the 3rd exhale, pinch your nose and hold your breath.</li>
-                <li>Optional: gently nod your head up and down or side to side.</li>
-                <li>Hold until you feel a mild air hunger, then inhale through your nose.</li>
-                <li>Repeat 3–5 times as needed.</li>
-              </ol>
+              <div className="grid md:grid-cols-2 gap-6">
+                <ol className="list-decimal pl-5 space-y-2">
+                  <li>Take 3 normal breaths, in and out naturally.</li>
+                  <li>After the 3rd exhale, pinch your nose and hold your breath.</li>
+                  <li>Optional: gently nod your head up and down or side to side.</li>
+                  <li>Hold until you feel a mild air hunger, then inhale through your nose.</li>
+                  <li>Repeat 3–5 times as needed.</li>
+                </ol>
+                <div className="aspect-video rounded-lg overflow-hidden bg-muted">
+                  <iframe
+                    src="https://player.vimeo.com/video/1143179656?badge=0&autopause=0&player_id=0&app_id=58479"
+                    className="w-full h-full"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                    title="Breath-Hold Reset"
+                  />
+                </div>
+              </div>
             </section>
 
             <p className="text-sm text-muted-foreground border-t pt-4">
