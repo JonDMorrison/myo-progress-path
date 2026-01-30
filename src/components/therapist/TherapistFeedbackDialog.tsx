@@ -10,9 +10,35 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Loader, Video, Image, X, Upload } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Loader, Video, Image, X, Upload, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+
+// Pre-defined feedback options therapists can quickly select
+const FEEDBACK_OPTIONS = {
+  positive: [
+    "Great form! Keep it up.",
+    "Excellent tongue positioning.",
+    "Good breathing technique.",
+    "Nice improvement from last week!",
+    "Well done with the exercises.",
+  ],
+  corrective: [
+    "Try to relax your jaw more.",
+    "Focus on keeping lips sealed.",
+    "Watch your tongue placement.",
+    "Slow down the movement.",
+    "Practice in front of a mirror.",
+  ],
+  instructional: [
+    "Review the demo video again.",
+    "Try this exercise twice daily.",
+    "Take a short break if you feel strain.",
+    "Focus on nasal breathing.",
+    "Keep your posture upright.",
+  ],
+};
 
 interface TherapistFeedbackDialogProps {
   open: boolean;
@@ -40,12 +66,21 @@ const TherapistFeedbackDialog = ({
   onSuccess,
 }: TherapistFeedbackDialogProps) => {
   const [feedbackText, setFeedbackText] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const videoInputRef = useRef<HTMLInputElement>(null);
   const photoInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  const toggleOption = (option: string) => {
+    setSelectedOptions((prev) =>
+      prev.includes(option)
+        ? prev.filter((o) => o !== option)
+        : [...prev, option]
+    );
+  };
 
   const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -106,10 +141,16 @@ const TherapistFeedbackDialog = ({
   };
 
   const handleSubmit = async () => {
-    if (!feedbackText.trim() && !videoFile && !photoFile) {
+    // Combine selected options with custom text
+    const combinedFeedback = [
+      ...selectedOptions,
+      feedbackText.trim(),
+    ].filter(Boolean).join("\n\n");
+
+    if (!combinedFeedback && !videoFile && !photoFile) {
       toast({
         title: "Feedback required",
-        description: "Please add text, video, or photo feedback.",
+        description: "Please select feedback options, add text, video, or photo.",
         variant: "destructive",
       });
       return;
@@ -152,7 +193,7 @@ const TherapistFeedbackDialog = ({
         week_id: weekId || null,
         exercise_id: exerciseId || null,
         progress_id: progressId || null,
-        feedback_text: feedbackText.trim() || null,
+        feedback_text: combinedFeedback || null,
         video_url: videoPath,
         photo_url: photoPath,
       });
@@ -178,6 +219,7 @@ const TherapistFeedbackDialog = ({
 
       // Reset form
       setFeedbackText("");
+      setSelectedOptions([]);
       setVideoFile(null);
       setPhotoFile(null);
       onOpenChange(false);
@@ -210,16 +252,87 @@ const TherapistFeedbackDialog = ({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 py-4">
-          {/* Text Feedback */}
-          <div className="space-y-2">
-            <Label htmlFor="feedback">Message (optional)</Label>
+        <div className="space-y-4 py-4 max-h-[60vh] overflow-y-auto">
+          {/* Quick Feedback Options */}
+          <div className="space-y-3">
+            <Label className="text-green-600">✓ Positive Feedback</Label>
+            <div className="flex flex-wrap gap-2">
+              {FEEDBACK_OPTIONS.positive.map((option) => (
+                <Badge
+                  key={option}
+                  variant={selectedOptions.includes(option) ? "default" : "outline"}
+                  className={`cursor-pointer transition-all ${
+                    selectedOptions.includes(option)
+                      ? "bg-green-600 hover:bg-green-700"
+                      : "hover:bg-green-50 border-green-200"
+                  }`}
+                  onClick={() => toggleOption(option)}
+                >
+                  {selectedOptions.includes(option) && <Check className="h-3 w-3 mr-1" />}
+                  {option}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <Label className="text-amber-600">⚡ Corrections</Label>
+            <div className="flex flex-wrap gap-2">
+              {FEEDBACK_OPTIONS.corrective.map((option) => (
+                <Badge
+                  key={option}
+                  variant={selectedOptions.includes(option) ? "default" : "outline"}
+                  className={`cursor-pointer transition-all ${
+                    selectedOptions.includes(option)
+                      ? "bg-amber-600 hover:bg-amber-700"
+                      : "hover:bg-amber-50 border-amber-200"
+                  }`}
+                  onClick={() => toggleOption(option)}
+                >
+                  {selectedOptions.includes(option) && <Check className="h-3 w-3 mr-1" />}
+                  {option}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <Label className="text-blue-600">📋 Instructions</Label>
+            <div className="flex flex-wrap gap-2">
+              {FEEDBACK_OPTIONS.instructional.map((option) => (
+                <Badge
+                  key={option}
+                  variant={selectedOptions.includes(option) ? "default" : "outline"}
+                  className={`cursor-pointer transition-all ${
+                    selectedOptions.includes(option)
+                      ? "bg-blue-600 hover:bg-blue-700"
+                      : "hover:bg-blue-50 border-blue-200"
+                  }`}
+                  onClick={() => toggleOption(option)}
+                >
+                  {selectedOptions.includes(option) && <Check className="h-3 w-3 mr-1" />}
+                  {option}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Selected count */}
+          {selectedOptions.length > 0 && (
+            <p className="text-sm text-muted-foreground">
+              {selectedOptions.length} option{selectedOptions.length > 1 ? "s" : ""} selected
+            </p>
+          )}
+
+          {/* Custom Text Feedback */}
+          <div className="space-y-2 pt-2 border-t">
+            <Label htmlFor="feedback">Additional Message (optional)</Label>
             <Textarea
               id="feedback"
-              placeholder="Type your feedback here..."
+              placeholder="Add custom feedback..."
               value={feedbackText}
               onChange={(e) => setFeedbackText(e.target.value)}
-              rows={4}
+              rows={3}
             />
           </div>
 
@@ -300,7 +413,7 @@ const TherapistFeedbackDialog = ({
           </Button>
           <Button 
             onClick={handleSubmit} 
-            disabled={uploading || (!feedbackText.trim() && !videoFile && !photoFile)}
+            disabled={uploading || (selectedOptions.length === 0 && !feedbackText.trim() && !videoFile && !photoFile)}
           >
             {uploading && <Loader className="h-4 w-4 animate-spin mr-2" />}
             <Upload className="h-4 w-4 mr-2" />
