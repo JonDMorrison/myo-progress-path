@@ -592,6 +592,7 @@ const WeekDetail = () => {
                           progress={progress}
                           week={week}
                           readOnly={isReadOnly}
+                          onUpdate={handleProgressUpdate}
                         />
                       </CardContent>
                     </Card>
