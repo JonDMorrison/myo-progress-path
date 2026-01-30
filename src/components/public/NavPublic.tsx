@@ -222,20 +222,60 @@ export const NavPublic = () => {
 
                 <Separator />
 
-                {/* User Action */}
+                {/* User Section */}
                 {user ? (
-                  <Button 
-                    onClick={() => { 
-                      const dashboardRoute = userRole === "patient" ? "/patient" : "/therapist";
-                      navigate(dashboardRoute); 
-                      setMobileOpen(false); 
-                    }} 
-                    className="w-full h-12 text-base"
-                    size="lg"
-                  >
-                    <User className="h-5 w-5 mr-2" />
-                    Go to Dashboard
-                  </Button>
+                  <div className="space-y-2">
+                    {/* User Info */}
+                    <div className="px-3 py-2 rounded-lg bg-muted/50">
+                      <p className="text-sm font-medium">{userName || "User"}</p>
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Role: <span className="font-medium">{getRoleDisplay(userRole)}</span>
+                      </p>
+                    </div>
+                    
+                    {/* Dashboard Button */}
+                    <Button 
+                      onClick={() => { 
+                        const dashboardRoute = userRole === "patient" ? "/patient" : "/therapist";
+                        navigate(dashboardRoute); 
+                        setMobileOpen(false); 
+                      }} 
+                      className="w-full h-12 text-base"
+                      size="lg"
+                    >
+                      <User className="h-5 w-5 mr-2" />
+                      Go to Dashboard
+                    </Button>
+
+                    {/* Account/Settings */}
+                    <Button 
+                      variant="outline"
+                      onClick={() => { 
+                        navigate("/settings"); 
+                        setMobileOpen(false); 
+                      }} 
+                      className="w-full h-12 text-base"
+                      size="lg"
+                    >
+                      <Settings className="h-5 w-5 mr-2" />
+                      Settings
+                    </Button>
+
+                    {/* Logout */}
+                    <Button 
+                      variant="ghost"
+                      onClick={() => {
+                        handleLogout();
+                        setMobileOpen(false);
+                      }} 
+                      className="w-full h-12 text-base text-destructive hover:text-destructive hover:bg-destructive/10"
+                      size="lg"
+                    >
+                      <LogOut className="h-5 w-5 mr-2" />
+                      Log out
+                    </Button>
+                  </div>
                 ) : (
                   <Button 
                     asChild 

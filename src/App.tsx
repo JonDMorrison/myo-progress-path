@@ -46,6 +46,7 @@ import PatientMessages from "./pages/PatientMessages";
 import PatientAccount from "./pages/PatientAccount";
 import ClinicalTesting from "./pages/ClinicalTesting";
 import ProtocolDetail from "./pages/ProtocolDetail";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +80,7 @@ const App = () => {
             <Route path="/patient/progress" element={<PatientProgress />} />
             <Route path="/patient/messages" element={<PatientMessages />} />
             <Route path="/patient/account" element={<PatientAccount />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/therapist" element={<TherapistDashboard />} />
             <Route path="/therapist/patients" element={<TherapistPatients />} />
             <Route path="/admin/content" element={<AdminContent />} />
