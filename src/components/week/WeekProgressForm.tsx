@@ -11,9 +11,10 @@ interface WeekProgressFormProps {
   progress: any;
   week: any;
   readOnly?: boolean;
+  onUpdate?: () => void;
 }
 
-export function WeekProgressForm({ progress, week, readOnly = false }: WeekProgressFormProps) {
+export function WeekProgressForm({ progress, week, readOnly = false, onUpdate }: WeekProgressFormProps) {
   const { formData, updateField, isSaving, lastSaved } = useWeekForm(
     progress.id,
     {
@@ -21,7 +22,7 @@ export function WeekProgressForm({ progress, week, readOnly = false }: WeekProgr
       nasalPct: progress.nasal_breathing_pct?.toString() || '',
       tonguePct: progress.tongue_on_spot_pct?.toString() || ''
     },
-    readOnly // Pass readOnly to prevent updates
+    { readOnly, onSaveComplete: onUpdate }
   );
 
   return (
