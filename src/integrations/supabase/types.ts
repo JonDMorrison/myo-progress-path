@@ -817,9 +817,8 @@ export type Database = {
       }
       patient_week_progress: {
         Row: {
-          ai_summary: string | null
+          approved_at: string | null
           bolt_score: number | null
-          completed_at: string | null
           exercise_completions: Json | null
           frenectomy_consult_booked: boolean | null
           id: string
@@ -827,16 +826,17 @@ export type Database = {
           learn_hub_reviewed: boolean | null
           nasal_breathing_pct: number | null
           patient_id: string | null
+          status: Database["public"]["Enums"]["week_status"] | null
+          submitted_at: string | null
+          tongue_on_spot_pct: number | null
+          ai_summary: string | null
           reviewing_by: string | null
           reviewing_since: string | null
-          status: Database["public"]["Enums"]["week_status"] | null
-          tongue_on_spot_pct: number | null
           week_id: string | null
         }
         Insert: {
-          ai_summary?: string | null
+          approved_at?: string | null
           bolt_score?: number | null
-          completed_at?: string | null
           exercise_completions?: Json | null
           frenectomy_consult_booked?: boolean | null
           id?: string
@@ -844,16 +844,17 @@ export type Database = {
           learn_hub_reviewed?: boolean | null
           nasal_breathing_pct?: number | null
           patient_id?: string | null
+          status?: Database["public"]["Enums"]["week_status"] | null
+          submitted_at?: string | null
+          tongue_on_spot_pct?: number | null
+          ai_summary?: string | null
           reviewing_by?: string | null
           reviewing_since?: string | null
-          status?: Database["public"]["Enums"]["week_status"] | null
-          tongue_on_spot_pct?: number | null
           week_id?: string | null
         }
         Update: {
-          ai_summary?: string | null
+          approved_at?: string | null
           bolt_score?: number | null
-          completed_at?: string | null
           exercise_completions?: Json | null
           frenectomy_consult_booked?: boolean | null
           id?: string
@@ -861,10 +862,12 @@ export type Database = {
           learn_hub_reviewed?: boolean | null
           nasal_breathing_pct?: number | null
           patient_id?: string | null
+          status?: Database["public"]["Enums"]["week_status"] | null
+          submitted_at?: string | null
+          tongue_on_spot_pct?: number | null
+          ai_summary?: string | null
           reviewing_by?: string | null
           reviewing_since?: string | null
-          status?: Database["public"]["Enums"]["week_status"] | null
-          tongue_on_spot_pct?: number | null
           week_id?: string | null
         }
         Relationships: [
@@ -938,8 +941,8 @@ export type Database = {
           created_at?: string | null
           id?: string
           program_variant?:
-            | Database["public"]["Enums"]["program_variant"]
-            | null
+          | Database["public"]["Enums"]["program_variant"]
+          | null
           status?: Database["public"]["Enums"]["patient_status"] | null
           user_id: string
         }
@@ -954,8 +957,8 @@ export type Database = {
           created_at?: string | null
           id?: string
           program_variant?:
-            | Database["public"]["Enums"]["program_variant"]
-            | null
+          | Database["public"]["Enums"]["program_variant"]
+          | null
           status?: Database["public"]["Enums"]["patient_status"] | null
           user_id?: string
         }
@@ -1162,8 +1165,8 @@ export type Database = {
         Row: {
           ai_feedback: Json | null
           ai_feedback_status:
-            | Database["public"]["Enums"]["ai_feedback_status"]
-            | null
+          | Database["public"]["Enums"]["ai_feedback_status"]
+          | null
           created_at: string | null
           exercise_id: string | null
           file_url: string | null
@@ -1177,8 +1180,8 @@ export type Database = {
         Insert: {
           ai_feedback?: Json | null
           ai_feedback_status?:
-            | Database["public"]["Enums"]["ai_feedback_status"]
-            | null
+          | Database["public"]["Enums"]["ai_feedback_status"]
+          | null
           created_at?: string | null
           exercise_id?: string | null
           file_url?: string | null
@@ -1192,8 +1195,8 @@ export type Database = {
         Update: {
           ai_feedback?: Json | null
           ai_feedback_status?:
-            | Database["public"]["Enums"]["ai_feedback_status"]
-            | null
+          | Database["public"]["Enums"]["ai_feedback_status"]
+          | null
           created_at?: string | null
           exercise_id?: string | null
           file_url?: string | null
@@ -1333,6 +1336,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      week_messages: {
+        Row: {
+          id: string
+          patient_id: string
+          week_id: string
+          sender_id: string
+          message: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          patient_id: string
+          week_id: string
+          sender_id: string
+          message: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          patient_id?: string
+          week_id?: string
+          sender_id?: string
+          message?: string
+          created_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {
@@ -1495,11 +1525,11 @@ export type Database = {
       ai_feedback_status: "pending" | "complete" | "error"
       exercise_type: "active" | "passive" | "breathing" | "posture" | "test"
       media_status:
-        | "has_video"
-        | "needs_ai_video"
-        | "needs_photo"
-        | "description_only"
-        | "pending"
+      | "has_video"
+      | "needs_ai_video"
+      | "needs_photo"
+      | "description_only"
+      | "pending"
       patient_status: "active" | "inactive" | "completed" | "maintenance"
       program_variant: "standard" | "frenectomy" | "non_frenectomy"
       upload_kind: "first_attempt" | "last_attempt" | "progress"
@@ -1518,116 +1548,116 @@ type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+  | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+  ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+    DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+  : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+    DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
-    ? R
-    : never
+  ? R
+  : never
   : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
-    : never
+    DefaultSchema["Views"])
+  ? (DefaultSchema["Tables"] &
+    DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+      Row: infer R
+    }
+  ? R
+  : never
+  : never
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof DefaultSchema["Tables"]
+  | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+  ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+  : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
-    }
-    ? I
-    : never
+    Insert: infer I
+  }
+  ? I
+  : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
-    : never
+  ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+    Insert: infer I
+  }
+  ? I
+  : never
+  : never
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof DefaultSchema["Tables"]
+  | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+  ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+  : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
-    }
-    ? U
-    : never
+    Update: infer U
+  }
+  ? U
+  : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
-    : never
+  ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+    Update: infer U
+  }
+  ? U
+  : never
+  : never
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof DefaultSchema["Enums"]
+  | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+  ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+  : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never
+  ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+  : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof DatabaseWithoutInternals },
+  | keyof DefaultSchema["CompositeTypes"]
+  | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+  ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+  : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+  ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  : never
 
 export const Constants = {
   public: {

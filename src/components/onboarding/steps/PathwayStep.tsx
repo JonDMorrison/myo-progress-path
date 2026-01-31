@@ -75,20 +75,19 @@ export const PathwayStep = ({ onPathwayChange, initialPathway }: PathwayStepProp
       >
         <Label
           htmlFor="frenectomy"
-          className={`flex items-start gap-4 p-6 border-2 rounded-xl cursor-pointer transition-all ${
-            selectedPathway === 'frenectomy'
+          className={`flex items-start gap-4 p-6 border-2 rounded-xl cursor-pointer transition-all ${selectedPathway === 'frenectomy'
               ? 'border-primary bg-primary/5'
               : 'border-border hover:border-primary/50'
-          }`}
+            }`}
         >
           <RadioGroupItem value="frenectomy" id="frenectomy" className="mt-1" />
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <Stethoscope className="h-5 w-5 text-primary" />
-              <span className="font-semibold text-lg">I am preparing for a frenectomy</span>
+              <span className="font-semibold text-lg">I am preparing for a frenectomy (Tongue tie surgery)</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              This pathway includes pre-surgical preparation exercises and post-frenectomy 
+              This pathway includes pre-surgical preparation exercises and post-frenectomy
               recovery phases to help you get the best results from your procedure.
             </p>
           </div>
@@ -96,11 +95,10 @@ export const PathwayStep = ({ onPathwayChange, initialPathway }: PathwayStepProp
 
         <Label
           htmlFor="non_frenectomy"
-          className={`flex items-start gap-4 p-6 border-2 rounded-xl cursor-pointer transition-all ${
-            selectedPathway === 'non_frenectomy'
+          className={`flex items-start gap-4 p-6 border-2 rounded-xl cursor-pointer transition-all ${selectedPathway === 'non_frenectomy'
               ? 'border-primary bg-primary/5'
               : 'border-border hover:border-primary/50'
-          }`}
+            }`}
         >
           <RadioGroupItem value="non_frenectomy" id="non_frenectomy" className="mt-1" />
           <div className="flex-1">
@@ -109,7 +107,7 @@ export const PathwayStep = ({ onPathwayChange, initialPathway }: PathwayStepProp
               <span className="font-semibold text-lg">I am NOT having a frenectomy</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              This pathway focuses on developing proper oral function through a progressive 
+              This pathway focuses on developing proper oral function through a progressive
               24-week program without surgical intervention.
             </p>
           </div>

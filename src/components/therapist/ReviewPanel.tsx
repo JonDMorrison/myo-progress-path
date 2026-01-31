@@ -5,11 +5,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { 
-  CheckCircle, 
-  AlertTriangle, 
-  XCircle, 
-  ChevronDown, 
+import {
+  CheckCircle,
+  AlertTriangle,
+  XCircle,
+  ChevronDown,
   ChevronUp,
   Loader,
   Lock,
@@ -112,7 +112,7 @@ const ReviewPanel = ({
   const [isAdmin, setIsAdmin] = useState(false);
   const [weekMetrics, setWeekMetrics] = useState<any>(null);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
-  
+
   const { toast } = useToast();
 
   useEffect(() => {
@@ -124,7 +124,7 @@ const ReviewPanel = ({
     } else {
       clearReviewing();
     }
-    
+
     return () => {
       if (open) clearReviewing();
     };
@@ -186,7 +186,7 @@ const ReviewPanel = ({
       if (progressData?.reviewing_by && progressData.reviewing_by !== user?.id) {
         const reviewingSince = progressData.reviewing_since ? new Date(progressData.reviewing_since) : null;
         const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
-        
+
         // Only consider locked if review started within 30 minutes
         if (reviewingSince && reviewingSince > thirtyMinutesAgo) {
           const { data: reviewerData } = await supabase
@@ -210,7 +210,7 @@ const ReviewPanel = ({
 
     await supabase
       .from("patient_week_progress")
-      .update({ 
+      .update({
         reviewing_by: user.id,
         reviewing_since: new Date().toISOString()
       })
@@ -446,7 +446,30 @@ const ReviewPanel = ({
                 {/* Video Player */}
                 <VideoPlayer uploads={uploads} />
 
-                {/* AI Analysis Status and AI Review Summary removed - therapist provides all feedback */}
+                {/* AI Analysis Status and AI Review Summary */}
+                {weekMetrics?.ai_summary && (
+                  <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="h-4 w-4 text-primary" />
+                        <h4 className="font-bold text-slate-900 uppercase tracking-tight text-xs">AI Recommended Feedback</h4>
+                      </div>
+                      <Badge className="bg-primary/10 text-primary border-none text-[10px] font-black uppercase">Suggestion</Badge>
+                    </div>
+                    <div className="bg-white/80 p-3 rounded-lg border border-primary/10 italic text-sm text-slate-600 leading-relaxed shadow-sm">
+                      "{weekMetrics.ai_summary}"
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full bg-white hover:bg-primary/5 border-primary/20 text-primary font-bold text-xs"
+                      onClick={() => applyTemplate(weekMetrics.ai_summary)}
+                    >
+                      <Sparkles className="h-3 w-3 mr-2" />
+                      USE THIS SUGGESTION
+                    </Button>
+                  </div>
+                )}
 
                 {/* Exercise Instructions & Video Settings (collapsed) */}
                 {exercises.length > 0 && (
@@ -494,11 +517,10 @@ const ReviewPanel = ({
                       <p className="text-sm text-muted-foreground text-center py-2">No messages</p>
                     ) : (
                       messages.map((msg) => (
-                        <div 
+                        <div
                           key={msg.id}
-                          className={`p-2 rounded text-sm ${
-                            msg.therapist_id ? "bg-accent" : "bg-primary/10"
-                          }`}
+                          className={`p-2 rounded text-sm ${msg.therapist_id ? "bg-accent" : "bg-primary/10"
+                            }`}
                         >
                           <p className="text-xs font-medium mb-1">
                             {msg.therapist_id ? "Therapist" : "Patient"}
@@ -528,7 +550,7 @@ const ReviewPanel = ({
                       <h4 className="font-semibold text-success">Program Completion Note</h4>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      This is the final week! Write a personalized completion note emphasizing 
+                      This is the final week! Write a personalized completion note emphasizing
                       habit awareness, long-term carryover, and self-monitoring skills.
                     </p>
                     <Button
@@ -629,7 +651,7 @@ const ReviewPanel = ({
                   )}
                 </div>
               )}
-              
+
               {/* Week 24 Maintenance Mode Option */}
               {weekNumber === 24 && (
                 <div className="flex flex-col gap-2 mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
@@ -663,14 +685,14 @@ const ReviewPanel = ({
                             weekNumber,
                             note.trim() ? note : ""
                           );
-                          
+
                           if (!approveResult.success) {
                             throw new Error(approveResult.error);
                           }
-                          
+
                           // Then move to maintenance
                           const maintenanceResult = await moveToMaintenance(patientId);
-                          
+
                           if (maintenanceResult.success) {
                             toast({
                               title: "Moved to Maintenance Mode",
@@ -703,54 +725,54 @@ const ReviewPanel = ({
                   </p>
                 </div>
               )}
-              
+
               {weekNumber !== 24 && (
-              <div className="flex flex-col sm:flex-row gap-2">
-                <Button
-                  className="flex-1 h-10 sm:h-9"
-                  onClick={() => handleApprove(false)}
-                  disabled={submitting}
-                >
-                  {submitting ? (
-                    <Loader className="h-4 w-4 animate-spin mr-2" />
-                  ) : (
-                    <CheckCircle className="h-4 w-4 mr-2" />
-                  )}
-                  Approve
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button
+                    className="flex-1 h-10 sm:h-9"
+                    onClick={() => handleApprove(false)}
+                    disabled={submitting}
+                  >
+                    {submitting ? (
+                      <Loader className="h-4 w-4 animate-spin mr-2" />
+                    ) : (
+                      <CheckCircle className="h-4 w-4 mr-2" />
+                    )}
+                    Approve
+                  </Button>
 
-                <Button
-                  variant="outline"
-                  className="flex-1 h-10 sm:h-9"
-                  onClick={() => {
-                    if (!showNoteField) {
-                      setShowNoteField(true);
-                      return;
-                    }
-                    handleApprove(true);
-                  }}
-                  disabled={submitting || (showNoteField && !note.trim())}
-                >
-                  <AlertTriangle className="h-4 w-4 mr-2" />
-                  <span className="truncate">{showNoteField && note.trim() ? "Approve + Note" : "Add Note"}</span>
-                </Button>
+                  <Button
+                    variant="outline"
+                    className="flex-1 h-10 sm:h-9"
+                    onClick={() => {
+                      if (!showNoteField) {
+                        setShowNoteField(true);
+                        return;
+                      }
+                      handleApprove(true);
+                    }}
+                    disabled={submitting || (showNoteField && !note.trim())}
+                  >
+                    <AlertTriangle className="h-4 w-4 mr-2" />
+                    <span className="truncate">{showNoteField && note.trim() ? "Approve + Note" : "Add Note"}</span>
+                  </Button>
 
-                <Button
-                  variant="destructive"
-                  className="flex-1 h-10 sm:h-9"
-                  onClick={() => {
-                    if (!showNoteField) {
-                      setShowNoteField(true);
-                      return;
-                    }
-                    handleNeedsCorrection();
-                  }}
-                  disabled={submitting || (showNoteField && !note.trim())}
-                >
-                  <XCircle className="h-4 w-4 mr-2" />
-                  <span className="truncate">Needs Correction</span>
-                </Button>
-              </div>
+                  <Button
+                    variant="destructive"
+                    className="flex-1 h-10 sm:h-9"
+                    onClick={() => {
+                      if (!showNoteField) {
+                        setShowNoteField(true);
+                        return;
+                      }
+                      handleNeedsCorrection();
+                    }}
+                    disabled={submitting || (showNoteField && !note.trim())}
+                  >
+                    <XCircle className="h-4 w-4 mr-2" />
+                    <span className="truncate">Needs Correction</span>
+                  </Button>
+                </div>
               )}
             </div>
           </>

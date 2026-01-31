@@ -13,7 +13,7 @@ export default function Week0() {
 
   const handleQuizComplete = async () => {
     setQuizCompleted(true);
-    
+
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       const { data: patient } = await supabase
@@ -21,13 +21,18 @@ export default function Week0() {
         .select("id")
         .eq("user_id", user.id)
         .single();
-      
+
       if (patient) {
         await supabase.from("onboarding_progress").upsert({
           patient_id: patient.id,
           completed_steps: ["week0"],
           completed_at: new Date().toISOString()
         });
+
+        // Auto-redirect to dashboard
+        setTimeout(() => {
+          navigate("/patient");
+        }, 1500);
       }
     }
   };

@@ -52,51 +52,28 @@ All colors MUST be HSL.
 
     --radius: 0.625rem;
 
-    /* Shadows - subtle and soft */
-    --shadow-card: 0 1px 3px 0 hsl(220 15% 20% / 0.04), 0 1px 2px -1px hsl(220 15% 20% / 0.04);
-    --shadow-elevated: 0 4px 6px -1px hsl(220 15% 20% / 0.06), 0 2px 4px -2px hsl(220 15% 20% / 0.04);
-    --shadow-focus: 0 0 0 3px hsl(205 85% 45% / 0.15);
+    /* Better shadows - subtle but deep */
+    --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-elevated: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-progress: 0 0 20px -5px hsl(var(--primary));
 
-    /* Transitions - smooth, no bounce */
-    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    /* Premium Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(205 85% 45%) 0%, hsl(205 75% 65%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
+    
+    --radius: 1rem;
   }
 
   .dark {
-    --background: 220 20% 10%;
-    --foreground: 220 10% 92%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 220 18% 14%;
-    --card-foreground: 220 10% 92%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 220 18% 14%;
-    --popover-foreground: 220 10% 92%;
-
-    --primary: 205 80% 55%;
-    --primary-foreground: 0 0% 100%;
-    --primary-light: 205 75% 65%;
-
-    --secondary: 220 15% 20%;
-    --secondary-foreground: 220 10% 85%;
-
-    --muted: 220 15% 18%;
-    --muted-foreground: 220 10% 55%;
-
-    --accent: 220 18% 18%;
-    --accent-foreground: 205 80% 60%;
-
-    --success: 145 50% 48%;
-    --success-foreground: 0 0% 100%;
-    
-    --warning: 35 75% 52%;
-    --warning-foreground: 0 0% 100%;
-
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 15% 22%;
-    --input: 220 15% 22%;
-    --ring: 205 80% 55%;
+    --primary: 205 85% 55%;
+    --gradient-hero: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(205 85% 45%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.4) 100%);
   }
 }
 

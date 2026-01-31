@@ -1,21 +1,31 @@
 import { Calendar, Target, TrendingUp } from "lucide-react";
 
-export const ProgramOverviewStep = () => {
+interface ProgramOverviewStepProps {
+  selectedPathway?: 'frenectomy' | 'non_frenectomy' | null;
+}
+
+export const ProgramOverviewStep = ({ selectedPathway }: ProgramOverviewStepProps) => {
+  const isFrenectomy = selectedPathway === 'frenectomy';
+
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-3xl font-bold mb-4">Your 24-Week Program</h2>
+        <h2 className="text-3xl font-bold mb-4">{isFrenectomy ? 'Your Surgery & Recovery Journey' : 'Your 12-Module Program'}</h2>
         <p className="text-lg text-muted-foreground">
-          A structured journey to better breathing and oral function
+          {isFrenectomy
+            ? 'A structured pathway for optimal surgical outcomes and recovery'
+            : 'A structured journey to better breathing and oral function'}
         </p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6 mt-8">
         <div className="p-6 bg-muted/50 rounded-lg text-center">
           <Calendar className="w-12 h-12 mx-auto mb-4 text-primary" />
-          <h3 className="font-semibold mb-2">Weekly Structure</h3>
+          <h3 className="font-semibold mb-2">Module Structure</h3>
           <p className="text-sm text-muted-foreground">
-            Each week includes daily exercises, with check-ins every two weeks
+            {isFrenectomy
+              ? 'Biweekly modules before surgery, followed by post-op recovery phases'
+              : 'Each module spans two weeks of dedicated daily practice'}
           </p>
         </div>
 
@@ -23,15 +33,15 @@ export const ProgramOverviewStep = () => {
           <Target className="w-12 h-12 mx-auto mb-4 text-primary" />
           <h3 className="font-semibold mb-2">Clear Goals</h3>
           <p className="text-sm text-muted-foreground">
-            Track your progress with measurable metrics every two weeks
+            Track your progress with measurable metrics at the end of each module
           </p>
         </div>
 
         <div className="p-6 bg-muted/50 rounded-lg text-center">
           <TrendingUp className="w-12 h-12 mx-auto mb-4 text-primary" />
-          <h3 className="font-semibold mb-2">Continuous Progress</h3>
+          <h3 className="font-semibold mb-2">Expert Feedback</h3>
           <p className="text-sm text-muted-foreground">
-            Build habits progressively with expert feedback every two weeks
+            Submit your results for clinical review to unlock your next module
           </p>
         </div>
       </div>
@@ -41,9 +51,10 @@ export const ProgramOverviewStep = () => {
         <h3 className="font-semibold mb-2">What to Expect</h3>
         <ul className="space-y-2 text-sm">
           <li>• Complete daily exercises (5-15 minutes)</li>
-          <li>• Submit biweekly check-ins with your progress data</li>
-          <li>• Receive personalized feedback from your therapist</li>
-          <li>• Unlock new exercises as you advance through weeks</li>
+          <li>• {isFrenectomy ? 'Achieve specific goals to qualify for surgery' : 'Build strength and muscle memory progressively'}</li>
+          <li>• Submit module check-ins with your progress data & videos</li>
+          <li>• Receive personalized feedback from Dr. Jon or your therapist</li>
+          <li>• {isFrenectomy ? 'Move seamlessly through pre-op and post-op protocols' : 'Advance through all 12 modules of the program'}</li>
         </ul>
       </div>
     </div>

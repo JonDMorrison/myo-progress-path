@@ -83,7 +83,7 @@ export const OnboardingWizard = () => {
       }
 
       if (progress) {
-        const completedStepIds = Array.isArray(progress.completed_steps) 
+        const completedStepIds = Array.isArray(progress.completed_steps)
           ? progress.completed_steps as string[]
           : [];
         setCompletedSteps(completedStepIds);
@@ -99,7 +99,7 @@ export const OnboardingWizard = () => {
     if (!patientId) return;
 
     try {
-      const newCompletedSteps = completed 
+      const newCompletedSteps = completed
         ? [...new Set([...completedSteps, stepId])]
         : completedSteps;
 
@@ -114,7 +114,7 @@ export const OnboardingWizard = () => {
         });
 
       if (error) throw error;
-      
+
       if (completed) {
         setCompletedSteps(newCompletedSteps);
       }
@@ -125,7 +125,7 @@ export const OnboardingWizard = () => {
 
   const handleNext = async () => {
     const currentStep = steps[currentStepIndex];
-    
+
     // Validate pathway step
     if (currentStep.id === 'pathway' && !selectedPathway) {
       toast({
@@ -135,7 +135,7 @@ export const OnboardingWizard = () => {
       });
       return;
     }
-    
+
     // Validate consent step
     if (currentStep.id === 'consent' && !consentAccepted) {
       toast({
@@ -189,10 +189,11 @@ export const OnboardingWizard = () => {
 
           {/* Step Content */}
           <div className="min-h-[300px] sm:min-h-[400px] mb-6 sm:mb-8">
-            <StepComponent 
+            <StepComponent
               onConsentChange={currentStep.id === 'consent' ? setConsentAccepted : undefined}
               onPathwayChange={currentStep.id === 'pathway' ? setSelectedPathway : undefined}
               initialPathway={currentStep.id === 'pathway' ? selectedPathway : undefined}
+              selectedPathway={selectedPathway}
             />
           </div>
 

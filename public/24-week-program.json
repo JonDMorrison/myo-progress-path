@@ -1,346 +1,703 @@
 [
   {
     "week": 1,
-    "title": "Week 1 – Finding Your Spot & Easy Breathing",
-    "introduction": "This is the start of your journey! This week you'll learn where your tongue should rest and how to breathe calmly through your nose. These two skills are the foundation of healthy oral posture. When your tongue sits in the right place, it supports your teeth and airway. Nose breathing filters and moistens the air, helping your body stay healthier. The effort you put in this week is building blocks for everything ahead.",
-    "overview": "Welcome! This week we'll start with the basics: resting tongue posture and calm nasal breathing. These are the building blocks for everything ahead.",
-    "objectives": ["Learn where your tongue belongs", "Practice nose-only breathing"],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week1",
-    "exercises": [
-      { "name": "Tongue to Spot", "description": "Place the tip of your tongue on the ridge behind your upper front teeth. Hold 5 seconds, relax, repeat 10 times." },
-      { "name": "Nasal Breathing Awareness", "description": "Breathe through your nose for 5 minutes, lips closed. Notice how it feels." }
+    "title": "Module 1 – Weeks 1-2: Foundations",
+    "introduction": "This module focuses on the initial steps of myofunctional therapy. We'll start with active tongue exercises, sensory input, and your baseline breathing assessment.",
+    "overview": "Focus: Active exercises for tongue control, sensory stimulation, and establishing a baseline for your breathing health.",
+    "objectives": [
+      "Improve tongue control and mobility",
+      "Develop sensory awareness of the tongue and palate",
+      "Measure baseline breathing health (BOLT Test)"
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true },
-    "requires_video_first": true
+    "video_title": "Module 1 (Weeks 1-2) Overview",
+    "video_url": "https://vimeo.com/placeholder-module1",
+    "exercises": [
+      {
+        "name": "Clicks and Tick-Tocks",
+        "description": "Clicks (1 min): Suction tongue to roof for 3 sec, then click while keeping cheeks back. Tick-Tocks (1 min): Fast clicking sounds moving lips from smile to pursed."
+      },
+      {
+        "name": "Brushing",
+        "description": "Stick out tongue and brush full tongue 5 times. Brush 'the spot' area 5 times. Repeat for 1 minute total."
+      },
+      {
+        "name": "Tongue Trace",
+        "description": "Tip of tongue against 'the spot' and trace back along the palate in a straight line as far as possible."
+      },
+      {
+        "name": "BOLT Test",
+        "description": "Measure your baseline breathing health. Record the time in seconds before the first sign of 'air hunger'."
+      },
+      {
+        "name": "Tongue Tip – One Elastic Hold",
+        "description": "Place elastic on the tip of the tongue and hold it to 'the spot' for 5 minutes."
+      }
+    ],
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": true
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 2,
     "title": "Week 2 – Tongue Strength & Cheek Control",
     "introduction": "Now that you've found your spot, it's time to make your tongue stronger while keeping your cheeks relaxed. Strong tongue muscles mean your airway stays open and your teeth have better support. Cheeks and lips sometimes 'help' too much, and that creates strain — so we'll train them to stay relaxed. This week is about control, not force. The more balanced your muscles are, the easier breathing and swallowing become.",
     "overview": "Let's build a stronger tongue while keeping your cheeks relaxed. Small corrections here make a big difference later.",
-    "objectives": ["Press tongue firmly upward", "Keep cheeks soft"],
+    "objectives": [
+      "Press tongue firmly upward",
+      "Keep cheeks soft"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week2",
     "exercises": [
-      { "name": "Tongue Press", "description": "Press your tongue flat against the roof of your mouth for 3 seconds. Repeat 10 times." },
-      { "name": "Mirror Check", "description": "Repeat in front of a mirror, ensuring your cheeks stay relaxed." }
+      {
+        "name": "Tongue Press",
+        "description": "Press your tongue flat against the roof of your mouth for 3 seconds. Repeat 10 times."
+      },
+      {
+        "name": "Mirror Check",
+        "description": "Repeat in front of a mirror, ensuring your cheeks stay relaxed."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": true
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 3,
-    "title": "Week 3 – Lips Together, Breathing Smooth",
-    "introduction": "Lip seal and smooth breathing are the focus now. Keeping your lips together helps reinforce nasal breathing — which delivers more oxygen to your body and supports restful sleep. Smooth breathing also calms the nervous system and lowers stress. By practicing these small skills, you're laying the groundwork for better energy during the day. What feels simple now creates lasting change.",
-    "overview": "This week is about lip seal and smooth airflow. The goal: calm, natural breathing.",
-    "objectives": ["Train lip seal", "Develop steady airflow"],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week3",
-    "exercises": [
-      { "name": "Lip Seal Practice", "description": "Sit upright, close your lips gently, and breathe through your nose for 10 minutes." },
-      { "name": "Counting Breaths", "description": "With lips sealed, count to 10 between breaths to stay mindful." }
+    "title": "Module 2 – Weeks 3-4: Suction & Breathing",
+    "introduction": "In this module, we advance to suction strength and deep breathing techniques. Mastering these is crucial for airway stability.",
+    "overview": "Focus: Lingual palatal suction, tongue points, and diaphragmatic breathing.",
+    "objectives": [
+      "Master lingual palatal suction",
+      "Improve tongue point accurate movements",
+      "Learn proper belly breathing"
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true }
+    "exercises": [
+      {
+        "name": "Lingual Palatal Suction",
+        "description": "Suction tongue to roof and hold for as long as possible (10s to 1 min). Use a bite block if needed."
+      },
+      {
+        "name": "Tongue Points (Left and Right)",
+        "description": "With neutral face, touch the smallest point of the tip of tongue to the corner of the mouth. Repeat for 2 minutes each side."
+      },
+      {
+        "name": "Cheek Puffs",
+        "description": "Fill mouth with air and move to right, left, top lip, and bottom lip holding for 5 seconds each."
+      },
+      {
+        "name": "Belly/Diaphragm Breathing",
+        "description": "Lie on back, hands on stomach and chest. Breathe into your belly so only your stomach moves."
+      },
+      {
+        "name": "Middle of Tongue – One Elastic Hold",
+        "description": "Place elastic on the middle of the tongue and hold it to the roof of the mouth for 5 minutes."
+      }
+    ],
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 4,
     "title": "Week 4 – Tongue Lift Challenge",
     "introduction": "This week is about lifting your tongue smoothly and evenly. A full tongue lift keeps your palate supported and gives stability to your whole oral posture. Think of it as strength training for your airway — the stronger your tongue, the clearer your breathing path. Don't worry if it feels tricky at first; control comes with practice. Every rep is an investment in easier breathing and better sleep.",
     "overview": "Your tongue is stronger now! Let's practice lifting smoothly and evenly.",
-    "objectives": ["Strengthen full tongue lift", "Maintain nasal breathing"],
+    "objectives": [
+      "Strengthen full tongue lift",
+      "Maintain nasal breathing"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week4",
     "exercises": [
-      { "name": "Full Tongue Lift", "description": "Press the entire tongue against the palate for 5 seconds, repeat 10 times." },
-      { "name": "Cheek Control", "description": "Watch in a mirror to keep cheeks from moving." }
+      {
+        "name": "Full Tongue Lift",
+        "description": "Press the entire tongue against the palate for 5 seconds, repeat 10 times."
+      },
+      {
+        "name": "Cheek Control",
+        "description": "Watch in a mirror to keep cheeks from moving."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true },
-    "requires_video_last": true
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_last": true,
+    "requires_video_first": true
   },
   {
     "week": 5,
-    "title": "Week 5 – Suction & Stability",
-    "introduction": "Suction is a game-changer. When your tongue can gently 'stick' to the roof of your mouth, it helps create a natural seal that improves swallowing and stabilizes the airway. This stability means fewer open-mouth habits and a stronger foundation for your bite. Posture plays a big role here too — when your tongue and body are aligned, everything works more smoothly. The stability you're building now will pay off in everyday life.",
-    "overview": "This week you'll create suction strength — that gentle stick that holds your tongue in place.",
-    "objectives": ["Develop suction", "Integrate posture awareness"],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week5",
-    "exercises": [
-      { "name": "Tongue Suction Hold", "description": "Suction tongue to palate until it sticks, hold 5 seconds, repeat 10 times." },
-      { "name": "Posture Check", "description": "Keep tall posture and relaxed shoulders during practice." }
+    "title": "Module 3 – Weeks 5-6: Speech & Lip Trace",
+    "introduction": "This module introduces sound patterns and more complex lip/tongue coordination drills.",
+    "overview": "Focus: K sounds, tongue in cheek, and circular lip movements.",
+    "objectives": [
+      "Improve soft palate control with K sounds",
+      "Strengthen lateral tongue muscles",
+      "Improve lip seal and mobility"
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true }
+    "exercises": [
+      {
+        "name": "Tongue in Cheek",
+        "description": "Push tongue into cheek for 5 seconds without jaw shift. Keep face relaxed. 1 minute 2x daily."
+      },
+      {
+        "name": "K Sounds (Kuh, Guh, Unk)",
+        "description": "Make precise Kuh sounds with mouth open. Focus on back of tongue touching the soft palate."
+      },
+      {
+        "name": "Lip Trace",
+        "description": "With lips closed, trace circles around the inside of the upper and lower lips. 1 minute 2x daily."
+      },
+      {
+        "name": "4-7-8 Breathing Pattern",
+        "description": "Inhale 4s, Hold 7s, Exhale 8s. Repeat for 5 minutes."
+      },
+      {
+        "name": "Middle of Tongue – One Elastic Hold",
+        "description": "Increased duration: Hold elastic on middle of tongue for 10 minutes."
+      }
+    ],
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 6,
     "title": "Week 6 – Swallow Training Basics",
     "introduction": "This week we retrain your swallow. Many people push with their lips, cheeks, or even their chin when they swallow — but the healthiest swallow is led by the tongue. By keeping your tongue on the spot and letting your throat do the work, you create a cleaner, more efficient swallow. This reduces strain on facial muscles and supports long-term oral health. Each correct swallow is one step closer to lasting change.",
     "overview": "Now let's retrain your swallow — smooth, no cheek or chin strain.",
-    "objectives": ["Practice correct swallow", "Reduce extra movement"],
+    "objectives": [
+      "Practice correct swallow",
+      "Reduce extra movement"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week6",
     "exercises": [
-      { "name": "Spot Swallow", "description": "Keep tongue on the spot while swallowing, feel throat muscles (not chin) working." },
-      { "name": "Water Sips", "description": "Take small sips, repeat correct swallow each time." }
+      {
+        "name": "Spot Swallow",
+        "description": "Keep tongue on the spot while swallowing, feel throat muscles (not chin) working."
+      },
+      {
+        "name": "Water Sips",
+        "description": "Take small sips, repeat correct swallow each time."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true },
-    "requires_video_first": true
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 7,
     "title": "Week 7 – Jaw & Cheek Awareness",
     "introduction": "Your cheeks and jaw love to 'help out,' but this week we're teaching them to stay calm. Too much movement in those areas makes swallowing less efficient and can strain your bite. By practicing quiet, controlled swallows, you'll train your tongue to do the heavy lifting. Over time, this saves energy and reduces tension. Imagine swallowing smoothly without even thinking — that's where you're headed.",
     "overview": "Less jaw movement, more tongue control. Focus on quiet, efficient swallows.",
-    "objectives": ["Reduce jaw use", "Refine swallow"],
+    "objectives": [
+      "Reduce jaw use",
+      "Refine swallow"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week7",
     "exercises": [
-      { "name": "Cheek Relax", "description": "Press tongue up while teeth stay apart and cheeks soft." },
-      { "name": "Quiet Swallow", "description": "Swallow in front of mirror; watch for no chin or jaw movement." }
+      {
+        "name": "Cheek Relax",
+        "description": "Press tongue up while teeth stay apart and cheeks soft."
+      },
+      {
+        "name": "Quiet Swallow",
+        "description": "Swallow in front of mirror; watch for no chin or jaw movement."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 8,
     "title": "Week 8 – Breathing Under Effort",
     "introduction": "Breathing is more than just air — it's energy for your whole body. This week challenges you to maintain nose breathing even when your body is moving or working harder. Keeping your mouth closed during activity strengthens your airway and builds endurance. You'll notice calmer breathing, more stamina, and even better recovery after exercise. Think of this as fitness training for your breathing system.",
     "overview": "Maintain nasal breathing even with mild exertion. A key endurance skill.",
-    "objectives": ["Sustain nasal breathing", "Coordinate with movement"],
+    "objectives": [
+      "Sustain nasal breathing",
+      "Coordinate with movement"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week8",
     "exercises": [
-      { "name": "Walking Nose Breathing", "description": "Walk 5 minutes breathing only through your nose, lips sealed." },
-      { "name": "BOLT Practice", "description": "Measure BOLT score once per day, note changes." }
+      {
+        "name": "Walking Nose Breathing",
+        "description": "Walk 5 minutes breathing only through your nose, lips sealed."
+      },
+      {
+        "name": "BOLT Practice",
+        "description": "Measure BOLT score once per day, note changes."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true },
-    "requires_video_last": true
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_last": true,
+    "requires_video_first": true
   },
   {
     "week": 9,
     "title": "Week 9 – Endurance Tongue Hold",
     "introduction": "Stamina takes practice, and that's what we're building now. Holding your tongue posture for longer periods makes it feel natural and automatic. When your tongue naturally rests against the palate, your teeth and airway are supported all day long. This week may feel repetitive, but every second you hold good posture is teaching your body to make it a habit. These small moments add up to real change.",
     "overview": "Build stamina — keeping tongue to palate for longer periods.",
-    "objectives": ["Increase endurance", "Keep airway clear"],
+    "objectives": [
+      "Increase endurance",
+      "Keep airway clear"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week9",
     "exercises": [
-      { "name": "Extended Tongue Hold", "description": "Hold tongue pressed for 10 seconds, repeat 5 times." },
-      { "name": "Calm Breathing Hold", "description": "During hold, keep nasal breathing smooth." }
+      {
+        "name": "Extended Tongue Hold",
+        "description": "Hold tongue pressed for 10 seconds, repeat 5 times."
+      },
+      {
+        "name": "Calm Breathing Hold",
+        "description": "During hold, keep nasal breathing smooth."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 10,
     "title": "Week 10 – Precision & Awareness",
     "introduction": "This is a refinement week — precision over power. We're polishing your movements so they're smooth and efficient. Clean, controlled tongue motions mean less strain and better results over time. You're teaching your body a new normal. The better your precision, the more automatic your breathing and swallowing will become.",
     "overview": "We'll refine precision — clear control without help from other muscles.",
-    "objectives": ["Improve precision", "Reduce compensations"],
+    "objectives": [
+      "Improve precision",
+      "Reduce compensations"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week10",
     "exercises": [
-      { "name": "Mirror Tongue Drill", "description": "Lift tongue tip to spot, then flatten to palate, watch for symmetry." },
-      { "name": "Relaxed Jaw Swallows", "description": "Swallow 10 times with no jaw or lip help." }
+      {
+        "name": "Mirror Tongue Drill",
+        "description": "Lift tongue tip to spot, then flatten to palate, watch for symmetry."
+      },
+      {
+        "name": "Relaxed Jaw Swallows",
+        "description": "Swallow 10 times with no jaw or lip help."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 11,
     "title": "Week 11 – Linking Habits",
     "introduction": "Your exercises shouldn't just live in practice time — they should follow you into everyday life. This week is about integrating your skills during meals, conversations, and casual moments. The more often you practice in real life, the faster they become natural habits. Imagine sitting at dinner, breathing calmly and swallowing smoothly without thinking — that's the goal.",
     "overview": "Bring your tongue posture and breathing into daily life moments.",
-    "objectives": ["Build all-day awareness", "Integrate habits"],
+    "objectives": [
+      "Build all-day awareness",
+      "Integrate habits"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week11",
     "exercises": [
-      { "name": "Meal Practice", "description": "During meals, pause to check lip seal and proper swallow." },
-      { "name": "Conversation Breathing", "description": "Between sentences, breathe calmly through your nose." }
+      {
+        "name": "Meal Practice",
+        "description": "During meals, pause to check lip seal and proper swallow."
+      },
+      {
+        "name": "Conversation Breathing",
+        "description": "Between sentences, breathe calmly through your nose."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": true
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 12,
     "title": "Week 12 – Midpoint Check",
     "introduction": "Congratulations, you've reached the halfway point! This week is about reviewing your progress and seeing how far you've come. Recording your posture and swallow now gives you proof of the improvements you've made. Even small wins — calmer breathing, fewer open-mouth moments — are worth celebrating. Remember, the effort you've put in is laying the foundation for lasting health.",
     "overview": "You're halfway! Time for a checkpoint — review posture, breathing, and swallowing.",
-    "objectives": ["Review skills", "Record progress"],
+    "objectives": [
+      "Review skills",
+      "Record progress"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week12",
     "exercises": [
-      { "name": "Posture Scan", "description": "Check resting tongue, lips, and breathing every hour today." },
-      { "name": "Midpoint Video", "description": "Record yourself doing tongue-to-spot hold and a correct swallow." }
+      {
+        "name": "Posture Scan",
+        "description": "Check resting tongue, lips, and breathing every hour today."
+      },
+      {
+        "name": "Midpoint Video",
+        "description": "Record yourself doing tongue-to-spot hold and a correct swallow."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true },
-    "requires_video_last": true
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": true
+    },
+    "requires_video_last": true,
+    "requires_video_first": true
   },
   {
     "week": 13,
     "title": "Week 13 – Adding Strength",
     "introduction": "It's time to add intensity. Your tongue is stronger now, so let's push it further. Stronger holds and longer times make your airway more stable and your posture more reliable. Think of this as strength training for your mouth and airway. The more consistent you are, the easier these skills will feel in daily life.",
     "overview": "We'll add intensity — stronger holds, longer times.",
-    "objectives": ["Increase strength", "Maintain relaxed face"],
+    "objectives": [
+      "Increase strength",
+      "Maintain relaxed face"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week13",
     "exercises": [
-      { "name": "Power Hold", "description": "Press tongue strongly against palate for 7 seconds, 10 reps." },
-      { "name": "Relaxation Reset", "description": "After holds, consciously relax cheeks and jaw." }
+      {
+        "name": "Power Hold",
+        "description": "Press tongue strongly against palate for 7 seconds, 10 reps."
+      },
+      {
+        "name": "Relaxation Reset",
+        "description": "After holds, consciously relax cheeks and jaw."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 14,
     "title": "Week 14 – Speaking & Breathing",
     "introduction": "Speaking and breathing often get out of sync — but not anymore. This week you'll learn how to maintain good tongue posture and nasal breathing even when you talk. This helps you speak more clearly, avoid strain, and stay energized. These small adjustments can improve confidence and make conversations feel easier.",
     "overview": "Apply your skills during speech and conversation.",
-    "objectives": ["Coordinate speaking & breathing", "Keep nasal flow"],
+    "objectives": [
+      "Coordinate speaking & breathing",
+      "Keep nasal flow"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week14",
     "exercises": [
-      { "name": "Read Aloud Drill", "description": "Read aloud for 5 minutes, pause with lips closed, breathe through nose." },
-      { "name": "Speech Awareness", "description": "Notice tongue rest position when not speaking." }
+      {
+        "name": "Read Aloud Drill",
+        "description": "Read aloud for 5 minutes, pause with lips closed, breathe through nose."
+      },
+      {
+        "name": "Speech Awareness",
+        "description": "Notice tongue rest position when not speaking."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 15,
     "title": "Week 15 – Endurance Challenge",
     "introduction": "Endurance is the theme again. Long holds and consistent breathing create the muscle memory you need for automatic posture. Just like training for a sport, endurance sets you apart. You're building habits that last through the day, not just during practice. The stronger your endurance, the less you'll have to think about it.",
     "overview": "Push stamina — longer holds, consistent breathing.",
-    "objectives": ["Hold posture longer", "Sustain calm nose breathing"],
+    "objectives": [
+      "Hold posture longer",
+      "Sustain calm nose breathing"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week15",
     "exercises": [
-      { "name": "Long Hold", "description": "Hold tongue suction for 20 seconds, 5 times." },
-      { "name": "Movement + Nose Breathing", "description": "Do light exercise (stairs/walk) while keeping nose breathing." }
+      {
+        "name": "Long Hold",
+        "description": "Hold tongue suction for 20 seconds, 5 times."
+      },
+      {
+        "name": "Movement + Nose Breathing",
+        "description": "Do light exercise (stairs/walk) while keeping nose breathing."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 16,
     "title": "Week 16 – Chew & Swallow Refinement",
     "introduction": "This week is about chewing and swallowing refinement. Eating is something we all do every day, and practicing proper mechanics here reinforces everything you've learned. When your chew and swallow are efficient, digestion improves and muscles stay balanced. It may seem small, but this is one of the most practical skills you'll ever master.",
     "overview": "Focus on chewing and swallowing with control.",
-    "objectives": ["Refine chew-swallow coordination"],
+    "objectives": [
+      "Refine chew-swallow coordination"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week16",
     "exercises": [
-      { "name": "Chewing Practice", "description": "Chew food slowly, tongue stays up, lips together." },
-      { "name": "Correct Swallow Drill", "description": "10 practice swallows, tongue on spot, no cheek movement." }
+      {
+        "name": "Chewing Practice",
+        "description": "Chew food slowly, tongue stays up, lips together."
+      },
+      {
+        "name": "Correct Swallow Drill",
+        "description": "10 practice swallows, tongue on spot, no cheek movement."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 17,
     "title": "Week 17 – Breathing Endurance",
     "introduction": "Breathing endurance is your focus now. By training yourself to breathe calmly through your nose for longer, you're building a stronger airway and a more resilient body. Nose breathing even during activity reduces fatigue and supports better sleep. Think of this as building the stamina to keep your body supplied with energy all day long.",
     "overview": "Build breath endurance and calm rhythm.",
-    "objectives": ["Improve nasal endurance", "Enhance calm control"],
+    "objectives": [
+      "Improve nasal endurance",
+      "Enhance calm control"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week17",
     "exercises": [
-      { "name": "Nose Walk", "description": "Walk 10 minutes nose-only breathing, lips sealed." },
-      { "name": "Breath Holds", "description": "Practice gentle holds and measure BOLT once daily." }
+      {
+        "name": "Nose Walk",
+        "description": "Walk 10 minutes nose-only breathing, lips sealed."
+      },
+      {
+        "name": "Breath Holds",
+        "description": "Practice gentle holds and measure BOLT once daily."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 18,
     "title": "Week 18 – Swallow Integration",
     "introduction": "This week we want your correct swallow to feel automatic. By now, you've practiced enough that it should start to happen without effort. The goal is for your body to choose the right motion naturally. Automatic, efficient swallows protect your teeth, jaw, and airway every day — without you needing to think about it.",
     "overview": "Automatic swallows with no effort.",
-    "objectives": ["Automatic correct swallow"],
+    "objectives": [
+      "Automatic correct swallow"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week18",
     "exercises": [
-      { "name": "Sip & Swallow", "description": "Drink 10 sips, swallow correctly each time." },
-      { "name": "Daily Check", "description": "Notice each swallow throughout day, correct if off." }
+      {
+        "name": "Sip & Swallow",
+        "description": "Drink 10 sips, swallow correctly each time."
+      },
+      {
+        "name": "Daily Check",
+        "description": "Notice each swallow throughout day, correct if off."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 19,
     "title": "Week 19 – Speech & Smile",
     "introduction": "Smiles and conversations — that's where your skills shine this week. You'll practice keeping posture and breathing steady even while talking and smiling. This creates confidence and consistency. When your habits stay strong even in social settings, you know the work is paying off.",
     "overview": "Blend tongue posture with natural speech and smiling.",
-    "objectives": ["Keep posture during daily talk"],
+    "objectives": [
+      "Keep posture during daily talk"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week19",
     "exercises": [
-      { "name": "Smile Practice", "description": "Smile naturally, tongue stays on spot." },
-      { "name": "Conversation Drill", "description": "In casual talk, keep lips sealed between sentences." }
+      {
+        "name": "Smile Practice",
+        "description": "Smile naturally, tongue stays on spot."
+      },
+      {
+        "name": "Conversation Drill",
+        "description": "In casual talk, keep lips sealed between sentences."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 20,
     "title": "Week 20 – Challenge Week",
     "introduction": "This is a challenge week. You'll test yourself with endurance, posture, and breathing under pressure. Think of it like a personal milestone — a way to measure everything you've built so far. The stronger you finish this week, the more ready you'll be for the final stretch.",
     "overview": "Test endurance, posture, and breathing under stress.",
-    "objectives": ["Challenge yourself"],
+    "objectives": [
+      "Challenge yourself"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week20",
     "exercises": [
-      { "name": "Endurance Hold", "description": "Hold suction for 30 seconds, repeat 3 times." },
-      { "name": "Exercise Nose Breathing", "description": "Try jogging/walking briskly nose-only for 5 minutes." }
+      {
+        "name": "Endurance Hold",
+        "description": "Hold suction for 30 seconds, repeat 3 times."
+      },
+      {
+        "name": "Exercise Nose Breathing",
+        "description": "Try jogging/walking briskly nose-only for 5 minutes."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true },
-    "requires_video_first": true
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 21,
     "title": "Week 21 – Everyday Habits",
     "introduction": "This week is about making your skills part of everyday life. Every activity — school, work, meals, conversations — becomes a chance to reinforce your posture and breathing. The more natural it feels, the closer you are to making it permanent. You're not just practicing now; you're living it.",
     "overview": "Your skills should feel automatic now. Bring them into every moment.",
-    "objectives": ["Integrate all skills"],
+    "objectives": [
+      "Integrate all skills"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week21",
     "exercises": [
-      { "name": "Posture Scan", "description": "Every hour, check tongue up, lips closed, nose breathing." },
-      { "name": "Daily Life Drill", "description": "At work/school, notice posture and breathing often." }
+      {
+        "name": "Posture Scan",
+        "description": "Every hour, check tongue up, lips closed, nose breathing."
+      },
+      {
+        "name": "Daily Life Drill",
+        "description": "At work/school, notice posture and breathing often."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 22,
     "title": "Week 22 – Refinement",
     "introduction": "Refinement continues. This week you'll polish your habits so they feel effortless. Smooth swallows, steady posture, calm breathing — they should all start blending into daily life. This is where the hard work transforms into an easy rhythm.",
     "overview": "Fine-tune — smoother, easier, natural.",
-    "objectives": ["Refine natural posture"],
+    "objectives": [
+      "Refine natural posture"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week22",
     "exercises": [
-      { "name": "Smooth Swallows", "description": "Swallow 10 times with no visible movement." },
-      { "name": "Relaxed Holds", "description": "Hold tongue posture for 1 minute comfortably." }
+      {
+        "name": "Smooth Swallows",
+        "description": "Swallow 10 times with no visible movement."
+      },
+      {
+        "name": "Relaxed Holds",
+        "description": "Hold tongue posture for 1 minute comfortably."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true }
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": false
+    },
+    "requires_video_first": true,
+    "requires_video_last": true
   },
   {
     "week": 23,
     "title": "Week 23 – Final Practice",
     "introduction": "Almost there! This is your practice week before the final celebration. Use this time to polish your skills and record yourself in action. Think of it like rehearsing for graduation. You're preparing to show off the progress you've earned.",
     "overview": "One more week to polish everything.",
-    "objectives": ["Polish skills", "Prepare for graduation"],
+    "objectives": [
+      "Polish skills",
+      "Prepare for graduation"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week23",
     "exercises": [
-      { "name": "Combo Drill", "description": "Tongue up, lips closed, nose breathing during reading, smiling, speaking." },
-      { "name": "Pre-Final Video", "description": "Practice your final video performance." }
+      {
+        "name": "Combo Drill",
+        "description": "Tongue up, lips closed, nose breathing during reading, smiling, speaking."
+      },
+      {
+        "name": "Pre-Final Video",
+        "description": "Practice your final video performance."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true },
-    "requires_video_last": true
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": true
+    },
+    "requires_video_last": true,
+    "requires_video_first": true
   },
   {
     "week": 24,
     "title": "Week 24 – Strong Finish",
     "introduction": "Congratulations — you've reached the finish line! This is your chance to showcase everything you've learned and celebrate the transformation. You started with small steps, and now you have stronger posture, better breathing, and healthier habits. The effort you've put in has paid off. This is not the end — it's the beginning of a healthier, more confident you.",
     "overview": "This week celebrates your progress — posture, breathing, and confidence are now yours.",
-    "objectives": ["Showcase your progress", "Finish strong"],
+    "objectives": [
+      "Showcase your progress",
+      "Finish strong"
+    ],
     "video_title": "Watch This Week's Coaching Video",
     "video_url": "https://vimeo.com/placeholder-week24",
     "exercises": [
-      { "name": "Final Combo", "description": "Read aloud, smile, breathe calmly — all skills together." },
-      { "name": "Final Video", "description": "Record your progress video and celebrate your success." }
+      {
+        "name": "Final Combo",
+        "description": "Read aloud, smile, breathe calmly — all skills together."
+      },
+      {
+        "name": "Final Video",
+        "description": "Record your progress video and celebrate your success."
+      }
     ],
-    "tracking": { "nasal_breathing_percent": true, "BOLT_score": true },
-    "requires_video_last": true
+    "tracking": {
+      "nasal_breathing_percent": true,
+      "BOLT_score": true
+    },
+    "requires_video_last": true,
+    "requires_video_first": true
   }
 ]

@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { getProgramTitle } from "./constants";
+import { getModuleInfo } from "./moduleUtils";
 
 export interface WeekProgress {
   weekNumber: number;
@@ -24,6 +25,18 @@ export interface UserProgress {
  */
 export async function getUserProgress(patientId: string): Promise<UserProgress | null> {
   try {
+    // Check for STAFF bypass (Therapist/Admin can see everything)
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    let isStaff = false;
+    if (authUser) {
+      const { data: userData } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", authUser.id)
+        .single();
+      isStaff = userData?.role === "therapist" || userData?.role === "admin" || userData?.role === "super_admin";
+    }
+
     // First get the patient's program_variant
     const { data: patient } = await supabase
       .from("patients")
@@ -76,31 +89,31 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
     for (const week of weeks || []) {
       const progress = progressMap.get(week.id);
       const isComplete = progress?.status === "approved";
-      
+
       if (isComplete) {
         completedCount++;
-        lastApprovedWeek = week.number;
+        lastApprovedWeek = Math.max(lastApprovedWeek, week.number);
       }
 
-      // STRICT THERAPIST APPROVAL GATING:
-      // Week is locked if:
-      // - Week 1 and Week 0 (onboarding) not complete
-      // - Any week > 1 where previous week is NOT "approved" by therapist
-      // This prevents progression until therapist explicitly approves
-      const isLocked =
-        (week.number === 1 && !week0Complete) ||
-        (week.number > 1 && lastApprovedWeek < week.number - 1);
+      // MODULE-BASED GATING:
+      // A week is unlocked if it belongs to the same module as the next available week after lastApprovedWeek.
+      // Example: If Week 2 is the last approved week, then Weeks 3 & 4 (Module 2) should be unlocked.
+      const currentWeekModule = getModuleInfo(week.number, programVariant);
+      const nextRequiredModule = getModuleInfo(lastApprovedWeek + 1, programVariant);
+
+      const isLocked = isStaff ? false :
+        (currentWeekModule.moduleNumber > nextRequiredModule.moduleNumber);
 
       // Check if this week is locked because previous week is awaiting approval
-      const awaitingApproval = isLocked && 
-        previousWeekStatus === "submitted" && 
+      const awaitingApproval = isLocked &&
+        previousWeekStatus === "submitted" &&
         week.number > 1;
 
       const statusValue = progress?.status || "open";
       weekStatuses.push({
         weekNumber: week.number,
         status: statusValue as "open" | "submitted" | "approved" | "needs_more",
-        completedAt: progress?.completed_at,
+        completedAt: progress?.submitted_at,
         isLocked,
         isComplete,
         awaitingApproval,
@@ -116,18 +129,21 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
       }
     }
 
-    // If no open weeks were found, show the last approved week or the first submitted week awaiting approval
-    if (!currentWeekFound && lastApprovedWeek > 0) {
-      currentWeek = lastApprovedWeek;
+    // If no open weeks were found, show the last approved week or the latest submitted week
+    if (!currentWeekFound) {
+      const latestActionWeek = [...weekStatuses].reverse().find(w => w.status === "submitted" || w.status === "approved");
+      if (latestActionWeek) {
+        currentWeek = latestActionWeek.weekNumber;
+      }
     }
 
     // Get last activity date
     const lastActivityDate =
       progressData
-        ?.filter((p) => p.completed_at)
-        .sort((a, b) => 
-          new Date(b.completed_at!).getTime() - new Date(a.completed_at!).getTime()
-        )?.[0]?.completed_at;
+        ?.filter((p) => p.submitted_at)
+        .sort((a, b) =>
+          new Date(b.submitted_at!).getTime() - new Date(a.submitted_at!).getTime()
+        )?.[0]?.submitted_at;
 
     const totalWeeks = weeks?.length || 24;
     const percentComplete = Math.round((completedCount / totalWeeks) * 100);
@@ -165,9 +181,9 @@ export async function isWeekAccessible(
   // 1. Week is not locked (current or future unlocked week)
   // 2. Week is already completed (approved) - for historical access
   // 3. Week is submitted (under review) - patient can view their submission
-  return !weekStatus?.isLocked || 
-         weekStatus?.status === "approved" || 
-         weekStatus?.status === "submitted";
+  return !weekStatus?.isLocked ||
+    weekStatus?.status === "approved" ||
+    weekStatus?.status === "submitted";
 }
 
 /**

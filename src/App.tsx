@@ -57,50 +57,50 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/onboarding" element={<OnboardingWizard />} />
-            <Route path="/week-0" element={<Week0 />} />
-            <Route path="/learn" element={<Learn />} />
-            <Route path="/learn/:slug" element={<LearnArticle />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/what-is-myofunctional-therapy" element={<WhatIsMyofunctionalTherapy />} />
-            <Route path="/clinical-testing" element={<ClinicalTesting />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/update-password" element={<UpdatePassword />} />
-            <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
-            <Route path="/patient" element={<PatientDashboard />} />
-            <Route path="/patient/progress" element={<PatientProgress />} />
-            <Route path="/patient/messages" element={<PatientMessages />} />
-            <Route path="/patient/account" element={<PatientAccount />} />
-            <Route path="/therapist" element={<TherapistDashboard />} />
-            <Route path="/therapist/patients" element={<TherapistPatients />} />
-            <Route path="/admin/content" element={<AdminContent />} />
-            <Route path="/admin/master" element={<MasterAdmin />} />
-            <Route path="/admin/seed-program" element={<SeedProgram />} />
-            <Route path="/admin/update-weeks-1-2" element={<UpdateWeeks1And2 />} />
-            <Route path="/admin/update-weeks-3-4" element={<UpdateWeeks3And4 />} />
-            <Route path="/admin/update-weeks-5-6" element={<UpdateWeeks5And6 />} />
-            <Route path="/admin/media-audit" element={<MediaAudit />} />
-            <Route path="/admin/exercise-editor" element={<ExerciseContentEditor />} />
-            <Route path="/admin/week-settings" element={<WeekSettingsEditor />} />
-            <Route path="/admin/super-admins" element={<SuperAdminManagement />} />
-            <Route path="/admin/delete-patients" element={<PatientDeleteTool />} />
-            <Route path="/admin/testing-feedback" element={<TestingFeedback />} />
-            <Route path="/reports" element={<Reports />} />
-            <Route path="/therapist/ai-assist" element={<TherapistAIAssist />} />
-            <Route path="/week/:weekNumber" element={<WeekDetail />} />
-            <Route path="/protocol/:slug" element={<ProtocolDetail />} />
-            <Route path="/review/:patientId/:weekNumber" element={<ReviewWeek />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/onboarding" element={<OnboardingWizard />} />
+              <Route path="/week-0" element={<Week0 />} />
+              <Route path="/learn" element={<Learn />} />
+              <Route path="/learn/:slug" element={<LearnArticle />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/what-is-myofunctional-therapy" element={<WhatIsMyofunctionalTherapy />} />
+              <Route path="/clinical-testing" element={<ClinicalTesting />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/update-password" element={<UpdatePassword />} />
+              <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
+              <Route path="/patient" element={<PatientDashboard />} />
+              <Route path="/patient/progress" element={<PatientProgress />} />
+              <Route path="/patient/messages" element={<PatientMessages />} />
+              <Route path="/patient/account" element={<PatientAccount />} />
+              <Route path="/therapist" element={<TherapistDashboard />} />
+              <Route path="/therapist/patients" element={<TherapistPatients />} />
+              <Route path="/admin/content" element={<AdminContent />} />
+              <Route path="/admin/master" element={<MasterAdmin />} />
+              <Route path="/admin/seed-program" element={<SeedProgram />} />
+              <Route path="/admin/update-weeks-1-2" element={<UpdateWeeks1And2 />} />
+              <Route path="/admin/update-weeks-3-4" element={<UpdateWeeks3And4 />} />
+              <Route path="/admin/update-weeks-5-6" element={<UpdateWeeks5And6 />} />
+              <Route path="/admin/media-audit" element={<MediaAudit />} />
+              <Route path="/admin/exercise-editor" element={<ExerciseContentEditor />} />
+              <Route path="/admin/week-settings" element={<WeekSettingsEditor />} />
+              <Route path="/admin/super-admins" element={<SuperAdminManagement />} />
+              <Route path="/admin/delete-patients" element={<PatientDeleteTool />} />
+              <Route path="/admin/testing-feedback" element={<TestingFeedback />} />
+              <Route path="/reports" element={<Reports />} />
+              <Route path="/therapist/ai-assist" element={<TherapistAIAssist />} />
+              <Route path="/week/:weekNumber" element={<WeekDetail />} />
+              <Route path="/protocol/:slug" element={<ProtocolDetail />} />
+              <Route path="/review/:patientId/:weekNumber" element={<ReviewWeek />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>

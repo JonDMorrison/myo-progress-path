@@ -25,7 +25,7 @@ const ReviewWeek = () => {
   const [progress, setProgress] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [note, setNote] = useState("");
-  
+
   const [downloadingPDF, setDownloadingPDF] = useState(false);
   const [uploads, setUploads] = useState<any[]>([]);
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
@@ -57,9 +57,9 @@ const ReviewWeek = () => {
 
       // Get week - filter by patient's program variant
       const programTitle = patientData.program_variant === "frenectomy" || patientData.program_variant === "standard"
-        ? "Frenectomy Program" 
+        ? "Frenectomy Program"
         : "Non-Frenectomy Program";
-      
+
       const { data: weekData, error: weekError } = await supabase
         .from("weeks")
         .select("*, programs!inner(title)")
@@ -104,10 +104,12 @@ const ReviewWeek = () => {
 
       setUploads(uploadsData || []);
 
-      // Set AI summary as default note if available
+      // AI summary is NOT set as default note anymore - therapist must choose or write their own
+      /*
       if (progressData?.ai_summary && !note) {
         setNote(progressData.ai_summary);
       }
+      */
     } catch (error: any) {
       console.error("Error loading review data:", error);
       toast({
@@ -304,7 +306,7 @@ const ReviewWeek = () => {
       approved: { label: "Approved", className: "bg-success/10 text-success border-success/20" },
       needs_more: { label: "Needs Practice", className: "bg-secondary/10 text-secondary border-secondary/20" },
     };
-    
+
     const variant = variants[status] || variants.submitted;
     return <Badge variant="outline" className={variant.className}>{variant.label}</Badge>;
   };
@@ -381,9 +383,9 @@ const ReviewWeek = () => {
                   </div>
                 )}
 
-                {progress?.completed_at && (
+                {progress?.submitted_at && (
                   <div className="text-sm text-muted-foreground">
-                    <strong>Submitted:</strong> {new Date(progress.completed_at).toLocaleDateString()}
+                    <strong>Submitted:</strong> {new Date(progress.submitted_at).toLocaleDateString()}
                   </div>
                 )}
               </CardContent>
@@ -404,9 +406,8 @@ const ReviewWeek = () => {
                     messages.map((msg) => (
                       <div
                         key={msg.id}
-                        className={`p-3 rounded-lg ${
-                          msg.therapist_id ? "bg-accent" : "bg-primary/10"
-                        }`}
+                        className={`p-3 rounded-lg ${msg.therapist_id ? "bg-accent" : "bg-primary/10"
+                          }`}
                       >
                         <p className="text-sm font-medium mb-1">
                           {msg.therapist_id ? "You" : patient?.user?.name}
@@ -482,15 +483,15 @@ const ReviewWeek = () => {
                             </Button>
                           </div>
                           {upload.thumb_url && (
-                            <img 
-                              src={upload.thumb_url} 
-                              alt="Video thumbnail" 
+                            <img
+                              src={upload.thumb_url}
+                              alt="Video thumbnail"
                               className="w-full h-32 object-cover rounded cursor-pointer"
                               onClick={() => handlePlayVideo(upload.id, upload.file_url)}
                             />
                           )}
                         </div>
-                        
+
                         {/* AI feedback section removed - therapist provides all feedback */}
                       </div>
                     ))}

@@ -9,7 +9,12 @@ interface WeekFormData {
   tonguePct: string;
 }
 
-export function useWeekForm(progressId: string, initialData: WeekFormData, readOnly: boolean = false) {
+export function useWeekForm(
+  progressId: string,
+  initialData: WeekFormData,
+  readOnly: boolean = false,
+  onUpdate?: () => void
+) {
   const [formData, setFormData] = useState<WeekFormData>(initialData);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -17,7 +22,7 @@ export function useWeekForm(progressId: string, initialData: WeekFormData, readO
   // Auto-save after 3 seconds of inactivity (disabled in read-only mode)
   const debouncedSave = useDebouncedCallback(async (data: WeekFormData) => {
     if (readOnly) return;
-    
+
     setIsSaving(true);
     try {
       const { error } = await supabase
@@ -35,6 +40,9 @@ export function useWeekForm(progressId: string, initialData: WeekFormData, readO
 
       // Also save to localStorage as backup
       localStorage.setItem(`week_draft_${progressId}`, JSON.stringify(data));
+
+      // Notify parent of update to refresh submission status
+      if (onUpdate) onUpdate();
     } catch (error) {
       console.error('Auto-save failed:', error);
       toast.error('Failed to auto-save progress');
@@ -45,7 +53,7 @@ export function useWeekForm(progressId: string, initialData: WeekFormData, readO
 
   const updateField = useCallback((field: keyof WeekFormData, value: string) => {
     if (readOnly) return;
-    
+
     const newData = { ...formData, [field]: value };
     setFormData(newData);
     debouncedSave(newData);

@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Section } from "@/components/ui/Section";
 import { WeekIntroductionModal } from "@/components/WeekIntroductionModal";
 import { notifyTherapistSubmission } from "@/lib/notify";
 import { grantBadgeWithToast } from "@/lib/gamification";
+import confetti from "canvas-confetti";
 import { ResponsiveVideo } from "@/components/week/ResponsiveVideo";
+import { VideoUpload } from "@/components/week/VideoUpload";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { isWeekAccessible, isWeekReadOnly } from "@/lib/userProgress";
@@ -27,7 +31,8 @@ import { PreOpPreparationCard } from "@/components/week/PreOpPreparationCard";
 import { PostOpProtocolCard } from "@/components/week/PostOpProtocolCard";
 import TherapistFeedbackList from "@/components/week/TherapistFeedbackList";
 import { PreviousWeeksReview } from "@/components/week/PreviousWeeksReview";
-import { FRENECTOMY_POST_OP_WEEKS } from "@/lib/moduleUtils";
+import { PrivacyManager } from "@/components/week/PrivacyManager";
+import { FRENECTOMY_POST_OP_WEEKS, isLastWeekOfModule, getModuleInfo } from "@/lib/moduleUtils";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -47,6 +52,31 @@ const WeekDetail = () => {
   const [isReadOnly, setIsReadOnly] = useState(false);
 
   useEffect(() => {
+    if (canSubmitState && !loading) {
+      const isLast = isLastWeekOfModule(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy');
+
+      if (isLast) {
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#22c55e', '#3b82f6', '#f59e0b']
+        });
+
+        toast({
+          title: "Module Complete! 🎉",
+          description: "You've met all module requirements. Ready to submit for review!",
+        });
+      } else {
+        toast({
+          title: "Part 1 Complete!",
+          description: "You've finished Part 1. Complete Part 2 to submit this module.",
+        });
+      }
+    }
+  }, [canSubmitState, loading, weekNumber]);
+
+  useEffect(() => {
     loadWeekData();
   }, [weekNumber]);
 
@@ -58,47 +88,56 @@ const WeekDetail = () => {
         return;
       }
 
-      // Check if user is super admin (bypasses week locks)
+      // Check user role
       const { data: userData } = await supabase
         .from("users")
         .select("role")
         .eq("id", user.id)
         .single();
-      
-      const isSuperAdmin = userData?.role === "super_admin";
 
-      // Get patient
+      const isSuperAdmin = userData?.role === "super_admin";
+      const isTherapist = userData?.role === "therapist";
+
+      // Get patient - if user is therapist/admin but NOT a patient themselves, we create a partial dummy state
       const { data: patientData, error: patientError } = await supabase
         .from("patients")
         .select("*")
         .eq("user_id", user.id)
-        .single();
+        .maybeSingle();
 
       if (patientError) throw patientError;
-      setPatient(patientData);
 
-      // Check if week is accessible (super admins can access all weeks)
-      if (!isSuperAdmin) {
-        const accessible = await isWeekAccessible(patientData.id, parseInt(weekNumber || "1"));
+      if (!patientData && !isTherapist && !isSuperAdmin) {
+        throw new Error("No patient profile found for this account.");
+      }
+
+      setPatient(patientData || { id: 'dummy', program_variant: 'frenectomy', user: { name: 'Therapist Preview' } });
+
+      // Check access and read-only state
+      if (isTherapist || isSuperAdmin) {
+        setIsReadOnly(true); // Content preview is read-only for therapists
+      } else if (patientData) {
+        const weekNum = parseInt(weekNumber || "1");
+        const accessible = weekNum === 1 || await isWeekAccessible(patientData.id, weekNum);
+
         if (!accessible) {
           toast({
-            title: "Week Locked",
-            description: "Please complete the previous week to unlock this one.",
+            title: "Module Locked",
+            description: "Please complete the previous module to unlock this one.",
             variant: "destructive",
           });
           navigate("/patient");
           return;
         }
+
+        const readOnly = await isWeekReadOnly(patientData.id, weekNum);
+        setIsReadOnly(readOnly);
       }
 
-      // Check if week is read-only (completed/submitted)
-      const readOnly = await isWeekReadOnly(patientData.id, parseInt(weekNumber || "1"));
-      setIsReadOnly(readOnly && !isSuperAdmin);
-
       // Get week - filter by patient's program variant
-      const variant = patientData.program_variant || 'frenectomy';
+      const variant = patientData?.program_variant || 'frenectomy';
       const programTitle = variant === 'frenectomy' || variant === 'standard'
-        ? 'Frenectomy Program' 
+        ? 'Frenectomy Program'
         : 'Non-Frenectomy Program';
 
       const { data: weekData } = await supabase
@@ -121,68 +160,99 @@ const WeekDetail = () => {
       setWeek(weekData);
 
       // Get exercises
-      const { data: exercisesData, error: exercisesError } = await supabase
+      let { data: exercisesData, error: exercisesError } = await supabase
         .from("exercises")
         .select("*")
         .eq("week_id", weekData.id)
         .order("title");
 
-      if (exercisesError) throw exercisesError;
+      // Audit Mode Fallback: If no exercises in DB, load from JSON
+      if (!exercisesData || exercisesData.length === 0) {
+        try {
+          const response = await fetch('/24-week-program.json');
+          const programData = await response.json();
+          const currentWeekData = programData.weeks.find((w: any) => w.week === parseInt(weekNumber || "1"));
+          if (currentWeekData) {
+            exercisesData = currentWeekData.exercises.map((ex: any, idx: number) => ({
+              id: `temp-${idx}`,
+              title: ex.title,
+              description: ex.description,
+              objective: ex.objective || 'Complete the exercise as described.',
+              video_url: ex.video_url || '',
+              duration: '2 minutes'
+            }));
+          }
+        } catch (e) {
+          console.error("Failed to load local JSON fallback", e);
+        }
+      }
+
+      if (exercisesError && (!exercisesData || exercisesData.length === 0)) throw exercisesError;
       setExercises(exercisesData || []);
 
-      // Get or create progress
-      let { data: progressData, error: progressError } = await supabase
-        .from("patient_week_progress")
-        .select("*")
-        .eq("patient_id", patientData.id)
-        .eq("week_id", weekData.id)
-        .maybeSingle();
-
-      if (!progressData && !progressError) {
-        // Create progress entry
-        const { data: newProgress, error: createError } = await supabase
+      let progressData = null;
+      if (patientData.id !== 'dummy') {
+        // Get or create progress
+        let { data: pData, error: progressError } = await supabase
           .from("patient_week_progress")
-          .insert({
-            patient_id: patientData.id,
-            week_id: weekData.id,
-            status: "open",
-          })
-          .select()
-          .single();
+          .select("*")
+          .eq("patient_id", patientData.id)
+          .eq("week_id", weekData.id)
+          .maybeSingle();
 
-        if (createError) throw createError;
-        progressData = newProgress;
+        if (!pData && !progressError) {
+          // Create progress entry
+          const { data: newProgress, error: createError } = await supabase
+            .from("patient_week_progress")
+            .insert({
+              patient_id: patientData.id,
+              week_id: weekData.id,
+              status: "open",
+            })
+            .select()
+            .single();
+
+          if (createError) throw createError;
+          pData = newProgress;
+        }
+
+        progressData = pData;
+        setProgress(progressData);
+
+        // Get messages
+        const { data: messagesData } = await supabase
+          .from("messages")
+          .select("*, therapist:therapist_id(name)")
+          .eq("patient_id", patientData.id)
+          .eq("week_id", weekData.id)
+          .order("created_at", { ascending: true });
+
+        setMessages(messagesData || []);
+
+        // Get uploads
+        const { data: uploadsData } = await supabase
+          .from("uploads")
+          .select("*")
+          .eq("patient_id", patientData.id)
+          .eq("week_id", weekData.id)
+          .order("created_at", { ascending: false });
+
+        setUploads(uploadsData || []);
+
+        // Show introduction modal if not viewed yet
+        if (weekData?.introduction && progressData && !progressData.introduction_viewed) {
+          setShowIntroduction(true);
+        }
+
+        // Check submit eligibility
+        checkCanSubmit(patientData.id, weekData.id, progressData);
+      } else {
+        // Therapist mode: clear everything
+        setProgress(null);
+        setMessages([]);
+        setUploads([]);
+        setCanSubmitState(false);
       }
-
-      setProgress(progressData);
-
-      // Get messages
-      const { data: messagesData } = await supabase
-        .from("messages")
-        .select("*, therapist:therapist_id(name)")
-        .eq("patient_id", patientData.id)
-        .eq("week_id", weekData.id)
-        .order("created_at", { ascending: true });
-
-      setMessages(messagesData || []);
-
-      // Get uploads
-      const { data: uploadsData } = await supabase
-        .from("uploads")
-        .select("*")
-        .eq("patient_id", patientData.id)
-        .eq("week_id", weekData.id)
-        .order("created_at", { ascending: false });
-
-      setUploads(uploadsData || []);
-
-      // Show introduction modal if not viewed yet
-      if (weekData?.introduction && progressData && !progressData.introduction_viewed) {
-        setShowIntroduction(true);
-      }
-
-      // Check submit eligibility
-      checkCanSubmit(patientData.id, weekData.id, progressData);
     } catch (error: any) {
       console.error("Error loading week data:", error);
       toast({
@@ -212,7 +282,7 @@ const WeekDetail = () => {
       const result = data as { percent_complete: number; missing: string[] };
       const isComplete = result?.percent_complete === 100;
       const notYetReviewed = progressData?.status === "open" || progressData?.status === "needs_more";
-      
+
       setCanSubmitState(isComplete && notYetReviewed);
       setMissingRequirements(isComplete ? [] : result?.missing || []);
     } catch (error) {
@@ -238,7 +308,7 @@ const WeekDetail = () => {
     const progressData = data as { percent_complete: number; missing: string[] };
     const isComplete = progressData?.percent_complete === 100;
     const notYetReviewed = progress?.status === "open" || progress?.status === "needs_more";
-    
+
     return isComplete && notYetReviewed;
   };
 
@@ -255,7 +325,7 @@ const WeekDetail = () => {
 
         const progressData = data as { missing: string[] };
         const missing = progressData?.missing || ['Unknown requirements'];
-        
+
         toast({
           title: "Incomplete Data",
           description: `Missing: ${missing.join(', ')}`,
@@ -264,13 +334,25 @@ const WeekDetail = () => {
         return;
       }
 
+      // Update ALL weeks in the current module to 'submitted'
+      const moduleInfo = getModuleInfo(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy');
+      const { data: moduleWeeks } = await supabase
+        .from("weeks")
+        .select("id")
+        .eq("programs.title", (patient?.program_variant === 'non_frenectomy' ? 'Non-Frenectomy Program' : 'Frenectomy Program'))
+        .gte("number", moduleInfo.weekRange[0])
+        .lte("number", moduleInfo.weekRange[1]);
+
+      const weekIds = moduleWeeks?.map(w => w.id) || [week.id];
+
       const { error } = await supabase
         .from("patient_week_progress")
         .update({
           status: "submitted",
-          completed_at: new Date().toISOString(),
+          submitted_at: new Date().toISOString(),
         })
-        .eq("id", progress.id);
+        .in("week_id", weekIds)
+        .eq("patient_id", patient.id);
 
       if (error) throw error;
 
@@ -321,7 +403,7 @@ const WeekDetail = () => {
 
   const handleIntroductionContinue = async () => {
     if (!progress?.id) return;
-    
+
     try {
       const { error } = await supabase
         .from('patient_week_progress')
@@ -342,7 +424,8 @@ const WeekDetail = () => {
 
   const handleVideoUploadComplete = async () => {
     if (!patient || !week) return;
-    
+
+    // Refresh uploads list
     const { data: uploadsData } = await supabase
       .from("uploads")
       .select("*")
@@ -351,23 +434,23 @@ const WeekDetail = () => {
       .order("created_at", { ascending: false });
 
     setUploads(uploadsData || []);
-  };
 
-  const handleProgressUpdate = async () => {
-    if (!patient || !week) return;
-    
-    const { data: progressData } = await supabase
+    // Also refresh progress to check for completion eligibility immediately with LATEST status
+    const { data: latestProgress } = await supabase
       .from("patient_week_progress")
       .select("*")
       .eq("patient_id", patient.id)
       .eq("week_id", week.id)
       .single();
 
-    if (progressData) {
-      setProgress(progressData);
-      // Recheck submit eligibility
-      checkCanSubmit(patient.id, week.id, progressData);
-    }
+    if (latestProgress) setProgress(latestProgress);
+    await checkCanSubmit(patient.id, week.id, latestProgress || progress);
+  };
+
+  const handleProgressUpdate = async () => {
+    // Directly call loadWeekData to ensure everything (vitals, exercises, uploads) 
+    // is synced with the latest database state immediately.
+    await loadWeekData();
   };
 
   const handleSendMessage = async () => {
@@ -417,6 +500,8 @@ const WeekDetail = () => {
     );
   }
 
+  if (!week) return null;
+
   return (
     <>
       <WeekIntroductionModal
@@ -426,223 +511,284 @@ const WeekDetail = () => {
         onContinue={handleIntroductionContinue}
       />
 
-      <div className="min-h-screen bg-background pb-24 sm:pb-8">
-        {/* Header */}
+      <div className="min-h-screen bg-slate-50/50 pb-24 sm:pb-12">
+        {/* Header - Truly Compact */}
         <WeekHeader
           week={week}
           progress={progress}
           programVariant={patient?.program_variant || 'frenectomy'}
           onBack={() => navigate("/patient")}
           isReadOnly={isReadOnly}
-          action={progress && (progress.status === "open" || progress.status === "needs_more") && !isReadOnly ? (
-            <SubmitButton
-              onComplete={handleSubmitForReview}
-              canSubmit={canSubmitState}
-              loading={false}
-            />
-          ) : undefined}
         />
 
-        <main className="container mx-auto px-3 sm:px-6 py-4 sm:py-8 max-w-7xl">
-          <MobileContainer>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-              {/* Main Content */}
-              <div className="lg:col-span-2 space-y-6">
-                {/* Week 2 Frenectomy Reminder (only for frenectomy pathway if consult not booked) */}
-                {patient?.program_variant === 'frenectomy' && 
-                 parseInt(weekNumber || "0") === 2 && 
-                 !progress?.frenectomy_consult_booked && (
-                  <Section delay={0}>
-                    <FrenectomyConsultReminder weekNumber={2} />
-                  </Section>
+        <main className="container mx-auto px-4 sm:px-6 py-8 max-w-[1400px]">
+          <div className="flex flex-col gap-10">
+
+            {/* 1. Introductory Hero (Full Width) */}
+            {week?.overview && (
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <Card className="rounded-[2.5rem] border-none shadow-premium bg-white p-8 sm:p-12 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-2 h-full bg-primary" />
+                  <div className="flex flex-col md:flex-row items-center gap-8">
+                    <div className="w-20 h-20 rounded-full bg-primary/5 flex items-center justify-center text-4xl shadow-inner">
+                      💡
+                    </div>
+                    <div className="flex-1 text-center md:text-left">
+                      <p className="text-primary font-black uppercase tracking-[0.3em] text-[10px] mb-2">Clinical Overview</p>
+                      <p className="text-xl sm:text-2xl text-slate-800 font-bold leading-tight italic">
+                        "{week.overview}"
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            )}
+
+            {/* 2. Main 2-Column Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+              {/* Left Column: Actions & Exercises (8 Cols) */}
+              <div className="lg:col-span-8 space-y-12">
+
+                {/* Preparation Logic (Frenectomy reminders etc) */}
+                {(patient?.program_variant === 'frenectomy') && (
+                  <div className="space-y-6">
+                    {parseInt(weekNumber || "0") === 1 && (
+                      <FrenectomyConsultTask
+                        patientId={patient.id}
+                        weekId={week.id}
+                        isCompleted={progress?.frenectomy_consult_booked || false}
+                        onUpdate={handleProgressUpdate}
+                      />
+                    )}
+                    {parseInt(weekNumber || "0") === 2 && !progress?.frenectomy_consult_booked && (
+                      <FrenectomyConsultReminder weekNumber={2} />
+                    )}
+                    {[7, 8].includes(parseInt(weekNumber || "0")) && <PreOpPreparationCard />}
+                    {[9, 10].includes(parseInt(weekNumber || "0")) && <PostOpProtocolCard />}
+                  </div>
                 )}
 
-                {/* Introduction */}
-                {week?.overview && (
-                  <Section delay={0}>
-                    <Card className="rounded-xl sm:rounded-2xl border shadow-sm">
-                      <CardContent className="p-4 sm:pt-6 sm:p-6">
-                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{week.overview}</p>
-                      </CardContent>
-                    </Card>
-                  </Section>
-                )}
-
-                {/* Pre-Op Preparation Card - Frenectomy Pathway Weeks 7-8 */}
-                {patient?.program_variant === 'frenectomy' && 
-                 [7, 8].includes(parseInt(weekNumber || "0")) && (
-                  <Section delay={50}>
-                    <PreOpPreparationCard />
-                  </Section>
-                )}
-
-                {/* Post-Op Protocol Card - Frenectomy Pathway Weeks 9-10 */}
-                {patient?.program_variant === 'frenectomy' && 
-                 [9, 10].includes(parseInt(weekNumber || "0")) && (
-                  <Section delay={50}>
-                    <PostOpProtocolCard />
-                  </Section>
-                )}
-
-                {/* Frenectomy Consult Task - Week 1 Frenectomy Pathway Only */}
-                {patient?.program_variant === 'frenectomy' && 
-                 parseInt(weekNumber || "0") === 1 && 
-                 patient?.id && week?.id && (
-                  <Section delay={50}>
-                    <FrenectomyConsultTask
-                      patientId={patient.id}
-                      weekId={week.id}
-                      isCompleted={progress?.frenectomy_consult_booked || false}
-                      onUpdate={handleProgressUpdate}
-                    />
-                  </Section>
-                )}
-
-                {/* Learn Hub Review Task - Week 1 All Pathways */}
-                {parseInt(weekNumber || "0") === 1 && 
-                 patient?.id && week?.id && (
-                  <Section delay={75}>
-                    <LearnHubReviewTask
-                      patientId={patient.id}
-                      weekId={week.id}
-                      isCompleted={progress?.learn_hub_reviewed || false}
-                      onUpdate={handleProgressUpdate}
-                    />
-                  </Section>
-                )}
-
-                {/* Objectives */}
-                {week?.objectives && (
-                  <Section delay={100}>
+                {/* Hub Actions: Learning & Video */}
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                  <div className="space-y-8">
+                    {parseInt(weekNumber || "0") === 1 && (
+                      <LearnHubReviewTask
+                        patientId={patient.id}
+                        weekId={week.id}
+                        isCompleted={progress?.learn_hub_reviewed || false}
+                        onUpdate={handleProgressUpdate}
+                      />
+                    )}
                     <WeekObjectives
-                      objectives={week.objectives}
+                      objectives={week?.objectives}
                       weekNumber={parseInt(weekNumber || "0")}
                     />
-                  </Section>
+                  </div>
+
+                  {week?.video_url && (
+                    <div className="rounded-[2.5rem] overflow-hidden shadow-2xl bg-slate-900 aspect-video ring-1 ring-slate-200">
+                      <ResponsiveVideo
+                        src={week.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
+                        title={week.video_title || "Week Video"}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Video Assignments (Restored) */}
+                {(week?.requires_video_first || week?.requires_video_last) && (
+                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-5 duration-700">
+                    <div className="flex items-center gap-4">
+                      <div className="h-10 w-1 bg-primary rounded-full" />
+                      <h2 className="text-2xl font-bold text-slate-900">Module Assignments</h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {week.requires_video_first && (
+                        <Card className="rounded-[2rem] border-slate-200 shadow-sm overflow-hidden">
+                          <CardContent className="p-6 space-y-4">
+                            <div className="flex items-center gap-3 mb-2">
+                              <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 font-bold">1</div>
+                              <h3 className="font-bold text-lg">First Attempt</h3>
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-4">
+                              Record your first attempt at this module's exercises. This helps us track your baseline.
+                            </p>
+                            <VideoUpload
+                              patientId={patient.id}
+                              weekId={week.id}
+                              kind="first_attempt"
+                              onUploadComplete={handleVideoUploadComplete}
+                              hasExisting={uploads.some(u => u.kind === 'first_attempt')}
+                              disabled={isReadOnly}
+                            />
+                          </CardContent>
+                        </Card>
+                      )}
+
+                      {week.requires_video_last && (
+                        <Card className="rounded-[2rem] border-slate-200 shadow-sm overflow-hidden">
+                          <CardContent className="p-6 space-y-4">
+                            <div className="flex items-center gap-3 mb-2">
+                              <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500 font-bold">2</div>
+                              <h3 className="font-bold text-lg">Final Result</h3>
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-4">
+                              Record your best attempt at the end of the module to show your progress.
+                            </p>
+                            <VideoUpload
+                              patientId={patient.id}
+                              weekId={week.id}
+                              kind="last_attempt"
+                              onUploadComplete={handleVideoUploadComplete}
+                              hasExisting={uploads.some(u => u.kind === 'last_attempt')}
+                              disabled={isReadOnly}
+                            />
+                          </CardContent>
+                        </Card>
+                      )}
+                    </div>
+                  </div>
                 )}
 
-                {/* Coaching Video */}
-                {week?.video_url && (
-                  <Section delay={200}>
-                    <Card className="rounded-xl sm:rounded-2xl border shadow-sm overflow-hidden">
-                      <CardContent className="p-0">
-                        <ResponsiveVideo
-                          src={week.video_url.replace('vimeo.com/', 'player.vimeo.com/video/')}
-                          title={week.video_title || "Week Video"}
-                        />
-                      </CardContent>
-                    </Card>
-                  </Section>
-                )}
-
-                {/* Exercise Progress Summary */}
-                {exercises.length > 0 && (
-                  <Section delay={300}>
+                {/* Exercise Progress & List */}
+                <div className="space-y-10 pt-6">
+                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-100">
+                    <div className="space-y-1">
+                      <h2 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tighter">Your Session</h2>
+                      <div className="h-1.5 w-16 bg-primary rounded-full transition-all group-hover:w-24" />
+                    </div>
                     <ExerciseProgressSummary
                       completedCount={Object.values(progress?.exercise_completions || {}).filter((count): count is number => typeof count === 'number' && count > 0).length}
                       totalCount={exercises.length}
                     />
-                  </Section>
-                )}
+                  </div>
 
-                {/* Exercises - Use sectioned layout for post-op weeks */}
-                {exercises.length > 0 && (
-                  <Section delay={350}>
-                    {patient?.program_variant === 'frenectomy' && 
-                     FRENECTOMY_POST_OP_WEEKS.includes(parseInt(weekNumber || "0")) ? (
-                      <PostOpSectionedContent
-                        weekNumber={parseInt(weekNumber || "0")}
-                        exercises={exercises}
-                        patientId={patient?.id}
-                        weekId={week?.id}
-                        existingCompletions={progress?.exercise_completions || {}}
-                        onUpdate={handleProgressUpdate}
-                        readOnly={isReadOnly}
-                      />
-                    ) : (
-                      <WeekExercisesList
-                        exercises={exercises}
-                        patientId={patient?.id}
-                        weekId={week?.id}
-                        existingCompletions={progress?.exercise_completions || {}}
-                        onUpdate={handleProgressUpdate}
-                        readOnly={isReadOnly}
-                      />
-                    )}
-                  </Section>
-                )}
-
-                {/* Previous Weeks Review - Weeks 17-24 only */}
-                {patient?.id && (
-                  <Section delay={375}>
-                    <PreviousWeeksReview
-                      patientId={patient.id}
-                      currentWeekNumber={parseInt(weekNumber || "0")}
-                      programVariant={patient.program_variant || 'frenectomy'}
-                    />
-                  </Section>
-                )}
-
-                {/* Progress Form */}
-                {progress && week && (
-                  <Section delay={400}>
-                    <Card className="rounded-xl sm:rounded-2xl border shadow-sm">
-                      <CardContent className="p-4 sm:pt-6 sm:p-6">
-                        <WeekProgressForm
-                          progress={progress}
-                          week={week}
+                  {exercises.length > 0 && (
+                    <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                      {patient?.program_variant === 'frenectomy' &&
+                        FRENECTOMY_POST_OP_WEEKS.includes(parseInt(weekNumber || "0")) ? (
+                        <PostOpSectionedContent
+                          weekNumber={parseInt(weekNumber || "0")}
+                          exercises={exercises}
+                          patientId={patient?.id}
+                          weekId={week?.id}
+                          existingCompletions={progress?.exercise_completions || {}}
+                          onUpdate={handleProgressUpdate}
                           readOnly={isReadOnly}
                         />
-                      </CardContent>
-                    </Card>
-                  </Section>
+                      ) : (
+                        <WeekExercisesList
+                          exercises={exercises}
+                          patientId={patient?.id}
+                          weekId={week?.id}
+                          existingCompletions={progress?.exercise_completions || {}}
+                          onUpdate={handleProgressUpdate}
+                          readOnly={isReadOnly}
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Progress Vitals Form */}
+                <Section delay={400}>
+                  <WeekProgressForm
+                    progress={progress}
+                    week={week}
+                    readOnly={isReadOnly}
+                    onUpdate={handleProgressUpdate}
+                  />
+                </Section>
+
+                {/* Privacy & Data Manager - Important for user to be able to delete personal videos */}
+                {patient?.id && week?.id && (
+                  <PrivacyManager
+                    patientId={patient.id}
+                    weekId={week.id}
+                    onUpdate={handleProgressUpdate}
+                  />
                 )}
 
-                {/* Bottom Submit Button */}
+                {/* Big Global Submit Bar - Only shown on last week of module */}
                 {!isReadOnly && progress && (progress.status === "open" || progress.status === "needs_more") && (
-                  <div className="flex justify-end">
+                  isLastWeekOfModule(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy') ? (
                     <SubmitButton
                       onComplete={handleSubmitForReview}
                       canSubmit={canSubmitState}
                       loading={false}
                     />
+                  ) : (
+                    <div className="mt-8 p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-premium text-center space-y-6">
+                      <div className="space-y-2">
+                        <p className="text-slate-800 text-lg font-bold">
+                          {canSubmitState ? "Part 1 Complete! 🌟" : "Module 1 Progress"}
+                        </p>
+                        <p className="text-slate-500 text-sm font-medium">
+                          {canSubmitState
+                            ? "You've finished everything for Part 1. Now let's head to Part 2 to complete the module."
+                            : `Complete all tasks for Part 1 & 2 to submit Module ${getModuleInfo(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy').moduleNumber}.`
+                          }
+                        </p>
+                      </div>
+
+                      {canSubmitState ? (
+                        <Button
+                          onClick={() => navigate(`/week/${parseInt(weekNumber || "1") + 1}`)}
+                          className="w-full sm:w-auto px-10 h-14 rounded-2xl bg-primary hover:bg-primary-dark font-black text-white shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 text-lg"
+                        >
+                          Continue to Part 2 →
+                        </Button>
+                      ) : (
+                        <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">
+                          Submission available at the end of Part 2
+                        </p>
+                      )}
+                    </div>
+                  )
+                )}
+              </div>
+
+              {/* Right Column: Mission Tracker (4 Cols) */}
+              <aside className="lg:col-span-4 lg:sticky lg:top-24 space-y-8 h-fit">
+                <div className="animate-in fade-in slide-in-from-right-4 duration-700">
+                  <WeekCompletionChecklist
+                    progress={progress}
+                    week={week}
+                    uploads={uploads}
+                    exercises={exercises}
+                    weekNumber={parseInt(weekNumber || "0")}
+                    programVariant={patient?.program_variant}
+                    layout="sidebar"
+                  />
+                </div>
+
+                {patient?.id && week?.id && (
+                  <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-200">
+                    <TherapistFeedbackList
+                      patientId={patient.id}
+                      weekId={week.id}
+                    />
                   </div>
                 )}
-              </div>
 
-              {/* Sidebar */}
-              <div className="space-y-6">
-                {/* Therapist Feedback */}
-                {patient?.id && week?.id && (
-                  <TherapistFeedbackList
-                    patientId={patient.id}
-                    weekId={week.id}
-                  />
-                )}
+                <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-400">
+                  <div className="rounded-[2.5rem] overflow-hidden shadow-xl ring-1 ring-slate-100 bg-white">
+                    <WeekMessagesPanel
+                      messages={messages}
+                      newMessage={newMessage}
+                      onMessageChange={setNewMessage}
+                      onSendMessage={handleSendMessage}
+                    />
+                  </div>
+                </div>
+              </aside>
 
-                {/* Completion Checklist */}
-                <WeekCompletionChecklist
-                  progress={progress}
-                  week={week}
-                  uploads={uploads}
-                  exercises={exercises}
-                  weekNumber={parseInt(weekNumber || "0")}
-                  programVariant={patient?.program_variant}
-                />
-
-                {/* Messages */}
-                <WeekMessagesPanel
-                  messages={messages}
-                  newMessage={newMessage}
-                  onMessageChange={setNewMessage}
-                  onSendMessage={handleSendMessage}
-                />
-              </div>
             </div>
-          </MobileContainer>
+          </div>
         </main>
 
-        {/* Mobile Bottom Navigation */}
         <BottomNav />
       </div>
     </>

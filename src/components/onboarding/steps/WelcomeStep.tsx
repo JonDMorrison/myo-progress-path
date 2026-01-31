@@ -6,13 +6,13 @@ export const WelcomeStep = () => {
       <div className="mx-auto w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center shadow-progress">
         <Sparkles className="w-10 h-10 text-primary-foreground" />
       </div>
-      
+
       <h1 className="text-4xl font-bold">
         Welcome to Montrose Myo!
       </h1>
-      
+
       <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-        We're excited to guide you through your myofunctional therapy journey. 
+        We're excited to guide you through your myofunctional therapy journey.
         Let's take a few minutes to show you around and get you started.
       </p>
 
@@ -23,11 +23,11 @@ export const WelcomeStep = () => {
         <ul className="mt-4 space-y-2 text-left max-w-md mx-auto">
           <li className="flex items-start">
             <span className="text-primary mr-2">✓</span>
-            <span>Your 24-week program structure</span>
+            <span>Your 12-module program structure</span>
           </li>
           <li className="flex items-start">
             <span className="text-primary mr-2">✓</span>
-            <span>How biweekly check-ins work</span>
+            <span>How module check-ins work</span>
           </li>
           <li className="flex items-start">
             <span className="text-primary mr-2">✓</span>

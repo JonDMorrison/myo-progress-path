@@ -82,7 +82,7 @@ const ProtocolDetail = () => {
   const [patient, setPatient] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const isPreOp = slug === 'pre-op-protocol';
+  const isPreOp = slug === 'pre-op-protocol' || slug === 'pre-op';
   const protocol = isPreOp ? PRE_OP_PROTOCOL : POST_OP_PROTOCOL;
 
   useEffect(() => {
@@ -244,8 +244,8 @@ const ProtocolDetail = () => {
                     <CardContent>
                       <Accordion type="multiple" defaultValue={['day-1-3', 'days-4-7']} className="space-y-2">
                         {POST_OP_PROTOCOL.timeline.map((phase, index) => (
-                          <AccordionItem 
-                            key={index} 
+                          <AccordionItem
+                            key={index}
                             value={phase.period.toLowerCase().replace(/\s+/g, '-')}
                             className="border rounded-lg overflow-hidden"
                           >

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Upload, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { seed24WeekProgram } from "@/lib/seed24WeekProgram";
+import { syncProgramData } from "@/lib/syncProgramData";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 
@@ -20,41 +20,17 @@ const SeedProgram = () => {
       const response = await fetch("/24-week-program.json");
       const weeksData = await response.json();
 
-      const { data: programs } = await supabase
-        .from("programs")
-        .select("*")
-        .eq("title", "Myofunctional Therapy with Frenectomy - 24 Week")
-        .maybeSingle();
+      // Use the new syncProgramData function
+      const seedResult = await syncProgramData(weeksData);
 
-      let programId: string;
-
-      if (!programs) {
-        const { data: newProgram, error: programError } = await supabase
-          .from("programs")
-          .insert({
-            title: "Myofunctional Therapy with Frenectomy - 24 Week",
-            description: "Complete 24-week myofunctional therapy program with detailed weekly guidance",
-            weeks_count: 24,
-          })
-          .select()
-          .single();
-
-        if (programError) throw programError;
-        programId = newProgram.id;
-      } else {
-        programId = programs.id;
-      }
-
-      const seedResult = await seed24WeekProgram(programId, weeksData);
-
-      if (seedResult.success) {
+      if (seedResult.errors.length === 0) {
         setResult(seedResult);
         toast({
           title: "Success!",
-          description: `Updated ${seedResult.weeksUpdated} weeks with ${seedResult.exercisesCreated} exercises`,
+          description: `Synced ${seedResult.weeksSynced} weeks and ${seedResult.exercisesSynced} exercises across variants.`,
         });
       } else {
-        throw new Error(seedResult.error || "Seed failed");
+        throw new Error(`Sync completed with ${seedResult.errors.length} errors: ${seedResult.errors[0]}`);
       }
     } catch (error: any) {
       console.error("Seed error:", error);
@@ -116,8 +92,8 @@ const SeedProgram = () => {
                   <h3 className="font-semibold">Seed Completed Successfully</h3>
                 </div>
                 <div className="text-sm text-green-700 dark:text-green-300">
-                  <p>Weeks updated: {result.weeksUpdated}</p>
-                  <p>Exercises created: {result.exercisesCreated}</p>
+                  <p>Weeks synced: {result.weeksSynced}</p>
+                  <p>Exercises synced: {result.exercisesSynced}</p>
                 </div>
               </div>
             )}

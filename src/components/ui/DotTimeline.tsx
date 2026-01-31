@@ -12,35 +12,35 @@ interface DotTimelineProps {
   isSuperAdmin?: boolean;
 }
 
-export function DotTimeline({ 
-  completed = 0, 
-  current = 1, 
+export function DotTimeline({
+  completed = 0,
+  current = 1,
   programVariant = 'frenectomy',
-  onWeekClick, 
-  isSuperAdmin = false 
+  onWeekClick,
+  isSuperAdmin = false
 }: DotTimelineProps) {
   const navigate = useNavigate();
   const items = getTimelineItems(programVariant);
-  
+
   // Determine item states based on week progress
   const getItemState = (item: TimelineItem) => {
     // Protocol pages are always accessible (informational)
     if (item.isProtocol) {
       return { isDone: false, isCurrent: false, isUpcoming: false, isProtocol: true };
     }
-    
+
     const maxWeekInItem = Math.max(...item.weekNumbers);
     const minWeekInItem = Math.min(...item.weekNumbers);
-    
+
     // Item is done if all its weeks are completed
     const isDone = maxWeekInItem <= completed;
-    
+
     // Item is current if current week falls within it
     const isCurrent = item.weekNumbers.includes(current);
-    
+
     // Item is upcoming if its minimum week is greater than current
     const isUpcoming = minWeekInItem > current && !isDone;
-    
+
     return { isDone, isCurrent, isUpcoming, isProtocol: false };
   };
 
@@ -51,7 +51,7 @@ export function DotTimeline({
       onWeekClick?.(item.weekNumbers[0]);
     }
   };
-  
+
   return (
     <TooltipProvider>
       <div className="grid grid-cols-8 sm:grid-cols-15 gap-2 sm:gap-3">
@@ -59,7 +59,7 @@ export function DotTimeline({
           const { isDone, isCurrent, isUpcoming, isProtocol } = getItemState(item);
           const isAccessible = isSuperAdmin || !isUpcoming || isProtocol;
           const primaryWeek = item.weekNumbers[0] || 0;
-          
+
           return (
             <Tooltip key={item.id}>
               <TooltipTrigger asChild>
@@ -98,12 +98,11 @@ export function DotTimeline({
                   {isUpcoming && !isSuperAdmin && !isProtocol && (
                     <Lock className="h-2 w-2 absolute top-0 text-muted-foreground opacity-60" />
                   )}
-                  <span className={`text-[9px] sm:text-[10px] leading-tight ${
-                    isProtocol ? "text-primary font-medium" :
-                    isDone ? "text-success" : 
-                    isCurrent ? "text-primary font-medium" : 
-                    "text-muted-foreground"
-                  }`}>
+                  <span className={`text-[9px] sm:text-[10px] leading-tight ${isProtocol ? "text-primary font-medium" :
+                      isDone ? "text-success" :
+                        isCurrent ? "text-primary font-medium" :
+                          "text-muted-foreground"
+                    }`}>
                     {item.shortLabel}
                   </span>
                 </button>
@@ -111,11 +110,11 @@ export function DotTimeline({
               <TooltipContent>
                 <p className="text-xs font-medium">{item.label}</p>
                 <p className="text-xs text-muted-foreground">
-                  {isProtocol 
+                  {isProtocol
                     ? "Clinical Protocol (tap to view)"
-                    : item.weekNumbers.length > 1 
-                      ? `Weeks ${item.weekNumbers.join(' & ')}` 
-                      : `Week ${item.weekNumbers[0]}`
+                    : item.weekNumbers.length > 1
+                      ? `${item.label}`
+                      : `Module Item ${item.weekNumbers[0]}`
                   }
                   {isUpcoming && !isSuperAdmin && !isProtocol && " • Locked"}
                   {isUpcoming && isSuperAdmin && !isProtocol && " • Admin Access"}

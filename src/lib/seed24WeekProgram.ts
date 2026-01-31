@@ -59,6 +59,7 @@ export async function seed24WeekProgram(
           },
           {
             onConflict: "program_id,number",
+            ignoreDuplicates: false,
           }
         )
         .select()

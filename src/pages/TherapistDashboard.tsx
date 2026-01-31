@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { LogOut, Users, Inbox, CheckCircle2, History, Loader, Clock, AlertCircle } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { LogOut, Users, Inbox, CheckCircle2, History, Loader, Clock, AlertCircle, BookOpen, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ReviewCard, { getCardTriageLevel } from "@/components/therapist/ReviewCard";
 import SendNoteDialog from "@/components/therapist/SendNoteDialog";
@@ -17,7 +18,7 @@ interface ReviewItem {
   patient_id: string;
   week_id: string;
   status: string;
-  completed_at: string | null;
+  submitted_at: string | null;
   patient: {
     id: string;
     program_variant: string;
@@ -33,6 +34,8 @@ type FilterType = "all" | "red" | "yellow" | "waiting48h";
 
 const TherapistDashboard = () => {
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
+  const [patientMessages, setPatientMessages] = useState<any[]>([]);
+  const [allWeeks, setAllWeeks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
@@ -40,14 +43,14 @@ const TherapistDashboard = () => {
   const [activeTab, setActiveTab] = useState("needs-review");
   const [approvingId, setApprovingId] = useState<string | null>(null);
   const [exitingId, setExitingId] = useState<string | null>(null);
-  
+
   // Filter state
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
-  
+
   // Batch selection state
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [batchApproving, setBatchApproving] = useState(false);
-  
+
   // Send note dialog state
   const [noteDialog, setNoteDialog] = useState<{
     open: boolean;
@@ -67,7 +70,7 @@ const TherapistDashboard = () => {
     weekId: string;
     weekStatus?: string;
   } | null>(null);
-  
+
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -114,7 +117,7 @@ const TherapistDashboard = () => {
           patient_id,
           week_id,
           status,
-          completed_at,
+          submitted_at,
           patient:patients!inner(
             id,
             program_variant,
@@ -124,8 +127,8 @@ const TherapistDashboard = () => {
           week:weeks!inner(number, title)
         `)
         .in("status", ["submitted", "needs_more", "approved"])
-        .gte("completed_at", thirtyDaysAgo.toISOString())
-        .order("completed_at", { ascending: false });
+        .gte("submitted_at", thirtyDaysAgo.toISOString())
+        .order("submitted_at", { ascending: false });
 
       if (error) throw error;
 
@@ -142,35 +145,35 @@ const TherapistDashboard = () => {
         patient_id: r.patient_id,
         week_id: r.week_id
       }));
-      
+
       // Get unique patient_ids and week_ids for batch queries
       const patientIds = [...new Set(reviewPatientWeekPairs.map(p => p.patient_id))];
       const weekIds = [...new Set(reviewPatientWeekPairs.map(p => p.week_id))];
-      
+
       // Batch fetch uploads
       const { data: allUploads } = await supabase
         .from("uploads")
         .select("id, patient_id, week_id, ai_feedback, ai_feedback_status")
         .in("patient_id", patientIds)
         .in("week_id", weekIds);
-      
+
       // Batch fetch messages
       const { data: allMessages } = await supabase
         .from("messages")
         .select("id, patient_id, week_id")
         .in("patient_id", patientIds)
         .in("week_id", weekIds);
-      
+
       // Group by patient_id + week_id for fast lookup
       const uploadsMap = new Map<string, typeof allUploads>();
       const messagesMap = new Map<string, typeof allMessages>();
-      
+
       (allUploads || []).forEach(u => {
         const key = `${u.patient_id}_${u.week_id}`;
         if (!uploadsMap.has(key)) uploadsMap.set(key, []);
         uploadsMap.get(key)!.push(u);
       });
-      
+
       (allMessages || []).forEach(m => {
         const key = `${m.patient_id}_${m.week_id}`;
         if (!messagesMap.has(key)) messagesMap.set(key, []);
@@ -189,6 +192,37 @@ const TherapistDashboard = () => {
       });
 
       setReviews(enrichedData);
+
+      // Fetch all recent messages for the Messages Inbox tab
+      const { data: allRecentMsgs, error: msgsError } = await supabase
+        .from("messages")
+        .select(`
+          *,
+          patient:patients!inner(
+            id,
+            assigned_therapist_id,
+            user:users!patients_user_id_fkey(name)
+          ),
+          week:weeks(number)
+        `)
+        .order("created_at", { ascending: false })
+        .limit(50);
+
+      if (!msgsError) {
+        let filteredMsgs = allRecentMsgs || [];
+        if (userData?.role === "therapist") {
+          filteredMsgs = filteredMsgs.filter(m => m.patient?.assigned_therapist_id === user.id);
+        }
+        setPatientMessages(filteredMsgs);
+      }
+
+      // Fetch all weeks for curriculum preview
+      const { data: weeksData } = await supabase
+        .from("weeks")
+        .select("*, programs(title)")
+        .order("number", { ascending: true });
+
+      setAllWeeks(weeksData || []);
     } catch (error: any) {
       console.error("Error loading inbox:", error);
       toast({
@@ -205,7 +239,7 @@ const TherapistDashboard = () => {
   const getTriageLevel = (review: ReviewItem): TriageLevel => {
     return calculateTriageLevel(
       review.status,
-      review.completed_at,
+      review.submitted_at,
       review.consecutiveNeedsMore,
       review.uploads
     ).level;
@@ -221,7 +255,7 @@ const TherapistDashboard = () => {
   // Filter reviews by tab and active filter
   const filteredReviews = useMemo(() => {
     let items: ReviewItem[] = [];
-    
+
     switch (activeTab) {
       case "needs-review":
         items = reviews.filter(r => r.status === "submitted" || r.status === "needs_more");
@@ -235,7 +269,7 @@ const TherapistDashboard = () => {
       default:
         items = [];
     }
-    
+
     // Apply active filter
     if (activeFilter !== "all") {
       items = items.filter(r => {
@@ -246,13 +280,13 @@ const TherapistDashboard = () => {
           case "yellow":
             return level === "yellow";
           case "waiting48h":
-            return isWaiting48h(r.completed_at);
+            return isWaiting48h(r.submitted_at);
           default:
             return true;
         }
       });
     }
-    
+
     return items;
   }, [reviews, activeTab, activeFilter]);
 
@@ -263,14 +297,14 @@ const TherapistDashboard = () => {
       red: needsReview.filter(r => getTriageLevel(r) === "red").length,
       yellow: needsReview.filter(r => getTriageLevel(r) === "yellow").length,
       green: needsReview.filter(r => getTriageLevel(r) === "green").length,
-      waiting48h: needsReview.filter(r => isWaiting48h(r.completed_at)).length,
+      waiting48h: needsReview.filter(r => isWaiting48h(r.submitted_at)).length,
     };
   }, [reviews]);
 
   // Get selectable (GREEN) items from current filtered view
   const selectableItems = useMemo(() => {
-    return filteredReviews.filter(r => 
-      (r.status === "submitted" || r.status === "needs_more") && 
+    return filteredReviews.filter(r =>
+      (r.status === "submitted" || r.status === "needs_more") &&
       getTriageLevel(r) === "green"
     );
   }, [filteredReviews]);
@@ -297,11 +331,11 @@ const TherapistDashboard = () => {
 
   const handleBatchApprove = async () => {
     if (selectedIds.size === 0) return;
-    
+
     setBatchApproving(true);
     const toApprove = reviews.filter(r => selectedIds.has(r.id) && r.status !== "approved");
     let successCount = 0;
-    
+
     try {
       for (const review of toApprove) {
         const result = await approveWeek(
@@ -310,22 +344,22 @@ const TherapistDashboard = () => {
           review.week.number,
           "" // No note for batch approve
         );
-        
+
         if (result.success) {
           successCount++;
           // Log audit event is handled by approveWeek
         }
       }
-      
+
       // Update local state
       setReviews(prev =>
         prev.map(r =>
           selectedIds.has(r.id) ? { ...r, status: "approved" } : r
         )
       );
-      
+
       setSelectedIds(new Set());
-      
+
       toast({
         title: "Batch Approval Complete",
         description: `${successCount} week${successCount !== 1 ? 's' : ''} approved successfully.`,
@@ -441,14 +475,14 @@ const TherapistDashboard = () => {
 
   const handleReviewComplete = (action: "approved" | "needs_more" | "reassigned") => {
     if (!reviewPanel) return;
-    
+
     setExitingId(reviewPanel.progressId);
-    
+
     setTimeout(() => {
       setReviews(prev =>
         prev.map(r =>
-          r.id === reviewPanel.progressId 
-            ? { ...r, status: action === "approved" ? "approved" : action === "reassigned" ? "open" : "needs_more" } 
+          r.id === reviewPanel.progressId
+            ? { ...r, status: action === "approved" ? "approved" : action === "reassigned" ? "open" : "needs_more" }
             : r
         )
       );
@@ -488,7 +522,7 @@ const TherapistDashboard = () => {
               <p className="text-sm text-muted-foreground">Review & approve patient progress</p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-1 sm:gap-2">
             <Button variant="outline" size="sm" onClick={() => navigate("/therapist/patients")} className="px-2 sm:px-3">
               <Users className="h-4 w-4" />
@@ -518,23 +552,33 @@ const TherapistDashboard = () => {
       <main className="container mx-auto px-4 py-6 max-w-4xl">
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-4">
-            <TabsTrigger value="needs-review" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-5 mb-4">
+            <TabsTrigger value="needs-review" className="flex items-center gap-2 text-xs sm:text-sm">
               <Inbox className="h-4 w-4" />
-              Needs Review
+              <span className="hidden sm:inline">Needs Review</span>
+              <span className="sm:hidden">Review</span>
               {needsReviewCount > 0 && (
-                <span className="ml-1 bg-warning text-warning-foreground text-xs px-2 py-0.5 rounded-full">
+                <span className="ml-1 bg-warning text-warning-foreground text-[10px] px-1.5 py-0.5 rounded-full">
                   {needsReviewCount}
                 </span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="approved" className="flex items-center gap-2">
+            <TabsTrigger value="approved" className="flex items-center gap-2 text-xs sm:text-sm">
               <CheckCircle2 className="h-4 w-4" />
-              Approved
+              <span className="hidden sm:inline">Approved</span>
+              <span className="sm:hidden">Done</span>
             </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center gap-2">
+            <TabsTrigger value="history" className="flex items-center gap-2 text-xs sm:text-sm">
               <History className="h-4 w-4" />
               History
+            </TabsTrigger>
+            <TabsTrigger value="messages" className="flex items-center gap-2 text-xs sm:text-sm">
+              <Users className="h-4 w-4" />
+              Messages
+            </TabsTrigger>
+            <TabsTrigger value="curriculum" className="flex items-center gap-2 text-xs sm:text-sm">
+              <BookOpen className="h-4 w-4" />
+              Curriculum
             </TabsTrigger>
           </TabsList>
 
@@ -543,7 +587,7 @@ const TherapistDashboard = () => {
             <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 mb-4">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-sm text-muted-foreground mr-1">Filter:</span>
-                
+
                 <Button
                   variant={activeFilter === "all" ? "secondary" : "outline"}
                   size="sm"
@@ -552,7 +596,7 @@ const TherapistDashboard = () => {
                 >
                   All
                 </Button>
-                
+
                 <Button
                   variant={activeFilter === "red" ? "secondary" : "outline"}
                   size="sm"
@@ -562,7 +606,7 @@ const TherapistDashboard = () => {
                   <AlertCircle className="h-3 w-3 mr-1 text-destructive" />
                   Red {triageCounts.red > 0 && `(${triageCounts.red})`}
                 </Button>
-                
+
                 <Button
                   variant={activeFilter === "yellow" ? "secondary" : "outline"}
                   size="sm"
@@ -572,7 +616,7 @@ const TherapistDashboard = () => {
                   <AlertCircle className="h-3 w-3 mr-1 text-warning" />
                   Yellow {triageCounts.yellow > 0 && `(${triageCounts.yellow})`}
                 </Button>
-                
+
                 <Button
                   variant={activeFilter === "waiting48h" ? "secondary" : "outline"}
                   size="sm"
@@ -583,7 +627,7 @@ const TherapistDashboard = () => {
                   &gt; 48h {triageCounts.waiting48h > 0 && `(${triageCounts.waiting48h})`}
                 </Button>
               </div>
-              
+
               {/* Batch selection controls */}
               {selectableItems.length > 0 && (
                 <div className="flex items-center gap-2 sm:ml-auto">
@@ -595,7 +639,7 @@ const TherapistDashboard = () => {
                   >
                     {selectedIds.size === selectableItems.length ? "Deselect All" : `Select All Green (${selectableItems.length})`}
                   </Button>
-                  
+
                   {selectedIds.size > 0 && (
                     <Button
                       size="sm"
@@ -624,8 +668,8 @@ const TherapistDashboard = () => {
                   {activeFilter !== "all" ? "No matching reviews" : "All caught up!"}
                 </p>
                 <p className="text-muted-foreground">
-                  {activeFilter !== "all" 
-                    ? "Try adjusting your filter." 
+                  {activeFilter !== "all"
+                    ? "Try adjusting your filter."
                     : "No pending reviews at the moment."}
                 </p>
               </div>
@@ -640,7 +684,7 @@ const TherapistDashboard = () => {
                   weekId={review.week_id}
                   weekTitle={review.week.title}
                   programVariant={review.patient.program_variant}
-                  submittedAt={review.completed_at}
+                  submittedAt={review.submitted_at}
                   status={review.status}
                   consecutiveNeedsMore={review.consecutiveNeedsMore}
                   videoCount={review.uploads.length}
@@ -675,7 +719,7 @@ const TherapistDashboard = () => {
                   weekId={review.week_id}
                   weekTitle={review.week.title}
                   programVariant={review.patient.program_variant}
-                  submittedAt={review.completed_at}
+                  submittedAt={review.submitted_at}
                   status={review.status}
                   consecutiveNeedsMore={review.consecutiveNeedsMore}
                   videoCount={review.uploads.length}
@@ -703,7 +747,7 @@ const TherapistDashboard = () => {
                   weekId={review.week_id}
                   weekTitle={review.week.title}
                   programVariant={review.patient.program_variant}
-                  submittedAt={review.completed_at}
+                  submittedAt={review.submitted_at}
                   status={review.status}
                   consecutiveNeedsMore={review.consecutiveNeedsMore}
                   videoCount={review.uploads.length}
@@ -713,6 +757,97 @@ const TherapistDashboard = () => {
                 />
               ))
             )}
+          </TabsContent>
+
+          <TabsContent value="messages" className="space-y-3">
+            <div className="space-y-4">
+              {patientMessages.length === 0 ? (
+                <div className="text-center py-16 bg-white rounded-3xl border border-slate-100 italic">
+                  <Inbox className="w-16 h-16 text-slate-100 mx-auto mb-4" />
+                  <p className="text-slate-400">Your patient inbox is currently empty</p>
+                </div>
+              ) : (
+                patientMessages.map((msg) => (
+                  <Card
+                    key={msg.id}
+                    className={`group border-none shadow-premium rounded-[2rem] overflow-hidden transition-all hover:bg-slate-50 cursor-pointer ${msg.therapist_id ? "opacity-75" : "bg-white"
+                      }`}
+                    onClick={() => navigate(`/review/${msg.patient_id}/${msg.week?.number || 1}`)}
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-sm font-black ${msg.therapist_id ? "bg-slate-100 text-slate-400" : "bg-primary/10 text-primary ring-4 ring-primary/5"
+                            }`}>
+                            {(msg.patient?.user?.name || "P")[0]}
+                          </div>
+                          <div>
+                            <p className="text-base font-black text-slate-900 tracking-tight">
+                              {msg.therapist_id ? "Response to " + msg.patient?.user?.name : msg.patient?.user?.name}
+                            </p>
+                            <div className="flex items-center gap-2">
+                              <Badge variant="outline" className="text-[9px] uppercase font-black border-slate-100">
+                                Week {msg.week?.number || "General"}
+                              </Badge>
+                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                                {new Date(msg.created_at).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        {!msg.therapist_id && (
+                          <Badge className="bg-rose-500 text-white border-none text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full animate-pulse">
+                            Needs Reply
+                          </Badge>
+                        )}
+                      </div>
+                      <p className="text-sm text-slate-600 leading-relaxed font-medium bg-slate-50/50 p-4 rounded-2xl italic border border-slate-100/50">
+                        "{msg.body}"
+                      </p>
+                      <div className="mt-4 flex justify-end">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                          Click to respond →
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="curriculum" className="space-y-8">
+            <div className="grid grid-cols-1 gap-8">
+              {['Frenectomy Program', 'Non-Frenectomy Program'].map(program => (
+                <div key={program} className="space-y-4">
+                  <div className="flex items-center gap-3 px-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <h3 className="text-lg font-black tracking-tight text-slate-800 uppercase italic">{program}</h3>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {allWeeks
+                      .filter(w => w.programs?.title === program)
+                      .map(w => (
+                        <Card
+                          key={w.id}
+                          className="group border-none shadow-premium rounded-2xl overflow-hidden hover:bg-slate-50 cursor-pointer transition-all active:scale-[0.98]"
+                          onClick={() => navigate(`/week/${w.number}`)}
+                        >
+                          <CardContent className="p-5 flex items-center justify-between bg-white group-hover:bg-slate-50/50 transition-colors">
+                            <div className="min-w-0">
+                              <p className="font-black text-slate-900 tracking-tight">Module {w.number}</p>
+                              <p className="text-[11px] font-bold text-slate-400 uppercase truncate max-w-[200px]">{w.title || 'Untitled Module'}</p>
+                            </div>
+                            <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                              <ChevronRight className="h-4 w-4" />
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </main>

@@ -20,8 +20,8 @@ interface ProgramCompletionModalProps {
   programVariant?: 'frenectomy' | 'non_frenectomy' | 'standard' | null;
 }
 
-export const ProgramCompletionModal = ({ 
-  open, 
+export const ProgramCompletionModal = ({
+  open,
   onClose,
   completionNote,
   therapistName,
@@ -39,7 +39,7 @@ export const ProgramCompletionModal = ({
         return Math.random() * (max - min) + min;
       }
 
-      const interval: any = setInterval(function() {
+      const interval: any = setInterval(function () {
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -47,7 +47,7 @@ export const ProgramCompletionModal = ({
         }
 
         const particleCount = 50 * (timeLeft / duration);
-        
+
         confetti({
           ...defaults,
           particleCount,
@@ -75,16 +75,16 @@ export const ProgramCompletionModal = ({
           </DialogTitle>
           <DialogDescription className="text-base space-y-4 text-foreground">
             <p className="text-xl font-semibold text-center text-primary">
-              You've Completed Your 24 Week Myofunctional Therapy Program!
+              You've Completed Your 12 Module Myofunctional Therapy Program!
             </p>
-            
+
             <p>
-              By completing this program you should notice improvements in your mouth breathing, 
-              tongue posture, lip seal, and swallowing. You may also experience less facial/TMD 
-              pain and headaches, less clenching and grinding, improved sleep quality, improved 
-              sleep apnea scores, better digestion and reduced allergy symptoms. Look back and 
-              review how far you have come by reviewing your first and last BOLT scores and 
-              weekly progress charts.
+              By completing this program you should notice improvements in your mouth breathing,
+              tongue posture, lip seal, and swallowing. You may also experience less facial/TMD
+              pain and headaches, less clenching and grinding, improved sleep quality, improved
+              sleep apnea scores, better digestion and reduced allergy symptoms. Look back and
+              review how far you have come by reviewing your first and last BOLT scores and
+              module progress charts.
             </p>
 
             {/* Therapist Personalized Note */}
@@ -112,10 +112,18 @@ export const ProgramCompletionModal = ({
                 <Heart className="h-5 w-5 text-primary" />
                 Moving Forward
               </h3>
-              
+
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-6 mb-6">
+                <h4 className="text-xl font-bold text-primary mb-3">Post Program Review And Maintenance</h4>
+                <p className="text-sm leading-relaxed italic">
+                  Congratulations on reaching this milestone. Maintenance is key to ensuring your results last a lifetime.
+                  Continue to monitor your habits and revisit your favorite exercises periodically to keep your muscles toned and your breathing optimal.
+                </p>
+              </div>
+
               <p>
-                Moving forward you should no longer need to continue practicing exercises as long 
-                as you continue to accomplish each of the four goals. You will want to ensure you 
+                Moving forward you should no longer need to continue practicing exercises as long
+                as you continue to accomplish each of the four goals. You will want to ensure you
                 are nasal breathing and have the correct tongue posture <strong>95+% of the time</strong>.
               </p>
 
@@ -128,8 +136,8 @@ export const ProgramCompletionModal = ({
                       <div>
                         <p className="font-medium text-success">While Eating</p>
                         <p className="text-sm text-muted-foreground mt-1">
-                          Continue to chew with your mouth closed, avoid overly large bites, 
-                          and chew thoroughly using the teeth while avoiding mashing or sucking 
+                          Continue to chew with your mouth closed, avoid overly large bites,
+                          and chew thoroughly using the teeth while avoiding mashing or sucking
                           on food with the tongue.
                         </p>
                       </div>
@@ -145,10 +153,10 @@ export const ProgramCompletionModal = ({
                       <div>
                         <p className="font-medium text-primary">When Swallowing</p>
                         <p className="text-sm text-muted-foreground mt-1">
-                          Ensure the tongue is on the spot when swallowing and not pushing 
-                          forward into the teeth (tongue thrust). Facial grimace should be 
-                          avoided and muscles should always be relaxed while swallowing. 
-                          The same rules apply when drinking with the addition of ensuring 
+                          Ensure the tongue is on the spot when swallowing and not pushing
+                          forward into the teeth (tongue thrust). Facial grimace should be
+                          avoided and muscles should always be relaxed while swallowing.
+                          The same rules apply when drinking with the addition of ensuring
                           you are swallowing quietly.
                         </p>
                       </div>
@@ -164,8 +172,8 @@ export const ProgramCompletionModal = ({
                       <div>
                         <p className="font-medium text-warning">Self-Monitoring</p>
                         <p className="text-sm text-muted-foreground mt-1">
-                          Check in with yourself periodically. Notice how you breathe during 
-                          sleep, exercise, and stress. If symptoms return or you find yourself 
+                          Check in with yourself periodically. Notice how you breathe during
+                          sleep, exercise, and stress. If symptoms return or you find yourself
                           reverting to old patterns, revisit key exercises from your program.
                         </p>
                       </div>

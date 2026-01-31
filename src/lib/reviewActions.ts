@@ -18,22 +18,9 @@ export async function approveWeek(
       throw new Error("Progress not found");
     }
 
-    // Generate AI progress note if no note provided
+    // AI generated notes are no longer sent automatically. 
+    // Therapist provides feedback via a note if desired.
     let isAiGenerated = false;
-    if (!note || note.trim().length === 0) {
-      const { data: aiNote } = await supabase.functions.invoke("generate-progress-note", {
-        body: {
-          patientId,
-          weekId: progressData.week_id,
-        },
-      });
-      
-      if (aiNote?.note) {
-        // Prefix AI-generated notes so therapist and patient know it's automated
-        note = `[AI-generated] ${aiNote.note}`;
-        isAiGenerated = true;
-      }
-    }
 
     // Update current week to approved
     const { error: updateError } = await supabase
@@ -56,16 +43,27 @@ export async function approveWeek(
       });
     }
 
-    // Log event
-    await supabase.from("events").insert({
+    // Create notification for patient
+    await supabase.from("notifications").insert({
       patient_id: patientId,
-      type: "approved_week",
-      meta: {
-        week_number: currentWeekNumber,
-        note: note || "",
-        timestamp: new Date().toISOString(),
-      },
+      body: `Congratulations! Module ${currentWeekNumber} has been approved.${note ? " Your therapist left some feedback." : ""}`,
+      read: false,
     });
+
+    // Log event
+    try {
+      await supabase.from("events").insert({
+        patient_id: patientId,
+        type: "approved_week",
+        meta: {
+          week_number: currentWeekNumber,
+          note: note || "",
+          timestamp: new Date().toISOString(),
+        },
+      });
+    } catch (e) {
+      console.warn("Could not log check event", e);
+    }
 
     // Check if this is the final week (program completion)
     if (currentWeekNumber === 24) {
@@ -91,7 +89,7 @@ export async function approveWeek(
     } else {
       // Auto-unlock next week (only if not the final week)
       const nextWeekNumber = currentWeekNumber + 1;
-      
+
       // Get patient's program variant to filter weeks correctly
       const { data: patientData } = await supabase
         .from("patients")
@@ -101,7 +99,7 @@ export async function approveWeek(
 
       const variant = patientData?.program_variant || 'frenectomy';
       const programTitle = variant === 'frenectomy' || variant === 'standard'
-        ? 'Frenectomy Program' 
+        ? 'Frenectomy Program'
         : 'Non-Frenectomy Program';
 
       // Get next week for the patient's program
@@ -186,6 +184,13 @@ export async function requestMorePractice(
       body: comment,
     });
 
+    // Create notification for patient
+    await supabase.from("notifications").insert({
+      patient_id: patientId,
+      body: `Your therapist has requested more practice for Module ${weekNumber}. Check your dashboard for details.`,
+      read: false,
+    });
+
     // Log event
     await supabase.from("events").insert({
       patient_id: patientId,
@@ -224,9 +229,9 @@ export async function reassignWeek(
 
     // Only allow reassigning approved or submitted weeks
     if (progressData.status !== "approved" && progressData.status !== "submitted") {
-      return { 
-        success: false, 
-        error: "Can only reassign approved or submitted weeks" 
+      return {
+        success: false,
+        error: "Can only reassign approved or submitted weeks"
       };
     }
 

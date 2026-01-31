@@ -15,6 +15,7 @@ import { TodayExercisesCardWithProgress } from "@/components/dashboard/TodayExer
 import { StatsOverview } from "@/components/dashboard/StatsOverview";
 import { GamificationPanel } from "@/components/gamification/GamificationPanel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
 import { grantBadgeWithToast } from "@/lib/gamification";
 import { BottomNav } from "@/components/layout/BottomNav";
@@ -60,7 +61,7 @@ const PatientDashboard = () => {
         .select("role")
         .eq("id", user.id)
         .single();
-      
+
       setIsSuperAdmin(userData?.role === "super_admin");
 
       // Get patient record
@@ -127,7 +128,7 @@ const PatientDashboard = () => {
             .select("completion_note, assigned_therapist_id")
             .eq("id", patientData.id)
             .single();
-          
+
           let therapistName = 'Your Therapist';
           if (completionInfo?.assigned_therapist_id) {
             const { data: therapistData } = await supabase
@@ -137,13 +138,13 @@ const PatientDashboard = () => {
               .single();
             therapistName = therapistData?.name || 'Your Therapist';
           }
-          
+
           setCompletionData({
             note: completionInfo?.completion_note || undefined,
             therapistName,
           });
           setShowCompletion(true);
-          
+
           // Grant the completion badge
           await supabase.functions.invoke("grant-badge", {
             body: { patientId: patientData.id, badgeKey: "program_completed" },
@@ -153,10 +154,10 @@ const PatientDashboard = () => {
 
       // Get current week based on patient's program_variant
       const programVariant = (patientData.program_variant as string) || 'frenectomy';
-      const programTitle = programVariant === 'non_frenectomy' 
+      const programTitle = programVariant === 'non_frenectomy'
         ? 'Non-Frenectomy Program'
         : 'Frenectomy Program';
-      
+
       const { data: weekData } = await supabase
         .from("weeks")
         .select("*, programs!inner(title)")
@@ -235,7 +236,7 @@ const PatientDashboard = () => {
 
   const handleNavigateToWeek = async (weekNumber: number) => {
     if (!patient) return;
-    
+
     // Super admins can access all weeks
     if (!isSuperAdmin) {
       const accessible = await isWeekAccessible(patient.id, weekNumber);
@@ -248,7 +249,7 @@ const PatientDashboard = () => {
         return;
       }
     }
-    
+
     navigate(`/week/${weekNumber}`);
   };
 
@@ -277,7 +278,7 @@ const PatientDashboard = () => {
 
   const firstName = user?.user_metadata?.name?.split(" ")[0] || "there";
   const completedWeeks = userProgress?.completedWeeks || 0;
-  
+
   // Calculate averages from all completed weeks
   const avgNasalBreathing = allProgress.length > 0
     ? Math.round(allProgress.reduce((sum, p) => sum + (p.nasal_breathing_pct || 0), 0) / allProgress.length)
@@ -286,101 +287,133 @@ const PatientDashboard = () => {
     ? Math.round(allProgress.reduce((sum, p) => sum + (p.tongue_on_spot_pct || 0), 0) / allProgress.length)
     : 0;
   const latestBoltScore = allProgress.length > 0
-    ? allProgress.filter(p => p.bolt_score).sort((a, b) => new Date(b.completed_at).getTime() - new Date(a.completed_at).getTime())[0]?.bolt_score || 0
+    ? allProgress.filter(p => p.bolt_score).sort((a, b) => new Date(b.submitted_at).getTime() - new Date(a.submitted_at).getTime())[0]?.bolt_score || 0
     : 0;
-  
+
   // Get greeting based on time
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#FDFDFD] relative overflow-hidden">
+      {/* Background blobs for premium feel */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -z-10" />
+      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-primary/10 rounded-full blur-[80px] -z-10" />
+
       {/* Desktop Header Navigation */}
       <PatientHeader userName={user?.user_metadata?.name} />
-      
-      {/* Mobile Header (shows on mobile only) */}
-      <DashboardHeader 
+
+      {/* Mobile Header */}
+      <DashboardHeader
         greeting={greeting}
         firstName={firstName}
         onSignOut={handleSignOut}
       />
 
-      <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-7xl">
+      <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-5xl relative z-10">
         <MobileContainer>
-        {/* Maintenance Mode Dashboard */}
-        {patient?.status === "maintenance" ? (
-          <MaintenanceDashboard 
-            patientId={patient.id}
-            clinicId={patient.clinic_id}
-            userName={user?.user_metadata?.name}
-          />
-        ) : !currentWeek ? (
-          <Section>
-            <Card className="rounded-2xl border shadow-sm">
-              <CardContent className="py-16 text-center">
-                <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">No Weeks Available Yet</h3>
-                <p className="text-muted-foreground">
-                  Your program content will be available soon. Please check back later.
-                </p>
-              </CardContent>
-            </Card>
-          </Section>
-        ) : (
-          <div className="space-y-6 pb-24">
-            {/* Today's Exercises - Primary CTA */}
-            <TodayExercisesCardWithProgress 
-              patientId={patient?.id}
-              currentWeek={currentWeek}
-              progress={progress}
-              onStartSession={handleNavigateToWeek}
+          {/* Maintenance Mode Dashboard */}
+          {patient?.status === "maintenance" ? (
+            <MaintenanceDashboard
+              patientId={patient.id}
+              clinicId={patient.clinic_id}
+              userName={user?.user_metadata?.name}
             />
-
-            {/* Core Metrics - 3 Circular Gauges */}
-            <div className="animate-fade-in">
-              <StatsOverview
-                nasalBreathing={avgNasalBreathing}
-                tonguePosture={avgTongueOnSpot}
-                boltScore={latestBoltScore}
-              />
-            </div>
-
-            {/* Timeline & Messages */}
-            <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 animate-fade-in">
-              <TimelineCard
-                completedWeeks={completedWeeks}
-                currentWeek={currentWeek.number}
-                programVariant={patient?.program_variant || 'frenectomy'}
-                onWeekClick={handleNavigateToWeek}
-                isSuperAdmin={isSuperAdmin}
-              />
-
-              <div id="messages-card">
-                <MessagesCard
-                  messages={messages}
-                  onSendMessage={handleSendMessage}
+          ) : !currentWeek ? (
+            <Section>
+              <Card className="rounded-3xl border-none shadow-elevated bg-white/80 backdrop-blur-md">
+                <CardContent className="py-20 text-center">
+                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Calendar className="w-10 h-10 text-slate-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Setting Up Your Journey</h3>
+                  <p className="text-slate-500 max-w-sm mx-auto">
+                    Your personalized therapy content is currently being prepared. Check back shortly to begin.
+                  </p>
+                </CardContent>
+              </Card>
+            </Section>
+          ) : (
+            <div className="space-y-8 pb-24">
+              {/* Primary Action Card with Slide-up Animation */}
+              <div className="animate-fade-in-up transform transition-all duration-500">
+                <TodayExercisesCardWithProgress
+                  patientId={patient?.id}
+                  currentWeek={currentWeek}
+                  progress={progress}
+                  programVariant={patient?.program_variant || 'frenectomy'}
+                  onStartSession={handleNavigateToWeek}
                 />
               </div>
-            </div>
 
-            {/* Gamification & Achievements */}
-            {patient && (
-              <div className="space-y-4 animate-fade-in">
-                <StreakBadge patientId={patient.id} />
-                <GamificationPanel patientId={patient.id} clinicId={patient.clinic_id} />
+              {/* Core Metrics with Staggered Fade */}
+              <div className="animate-fade-in [animation-delay:200ms]">
+                <div className="mb-4 flex items-center justify-between px-1">
+                  <h2 className="text-lg font-bold text-slate-800 tracking-tight italic">Your Vital Signs</h2>
+                  <div className="h-px flex-1 bg-slate-100 mx-4 hidden sm:block" />
+                </div>
+                <StatsOverview
+                  nasalBreathing={avgNasalBreathing}
+                  tonguePosture={avgTongueOnSpot}
+                  boltScore={latestBoltScore}
+                />
               </div>
-            )}
-          </div>
-        )}
+
+              {/* Timeline & Secondary Cards */}
+              <div className="grid gap-6 grid-cols-1 lg:grid-cols-12 animate-fade-in [animation-delay:400ms]">
+                <div className="lg:col-span-7">
+                  <div className="mb-4 flex items-center gap-3 px-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <h2 className="text-lg font-bold text-slate-800 tracking-tight italic">Program Path</h2>
+                  </div>
+                  <TimelineCard
+                    completedWeeks={completedWeeks}
+                    currentWeek={currentWeek.number}
+                    programVariant={patient?.program_variant || 'frenectomy'}
+                    onWeekClick={handleNavigateToWeek}
+                    isSuperAdmin={isSuperAdmin}
+                  />
+                </div>
+
+                <div className="lg:col-span-5 space-y-6">
+                  <div id="messages-card">
+                    <div className="mb-4 flex items-center justify-between px-1">
+                      <div className="flex items-center gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-secondary-foreground" />
+                        <h2 className="text-lg font-bold text-slate-800 tracking-tight italic">Messages & Feedback</h2>
+                      </div>
+                      {messages.filter(m => m.therapist_id).length > 0 && (
+                        <Badge variant="secondary" className="bg-primary/10 text-primary animate-pulse border-none text-[10px] font-bold uppercase tracking-widest">
+                          New Feedback
+                        </Badge>
+                      )}
+                    </div>
+                    <MessagesCard
+                      messages={messages}
+                      onSendMessage={handleSendMessage}
+                    />
+                  </div>
+
+                  {/* Gamification Sidebar Segment */}
+                  {patient && (
+                    <div className="space-y-4">
+                      <StreakBadge patientId={patient.id} />
+                      <GamificationPanel patientId={patient.id} clinicId={patient.clinic_id} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </MobileContainer>
       </main>
-      
+
       {/* Mobile Bottom Navigation */}
       <BottomNav />
-      
+
       {/* Program Completion Celebration */}
-      <ProgramCompletionModal 
-        open={showCompletion} 
+      <ProgramCompletionModal
+        open={showCompletion}
         onClose={() => setShowCompletion(false)}
         completionNote={completionData?.note}
         therapistName={completionData?.therapistName}

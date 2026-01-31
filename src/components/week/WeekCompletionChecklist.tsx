@@ -10,20 +10,20 @@ interface WeekCompletionChecklistProps {
   exercises?: any[];
   weekNumber?: number;
   programVariant?: string;
+  layout?: 'sidebar' | 'horizontal';
 }
 
-export function WeekCompletionChecklist({ 
-  progress, 
-  week, 
+export function WeekCompletionChecklist({
+  progress,
+  week,
   uploads,
   exercises = [],
   weekNumber = 0,
-  programVariant
+  programVariant,
+  layout = 'sidebar'
 }: WeekCompletionChecklistProps) {
   // Handle null week
-  if (!week) {
-    return null;
-  }
+  if (!week) return null;
 
   // Calculate exercise completion
   const exerciseCompletions = progress?.exercise_completions || {};
@@ -38,52 +38,91 @@ export function WeekCompletionChecklist({
 
   const requirements = [
     {
-      label: 'First Video Uploaded',
+      label: 'First Video',
       complete: week.requires_video_first && uploads.some((u: any) => u.kind === 'first_attempt'),
-      required: week.requires_video_first
+      required: week.requires_video_first,
+      icon: "🎥"
     },
     {
-      label: 'Last Video Uploaded',
+      label: 'Final Video',
       complete: week.requires_video_last && uploads.some((u: any) => u.kind === 'last_attempt'),
-      required: week.requires_video_last
+      required: week.requires_video_last,
+      icon: "🎬"
     },
     {
-      label: 'BOLT Score Entered',
+      label: 'BOLT Score',
       complete: week.requires_bolt && !!progress.bolt_score,
-      required: week.requires_bolt
+      required: week.requires_bolt,
+      icon: "📊"
     },
     {
-      label: 'Nasal Breathing %',
+      label: 'Breathing',
       complete: progress.nasal_breathing_pct !== null && progress.nasal_breathing_pct !== undefined,
-      required: true
+      required: true,
+      icon: "💨"
     },
     {
-      label: 'Tongue Posture %',
+      label: 'Posture',
       complete: progress.tongue_on_spot_pct !== null && progress.tongue_on_spot_pct !== undefined,
-      required: true
+      required: true,
+      icon: "👅"
     },
     {
-      label: `Exercises Completed (${completedExercises}/${totalExercises})`,
+      label: `Exercises (${completedExercises}/${totalExercises})`,
       complete: allExercisesComplete,
-      required: totalExercises > 0
+      required: totalExercises > 0,
+      icon: "🏃"
     },
-    // Frenectomy consult task - only for Week 1 frenectomy pathway
     {
-      label: 'Frenectomy Consult Booked',
+      label: 'Consult',
       complete: progress?.frenectomy_consult_booked === true,
-      required: isFrenectomyWeek1
+      required: isFrenectomyWeek1,
+      icon: "📅"
     }
   ];
 
   const requiredItems = requirements.filter(r => r.required);
   const completedCount = requiredItems.filter(r => r.complete).length;
   const requiredCount = requiredItems.length;
-  const percentComplete = requiredCount > 0 
-    ? Math.round((completedCount / requiredCount) * 100) 
+  const percentComplete = requiredCount > 0
+    ? Math.round((completedCount / requiredCount) * 100)
     : 0;
 
+  if (layout === 'horizontal') {
+    return (
+      <div className="flex flex-wrap items-center gap-2">
+        {requiredItems.map((req, index) => (
+          <div
+            key={index}
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-2xl border transition-all duration-300",
+              req.complete
+                ? "bg-emerald-500/20 shadow-lg shadow-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                : "bg-white/5 border-white/10 text-white/60"
+            )}
+          >
+            <span className="text-lg">{req.icon}</span>
+            <span className="text-[10px] font-black uppercase tracking-widest hidden sm:inline">
+              {req.label}
+            </span>
+            {req.complete ? (
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+            ) : (
+              <div className="h-4 w-4 rounded-full border-2 border-white/20" />
+            )}
+          </div>
+        ))}
+        {/* Overall Indicator */}
+        <div className="ml-2 pl-4 border-l border-white/10 flex flex-col items-center">
+          <span className="text-xl font-black italic text-primary-light leading-none">{percentComplete}%</span>
+          <span className="text-[8px] font-bold text-slate-500 uppercase tracking-tighter">Done</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <Card className="lg:sticky lg:top-24 rounded-xl sm:rounded-2xl border shadow-sm">
+    <Card className="lg:sticky lg:top-24 rounded-2xl border shadow-sm">
       <CardHeader className="p-4 sm:p-6">
         <CardTitle className="text-base sm:text-lg">Completion</CardTitle>
         <Progress value={percentComplete} className="mt-2" />
