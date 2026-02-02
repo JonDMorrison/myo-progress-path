@@ -20,8 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowLeft, Search, Filter } from 'lucide-react';
-import { format, formatDistanceToNow } from 'date-fns';
+import { Search, Filter } from 'lucide-react';
+import { formatDistanceToNow } from 'date-fns';
+import { TherapistLayout } from '@/components/layout/TherapistLayout';
 
 export default function TherapistPatients() {
   const [patients, setPatients] = useState<any[]>([]);
@@ -98,34 +99,20 @@ export default function TherapistPatients() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading patients...</p>
+      <TherapistLayout title="Patients" description="Manage and view patient progress">
+        <div className="flex items-center justify-center py-16">
+          <div className="text-center">
+            <div className="w-12 h-12 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading patients...</p>
+          </div>
         </div>
-      </div>
+      </TherapistLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto py-8 px-4">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate('/therapist')}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold">Patient Management</h1>
-            <p className="text-muted-foreground">
-              {filteredPatients.length} patient{filteredPatients.length !== 1 ? 's' : ''}
-            </p>
-          </div>
-        </div>
+    <TherapistLayout title="Patients" description="Manage and view patient progress">
+      <div className="space-y-6">
 
         {/* Filters */}
         <Card className="mb-6">
@@ -293,6 +280,6 @@ export default function TherapistPatients() {
           )}
         </div>
       </div>
-    </div>
+    </TherapistLayout>
   );
 }

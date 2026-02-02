@@ -23,7 +23,7 @@ const SeedSuperAdmins = () => {
 
       if (user) {
         const { error: updateError } = await supabase
-          .from('profiles')
+          .from('users')
           .update({ role: 'super_admin' })
           .eq('id', user.id);
 

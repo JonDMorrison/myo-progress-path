@@ -8,6 +8,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from "@/hooks/use-toast";
 import { Stethoscope } from "lucide-react";
 
+function withTimeout<T>(promiseLike: PromiseLike<T>, ms: number, label: string): Promise<T> {
+  const promise = Promise.resolve(promiseLike);
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error(`${label} timed out. Please try again.`)), ms)
+    ),
+  ]);
+}
+
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,12 +26,70 @@ const Auth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const redirectByRole = async (userId: string) => {
+    const { data: userData, error: roleError } = await withTimeout(
+      supabase.from("users").select("role").eq("id", userId).maybeSingle(),
+      10_000,
+      "Loading account",
+    );
+
+    if (roleError) throw roleError;
+    const role = userData?.role;
+
+    if (!role) {
+      throw new Error(
+        "Your account is missing access setup in the database. Please contact an administrator to provision your user."
+      );
+    }
+
+    if (role === "patient") {
+      const { data: patient, error: patientError } = await withTimeout(
+        supabase.from("patients").select("id").eq("user_id", userId).maybeSingle(),
+        10_000,
+        "Loading patient profile",
+      );
+      if (patientError) throw patientError;
+
+      if (patient) {
+        const { data: onboarding, error: onboardingError } = await withTimeout(
+          supabase
+            .from("onboarding_progress")
+            .select("completed_at")
+            .eq("patient_id", patient.id)
+            .maybeSingle(),
+          10_000,
+          "Loading onboarding status",
+        );
+        if (onboardingError) throw onboardingError;
+
+        if (!onboarding?.completed_at) {
+          navigate("/onboarding", { replace: true });
+          return;
+        }
+      }
+
+      navigate("/patient", { replace: true });
+      return;
+    }
+
+    if (role === "therapist" || role === "admin" || role === "super_admin") {
+      navigate("/therapist", { replace: true });
+      return;
+    }
+
+    navigate("/", { replace: true });
+  };
+
   useEffect(() => {
     // Check if user is already logged in
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate("/");
+        try {
+          await redirectByRole(session.user.id);
+        } catch {
+          // If something is misconfigured, keep the user on /auth so they can retry or reset password.
+        }
       }
     };
     checkSession();
@@ -34,12 +102,16 @@ const Auth = () => {
     try {
       if (useMagicLink) {
         // Magic link login
-        const { error } = await supabase.auth.signInWithOtp({
-          email,
-          options: {
-            emailRedirectTo: `${window.location.origin}/`,
-          },
-        });
+        const { error } = await withTimeout(
+          supabase.auth.signInWithOtp({
+            email,
+            options: {
+              emailRedirectTo: `${window.location.origin}/`,
+            },
+          }),
+          15_000,
+          "Sending magic link",
+        );
 
         if (error) throw error;
 
@@ -49,52 +121,28 @@ const Auth = () => {
         });
       } else {
         // Password login
-        const { error, data } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+        const { error, data } = await withTimeout(
+          supabase.auth.signInWithPassword({
+            email,
+            password,
+          }),
+          15_000,
+          "Signing in",
+        );
 
         if (error) throw error;
 
-        // Get user role to redirect appropriately
-        const { data: userData } = await supabase
-          .from("users")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
+        const signedInUserId = data.user?.id || data.session?.user?.id;
+        if (!signedInUserId) {
+          throw new Error("Signed in, but could not read user id from the session. Please refresh and try again.");
+        }
 
         toast({
           title: "Welcome back!",
           description: "Successfully logged in.",
         });
 
-        // Redirect based on role
-        if (userData?.role === "patient") {
-          // Check if patient needs onboarding
-          const { data: patient } = await supabase
-            .from("patients")
-            .select("id")
-            .eq("user_id", data.user.id)
-            .single();
-
-          if (patient) {
-            const { data: onboarding } = await supabase
-              .from("onboarding_progress")
-              .select("completed_at")
-              .eq("patient_id", patient.id)
-              .maybeSingle();
-
-            if (!onboarding?.completed_at) {
-              navigate("/onboarding");
-              return;
-            }
-          }
-          navigate("/patient");
-        } else if (userData?.role === "therapist" || userData?.role === "admin") {
-          navigate("/therapist");
-        } else {
-          navigate("/");
-        }
+        await redirectByRole(signedInUserId);
       }
     } catch (error: any) {
       toast({
@@ -147,7 +195,7 @@ const Auth = () => {
             {!useMagicLink && (
               <div className="space-y-2">
                 <div className="flex justify-between items-center px-1">
-                  <Label htmlFor="password" title="Enter your password" underline={false} className="text-slate-700 font-semibold">Password</Label>
+                  <Label htmlFor="password" className="text-slate-700 font-semibold">Password</Label>
                   <button
                     type="button"
                     onClick={() => navigate("/reset-password")}

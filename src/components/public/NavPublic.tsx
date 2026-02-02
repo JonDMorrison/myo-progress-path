@@ -70,10 +70,39 @@ export const NavPublic = () => {
 
   const isActive = (href: string) => location.pathname === href;
 
+  // Hide public nav links for staff (therapist/admin/super_admin)
+  const isStaff = userRole === "therapist" || userRole === "admin" || userRole === "super_admin";
+
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    toast.success("Logged out successfully");
-    navigate("/");
+    try {
+      // Prefer global sign-out, but ALWAYS clear local session so users don't
+      // get stuck logged-in if the network request fails.
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        await supabase.auth.signOut({ scope: "local" });
+        throw error;
+      }
+
+      setUser(null);
+      setUserRole(null);
+      setUserName(null);
+      toast.success("Logged out successfully");
+      navigate("/", { replace: true });
+      window.location.assign("/");
+    } catch (err) {
+      console.error("Logout exception:", err);
+      try {
+        await supabase.auth.signOut({ scope: "local" });
+      } catch {
+        // ignore
+      }
+      setUser(null);
+      setUserRole(null);
+      setUserName(null);
+      toast.error("Logout failed on the server, but your local session was cleared.");
+      navigate("/", { replace: true });
+      window.location.assign("/");
+    }
   };
 
   const getRoleDisplay = (role: string | null) => {
@@ -91,19 +120,21 @@ export const NavPublic = () => {
             <span className="sr-only">by Montrose Dental Centre</span>
           </Link>
           
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-6">
-            {[...primaryNavLinks, ...secondaryNavLinks].map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className="text-sm font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md px-2 py-1"
-                aria-current={location.pathname === link.href ? "page" : undefined}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+          {/* Desktop Navigation - hide for staff */}
+          {!isStaff && (
+            <div className="hidden md:flex gap-6">
+              {[...primaryNavLinks, ...secondaryNavLinks].map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-sm font-medium transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md px-2 py-1"
+                  aria-current={location.pathname === link.href ? "page" : undefined}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-4">
@@ -171,56 +202,60 @@ export const NavPublic = () => {
               </SheetHeader>
               
               <div className="flex flex-col gap-6">
-                {/* Primary Navigation with Icons */}
-                <nav className="space-y-1">
-                  {primaryNavLinks.map((link) => {
-                    const Icon = link.icon;
-                    const active = isActive(link.href);
-                    return (
-                      <Link
-                        key={link.href}
-                        to={link.href}
-                        onClick={() => setMobileOpen(false)}
-                        className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors text-base font-medium min-h-[48px] ${
-                          active 
-                            ? "bg-primary/10 text-primary" 
-                            : "hover:bg-accent"
-                        }`}
-                        aria-current={active ? "page" : undefined}
-                      >
-                        <Icon className="h-5 w-5 flex-shrink-0" />
-                        <span>{link.label}</span>
-                      </Link>
-                    );
-                  })}
-                </nav>
+                {/* Primary Navigation with Icons - hide for staff */}
+                {!isStaff && (
+                  <nav className="space-y-1">
+                    {primaryNavLinks.map((link) => {
+                      const Icon = link.icon;
+                      const active = isActive(link.href);
+                      return (
+                        <Link
+                          key={link.href}
+                          to={link.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors text-base font-medium min-h-[48px] ${
+                            active 
+                              ? "bg-primary/10 text-primary" 
+                              : "hover:bg-accent"
+                          }`}
+                          aria-current={active ? "page" : undefined}
+                        >
+                          <Icon className="h-5 w-5 flex-shrink-0" />
+                          <span>{link.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </nav>
+                )}
 
-                <Separator />
+                {!isStaff && <Separator />}
 
-                {/* Secondary Navigation */}
-                <nav className="space-y-1">
-                  <p className="text-xs font-semibold text-muted-foreground px-3 mb-2">MORE INFO</p>
-                  {secondaryNavLinks.map((link) => {
-                    const active = isActive(link.href);
-                    return (
-                      <Link
-                        key={link.href}
-                        to={link.href}
-                        onClick={() => setMobileOpen(false)}
-                        className={`block px-3 py-2.5 rounded-lg transition-colors text-sm min-h-[44px] flex items-center ${
-                          active 
-                            ? "bg-primary/10 text-primary font-medium" 
-                            : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                        }`}
-                        aria-current={active ? "page" : undefined}
-                      >
-                        {link.label}
-                      </Link>
-                    );
-                  })}
-                </nav>
+                {/* Secondary Navigation - hide for staff */}
+                {!isStaff && (
+                  <nav className="space-y-1">
+                    <p className="text-xs font-semibold text-muted-foreground px-3 mb-2">MORE INFO</p>
+                    {secondaryNavLinks.map((link) => {
+                      const active = isActive(link.href);
+                      return (
+                        <Link
+                          key={link.href}
+                          to={link.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={`block px-3 py-2.5 rounded-lg transition-colors text-sm min-h-[44px] flex items-center ${
+                            active 
+                              ? "bg-primary/10 text-primary font-medium" 
+                              : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                          }`}
+                          aria-current={active ? "page" : undefined}
+                        >
+                          {link.label}
+                        </Link>
+                      );
+                    })}
+                  </nav>
+                )}
 
-                <Separator />
+                {!isStaff && <Separator />}
 
                 {/* User Section */}
                 {user ? (
