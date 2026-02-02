@@ -11,6 +11,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { NavPublic } from "@/components/public/NavPublic";
 
 interface TherapistLayoutProps {
   children: ReactNode;
@@ -25,12 +26,15 @@ export function TherapistLayout({ children, title, description }: TherapistLayou
         <title>{title} - Therapist | Montrose Myo</title>
       </Helmet>
 
+      {/* Main site navigation at the top */}
+      <NavPublic />
+
       <SidebarProvider>
-        <div className="flex min-h-screen w-full">
+        <div className="flex min-h-[calc(100vh-64px)] w-full">
           <TherapistSidebar />
           <SidebarInset className="flex-1">
-            {/* Header */}
-            <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4 sticky top-0 z-10">
+            {/* Sub-header with sidebar trigger and breadcrumbs */}
+            <header className="flex h-12 shrink-0 items-center gap-2 border-b bg-muted/30 px-4 sticky top-16 z-10">
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="h-4" />
               <Breadcrumb>
