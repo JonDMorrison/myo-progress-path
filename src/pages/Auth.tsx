@@ -88,9 +88,9 @@ const Auth = () => {
               navigate("/onboarding");
               return;
             }
-          }
+            }
           navigate("/patient");
-        } else if (userData?.role === "therapist" || userData?.role === "admin") {
+        } else if (userData?.role === "therapist" || userData?.role === "admin" || userData?.role === "super_admin") {
           navigate("/therapist");
         } else {
           navigate("/");
