@@ -79,7 +79,7 @@ const ReviewWeek = () => {
         .select("*")
         .eq("patient_id", patientId)
         .eq("week_id", weekData.id)
-        .single();
+        .maybeSingle();
 
       if (progressError) throw progressError;
       setProgress(progressData);
