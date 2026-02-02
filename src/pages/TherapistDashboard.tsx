@@ -151,17 +151,26 @@ const TherapistDashboard = () => {
       const patientIds = [...new Set(filteredData.map((r: any) => r.patient_id))];
       const weekIds = [...new Set(filteredData.map((r: any) => r.week_id))];
 
-      const { data: allUploads } = await supabase
-        .from("uploads")
-        .select("id, patient_id, week_id, ai_feedback, ai_feedback_status")
-        .in("patient_id", patientIds)
-        .in("week_id", weekIds);
+      // Avoid querying with empty arrays (causes Supabase to hang)
+      let allUploads: any[] = [];
+      let allMessages: any[] = [];
 
-      const { data: allMessages } = await supabase
-        .from("messages")
-        .select("id, patient_id, week_id")
-        .in("patient_id", patientIds)
-        .in("week_id", weekIds);
+      if (patientIds.length > 0 && weekIds.length > 0) {
+        const [uploadsResult, messagesResult] = await Promise.all([
+          supabase
+            .from("uploads")
+            .select("id, patient_id, week_id, ai_feedback, ai_feedback_status")
+            .in("patient_id", patientIds)
+            .in("week_id", weekIds),
+          supabase
+            .from("messages")
+            .select("id, patient_id, week_id")
+            .in("patient_id", patientIds)
+            .in("week_id", weekIds)
+        ]);
+        allUploads = uploadsResult.data || [];
+        allMessages = messagesResult.data || [];
+      }
 
       // Group by patient_id + week_id for fast lookup
       const uploadsMap = new Map<string, any[]>();
