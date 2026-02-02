@@ -201,8 +201,15 @@ const PatientDashboard = () => {
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
+    try {
+      await supabase.auth.signOut();
+      localStorage.clear();
+      navigate("/auth", { replace: true });
+    } catch (error) {
+      console.error("Error signing out:", error);
+      localStorage.clear();
+      window.location.href = "/auth";
+    }
   };
 
   const handleSendMessage = async (messageText: string) => {

@@ -9,8 +9,8 @@ export async function syncProgramData(weeksData: any[]) {
         errors: [] as string[]
     };
 
-    // We sync for both variants: 'frenectomy' and 'without_frenectomy'
-    const variants = ['frenectomy', 'without_frenectomy'];
+    // We sync for both variants: 'frenectomy' and 'non_frenectomy'
+    const variants = ['frenectomy', 'non_frenectomy'];
 
     for (const variant of variants) {
         for (const weekData of weeksData) {

@@ -491,8 +491,15 @@ const TherapistDashboard = () => {
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
+    try {
+      await supabase.auth.signOut();
+      localStorage.clear(); // Clear all drafts and local state
+      navigate("/auth", { replace: true });
+    } catch (error) {
+      console.error("Error signing out:", error);
+      localStorage.clear();
+      window.location.href = "/auth"; // Force redirect if navigate fails
+    }
   };
 
   if (loading) {
