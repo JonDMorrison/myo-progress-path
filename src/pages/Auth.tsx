@@ -27,14 +27,42 @@ const Auth = () => {
   const { toast } = useToast();
 
   const redirectByRole = async (userId: string) => {
-    const { data: userData, error: roleError } = await withTimeout(
-      supabase.from("users").select("role").eq("id", userId).maybeSingle(),
-      10_000,
+    // Patient-first redirect to avoid role lookups timing out (patient logins shouldn't depend on /users).
+    const { data: patient, error: patientError } = await withTimeout(
+      supabase.from("patients").select("id").eq("user_id", userId).maybeSingle(),
+      30_000,
+      "Loading patient profile",
+    );
+    if (patientError) throw patientError;
+
+    if (patient?.id) {
+      const { data: onboarding, error: onboardingError } = await withTimeout(
+        supabase
+          .from("onboarding_progress")
+          .select("completed_at")
+          .eq("patient_id", patient.id)
+          .maybeSingle(),
+        30_000,
+        "Loading onboarding status",
+      );
+      if (onboardingError) throw onboardingError;
+
+      if (!onboarding?.completed_at) {
+        navigate("/onboarding", { replace: true });
+        return;
+      }
+
+      navigate("/patient", { replace: true });
+      return;
+    }
+
+    // Staff/other users: use a backend function to resolve role (avoids long /users queries).
+    const { data: role, error: roleError } = await withTimeout(
+      supabase.rpc("get_user_role", { _user_id: userId }),
+      30_000,
       "Loading account",
     );
-
     if (roleError) throw roleError;
-    const role = userData?.role;
 
     if (!role) {
       throw new Error(
@@ -43,33 +71,10 @@ const Auth = () => {
     }
 
     if (role === "patient") {
-      const { data: patient, error: patientError } = await withTimeout(
-        supabase.from("patients").select("id").eq("user_id", userId).maybeSingle(),
-        10_000,
-        "Loading patient profile",
+      // Role says patient but we couldn't find a patient profile.
+      throw new Error(
+        "Your patient profile is missing access setup in the database. Please contact an administrator to provision your patient record."
       );
-      if (patientError) throw patientError;
-
-      if (patient) {
-        const { data: onboarding, error: onboardingError } = await withTimeout(
-          supabase
-            .from("onboarding_progress")
-            .select("completed_at")
-            .eq("patient_id", patient.id)
-            .maybeSingle(),
-          10_000,
-          "Loading onboarding status",
-        );
-        if (onboardingError) throw onboardingError;
-
-        if (!onboarding?.completed_at) {
-          navigate("/onboarding", { replace: true });
-          return;
-        }
-      }
-
-      navigate("/patient", { replace: true });
-      return;
     }
 
     if (role === "therapist" || role === "admin" || role === "super_admin") {
