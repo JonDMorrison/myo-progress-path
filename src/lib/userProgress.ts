@@ -113,7 +113,7 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
       weekStatuses.push({
         weekNumber: week.number,
         status: statusValue as "open" | "submitted" | "approved" | "needs_more",
-        completedAt: progress?.submitted_at,
+        completedAt: progress?.completed_at,
         isLocked,
         isComplete,
         awaitingApproval,
@@ -140,10 +140,10 @@ export async function getUserProgress(patientId: string): Promise<UserProgress |
     // Get last activity date
     const lastActivityDate =
       progressData
-        ?.filter((p) => p.submitted_at)
+        ?.filter((p) => p.completed_at)
         .sort((a, b) =>
-          new Date(b.submitted_at!).getTime() - new Date(a.submitted_at!).getTime()
-        )?.[0]?.submitted_at;
+          new Date(b.completed_at!).getTime() - new Date(a.completed_at!).getTime()
+        )?.[0]?.completed_at;
 
     const totalWeeks = weeks?.length || 24;
     const percentComplete = Math.round((completedCount / totalWeeks) * 100);

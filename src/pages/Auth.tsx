@@ -147,7 +147,7 @@ const Auth = () => {
             {!useMagicLink && (
               <div className="space-y-2">
                 <div className="flex justify-between items-center px-1">
-                  <Label htmlFor="password" title="Enter your password" underline={false} className="text-slate-700 font-semibold">Password</Label>
+                  <Label htmlFor="password" className="text-slate-700 font-semibold">Password</Label>
                   <button
                     type="button"
                     onClick={() => navigate("/reset-password")}

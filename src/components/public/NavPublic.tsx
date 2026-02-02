@@ -71,9 +71,22 @@ export const NavPublic = () => {
   const isActive = (href: string) => location.pathname === href;
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    toast.success("Logged out successfully");
-    navigate("/");
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Logout error:", error);
+        toast.error("Error logging out");
+        return;
+      }
+      setUser(null);
+      setUserRole(null);
+      setUserName(null);
+      toast.success("Logged out successfully");
+      navigate("/");
+    } catch (err) {
+      console.error("Logout exception:", err);
+      toast.error("Error logging out");
+    }
   };
 
   const getRoleDisplay = (role: string | null) => {
