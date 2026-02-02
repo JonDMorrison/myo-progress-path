@@ -92,12 +92,18 @@ serve(async (req) => {
     const csvRows = [headers.join(',')];
 
     for (const patient of patients || []) {
+      // Calculate module label from week number
+      const weekNum = patient.current_week_number;
+      const moduleLabel = weekNum 
+        ? `Module ${Math.ceil(weekNum / 2)} ${weekNum % 2 !== 0 ? 'Part One' : 'Part Two'}`
+        : '';
+      
       const row = [
         patient.clinic_name || '',
         patient.patient_name || '',
         patient.patient_email || '',
         patient.therapist_name || 'Unassigned',
-        patient.current_week_number ? `Week ${patient.current_week_number}` : '',
+        moduleLabel,
         patient.current_week_status || '',
         patient.last_activity || '',
         patient.adherence_14d !== null ? `${patient.adherence_14d}%` : '',

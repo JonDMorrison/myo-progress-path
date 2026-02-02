@@ -50,7 +50,7 @@ export const BOLTInstructionsStep = () => {
         <div>
           <h4 className="font-semibold text-sm">When to Measure BOLT</h4>
           <p className="text-xs text-muted-foreground">
-            BOLT is measured at key milestones: Week 1 (baseline), midpoint (Week 12), and end of program (Week 24). 
+            BOLT is measured at key milestones: Module 1 (baseline), midpoint (Module 6), and end of program (Module 12). 
             Record your scores as required by your therapist.
           </p>
         </div>

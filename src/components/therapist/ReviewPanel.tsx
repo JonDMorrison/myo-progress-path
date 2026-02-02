@@ -249,9 +249,11 @@ const ReviewPanel = ({
       );
 
       if (result.success) {
+        const moduleNum = Math.ceil(weekNumber / 2);
+        const partLabel = weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
         toast({
-          title: "Week Approved",
-          description: `Week ${weekNumber} approved for ${patientName}`,
+          title: "Module Approved",
+          description: `Module ${moduleNum} ${partLabel} approved for ${patientName}`,
         });
         onComplete("approved");
         onOpenChange(false);
@@ -373,9 +375,11 @@ const ReviewPanel = ({
       );
 
       if (result.success) {
+        const moduleNum = Math.ceil(weekNumber / 2);
+        const partLabel = weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
         toast({
-          title: "Week Reassigned",
-          description: `Week ${weekNumber} has been unlocked for ${patientName} to practice again.`,
+          title: "Module Reassigned",
+          description: `Module ${moduleNum} ${partLabel} has been unlocked for ${patientName} to practice again.`,
         });
         onComplete("reassigned");
         onOpenChange(false);
@@ -407,10 +411,10 @@ const ReviewPanel = ({
         <SheetHeader className="px-6 py-4 border-b">
           <SheetTitle className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span>{patientName} · Week {weekNumber}</span>
+              <span>{patientName} · Module {Math.ceil(weekNumber / 2)} {weekNumber % 2 !== 0 ? 'Part One' : 'Part Two'}</span>
               {weekNumber === 24 && (
                 <Badge className="bg-success/10 text-success border-success/20">
-                  Final Week
+                  Final Module
                 </Badge>
               )}
             </div>

@@ -200,15 +200,20 @@ const TherapistFeedbackDialog = ({
 
       if (insertError) throw insertError;
 
-      const context = exerciseTitle
-        ? `for "${exerciseTitle}"`
-        : weekNumber
-          ? `for Week ${weekNumber}`
-          : "";
+      const getContextLabel = () => {
+        if (exerciseTitle) return `for "${exerciseTitle}"`;
+        if (weekNumber) {
+          const moduleNum = Math.ceil(weekNumber / 2);
+          const partLabel = weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
+          return `for Module ${moduleNum} ${partLabel}`;
+        }
+        return '';
+      };
+      const context = getContextLabel();
 
       await supabase.from("notifications").insert({
         patient_id: patientId,
-        body: `Your therapist has sent you feedback ${context}. Check your week for details.`,
+        body: `Your therapist has sent you feedback ${context}. Check your module for details.`,
         read: false,
       });
 
@@ -239,7 +244,7 @@ const TherapistFeedbackDialog = ({
   const context = exerciseTitle 
     ? `for "${exerciseTitle}"` 
     : weekNumber 
-      ? `for Week ${weekNumber}` 
+      ? `for Module ${Math.ceil(weekNumber / 2)} ${weekNumber % 2 !== 0 ? 'Part One' : 'Part Two'}` 
       : "";
 
   return (

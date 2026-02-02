@@ -44,9 +44,13 @@ export async function approveWeek(
     }
 
     // Create notification for patient
+    const moduleNum = Math.ceil(currentWeekNumber / 2);
+    const partLabel = currentWeekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
+    const moduleLabel = `Module ${moduleNum} ${partLabel}`;
+    
     await supabase.from("notifications").insert({
       patient_id: patientId,
-      body: `Congratulations! Module ${currentWeekNumber} has been approved.${note ? " Your therapist left some feedback." : ""}`,
+      body: `Congratulations! ${moduleLabel} has been approved.${note ? " Your therapist left some feedback." : ""}`,
       read: false,
     });
 
@@ -185,9 +189,13 @@ export async function requestMorePractice(
     });
 
     // Create notification for patient
+    const moduleNum = Math.ceil(weekNumber / 2);
+    const partLabel = weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
+    const moduleLabel = `Module ${moduleNum} ${partLabel}`;
+    
     await supabase.from("notifications").insert({
       patient_id: patientId,
-      body: `Your therapist has requested more practice for Module ${weekNumber}. Check your dashboard for details.`,
+      body: `Your therapist has requested more practice for ${moduleLabel}. Check your dashboard for details.`,
       read: false,
     });
 
@@ -246,6 +254,11 @@ export async function reassignWeek(
 
     if (updateError) throw updateError;
 
+    // Calculate module label
+    const moduleNum = Math.ceil(weekNumber / 2);
+    const partLabel = weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
+    const moduleLabel = `Module ${moduleNum} ${partLabel}`;
+
     // Save therapist message if reason provided
     if (reason && reason.trim().length > 0) {
       const { data: { user } } = await supabase.auth.getUser();
@@ -253,14 +266,14 @@ export async function reassignWeek(
         patient_id: patientId,
         week_id: progressData.week_id,
         therapist_id: user?.id,
-        body: `Week ${weekNumber} has been reassigned for additional practice. ${reason}`,
+        body: `${moduleLabel} has been reassigned for additional practice. ${reason}`,
       });
     }
 
     // Create notification for patient
     await supabase.from("notifications").insert({
       patient_id: patientId,
-      body: `Week ${weekNumber} has been unlocked for additional practice by your therapist.${reason ? ` Reason: ${reason}` : ""}`,
+      body: `${moduleLabel} has been unlocked for additional practice by your therapist.${reason ? ` Reason: ${reason}` : ""}`,
       read: false,
     });
 
