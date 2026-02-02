@@ -19,7 +19,7 @@ interface ReviewItem {
   patient_id: string;
   week_id: string;
   status: string;
-  submitted_at: string | null;
+  completed_at: string | null;
   patient: {
     id: string;
     program_variant: string;
@@ -118,7 +118,7 @@ const TherapistDashboard = () => {
           patient_id,
           week_id,
           status,
-          submitted_at,
+          completed_at,
           patient:patients!inner(
             id,
             program_variant,
@@ -128,8 +128,8 @@ const TherapistDashboard = () => {
           week:weeks!inner(number, title)
         `)
         .in("status", ["submitted", "needs_more", "approved"])
-        .gte("submitted_at", thirtyDaysAgo.toISOString())
-        .order("submitted_at", { ascending: false });
+        .gte("completed_at", thirtyDaysAgo.toISOString())
+        .order("completed_at", { ascending: false });
 
       if (error) throw error;
 
@@ -240,7 +240,7 @@ const TherapistDashboard = () => {
   const getTriageLevel = (review: ReviewItem): TriageLevel => {
     return calculateTriageLevel(
       review.status,
-      review.submitted_at,
+      review.completed_at,
       review.consecutiveNeedsMore,
       review.uploads
     ).level;
@@ -281,7 +281,7 @@ const TherapistDashboard = () => {
           case "yellow":
             return level === "yellow";
           case "waiting48h":
-            return isWaiting48h(r.submitted_at);
+            return isWaiting48h(r.completed_at);
           default:
             return true;
         }
@@ -298,7 +298,7 @@ const TherapistDashboard = () => {
       red: needsReview.filter(r => getTriageLevel(r) === "red").length,
       yellow: needsReview.filter(r => getTriageLevel(r) === "yellow").length,
       green: needsReview.filter(r => getTriageLevel(r) === "green").length,
-      waiting48h: needsReview.filter(r => isWaiting48h(r.submitted_at)).length,
+      waiting48h: needsReview.filter(r => isWaiting48h(r.completed_at)).length,
     };
   }, [reviews]);
 
@@ -647,7 +647,7 @@ const TherapistDashboard = () => {
                   weekId={review.week_id}
                   weekTitle={review.week.title}
                   programVariant={review.patient.program_variant}
-                  submittedAt={review.submitted_at}
+                  submittedAt={review.completed_at}
                   status={review.status}
                   consecutiveNeedsMore={review.consecutiveNeedsMore}
                   videoCount={review.uploads.length}
@@ -682,7 +682,7 @@ const TherapistDashboard = () => {
                   weekId={review.week_id}
                   weekTitle={review.week.title}
                   programVariant={review.patient.program_variant}
-                  submittedAt={review.submitted_at}
+                  submittedAt={review.completed_at}
                   status={review.status}
                   consecutiveNeedsMore={review.consecutiveNeedsMore}
                   videoCount={review.uploads.length}
@@ -710,7 +710,7 @@ const TherapistDashboard = () => {
                   weekId={review.week_id}
                   weekTitle={review.week.title}
                   programVariant={review.patient.program_variant}
-                  submittedAt={review.submitted_at}
+                  submittedAt={review.completed_at}
                   status={review.status}
                   consecutiveNeedsMore={review.consecutiveNeedsMore}
                   videoCount={review.uploads.length}
