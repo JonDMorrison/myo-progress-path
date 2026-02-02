@@ -224,7 +224,7 @@ const Register = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" title="Set a secure password" underline={false} className="text-slate-700 font-semibold ml-1">Password</Label>
+                <Label htmlFor="password" className="text-slate-700 font-semibold ml-1">Password</Label>
                 <Input
                   id="password"
                   type="password"

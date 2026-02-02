@@ -677,7 +677,6 @@ const WeekDetail = () => {
                           existingCompletions={progress?.exercise_completions || {}}
                           onUpdate={handleProgressUpdate}
                           readOnly={isReadOnly}
-                          onUpdate={handleProgressUpdate}
                         />
                       ) : (
                         <WeekExercisesList
