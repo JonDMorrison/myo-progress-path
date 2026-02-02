@@ -62,7 +62,7 @@ export function WeekHeader({ week, progress, programVariant = 'frenectomy', onBa
 
             <div className="flex flex-col min-w-0">
               <h1 className="text-lg sm:text-xl font-black tracking-tight truncate leading-none">
-                {displayLabels?.primary || `Week ${week?.number}`}
+                {displayLabels?.primary || `Module ${Math.ceil((week?.number || 1) / 2)}`}
               </h1>
               {displayLabels?.secondary && (
                 <p className="text-[10px] sm:text-xs text-muted-foreground truncate leading-none mt-0.5">

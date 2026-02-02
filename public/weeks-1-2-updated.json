@@ -2,7 +2,7 @@
   "weeks": [
     {
       "number": 1,
-      "title": "Foundation Building - Weeks 1-2 (Part 1)",
+      "title": "Foundation Building - Module 1 (Part One)",
       "introduction": "Welcome to the beginning of your myofunctional therapy journey. Over the next two weeks, you'll establish the fundamental exercises that will retrain your oral muscles and breathing patterns. These exercises are designed to be done daily, building strength and proper muscle memory.\n\nEach active exercise requires a mirror to ensure proper technique and minimize compensations. The passive exercise can be done during other activities. Remember, consistency is key—doing these exercises correctly and regularly will set you up for success throughout the entire program.",
       "overview": "Establish foundational tongue strength, positioning, and breathing assessment through daily active and passive exercises.",
       "objectives": [
@@ -12,7 +12,7 @@
         "Establish baseline breathing health with BOLT test",
         "Maintain tongue-to-spot positioning with elastic hold exercise"
       ],
-      "video_title": "Week 1-2 Exercise Demonstrations",
+      "video_title": "Module 1 Exercise Demonstrations",
       "video_url": "",
       "requires_bolt": true,
       "requires_video_first": true,
@@ -83,8 +83,8 @@
     },
     {
       "number": 2,
-      "title": "Foundation Building - Weeks 1-2 (Part 2)",
-      "introduction": "This is the continuation of your foundation building phase. You'll continue practicing the same exercises from Week 1, building consistency and refining your technique. By now, you should be getting more comfortable with the movements and noticing improvements in your form.\n\nContinue to focus on avoiding compensations and maintaining proper nasal breathing throughout all exercises. Your cumulative practice over these two weeks is building the foundation for more advanced exercises ahead.",
+      "title": "Foundation Building - Module 1 (Part Two)",
+      "introduction": "This is the continuation of your foundation building phase. You'll continue practicing the same exercises from Part One, building consistency and refining your technique. By now, you should be getting more comfortable with the movements and noticing improvements in your form.\n\nContinue to focus on avoiding compensations and maintaining proper nasal breathing throughout all exercises. Your cumulative practice over these two weeks is building the foundation for more advanced exercises ahead.",
       "overview": "Continue foundational exercises with focus on consistency and technique refinement.",
       "objectives": [
         "Continue clicking and tick-tock exercises with improved technique",
@@ -93,7 +93,7 @@
         "Continue tongue-to-spot positioning with elastic hold",
         "Book or complete frenectomy consultation if not already done"
       ],
-      "video_title": "Week 1-2 Exercise Demonstrations",
+      "video_title": "Module 1 Exercise Demonstrations",
       "video_url": "",
       "requires_bolt": false,
       "requires_video_first": true,

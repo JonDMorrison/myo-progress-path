@@ -78,7 +78,7 @@ export function MaintenanceAssignmentDialog({
         data?.map((w: any) => ({
           id: w.id,
           number: w.number,
-          title: w.title || `Week ${w.number}`,
+          title: w.title || `Module ${Math.ceil(w.number / 2)} ${w.number % 2 !== 0 ? 'Part One' : 'Part Two'}`,
         })) || []
       );
     } catch (error) {
@@ -116,15 +116,19 @@ export function MaintenanceAssignmentDialog({
 
       // Create notification for patient
       const selectedWeek = weeks.find(w => w.id === selectedWeekId);
+      const moduleNum = selectedWeek ? Math.ceil(selectedWeek.number / 2) : 0;
+      const partLabel = selectedWeek ? (selectedWeek.number % 2 !== 0 ? 'Part One' : 'Part Two') : '';
+      const moduleLabel = `Module ${moduleNum} ${partLabel}`;
+      
       await supabase.from("notifications").insert({
         patient_id: patientId,
-        body: `Your therapist assigned Week ${selectedWeek?.number} for practice${dueDate ? ` (due ${dueDate})` : ""}.${notes ? ` Note: ${notes}` : ""}`,
+        body: `Your therapist assigned ${moduleLabel} for practice${dueDate ? ` (due ${dueDate})` : ""}.${notes ? ` Note: ${notes}` : ""}`,
         read: false,
       });
 
       toast({
         title: "Assignment created",
-        description: `Week ${selectedWeek?.number} has been assigned to ${patientName}.`,
+        description: `${moduleLabel} has been assigned to ${patientName}.`,
       });
 
       // Reset form
@@ -171,7 +175,7 @@ export function MaintenanceAssignmentDialog({
               <SelectContent>
                 {weeks.map((week) => (
                   <SelectItem key={week.id} value={week.id}>
-                    Week {week.number}: {week.title}
+                    Module {Math.ceil(week.number / 2)} {week.number % 2 !== 0 ? 'Part One' : 'Part Two'}: {week.title}
                   </SelectItem>
                 ))}
               </SelectContent>

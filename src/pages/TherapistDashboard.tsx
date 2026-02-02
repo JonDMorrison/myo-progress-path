@@ -349,9 +349,11 @@ const TherapistDashboard = () => {
     try {
       const result = await approveWeek(progressId, review.patient.id, review.week.number, "");
       if (result.success) {
+        const moduleNum = Math.ceil(review.week.number / 2);
+        const partLabel = review.week.number % 2 !== 0 ? 'Part One' : 'Part Two';
         toast({
-          title: "Week Approved",
-          description: `Week ${review.week.number} approved for ${review.patient.user.name}`,
+          title: "Module Approved",
+          description: `Module ${moduleNum} ${partLabel} approved for ${review.patient.user.name}`,
         });
         setReviews(prev => prev.map(r => r.id === progressId ? { ...r, status: "approved" } : r));
       }
@@ -377,7 +379,9 @@ const TherapistDashboard = () => {
       body: note,
     });
     if (error) throw error;
-    toast({ title: "Note Sent", description: `Note sent to patient for Week ${noteDialog.weekNumber}` });
+    const moduleNum = Math.ceil(noteDialog.weekNumber / 2);
+    const partLabel = noteDialog.weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
+    toast({ title: "Note Sent", description: `Note sent to patient for Module ${moduleNum} ${partLabel}` });
   };
 
   const handleOpenReviewPanel = (progressId: string, patientId: string, weekNumber: number, weekId: string) => {

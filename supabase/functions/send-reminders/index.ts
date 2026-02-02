@@ -54,6 +54,11 @@ Deno.serve(async (req) => {
       const week = Array.isArray(currentWeek.week) ? currentWeek.week[0] : currentWeek.week;
       if (!week) continue;
 
+      // Calculate module label
+      const moduleNum = Math.ceil(week.number / 2);
+      const partLabel = week.number % 2 !== 0 ? 'Part One' : 'Part Two';
+      const moduleLabel = `Module ${moduleNum} ${partLabel}`;
+
       // Send email reminder
       const { error: emailError } = await supabase.functions.invoke('send-email', {
         body: {
@@ -61,7 +66,7 @@ Deno.serve(async (req) => {
           subject: 'Time for your daily myofunctional therapy exercises',
           html: `
             <h2>Hi ${user.name},</h2>
-            <p>This is a friendly reminder to complete your exercises for <strong>Week ${week.number}</strong>.</p>
+            <p>This is a friendly reminder to complete your exercises for <strong>${moduleLabel}</strong>.</p>
             <p>Consistency is key to seeing results in your myofunctional therapy journey!</p>
             <p><a href="${supabaseUrl.replace('supabase.co', 'lovable.app')}/week/${week.number}" style="display: inline-block; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; margin-top: 20px;">Continue Your Exercises</a></p>
             <p>Keep up the great work!</p>
@@ -82,7 +87,7 @@ Deno.serve(async (req) => {
         .from('notifications')
         .insert({
           patient_id: patient.id,
-          body: `Don't forget to complete your Week ${week.number} exercises today!`,
+          body: `Don't forget to complete your ${moduleLabel} exercises today!`,
           sent_email: true
         });
 

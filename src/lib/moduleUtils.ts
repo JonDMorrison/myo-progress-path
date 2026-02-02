@@ -284,8 +284,8 @@ export function getWeekDisplayLabel(weekNumber: number, weekTitle: string | null
     };
   }
 
-  // Biweekly module
-  const weekPosition = weekNumber === moduleInfo.weekRange[0] ? 'Preparation' : 'Completion';
+  // Biweekly module - use Part One / Part Two
+  const weekPosition = weekNumber === moduleInfo.weekRange[0] ? 'Part One' : 'Part Two';
   return {
     primary: moduleInfo.moduleLabel,
     secondary: weekPosition,
