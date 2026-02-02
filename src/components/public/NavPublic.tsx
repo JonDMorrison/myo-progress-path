@@ -75,20 +75,33 @@ export const NavPublic = () => {
 
   const handleLogout = async () => {
     try {
+      // Prefer global sign-out, but ALWAYS clear local session so users don't
+      // get stuck logged-in if the network request fails.
       const { error } = await supabase.auth.signOut();
       if (error) {
-        console.error("Logout error:", error);
-        toast.error("Error logging out");
-        return;
+        await supabase.auth.signOut({ scope: "local" });
+        throw error;
       }
+
       setUser(null);
       setUserRole(null);
       setUserName(null);
       toast.success("Logged out successfully");
-      navigate("/");
+      navigate("/", { replace: true });
+      window.location.assign("/");
     } catch (err) {
       console.error("Logout exception:", err);
-      toast.error("Error logging out");
+      try {
+        await supabase.auth.signOut({ scope: "local" });
+      } catch {
+        // ignore
+      }
+      setUser(null);
+      setUserRole(null);
+      setUserName(null);
+      toast.error("Logout failed on the server, but your local session was cleared.");
+      navigate("/", { replace: true });
+      window.location.assign("/");
     }
   };
 

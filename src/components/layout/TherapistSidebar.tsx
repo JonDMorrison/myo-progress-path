@@ -71,18 +71,39 @@ export function TherapistSidebar() {
 
   const handleSignOut = async () => {
     try {
-      await supabase.auth.signOut();
+      // Prefer global sign-out, but ALWAYS clear the local session too so users
+      // don't get stuck logged-in if the network request fails.
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        // Best-effort local cleanup
+        await supabase.auth.signOut({ scope: "local" });
+        throw error;
+      }
+
       toast({
         title: "Signed out",
         description: "You have been logged out successfully.",
       });
-      navigate("/auth");
+
+      navigate("/auth", { replace: true });
+      // Hard redirect ensures any route guards don't immediately bounce back.
+      window.location.assign("/auth");
     } catch (error) {
+      // Even on error, attempt to clear local session so the user can proceed.
+      try {
+        await supabase.auth.signOut({ scope: "local" });
+      } catch {
+        // ignore
+      }
+
       toast({
         title: "Error",
-        description: "Failed to sign out.",
+        description: "Logout failed on the server, but your local session was cleared. Please try again if you still appear logged in.",
         variant: "destructive",
       });
+
+      navigate("/auth", { replace: true });
+      window.location.assign("/auth");
     }
   };
 
