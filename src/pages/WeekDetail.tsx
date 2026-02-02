@@ -113,6 +113,9 @@ const WeekDetail = () => {
 
       setPatient(patientData || { id: 'dummy', program_variant: 'frenectomy', user: { name: 'Therapist Preview' } });
 
+      const searchParams = new URLSearchParams(window.location.search);
+      const variantOverride = searchParams.get('variant');
+
       // Check access and read-only state
       if (isTherapist || isSuperAdmin) {
         setIsReadOnly(true); // Content preview is read-only for therapists
@@ -134,8 +137,8 @@ const WeekDetail = () => {
         setIsReadOnly(readOnly);
       }
 
-      // Get week - filter by patient's program variant
-      const variant = patientData?.program_variant || 'frenectomy';
+      // Get week - filter by patient's program variant or override (for therapist preview)
+      const variant = variantOverride || (patientData?.program_variant) || 'frenectomy';
       const programTitle = variant === 'frenectomy' || variant === 'standard'
         ? 'Frenectomy Program'
         : 'Non-Frenectomy Program';

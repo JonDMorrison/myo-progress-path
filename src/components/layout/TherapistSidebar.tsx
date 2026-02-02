@@ -30,6 +30,7 @@ const navItems = {
   main: [
     { title: "Inbox", url: "/therapist", icon: Inbox },
     { title: "Patients", url: "/therapist/patients", icon: Users },
+    { title: "Curriculum", url: "/therapist#curriculum", icon: BookOpen },
     { title: "Reports", url: "/reports", icon: BarChart3 },
     { title: "AI Assistant", url: "/therapist/ai-assist", icon: Sparkles },
   ],
@@ -113,7 +114,7 @@ export function TherapistSidebar() {
         <Link to="/therapist" className="flex items-center gap-2">
           <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
           <span className="font-semibold text-lg group-data-[collapsible=icon]:hidden">
-            Therapist Portal
+            Montrose Myo
           </span>
         </Link>
       </SidebarHeader>
