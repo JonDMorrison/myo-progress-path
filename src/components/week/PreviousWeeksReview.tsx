@@ -55,8 +55,8 @@ export function PreviousWeeksReview({
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
 
-  // Only show for weeks 17-24
-  const shouldShow = currentWeekNumber >= 17 && currentWeekNumber <= 24;
+  // Show for any week that has at least one previous week to review
+  const shouldShow = currentWeekNumber >= 3; // Available from Week 3 onwards (can review Module 1)
 
   useEffect(() => {
     if (shouldShow) {
@@ -71,7 +71,9 @@ export function PreviousWeeksReview({
         ? 'Frenectomy Program' 
         : 'Non-Frenectomy Program';
 
-      // Get all previous weeks (1-16) with their exercises
+      // Get all previous weeks (up to current week - 2, to show completed modules)
+      const maxWeekToShow = currentWeekNumber - 2; // Show weeks from completed modules only
+      
       const { data: weeksData, error: weeksError } = await supabase
         .from("weeks")
         .select(`
@@ -91,7 +93,7 @@ export function PreviousWeeksReview({
           )
         `)
         .eq("programs.title", programTitle)
-        .lte("number", 16)
+        .lte("number", maxWeekToShow)
         .gte("number", 1)
         .order("number", { ascending: true });
 

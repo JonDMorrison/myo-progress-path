@@ -25,8 +25,7 @@ export function WeekProgressForm({ progress, week, readOnly = false, onUpdate }:
       nasalPct: progress.nasal_breathing_pct?.toString() || '',
       tonguePct: progress.tongue_on_spot_pct?.toString() || ''
     },
-    readOnly,
-    onUpdate
+    { readOnly, onSaveComplete: onUpdate }
   );
 
   return (

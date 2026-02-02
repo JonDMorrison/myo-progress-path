@@ -9,17 +9,26 @@ interface WeekFormData {
   tonguePct: string;
 }
 
+interface UseWeekFormOptions {
+  readOnly?: boolean;
+  onSaveComplete?: () => void;
+}
+
 export function useWeekForm(
   progressId: string,
   initialData: WeekFormData,
-  readOnly: boolean = false,
-  onUpdate?: () => void
+  options: UseWeekFormOptions | boolean = false
 ) {
+  // Handle legacy boolean parameter for backwards compatibility
+  const { readOnly = false, onSaveComplete } = typeof options === 'boolean'
+    ? { readOnly: options, onSaveComplete: undefined }
+    : options;
+
   const [formData, setFormData] = useState<WeekFormData>(initialData);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
-  // Auto-save after 3 seconds of inactivity (disabled in read-only mode)
+  // Auto-save after 1 second of inactivity (reduced from 3s for better UX)
   const debouncedSave = useDebouncedCallback(async (data: WeekFormData) => {
     if (readOnly) return;
 
@@ -41,15 +50,15 @@ export function useWeekForm(
       // Also save to localStorage as backup
       localStorage.setItem(`week_draft_${progressId}`, JSON.stringify(data));
 
-      // Notify parent of update to refresh submission status
-      if (onUpdate) onUpdate();
+      // Notify parent component that save is complete to refresh submission status
+      onSaveComplete?.();
     } catch (error) {
       console.error('Auto-save failed:', error);
       toast.error('Failed to auto-save progress');
     } finally {
       setIsSaving(false);
     }
-  }, 3000);
+  }, 1000);
 
   const updateField = useCallback((field: keyof WeekFormData, value: string) => {
     if (readOnly) return;
