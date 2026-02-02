@@ -29,7 +29,7 @@ const Auth = () => {
   const redirectByRole = async (userId: string) => {
     const { data: userData, error: roleError } = await withTimeout(
       supabase.from("users").select("role").eq("id", userId).maybeSingle(),
-      10_000,
+      30_000,
       "Loading account",
     );
 
@@ -45,7 +45,7 @@ const Auth = () => {
     if (role === "patient") {
       const { data: patient, error: patientError } = await withTimeout(
         supabase.from("patients").select("id").eq("user_id", userId).maybeSingle(),
-        10_000,
+        30_000,
         "Loading patient profile",
       );
       if (patientError) throw patientError;
@@ -57,7 +57,7 @@ const Auth = () => {
             .select("completed_at")
             .eq("patient_id", patient.id)
             .maybeSingle(),
-          10_000,
+          30_000,
           "Loading onboarding status",
         );
         if (onboardingError) throw onboardingError;
