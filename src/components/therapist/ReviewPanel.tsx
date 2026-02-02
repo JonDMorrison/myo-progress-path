@@ -100,7 +100,6 @@ const ReviewPanel = ({
 }: ReviewPanelProps) => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [drafting, setDrafting] = useState(false);
   const [uploads, setUploads] = useState<Upload[]>([]);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -319,36 +318,7 @@ const ReviewPanel = ({
     }
   };
 
-  const handleDraftWithAI = async () => {
-    setDrafting(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("generate-progress-note", {
-        body: { patientId, weekId },
-      });
-
-      if (error) throw error;
-
-      if (data?.note) {
-        setNote(data.note);
-        setShowNoteField(true);
-        toast({
-          title: "Draft Generated",
-          description: "Review and edit the AI draft before sending.",
-        });
-      }
-    } catch (error: any) {
-      console.error("AI draft error:", error);
-      toast({
-        title: "Draft Failed",
-        description: "Could not generate AI draft. Try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setDrafting(false);
-    }
-  };
-
-  // AI analysis retry removed - therapist provides all feedback
+  // AI draft and AI analysis removed - therapist provides all feedback
 
   const handleTakeover = async () => {
     setReviewingBy(null);
@@ -572,23 +542,7 @@ const ReviewPanel = ({
                 {/* Quick Templates (hidden for week 24 to emphasize completion note) */}
                 {weekNumber !== 24 && (
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <label className="text-sm font-medium text-muted-foreground">Quick notes</label>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={handleDraftWithAI}
-                        disabled={drafting}
-                        className="h-7 text-xs"
-                      >
-                        {drafting ? (
-                          <Loader className="h-3 w-3 animate-spin mr-1" />
-                        ) : (
-                          <Sparkles className="h-3 w-3 mr-1" />
-                        )}
-                        Draft with AI
-                      </Button>
-                    </div>
+                    <label className="text-sm font-medium text-muted-foreground">Quick notes</label>
                     <div className="flex flex-wrap gap-2">
                       {NOTE_TEMPLATES.map((tpl) => (
                         <Button
