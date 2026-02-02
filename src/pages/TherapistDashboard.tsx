@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { LogOut, Users, Inbox, CheckCircle2, History, Loader, Clock, AlertCircle, BookOpen, ChevronRight } from "lucide-react";
+import { Users, Inbox, CheckCircle2, History, Loader, Clock, AlertCircle, BookOpen, ChevronRight } from "lucide-react";
+import { TherapistLayout } from "@/components/layout/TherapistLayout";
 import { useToast } from "@/hooks/use-toast";
 import ReviewCard, { getCardTriageLevel } from "@/components/therapist/ReviewCard";
 import SendNoteDialog from "@/components/therapist/SendNoteDialog";
@@ -490,19 +491,18 @@ const TherapistDashboard = () => {
     }, 300);
   };
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    navigate("/auth");
-  };
+  // Sign out is now handled by the TherapistLayout sidebar
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <Loader className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading inbox...</p>
+      <TherapistLayout title="Inbox" description="Review & approve patient progress">
+        <div className="flex items-center justify-center py-16">
+          <div className="text-center">
+            <Loader className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading inbox...</p>
+          </div>
         </div>
-      </div>
+      </TherapistLayout>
     );
   }
 
@@ -511,45 +511,8 @@ const TherapistDashboard = () => {
   ).length;
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
-            <div>
-              <h1 className="text-xl font-bold">Therapist Inbox</h1>
-              <p className="text-sm text-muted-foreground">Review & approve patient progress</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1 sm:gap-2">
-            <Button variant="outline" size="sm" onClick={() => navigate("/therapist/patients")} className="px-2 sm:px-3">
-              <Users className="h-4 w-4" />
-              <span className="hidden sm:inline ml-2">Patients</span>
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate("/therapist/ai-assist")} className="px-2 sm:px-3">
-              <span>✨</span>
-              <span className="hidden sm:inline ml-2">AI</span>
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate("/reports")} className="px-2 sm:px-3">
-              <span>📊</span>
-              <span className="hidden sm:inline ml-2">Reports</span>
-            </Button>
-            {isAdmin && (
-              <Button variant="outline" size="sm" onClick={() => navigate(isSuperAdmin ? "/admin/master" : "/admin/content")} className="px-2 sm:px-3">
-                <span>{isSuperAdmin ? "👑" : "⚙️"}</span>
-                <span className="hidden sm:inline ml-2">Admin</span>
-              </Button>
-            )}
-            <Button variant="ghost" size="sm" onClick={handleSignOut} className="px-2 sm:px-3">
-              <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-6 max-w-4xl">
+    <TherapistLayout title="Inbox" description="Review & approve patient progress">
+      <div className="max-w-4xl mx-auto">
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-5 mb-4">
@@ -850,7 +813,7 @@ const TherapistDashboard = () => {
             </div>
           </TabsContent>
         </Tabs>
-      </main>
+      </div>
 
       {/* Send Note Dialog */}
       {noteDialog && (
@@ -877,7 +840,7 @@ const TherapistDashboard = () => {
           onComplete={handleReviewComplete}
         />
       )}
-    </div>
+    </TherapistLayout>
   );
 };
 

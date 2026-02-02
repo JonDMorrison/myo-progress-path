@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Download, FileText } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { format, subDays } from "date-fns";
 import { PatientMultiSelect } from "@/components/reports/PatientMultiSelect";
+import { TherapistLayout } from "@/components/layout/TherapistLayout";
 
 type DateRange = "7" | "30" | "90" | "custom";
 
@@ -222,27 +223,22 @@ const Reports = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="w-12 h-12 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading reports...</p>
+      <TherapistLayout title="Reports" description="View analytics and export patient data">
+        <div className="flex items-center justify-center py-16">
+          <div className="text-center">
+            <div className="w-12 h-12 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading reports...</p>
+          </div>
         </div>
-      </div>
+      </TherapistLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 sm:p-6">
-      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" onClick={() => navigate("/therapist")}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Back</span>
-            </Button>
-            <h1 className="text-2xl sm:text-3xl font-bold">Reports & Analytics</h1>
-          </div>
-          <Button onClick={handleExportCSV} size="sm" className="w-full sm:w-auto">
+    <TherapistLayout title="Reports" description="View analytics and export patient data">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div className="flex justify-end">
+          <Button onClick={handleExportCSV} size="sm">
             <Download className="h-4 w-4 mr-2" />
             Export CSV
           </Button>
@@ -395,7 +391,7 @@ const Reports = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </TherapistLayout>
   );
 };
 

@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Sparkles, Send } from "lucide-react";
+import { Send } from "lucide-react";
+import { TherapistLayout } from "@/components/layout/TherapistLayout";
 
 const TherapistAIAssist = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
   const [query, setQuery] = useState("");
   const [response, setResponse] = useState("");
@@ -89,18 +88,8 @@ const TherapistAIAssist = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <TherapistLayout title="AI Assistant" description="Get AI-powered insights about your patients">
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" onClick={() => navigate("/therapist")}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Sparkles className="h-8 w-8 text-primary" />
-            AI Assistant
-          </h1>
-        </div>
 
         <Card>
           <CardHeader>
@@ -180,7 +169,7 @@ const TherapistAIAssist = () => {
           </Card>
         )}
       </div>
-    </div>
+    </TherapistLayout>
   );
 };
 
