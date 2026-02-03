@@ -107,10 +107,11 @@ const TherapistDashboard = () => {
         .eq("id", user.id)
         .single();
 
-      if (userData?.role === "admin") setIsAdmin(true);
+      if (userData?.role === "admin" || userData?.role === "super_admin") {
+        setIsAdmin(true);
+      }
       if (userData?.role === "super_admin") {
         setIsSuperAdmin(true);
-        setIsAdmin(true);
       }
 
       // Get all reviews from last 30 days with related data
