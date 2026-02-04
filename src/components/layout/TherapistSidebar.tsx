@@ -52,7 +52,9 @@ export function TherapistSidebar() {
   }, []);
 
   const checkAdminStatus = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
+    // Prefer session lookup (fast/local) to avoid occasional hangs with getUser() during refresh.
+    const { data: sessionData } = await supabase.auth.getSession();
+    const user = sessionData.session?.user;
     if (!user) return;
 
     const { data: userData } = await supabase
@@ -61,11 +63,8 @@ export function TherapistSidebar() {
       .eq("id", user.id)
       .single();
 
-    if (userData?.role === "admin") setIsAdmin(true);
-    if (userData?.role === "super_admin") {
-      setIsSuperAdmin(true);
-      setIsAdmin(true);
-    }
+    if (userData?.role === "admin" || userData?.role === "super_admin") setIsAdmin(true);
+    if (userData?.role === "super_admin") setIsSuperAdmin(true);
   };
 
   const isActive = (path: string) => currentPath === path;
