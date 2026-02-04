@@ -77,7 +77,12 @@ const TherapistDashboard = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    loadInboxData();
+    // Safety timeout to prevent endless spinning
+    const safetyTimer = setTimeout(() => {
+      setLoading(false);
+    }, 10000);
+
+    loadInboxData().finally(() => clearTimeout(safetyTimer));
 
     // Switch to curriculum tab if hash is present
     if (location.hash === '#curriculum') {

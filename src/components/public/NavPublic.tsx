@@ -33,14 +33,14 @@ export const NavPublic = () => {
     // Check current session
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setUser(session?.user ?? null);
-      
+
       if (session?.user) {
         const { data: userData } = await supabase
           .from("users")
           .select("role, name")
           .eq("id", session.user.id)
           .single();
-        
+
         setUserRole(userData?.role ?? null);
         setUserName(userData?.name ?? null);
       }
@@ -49,14 +49,14 @@ export const NavPublic = () => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
-      
+
       if (session?.user) {
         const { data: userData } = await supabase
           .from("users")
           .select("role, name")
           .eq("id", session.user.id)
           .single();
-        
+
         setUserRole(userData?.role ?? null);
         setUserName(userData?.name ?? null);
       } else {
@@ -119,7 +119,7 @@ export const NavPublic = () => {
             <span className="text-xl font-bold">Montrose Myo</span>
             <span className="sr-only">by Montrose Dental Centre</span>
           </Link>
-          
+
           {/* Desktop Navigation - hide for staff */}
           {!isStaff && (
             <div className="hidden md:flex gap-6">
@@ -141,8 +141,8 @@ export const NavPublic = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   size="icon"
                   className="hidden md:flex rounded-full"
                   aria-label="User menu"
@@ -200,7 +200,7 @@ export const NavPublic = () => {
               <SheetHeader className="mb-6">
                 <SheetTitle className="text-left">Menu</SheetTitle>
               </SheetHeader>
-              
+
               <div className="flex flex-col gap-6">
                 {/* Primary Navigation with Icons - hide for staff */}
                 {!isStaff && (
@@ -213,11 +213,10 @@ export const NavPublic = () => {
                           key={link.href}
                           to={link.href}
                           onClick={() => setMobileOpen(false)}
-                          className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors text-base font-medium min-h-[48px] ${
-                            active 
-                              ? "bg-primary/10 text-primary" 
+                          className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-colors text-base font-medium min-h-[48px] ${active
+                              ? "bg-primary/10 text-primary"
                               : "hover:bg-accent"
-                          }`}
+                            }`}
                           aria-current={active ? "page" : undefined}
                         >
                           <Icon className="h-5 w-5 flex-shrink-0" />
@@ -241,11 +240,10 @@ export const NavPublic = () => {
                           key={link.href}
                           to={link.href}
                           onClick={() => setMobileOpen(false)}
-                          className={`block px-3 py-2.5 rounded-lg transition-colors text-sm min-h-[44px] flex items-center ${
-                            active 
-                              ? "bg-primary/10 text-primary font-medium" 
+                          className={`block px-3 py-2.5 rounded-lg transition-colors text-sm min-h-[44px] flex items-center ${active
+                              ? "bg-primary/10 text-primary font-medium"
                               : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                          }`}
+                            }`}
                           aria-current={active ? "page" : undefined}
                         >
                           {link.label}
@@ -268,14 +266,14 @@ export const NavPublic = () => {
                         Role: <span className="font-medium">{getRoleDisplay(userRole)}</span>
                       </p>
                     </div>
-                    
+
                     {/* Dashboard Button */}
-                    <Button 
-                      onClick={() => { 
+                    <Button
+                      onClick={() => {
                         const dashboardRoute = userRole === "patient" ? "/patient" : "/therapist";
-                        navigate(dashboardRoute); 
-                        setMobileOpen(false); 
-                      }} 
+                        navigate(dashboardRoute);
+                        setMobileOpen(false);
+                      }}
                       className="w-full h-12 text-base"
                       size="lg"
                     >
@@ -284,12 +282,12 @@ export const NavPublic = () => {
                     </Button>
 
                     {/* Account/Settings */}
-                    <Button 
+                    <Button
                       variant="outline"
-                      onClick={() => { 
-                        navigate("/settings"); 
-                        setMobileOpen(false); 
-                      }} 
+                      onClick={() => {
+                        navigate("/settings");
+                        setMobileOpen(false);
+                      }}
                       className="w-full h-12 text-base"
                       size="lg"
                     >
@@ -298,12 +296,12 @@ export const NavPublic = () => {
                     </Button>
 
                     {/* Logout */}
-                    <Button 
+                    <Button
                       variant="ghost"
                       onClick={() => {
                         handleLogout();
                         setMobileOpen(false);
-                      }} 
+                      }}
                       className="w-full h-12 text-base text-destructive hover:text-destructive hover:bg-destructive/10"
                       size="lg"
                     >
@@ -312,8 +310,8 @@ export const NavPublic = () => {
                     </Button>
                   </div>
                 ) : (
-                  <Button 
-                    asChild 
+                  <Button
+                    asChild
                     className="w-full h-12 text-base"
                     size="lg"
                   >

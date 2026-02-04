@@ -70,41 +70,29 @@ export function TherapistSidebar() {
 
   const isActive = (path: string) => currentPath === path;
 
-  const handleSignOut = async () => {
+  const handleSignOut = async (e?: React.MouseEvent) => {
+    e?.preventDefault();
     try {
-      // Prefer global sign-out, but ALWAYS clear the local session too so users
-      // don't get stuck logged-in if the network request fails.
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        // Best-effort local cleanup
-        await supabase.auth.signOut({ scope: "local" });
-        throw error;
-      }
+      // Clear Supabase session
+      await supabase.auth.signOut();
+
+      // Force clear local storage to be safe
+      localStorage.clear();
+      sessionStorage.clear();
 
       toast({
         title: "Signed out",
         description: "You have been logged out successfully.",
       });
 
-      navigate("/auth", { replace: true });
-      // Hard redirect ensures any route guards don't immediately bounce back.
-      window.location.assign("/auth");
+      // Hard redirect to Auth page - most reliable way
+      window.location.href = "/";
     } catch (error) {
-      // Even on error, attempt to clear local session so the user can proceed.
-      try {
-        await supabase.auth.signOut({ scope: "local" });
-      } catch {
-        // ignore
-      }
+      console.error("Sign out error:", error);
 
-      toast({
-        title: "Error",
-        description: "Logout failed on the server, but your local session was cleared. Please try again if you still appear logged in.",
-        variant: "destructive",
-      });
-
-      navigate("/auth", { replace: true });
-      window.location.assign("/auth");
+      // Force cleanup anyway
+      localStorage.clear();
+      window.location.href = "/";
     }
   };
 
@@ -205,14 +193,14 @@ export function TherapistSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton
+            <button
               onClick={handleSignOut}
-              tooltip="Sign Out"
-              className="text-muted-foreground hover:text-foreground cursor-pointer"
+              className="flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!justify-center text-muted-foreground"
+              title="Sign Out"
             >
-              <LogOut className="h-4 w-4" />
-              <span>Sign Out</span>
-            </SidebarMenuButton>
+              <LogOut className="h-4 w-4 shrink-0" />
+              <span className="group-data-[collapsible=icon]:hidden truncate">Sign Out</span>
+            </button>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

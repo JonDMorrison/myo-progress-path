@@ -27,25 +27,38 @@ const Auth = () => {
   const { toast } = useToast();
 
   const redirectByRole = async (userId: string) => {
-    // Patient-first redirect to avoid role lookups timing out (patient logins shouldn't depend on /users).
+    // Check explicit role first via direct DB Query (More reliable than RPC)
+    const { data: userData, error: userError } = await withTimeout(
+      supabase.from("users").select("role").eq("id", userId).maybeSingle(),
+      10_000,
+      "Checking account permissions"
+    );
+
+    const role = userData?.role;
+
+    if (!userError && role && (role === "therapist" || role === "admin" || role === "super_admin")) {
+      navigate("/therapist", { replace: true });
+      return;
+    }
+
+    // If not a known staff role, check if they are a patient
     const { data: patient, error: patientError } = await withTimeout(
       supabase.from("patients").select("id").eq("user_id", userId).maybeSingle(),
-      30_000,
+      15_000,
       "Loading patient profile",
     );
-    if (patientError) throw patientError;
 
     if (patient?.id) {
-      const { data: onboarding, error: onboardingError } = await withTimeout(
+      // Check onboarding status
+      const { data: onboarding } = await withTimeout(
         supabase
           .from("onboarding_progress")
           .select("completed_at")
           .eq("patient_id", patient.id)
           .maybeSingle(),
-        30_000,
-        "Loading onboarding status",
+        10_000,
+        "Loading onboarding"
       );
-      if (onboardingError) throw onboardingError;
 
       if (!onboarding?.completed_at) {
         navigate("/onboarding", { replace: true });
@@ -56,32 +69,14 @@ const Auth = () => {
       return;
     }
 
-    // Staff/other users: use a backend function to resolve role (avoids long /users queries).
-    const { data: role, error: roleError } = await withTimeout(
-      supabase.rpc("get_user_role", { _user_id: userId }),
-      30_000,
-      "Loading account",
-    );
-    if (roleError) throw roleError;
-
-    if (!role) {
-      throw new Error(
-        "Your account is missing access setup in the database. Please contact an administrator to provision your user."
-      );
-    }
-
-    if (role === "patient") {
-      // Role says patient but we couldn't find a patient profile.
-      throw new Error(
-        "Your patient profile is missing access setup in the database. Please contact an administrator to provision your patient record."
-      );
-    }
-
-    if (role === "therapist" || role === "admin" || role === "super_admin") {
+    // Fallback if no role and no patient profile found (Auth only)
+    if (role) {
+      // Is a staff role but logic above missed it? (Shouldn't happen due to first check)
       navigate("/therapist", { replace: true });
       return;
     }
 
+    // Default fallback
     navigate("/", { replace: true });
   };
 
