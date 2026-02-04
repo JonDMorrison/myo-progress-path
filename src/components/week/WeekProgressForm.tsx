@@ -18,6 +18,16 @@ interface WeekProgressFormProps {
 }
 
 export function WeekProgressForm({ progress, week, readOnly = false, onUpdate }: WeekProgressFormProps) {
+  // Guard against null progress (therapist/admin preview mode)
+  if (!progress?.id) {
+    return (
+      <div className="p-8 text-center text-muted-foreground bg-slate-50 rounded-[2.5rem] border border-dashed border-slate-200">
+        <p className="font-medium">Vitals tracking unavailable in preview mode</p>
+        <p className="text-sm">Patient progress data is only visible when viewing as the enrolled patient.</p>
+      </div>
+    );
+  }
+
   const { formData, updateField, isSaving, lastSaved } = useWeekForm(
     progress.id,
     {

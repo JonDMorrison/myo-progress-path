@@ -97,7 +97,10 @@ const TherapistDashboard = () => {
 
   const loadInboxData = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      // Use the current session (fast, local) to avoid occasional hangs with getUser()
+      // during token refresh.
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData.session?.user;
       if (!user) {
         navigate("/auth");
         return;
@@ -112,10 +115,11 @@ const TherapistDashboard = () => {
         .eq("id", user.id)
         .single();
 
-      if (userData?.role === "admin") setIsAdmin(true);
+      if (userData?.role === "admin" || userData?.role === "super_admin") {
+        setIsAdmin(true);
+      }
       if (userData?.role === "super_admin") {
         setIsSuperAdmin(true);
-        setIsAdmin(true);
       }
 
       // Get all reviews from last 30 days with related data
@@ -134,7 +138,7 @@ const TherapistDashboard = () => {
             id,
             program_variant,
             assigned_therapist_id,
-            user:users!user_id(name, email)
+            user:users!patients_user_id_fkey(name, email)
           ),
           week:weeks!inner(number, title)
         `)
@@ -156,17 +160,26 @@ const TherapistDashboard = () => {
       const patientIds = [...new Set(filteredData.map((r: any) => r.patient_id))];
       const weekIds = [...new Set(filteredData.map((r: any) => r.week_id))];
 
-      const { data: allUploads } = await supabase
-        .from("uploads")
-        .select("id, patient_id, week_id, ai_feedback, ai_feedback_status")
-        .in("patient_id", patientIds)
-        .in("week_id", weekIds);
+      // Avoid querying with empty arrays (causes Supabase to hang)
+      let allUploads: any[] = [];
+      let allMessages: any[] = [];
 
-      const { data: allMessages } = await supabase
-        .from("messages")
-        .select("id, patient_id, week_id")
-        .in("patient_id", patientIds)
-        .in("week_id", weekIds);
+      if (patientIds.length > 0 && weekIds.length > 0) {
+        const [uploadsResult, messagesResult] = await Promise.all([
+          supabase
+            .from("uploads")
+            .select("id, patient_id, week_id, ai_feedback, ai_feedback_status")
+            .in("patient_id", patientIds)
+            .in("week_id", weekIds),
+          supabase
+            .from("messages")
+            .select("id, patient_id, week_id")
+            .in("patient_id", patientIds)
+            .in("week_id", weekIds)
+        ]);
+        allUploads = uploadsResult.data || [];
+        allMessages = messagesResult.data || [];
+      }
 
       // Group by patient_id + week_id for fast lookup
       const uploadsMap = new Map<string, any[]>();
@@ -208,7 +221,7 @@ const TherapistDashboard = () => {
           patient:patients!inner(
             id,
             assigned_therapist_id,
-            user:users!user_id(name)
+            user:users!patients_user_id_fkey(name)
           ),
           week:weeks(number)
         `)
@@ -354,9 +367,11 @@ const TherapistDashboard = () => {
     try {
       const result = await approveWeek(progressId, review.patient.id, review.week.number, "");
       if (result.success) {
+        const moduleNum = Math.ceil(review.week.number / 2);
+        const partLabel = review.week.number % 2 !== 0 ? 'Part One' : 'Part Two';
         toast({
-          title: "Week Approved",
-          description: `Week ${review.week.number} approved for ${review.patient.user.name}`,
+          title: "Module Approved",
+          description: `Module ${moduleNum} ${partLabel} approved for ${review.patient.user.name}`,
         });
         setReviews(prev => prev.map(r => r.id === progressId ? { ...r, status: "approved" } : r));
       }
@@ -382,7 +397,9 @@ const TherapistDashboard = () => {
       body: note,
     });
     if (error) throw error;
-    toast({ title: "Note Sent", description: `Note sent to patient for Week ${noteDialog.weekNumber}` });
+    const moduleNum = Math.ceil(noteDialog.weekNumber / 2);
+    const partLabel = noteDialog.weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
+    toast({ title: "Note Sent", description: `Note sent to patient for Module ${moduleNum} ${partLabel}` });
   };
 
   const handleOpenReviewPanel = (progressId: string, patientId: string, weekNumber: number, weekId: string) => {

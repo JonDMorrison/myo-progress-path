@@ -62,16 +62,20 @@ export function MaintenanceDashboard({ patientId, clinicId, userName }: Maintena
         .order("assigned_at", { ascending: false });
 
       if (assignmentsData) {
-        const formattedAssignments = assignmentsData.map((a: any) => ({
-          id: a.id,
-          week_id: a.week_id,
-          week_number: a.weeks.number,
-          week_title: a.weeks.title || `Week ${a.weeks.number}`,
-          due_date: a.due_date,
-          status: a.status,
-          notes: a.notes,
-          assigned_at: a.assigned_at,
-        }));
+        const formattedAssignments = assignmentsData.map((a: any) => {
+          const moduleNum = Math.ceil(a.weeks.number / 2);
+          const partLabel = a.weeks.number % 2 !== 0 ? 'Part One' : 'Part Two';
+          return {
+            id: a.id,
+            week_id: a.week_id,
+            week_number: a.weeks.number,
+            week_title: a.weeks.title || `Module ${moduleNum} ${partLabel}`,
+            due_date: a.due_date,
+            status: a.status,
+            notes: a.notes,
+            assigned_at: a.assigned_at,
+          };
+        });
         setAssignments(formattedAssignments);
       }
 

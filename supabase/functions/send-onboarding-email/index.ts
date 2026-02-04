@@ -91,12 +91,12 @@ serve(async (req: Request) => {
 
           <tr>
             <td style="padding:24px 28px 0 28px;">
-              <h2 style="margin:0 0 8px;font-size:18px;color:#0e1116;">What to expect in Week 1</h2>
+              <h2 style="margin:0 0 8px;font-size:18px;color:#0e1116;">What to expect in Module 1</h2>
               <p style="margin:0 0 12px;color:#353a44;line-height:1.6;font-size:15px;">
                 A short overview of your first exercises and how to find your tongue "spot".
               </p>
               <a href="${week1VideoUrl}" style="display:inline-block;border:1px solid ${brandOrange};color:${brandOrange};text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:600;">
-                Watch the Week 1 Intro Video
+                Watch the Module 1 Intro Video
               </a>
             </td>
           </tr>
@@ -138,7 +138,7 @@ I'm Dr. Matt Francisco. We're excited to start your Montrose Myo program.
 
 Log in here: ${loginUrl}
 
-Watch your Week 1 intro video: ${week1VideoUrl}
+Watch your Module 1 intro video: ${week1VideoUrl}
 
 Need help? Email ${supportEmail} or call ${supportPhone}.
 

@@ -9,6 +9,13 @@ interface WeekIntroductionModalProps {
   onContinue: () => void;
 }
 
+const numberToWord = (num: number): string => {
+  const words = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 
+                 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 
+                 'Nineteen', 'Twenty', 'Twenty-One', 'Twenty-Two', 'Twenty-Three', 'Twenty-Four'];
+  return words[num] || num.toString();
+};
+
 export function WeekIntroductionModal({ 
   open, 
   weekNumber, 
@@ -23,7 +30,7 @@ export function WeekIntroductionModal({
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
             <Sparkles className="h-6 w-6 text-primary" />
-            <DialogTitle className="text-2xl">Week {weekNumber}</DialogTitle>
+            <DialogTitle className="text-2xl">Part {numberToWord(weekNumber)}</DialogTitle>
           </div>
           <DialogDescription className="text-base leading-relaxed pt-4 text-foreground">
             {introduction}

@@ -22,8 +22,20 @@ export function WeekCompletionChecklist({
   programVariant,
   layout = 'sidebar'
 }: WeekCompletionChecklistProps) {
-  // Handle null week
+  // Handle null week or progress (therapist preview mode)
   if (!week) return null;
+  if (!progress) {
+    return (
+      <Card className="rounded-[2.5rem] border-none shadow-premium bg-white overflow-hidden">
+        <CardHeader className="bg-slate-50 px-6 py-4 border-b border-slate-100">
+          <CardTitle className="text-sm font-black uppercase tracking-widest text-slate-500">Preview Mode</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6 text-center text-muted-foreground">
+          <p>Progress tracking unavailable in preview mode.</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   // Calculate exercise completion
   const exerciseCompletions = progress?.exercise_completions || {};
@@ -36,19 +48,40 @@ export function WeekCompletionChecklist({
   // Check if frenectomy consult is required (Week 1, frenectomy pathway only)
   const isFrenectomyWeek1 = weekNumber === 1 && programVariant === 'frenectomy';
 
-  const requirements = [
-    {
+  // Determine video display mode
+  const showBothVideos = week.requires_video_first && week.requires_video_last;
+  const showSingleVideo = !week.requires_video_first && week.requires_video_last;
+
+  // Build requirements array with conditional video labels
+  const requirements = [];
+
+  // Add video requirements based on configuration
+  if (showBothVideos) {
+    // Post-Op Recovery: Both videos required
+    requirements.push({
       label: 'First Video',
-      complete: week.requires_video_first && uploads.some((u: any) => u.kind === 'first_attempt'),
-      required: week.requires_video_first,
+      complete: uploads.some((u: any) => u.kind === 'first_attempt'),
+      required: true,
       icon: "🎥"
-    },
-    {
+    });
+    requirements.push({
       label: 'Final Video',
-      complete: week.requires_video_last && uploads.some((u: any) => u.kind === 'last_attempt'),
-      required: week.requires_video_last,
+      complete: uploads.some((u: any) => u.kind === 'last_attempt'),
+      required: true,
       icon: "🎬"
-    },
+    });
+  } else if (showSingleVideo) {
+    // Part Two: Single module video required
+    requirements.push({
+      label: 'Module Video',
+      complete: uploads.some((u: any) => u.kind === 'last_attempt'),
+      required: true,
+      icon: "🎥"
+    });
+  }
+
+  // Add remaining requirements
+  requirements.push(
     {
       label: 'BOLT Score',
       complete: week.requires_bolt && !!progress.bolt_score,
@@ -79,7 +112,7 @@ export function WeekCompletionChecklist({
       required: isFrenectomyWeek1,
       icon: "📅"
     }
-  ];
+  );
 
   const requiredItems = requirements.filter(r => r.required);
   const completedCount = requiredItems.filter(r => r.complete).length;
