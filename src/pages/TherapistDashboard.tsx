@@ -92,7 +92,10 @@ const TherapistDashboard = () => {
 
   const loadInboxData = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      // Use the current session (fast, local) to avoid occasional hangs with getUser()
+      // during token refresh.
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData.session?.user;
       if (!user) {
         navigate("/auth");
         return;
@@ -130,7 +133,7 @@ const TherapistDashboard = () => {
             id,
             program_variant,
             assigned_therapist_id,
-            user:users!user_id(name, email)
+            user:users!patients_user_id_fkey(name, email)
           ),
           week:weeks!inner(number, title)
         `)
@@ -213,7 +216,7 @@ const TherapistDashboard = () => {
           patient:patients!inner(
             id,
             assigned_therapist_id,
-            user:users!user_id(name)
+            user:users!patients_user_id_fkey(name)
           ),
           week:weeks(number)
         `)
