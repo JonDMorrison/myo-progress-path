@@ -710,15 +710,17 @@ const WeekDetail = () => {
                   )}
                 </div>
 
-                {/* Progress Vitals Form */}
-                <Section delay={400}>
-                  <WeekProgressForm
-                    progress={progress}
-                    week={week}
-                    readOnly={isReadOnly}
-                    onUpdate={handleProgressUpdate}
-                  />
-                </Section>
+                {/* Progress Vitals Form - Only render when progress record exists (not for therapist preview) */}
+                {progress && (
+                  <Section delay={400}>
+                    <WeekProgressForm
+                      progress={progress}
+                      week={week}
+                      readOnly={isReadOnly}
+                      onUpdate={handleProgressUpdate}
+                    />
+                  </Section>
+                )}
 
                 {/* Privacy & Data Manager - Important for user to be able to delete personal videos */}
                 {patient?.id && week?.id && (
