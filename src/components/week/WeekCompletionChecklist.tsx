@@ -22,8 +22,20 @@ export function WeekCompletionChecklist({
   programVariant,
   layout = 'sidebar'
 }: WeekCompletionChecklistProps) {
-  // Handle null week
+  // Handle null week or progress (therapist preview mode)
   if (!week) return null;
+  if (!progress) {
+    return (
+      <Card className="rounded-[2.5rem] border-none shadow-premium bg-white overflow-hidden">
+        <CardHeader className="bg-slate-50 px-6 py-4 border-b border-slate-100">
+          <CardTitle className="text-sm font-black uppercase tracking-widest text-slate-500">Preview Mode</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6 text-center text-muted-foreground">
+          <p>Progress tracking unavailable in preview mode.</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   // Calculate exercise completion
   const exerciseCompletions = progress?.exercise_completions || {};
