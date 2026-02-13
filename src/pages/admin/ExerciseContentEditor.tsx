@@ -33,6 +33,7 @@ interface ExerciseWithWeek {
   week_id: string | null;
   week_number: number;
   week_title: string | null;
+  program_variant: string | null;
 }
 
 interface ExerciseUpdate {
@@ -50,6 +51,7 @@ export default function ExerciseContentEditor() {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
   const [weekFilter, setWeekFilter] = useState<string>("all");
+  const [pathwayFilter, setPathwayFilter] = useState<string>("frenectomy");
   const [pendingChanges, setPendingChanges] = useState<Record<string, ExerciseUpdate>>({});
   const [expandedExercise, setExpandedExercise] = useState<string | null>(null);
 
@@ -63,16 +65,17 @@ export default function ExerciseContentEditor() {
           id, title, type, instructions, props, compensations,
           demo_video_url, modified_video_url, video_required,
           duration, frequency, completion_target, week_id,
-          weeks!inner(number, title)
+          weeks!inner(number, title, program_variant)
         `)
         .order("title");
-      
+
       if (error) throw error;
-      
+
       return data.map((ex: any) => ({
         ...ex,
         week_number: ex.weeks?.number,
         week_title: ex.weeks?.title,
+        program_variant: ex.weeks?.program_variant,
       })) as ExerciseWithWeek[];
     },
   });
@@ -136,16 +139,23 @@ export default function ExerciseContentEditor() {
 
   // Filter exercises
   const filteredExercises = exercises?.filter((ex) => {
-    const matchesSearch = searchTerm === "" || 
+    const matchesSearch = searchTerm === "" ||
       ex.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       ex.instructions?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesWeek = weekFilter === "all" || ex.week_number === parseInt(weekFilter);
-    return matchesSearch && matchesWeek;
+    const matchesPathway = pathwayFilter === "all" || ex.program_variant === pathwayFilter;
+    return matchesSearch && matchesWeek && matchesPathway;
   });
 
   // Group by week
   const groupedExercises = filteredExercises?.reduce((acc, ex) => {
-    const weekKey = `Week ${ex.week_number}`;
+    let weekKey = `Week ${ex.week_number}`;
+    if (pathwayFilter === "all" && ex.program_variant === "without_frenectomy") {
+      weekKey += " (Non-Surgical)";
+    } else if (pathwayFilter === "all" && ex.program_variant === "frenectomy") {
+      weekKey += " (Surgical)";
+    }
+
     if (!acc[weekKey]) acc[weekKey] = [];
     acc[weekKey].push(ex);
     return acc;
@@ -187,8 +197,18 @@ export default function ExerciseContentEditor() {
                 ))}
               </SelectContent>
             </Select>
+            <Select value={pathwayFilter} onValueChange={setPathwayFilter}>
+              <SelectTrigger className="w-40">
+                <SelectValue placeholder="Pathway" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="frenectomy">Surgical</SelectItem>
+                <SelectItem value="without_frenectomy">Non-Surgical</SelectItem>
+                <SelectItem value="all">All Pathways</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          
+
           <div className="flex gap-2">
             {changesCount > 0 && (
               <Button variant="outline" onClick={discardChanges}>
@@ -285,7 +305,7 @@ export default function ExerciseContentEditor() {
                                   onChange={(e) => handleChange(exercise.id, "demo_video_url", e.target.value || null)}
                                 />
                                 {exercise.demo_video_url && (
-                                  <a 
+                                  <a
                                     href={exercise.demo_video_url.startsWith("http") ? exercise.demo_video_url : exercise.demo_video_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -306,7 +326,7 @@ export default function ExerciseContentEditor() {
                                   onChange={(e) => handleChange(exercise.id, "modified_video_url", e.target.value || null)}
                                 />
                                 {exercise.modified_video_url && (
-                                  <a 
+                                  <a
                                     href={exercise.modified_video_url.startsWith("http") ? exercise.modified_video_url : exercise.modified_video_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
