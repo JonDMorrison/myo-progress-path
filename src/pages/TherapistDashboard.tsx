@@ -543,21 +543,23 @@ const TherapistDashboard = () => {
 
           <TabsContent value="curriculum" className="space-y-8">
             <div className="grid grid-cols-1 gap-8">
-              {['Frenectomy Program', 'Non-Frenectomy Program'].map(program => (
-                <div key={program} className="space-y-4">
+              {[
+                { dbTitle: 'Frenectomy Program', label: 'Surgical Pathway (Frenectomy)', variant: 'frenectomy' },
+                { dbTitle: 'Non-Frenectomy Program', label: 'Non-Surgical Pathway', variant: 'non_frenectomy' },
+              ].map(({ dbTitle, label, variant }) => (
+                <div key={dbTitle} className="space-y-4">
                   <div className="flex items-center gap-3 px-1">
                     <div className="w-1 h-8 bg-primary rounded-full" />
-                    <h2 className="text-xl font-black text-slate-900 tracking-tight underline decoration-primary/30 decoration-4 underline-offset-4">{program}</h2>
+                    <h2 className="text-xl font-black text-slate-900 tracking-tight underline decoration-primary/30 decoration-4 underline-offset-4">{label}</h2>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {allWeeks
-                      .filter(w => w.programs?.title === program)
+                      .filter(w => w.programs?.title === dbTitle)
                       .map(w => (
                         <Card
                           key={w.id}
                           className="group border-none shadow-premium rounded-2xl overflow-hidden hover:bg-slate-50 cursor-pointer transition-all active:scale-[0.98]"
                           onClick={() => {
-                            const variant = program === 'Frenectomy Program' ? 'frenectomy' : 'non_frenectomy';
                             navigate(`/week/${w.number}?variant=${variant}`);
                           }}
                         >
