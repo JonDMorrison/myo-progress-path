@@ -39,27 +39,32 @@ const Reports = () => {
   }, [userId, userRole, dateRange, programVariant, selectedPatients]);
 
   const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      navigate("/auth");
-      return;
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        navigate("/auth");
+        return;
+      }
+
+      const { data: userData } = await supabase
+        .from("users")
+        .select("role, id")
+        .eq("id", session.user.id)
+        .single();
+
+      if (!userData || (userData.role !== "therapist" && userData.role !== "admin" && userData.role !== "super_admin")) {
+        navigate("/auth");
+        return;
+      }
+
+      setUserRole(userData.role);
+      setUserId(userData.id);
+      await loadPatients(userData.id, userData.role);
+    } catch (error) {
+      console.error("Error in checkAuth:", error);
+    } finally {
+      setLoading(false);
     }
-
-    const { data: userData } = await supabase
-      .from("users")
-      .select("role, id")
-      .eq("id", session.user.id)
-      .single();
-
-    if (!userData || (userData.role !== "therapist" && userData.role !== "admin" && userData.role !== "super_admin")) {
-      navigate("/auth");
-      return;
-    }
-
-    setUserRole(userData.role);
-    setUserId(userData.id);
-    await loadPatients(userData.id, userData.role);
-    setLoading(false);
   };
 
   const loadPatients = async (therapistId: string, role: string) => {
