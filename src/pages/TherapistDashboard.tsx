@@ -84,6 +84,10 @@ const TherapistDashboard = () => {
 
     loadInboxData().finally(() => clearTimeout(safetyTimer));
 
+    // Load curriculum weeks independently so the Curriculum tab works
+    // even if inbox queries hang
+    loadWeeksData();
+
     // Switch to curriculum tab if hash is present
     if (location.hash === '#curriculum') {
       setActiveTab('curriculum');
@@ -236,12 +240,6 @@ const TherapistDashboard = () => {
         setPatientMessages(filteredMsgs);
       }
 
-      const { data: weeksData } = await supabase
-        .from("weeks")
-        .select("*, programs(title)")
-        .order("number", { ascending: true });
-
-      setAllWeeks(weeksData || []);
     } catch (error: any) {
       console.error("Error loading inbox:", error);
       toast({
@@ -251,6 +249,18 @@ const TherapistDashboard = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadWeeksData = async () => {
+    try {
+      const { data: weeksData } = await supabase
+        .from("weeks")
+        .select("*, programs(title)")
+        .order("number", { ascending: true });
+      setAllWeeks(weeksData || []);
+    } catch (error) {
+      console.error("Error loading weeks:", error);
     }
   };
 
