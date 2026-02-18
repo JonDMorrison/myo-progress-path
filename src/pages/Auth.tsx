@@ -27,16 +27,14 @@ const Auth = () => {
   const { toast } = useToast();
 
   const redirectByRole = async (userId: string) => {
-    // Check explicit role first via direct DB Query (More reliable than RPC)
-    const { data: userData, error: userError } = await withTimeout(
-      supabase.from("users").select("role").eq("id", userId).maybeSingle(),
+    // Use SECURITY DEFINER RPC to avoid RLS-related timeouts
+    const { data: role, error: roleError } = await withTimeout(
+      supabase.rpc("get_user_role", { _user_id: userId }),
       10_000,
       "Checking account permissions"
     );
 
-    const role = userData?.role;
-
-    if (!userError && role && (role === "therapist" || role === "admin" || role === "super_admin")) {
+    if (!roleError && role && (role === "therapist" || role === "admin" || role === "super_admin")) {
       navigate("/therapist", { replace: true });
       return;
     }
