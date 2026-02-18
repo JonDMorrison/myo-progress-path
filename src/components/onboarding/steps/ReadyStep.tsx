@@ -1,44 +1,45 @@
-import { PartyPopper } from "lucide-react";
+import { PartyPopper, CalendarCheck, Dumbbell, Send, MessageSquare } from "lucide-react";
 
 export const ReadyStep = () => {
+  const steps = [
+    { icon: CalendarCheck, text: "Your dashboard will have Week 1 ready to start" },
+    { icon: Dumbbell, text: "Review your exercises and begin practicing daily" },
+    { icon: Send, text: "At the end of each week, submit your check-in" },
+    { icon: MessageSquare, text: "Your therapist will review and provide feedback" },
+  ];
+
   return (
-    <div className="text-center space-y-6">
+    <div className="text-center space-y-8">
       <div className="mx-auto w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center shadow-progress animate-bounce">
         <PartyPopper className="w-10 h-10 text-primary-foreground" />
       </div>
       
-      <h1 className="text-4xl font-bold">
-        You're All Set!
-      </h1>
-      
-      <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-        Congratulations! You've completed the onboarding process. 
-        Let's begin your journey to better breathing and oral health.
-      </p>
-
-      <div className="mt-8 p-6 bg-muted/50 rounded-lg">
-        <h3 className="font-semibold mb-4">What Happens Next?</h3>
-        <ul className="space-y-3 text-left max-w-md mx-auto text-sm">
-          <li className="flex items-start">
-            <span className="text-primary mr-2 text-lg">1.</span>
-            <span>You'll see your dashboard with Week 1 ready to start</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2 text-lg">2.</span>
-            <span>Review your week's exercises and begin practicing daily</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2 text-lg">3.</span>
-            <span>At the end of the week, submit your check-in data</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2 text-lg">4.</span>
-            <span>Your therapist will review and provide feedback</span>
-          </li>
-        </ul>
+      <div className="space-y-3">
+        <h1 className="text-3xl sm:text-4xl font-bold">You're All Set!</h1>
+        <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto">
+          Congratulations! You've completed the onboarding process. 
+          Let's begin your journey to better breathing and oral health.
+        </p>
       </div>
 
-      <div className="mt-6 p-4 bg-primary/10 border border-primary/20 rounded-lg">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+        {steps.map((step, i) => {
+          const Icon = step.icon;
+          return (
+            <div
+              key={i}
+              className="flex items-start gap-3 p-4 rounded-xl bg-muted/50 border border-border/50 text-left"
+            >
+              <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Icon className="w-5 h-5 text-primary" />
+              </div>
+              <p className="text-sm leading-snug pt-1.5">{step.text}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="p-4 bg-primary/10 border border-primary/20 rounded-xl max-w-xl mx-auto">
         <p className="text-sm">
           <strong>Remember:</strong> Consistency is key! Try to practice your exercises at the same time each day to build a strong habit.
         </p>
