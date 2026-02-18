@@ -576,7 +576,7 @@ const TherapistDashboard = () => {
                           <CardContent className="p-5 flex items-center justify-between bg-white group-hover:bg-slate-50/50 transition-colors">
                             <div className="min-w-0">
                               <p className="font-black text-slate-900 tracking-tight">Module {w.number}</p>
-                              <p className="text-[11px] font-bold text-slate-400 uppercase truncate max-w-[200px]">{w.title || 'Untitled Module'}</p>
+                              <p className="text-[11px] font-bold text-slate-400 uppercase truncate max-w-[200px]">{(w.title || 'Untitled Module').replace(/^week\s*\d+\s*:\s*/i, '')}</p>
                             </div>
                             <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                               <ChevronRight className="h-4 w-4" />
