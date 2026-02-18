@@ -26,7 +26,7 @@ const Register = () => {
 
     try {
       // Local Passcode Check (Bypassing Edge Function for now)
-      if (passcode === "Myo2024") {
+      if (passcode.toLowerCase() === "montrosedental") {
         setStep('details');
         toast({
           title: "Access granted",
