@@ -73,36 +73,14 @@ export const NavPublic = () => {
   // Hide public nav links for staff (therapist/admin/super_admin)
   const isStaff = userRole === "therapist" || userRole === "admin" || userRole === "super_admin";
 
-  const handleLogout = async () => {
-    try {
-      // Prefer global sign-out, but ALWAYS clear local session so users don't
-      // get stuck logged-in if the network request fails.
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        await supabase.auth.signOut({ scope: "local" });
-        throw error;
-      }
-
-      setUser(null);
-      setUserRole(null);
-      setUserName(null);
-      toast.success("Logged out successfully");
-      navigate("/", { replace: true });
-      window.location.assign("/");
-    } catch (err) {
-      console.error("Logout exception:", err);
-      try {
-        await supabase.auth.signOut({ scope: "local" });
-      } catch {
-        // ignore
-      }
-      setUser(null);
-      setUserRole(null);
-      setUserName(null);
-      toast.error("Logout failed on the server, but your local session was cleared.");
-      navigate("/", { replace: true });
-      window.location.assign("/");
-    }
+  const handleLogout = () => {
+    // Fire-and-forget: clear session then hard-redirect
+    supabase.auth.signOut().catch(() => {
+      // If global fails, try local
+      return supabase.auth.signOut({ scope: "local" });
+    }).finally(() => {
+      window.location.href = "/";
+    });
   };
 
   const getRoleDisplay = (role: string | null) => {
