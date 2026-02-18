@@ -74,13 +74,22 @@ export const NavPublic = () => {
   const isStaff = userRole === "therapist" || userRole === "admin" || userRole === "super_admin";
 
   const handleLogout = () => {
-    // Fire-and-forget: clear session then hard-redirect
-    supabase.auth.signOut().catch(() => {
-      // If global fails, try local
-      return supabase.auth.signOut({ scope: "local" });
-    }).finally(() => {
-      window.location.href = "/";
-    });
+    // Clear all Supabase auth tokens from localStorage directly
+    // because supabase.auth.signOut() can hang indefinitely
+    const keysToRemove: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && (key.startsWith("sb-") || key.includes("supabase"))) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
+
+    // Fire signOut in the background (don't await)
+    supabase.auth.signOut({ scope: "local" }).catch(() => {});
+
+    // Hard redirect immediately
+    window.location.href = "/";
   };
 
   const getRoleDisplay = (role: string | null) => {
@@ -155,17 +164,9 @@ export const NavPublic = () => {
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <button
-                    type="button"
-                    className="w-full"
-                    onClick={() => {
-                      handleLogout();
-                    }}
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </button>
+                <DropdownMenuItem onClick={() => handleLogout()}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
