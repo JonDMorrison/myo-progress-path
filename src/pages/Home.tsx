@@ -13,7 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getPageTitle, getSchemaOrgData } from "@/lib/seo";
 import montroseTeamPhoto from "@/assets/montrose-team-photo.jpg";
 import therapySession from "@/assets/therapy-session.jpg";
-import familyExercises from "@/assets/family-exercises.jpg";
+
 import digitalTherapy from "@/assets/orofacial-therapy.jpg";
 const Home = () => {
   const schemaData = getSchemaOrgData();
@@ -271,49 +271,6 @@ const Home = () => {
         {/* Why Montrose is Different */}
         <WhyMontroseDifferent />
 
-        {/* Family Wellness Section - NEW */}
-        <section className="py-16 bg-background">
-          <div className="container">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="order-2 lg:order-1">
-                <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Built for Busy Families
-                </h2>
-                <p className="text-lg text-muted-foreground mb-6">
-                  We understand that modern families are busy. That's why Montrose Myo brings
-                  professional therapy guidance directly to your home, on your schedule.
-                </p>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <Check className="w-6 h-6 text-success mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold">Practice at Home</p>
-                      <p className="text-muted-foreground">No need to commute—exercises fit into your daily routine</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-6 h-6 text-success mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold">Family-Friendly</p>
-                      <p className="text-muted-foreground">Suitable for children and adults alike</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Check className="w-6 h-6 text-success mt-1 flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold">Self-Paced Progress</p>
-                      <p className="text-muted-foreground">Your therapist reviews each module's progress before you advance.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-2xl overflow-hidden shadow-2xl order-1 lg:order-2">
-                <img src={familyExercises} alt="Family practicing breathing exercises together at home" className="w-full h-auto object-cover" />
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Digital Platform Section - NEW */}
         <section className="py-16 bg-gradient-to-br from-accent/10 to-background">
