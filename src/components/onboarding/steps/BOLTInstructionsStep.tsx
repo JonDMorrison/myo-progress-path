@@ -45,16 +45,6 @@ export const BOLTInstructionsStep = () => {
         </div>
       </div>
 
-      {/* Measurement frequency */}
-      <div className="flex gap-4 items-center p-4 bg-accent/30 rounded-lg border border-accent">
-        <div>
-          <h4 className="font-semibold text-sm">When to Measure BOLT</h4>
-          <p className="text-xs text-muted-foreground">
-            BOLT is measured at key milestones: Module 1 (baseline), midpoint (Module 6), and end of program (Module 12). 
-            Record your scores as required by your therapist.
-          </p>
-        </div>
-      </div>
 
       <div className="bg-card border rounded-lg p-6">
         <BOLTHelpContent />

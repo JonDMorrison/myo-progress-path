@@ -1,16 +1,17 @@
 import { Calendar, Target, TrendingUp } from "lucide-react";
+import { isFrenectomyVariant } from "@/lib/constants";
 
 interface ProgramOverviewStepProps {
-  selectedPathway?: 'frenectomy' | 'non_frenectomy' | null;
+  selectedPathway?: string | null;
 }
 
 export const ProgramOverviewStep = ({ selectedPathway }: ProgramOverviewStepProps) => {
-  const isFrenectomy = selectedPathway === 'frenectomy';
+  const isFrenectomy = isFrenectomyVariant(selectedPathway);
 
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-3xl font-bold mb-4">{isFrenectomy ? 'Your Surgery & Recovery Journey' : 'Your 12-Module Program'}</h2>
+        <h2 className="text-3xl font-bold mb-4">{isFrenectomy ? 'Your Surgery & Recovery Journey' : 'Your module-based program structure'}</h2>
         <p className="text-lg text-muted-foreground">
           {isFrenectomy
             ? 'A structured pathway for optimal surgical outcomes and recovery'
@@ -25,7 +26,7 @@ export const ProgramOverviewStep = ({ selectedPathway }: ProgramOverviewStepProp
           <p className="text-sm text-muted-foreground">
             {isFrenectomy
               ? 'Biweekly modules before surgery, followed by post-op recovery phases'
-              : 'Each module spans two weeks of dedicated daily practice'}
+              : 'each module requires dedicated daily practice'}
           </p>
         </div>
 
@@ -41,7 +42,7 @@ export const ProgramOverviewStep = ({ selectedPathway }: ProgramOverviewStepProp
           <TrendingUp className="w-12 h-12 mx-auto mb-4 text-primary" />
           <h3 className="font-semibold mb-2">Expert Feedback</h3>
           <p className="text-sm text-muted-foreground">
-            Submit your results for clinical review to unlock your next module
+            Submit your results for clinical review to unlock your next module (Program Dependant)
           </p>
         </div>
       </div>
@@ -52,9 +53,9 @@ export const ProgramOverviewStep = ({ selectedPathway }: ProgramOverviewStepProp
         <ul className="space-y-2 text-sm">
           <li>• Complete daily exercises (5-15 minutes)</li>
           <li>• {isFrenectomy ? 'Achieve specific goals to qualify for surgery' : 'Build strength and muscle memory progressively'}</li>
-          <li>• Submit module check-ins with your progress data & videos</li>
-          <li>• Receive personalized feedback from Dr. Jon or your therapist</li>
-          <li>• {isFrenectomy ? 'Move seamlessly through pre-op and post-op protocols' : 'Advance through all 12 modules of the program'}</li>
+          <li>• Submit module check-ins with your progress data & videos (Program Dependant)</li>
+          <li>• Receive personalized feedback from your therapist (Program Dependant)</li>
+          <li>• {isFrenectomy ? 'Move seamlessly through pre-op and post-op protocols' : 'Advance through all modules of the program'}</li>
         </ul>
       </div>
     </div>

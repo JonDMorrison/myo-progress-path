@@ -296,7 +296,7 @@ const Reports = () => {
         <Card>
           <CardHeader>
             <CardTitle>Adherence Over Time</CardTitle>
-            <CardDescription>Average nasal and tongue adherence by week</CardDescription>
+            <CardDescription>Average nasal and tongue adherence by module</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -317,7 +317,7 @@ const Reports = () => {
         <Card>
           <CardHeader>
             <CardTitle>BOLT Score Trends</CardTitle>
-            <CardDescription>Average BOLT scores by week</CardDescription>
+            <CardDescription>Average BOLT scores by module</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -336,8 +336,8 @@ const Reports = () => {
         {/* Week Status Distribution */}
         <Card>
           <CardHeader>
-            <CardTitle>Week Status Distribution</CardTitle>
-            <CardDescription>Overview of week completion status</CardDescription>
+            <CardTitle>Module Status Distribution</CardTitle>
+            <CardDescription>Overview of module completion status</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -366,7 +366,7 @@ const Reports = () => {
         <Card>
           <CardHeader>
             <CardTitle>Pending Reviews</CardTitle>
-            <CardDescription>{pendingReviews.length} weeks awaiting review</CardDescription>
+            <CardDescription>{pendingReviews.length} modules awaiting review</CardDescription>
           </CardHeader>
           <CardContent>
             {pendingReviews.length === 0 ? (
@@ -382,7 +382,7 @@ const Reports = () => {
                     <div>
                       <p className="font-medium">{review.patients.users.name}</p>
                       <p className="text-sm text-muted-foreground">
-                        Week {review.weeks.number} • Submitted {format(new Date(review.completed_at), "MMM d, yyyy")}
+                        Module {Math.ceil(review.weeks.number / 2)} • Submitted {format(new Date(review.completed_at), "MMM d, yyyy")}
                       </p>
                     </div>
                     <Button variant="outline" size="sm">

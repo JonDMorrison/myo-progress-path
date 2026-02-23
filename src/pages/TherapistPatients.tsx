@@ -155,8 +155,8 @@ export default function TherapistPatients() {
                   <TableRow>
                     <TableHead>Patient</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Current Week</TableHead>
-                    <TableHead>Week Status</TableHead>
+                    <TableHead>Current Module</TableHead>
+                    <TableHead>Module Status</TableHead>
                     <TableHead>Last Activity</TableHead>
                     <TableHead>Adherence (14d)</TableHead>
                     <TableHead>Actions</TableHead>
@@ -181,7 +181,7 @@ export default function TherapistPatients() {
                           </div>
                         </TableCell>
                         <TableCell>{getStatusBadge(patient.patient_status)}</TableCell>
-                        <TableCell>Week {patient.current_week_number || 'N/A'}</TableCell>
+                        <TableCell>Module {Math.ceil((patient.current_week_number || 1) / 2)}</TableCell>
                         <TableCell>
                           {patient.current_week_status
                             ? getWeekStatusBadge(patient.current_week_status)
@@ -246,7 +246,7 @@ export default function TherapistPatients() {
                   </div>
                   
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Week {patient.current_week_number || 'N/A'}</span>
+                    <span className="text-muted-foreground">Module {Math.ceil((patient.current_week_number || 1) / 2)}</span>
                     {patient.current_week_status && getWeekStatusBadge(patient.current_week_status)}
                   </div>
 

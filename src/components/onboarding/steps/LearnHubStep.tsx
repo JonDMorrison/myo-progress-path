@@ -34,7 +34,7 @@ export const LearnHubStep = () => {
           </li>
           <li className="flex items-start gap-2">
             <span className="text-primary mt-0.5">•</span>
-            <span>What to expect during your 24-week program</span>
+            <span>What to expect during your program</span>
           </li>
           <li className="flex items-start gap-2">
             <span className="text-primary mt-0.5">•</span>

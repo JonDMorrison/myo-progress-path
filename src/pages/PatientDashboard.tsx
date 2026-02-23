@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ConsentDialog } from "@/components/ConsentDialog";
 import { Calendar } from "lucide-react";
 
 import { Section } from "@/components/ui/Section";
@@ -32,7 +31,6 @@ const PatientDashboard = () => {
   const [progress, setProgress] = useState<any>(null);
   const [allProgress, setAllProgress] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showConsent, setShowConsent] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
   const [userProgress, setUserProgress] = useState<any>(null);
@@ -44,6 +42,23 @@ const PatientDashboard = () => {
 
   useEffect(() => {
     loadPatientData();
+    
+    // Smooth Hash Scroll logic
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 500);
+        }
+      }
+    };
+
+    handleHashScroll();
+    window.addEventListener('hashchange', handleHashScroll);
+    return () => window.removeEventListener('hashchange', handleHashScroll);
   }, []);
 
   const loadPatientData = async () => {
@@ -69,17 +84,23 @@ const PatientDashboard = () => {
         .from("patients")
         .select("*")
         .eq("user_id", user.id)
-        .single();
+        .maybeSingle();
 
       if (patientError) throw patientError;
-      setPatient(patientData);
 
-      // Check consent
-      if (!patientData.consent_accepted_at) {
-        setShowConsent(true);
-        setLoading(false);
+      if (!patientData) {
+        // If not a patient but is staff, redirect to therapist dashboard
+        if (userData?.role === "therapist" || userData?.role === "admin" || userData?.role === "super_admin") {
+          navigate("/therapist");
+          return;
+        }
+        // Otherwise send to home (or could be redirected to /onboarding if we had a way to create a profile)
+        navigate("/");
         return;
       }
+
+      setPatient(patientData);
+
 
       // Check if onboarding is completed
       const { data: onboarding } = await supabase
@@ -269,19 +290,6 @@ const PatientDashboard = () => {
     );
   }
 
-  // Show consent dialog if not accepted
-  if (showConsent && patient) {
-    return (
-      <ConsentDialog
-        open={showConsent}
-        patientId={patient.id}
-        onConsent={() => {
-          setShowConsent(false);
-          loadPatientData();
-        }}
-      />
-    );
-  }
 
   const firstName = user?.user_metadata?.name?.split(" ")[0] || "there";
   const completedWeeks = userProgress?.completedWeeks || 0;
@@ -403,7 +411,7 @@ const PatientDashboard = () => {
 
                   {/* Gamification Sidebar Segment */}
                   {patient && (
-                    <div className="space-y-4">
+                    <div id="account-section" className="space-y-4">
                       <StreakBadge patientId={patient.id} />
                       <GamificationPanel patientId={patient.id} clinicId={patient.clinic_id} />
                     </div>

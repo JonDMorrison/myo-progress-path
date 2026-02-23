@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Section } from "@/components/ui/Section";
-import { WeekIntroductionModal } from "@/components/WeekIntroductionModal";
+
 import { notifyTherapistSubmission } from "@/lib/notify";
 import { grantBadgeWithToast } from "@/lib/gamification";
 import confetti from "canvas-confetti";
@@ -33,6 +33,7 @@ import TherapistFeedbackList from "@/components/week/TherapistFeedbackList";
 import { PreviousWeeksReview } from "@/components/week/PreviousWeeksReview";
 import { PrivacyManager } from "@/components/week/PrivacyManager";
 import { FRENECTOMY_POST_OP_WEEKS, isLastWeekOfModule, getModuleInfo } from "@/lib/moduleUtils";
+import { isFrenectomyVariant, requiresVideo, getProgramTitle } from "@/lib/constants";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -45,7 +46,7 @@ const WeekDetail = () => {
   const [progress, setProgress] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
-  const [showIntroduction, setShowIntroduction] = useState(false);
+
   const [uploads, setUploads] = useState<any[]>([]);
   const [canSubmitState, setCanSubmitState] = useState(false);
   const [missingRequirements, setMissingRequirements] = useState<string[]>([]);
@@ -69,8 +70,8 @@ const WeekDetail = () => {
         });
       } else {
         toast({
-          title: "Part 1 Complete!",
-          description: "You've finished Part 1. Complete Part 2 to submit this module.",
+          title: "Week 1 Complete!",
+          description: "You've finished Week 1. Complete Week 2 to submit this module.",
         });
       }
     }
@@ -139,9 +140,7 @@ const WeekDetail = () => {
 
       // Get week - filter by patient's program variant or override (for therapist preview)
       const variant = variantOverride || (patientData?.program_variant) || 'frenectomy';
-      const programTitle = variant === 'frenectomy' || variant === 'standard'
-        ? 'Frenectomy Program'
-        : 'Non-Frenectomy Program';
+      const programTitle = getProgramTitle(variant);
 
       const { data: weekData } = await supabase
         .from("weeks")
@@ -242,10 +241,7 @@ const WeekDetail = () => {
 
         setUploads(uploadsData || []);
 
-        // Show introduction modal if not viewed yet
-        if (weekData?.introduction && progressData && !progressData.introduction_viewed) {
-          setShowIntroduction(true);
-        }
+
 
         // Check submit eligibility
         checkCanSubmit(patientData.id, weekData.id, progressData);
@@ -342,7 +338,7 @@ const WeekDetail = () => {
       const { data: moduleWeeks } = await supabase
         .from("weeks")
         .select("id")
-        .eq("programs.title", (patient?.program_variant === 'non_frenectomy' ? 'Non-Frenectomy Program' : 'Frenectomy Program'))
+        .eq("programs.title", getProgramTitle(patient?.program_variant))
         .gte("number", moduleInfo.weekRange[0])
         .lte("number", moduleInfo.weekRange[1]);
 
@@ -404,26 +400,7 @@ const WeekDetail = () => {
     }
   };
 
-  const handleIntroductionContinue = async () => {
-    if (!progress?.id) return;
 
-    try {
-      const { error } = await supabase
-        .from('patient_week_progress')
-        .update({ introduction_viewed: true })
-        .eq('id', progress.id);
-
-      if (error) throw error;
-      setShowIntroduction(false);
-    } catch (error: any) {
-      console.error('Error marking introduction as viewed:', error);
-      toast({
-        title: "Error",
-        description: "Failed to save your progress. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
 
   const handleVideoUploadComplete = async () => {
     if (!patient || !week) return;
@@ -507,12 +484,6 @@ const WeekDetail = () => {
 
   return (
     <>
-      <WeekIntroductionModal
-        open={showIntroduction}
-        weekNumber={week?.number || 0}
-        introduction={week?.introduction || ""}
-        onContinue={handleIntroductionContinue}
-      />
 
       <div className="min-h-screen bg-slate-50/50 pb-24 sm:pb-12">
         {/* Header - Truly Compact */}
@@ -527,25 +498,6 @@ const WeekDetail = () => {
         <main className="container mx-auto px-4 sm:px-6 py-8 max-w-[1400px]">
           <div className="flex flex-col gap-10">
 
-            {/* 1. Introductory Hero (Full Width) */}
-            {week?.overview && (
-              <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <Card className="rounded-[2.5rem] border-none shadow-premium bg-white p-8 sm:p-12 relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-2 h-full bg-primary" />
-                  <div className="flex flex-col md:flex-row items-center gap-8">
-                    <div className="w-20 h-20 rounded-full bg-primary/5 flex items-center justify-center text-4xl shadow-inner">
-                      💡
-                    </div>
-                    <div className="flex-1 text-center md:text-left">
-                      <p className="text-primary font-black uppercase tracking-[0.3em] text-[10px] mb-2">Clinical Overview</p>
-                      <p className="text-xl sm:text-2xl text-slate-800 font-bold leading-tight italic">
-                        "{week.overview}"
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            )}
 
             {/* 2. Main 2-Column Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -554,7 +506,7 @@ const WeekDetail = () => {
               <div className="lg:col-span-8 space-y-12">
 
                 {/* Preparation Logic (Frenectomy reminders etc) */}
-                {(patient?.program_variant === 'frenectomy') && (
+                {isFrenectomyVariant(patient?.program_variant) && (
                   <div className="space-y-6">
                     {parseInt(weekNumber || "0") === 1 && (
                       <FrenectomyConsultTask
@@ -567,8 +519,6 @@ const WeekDetail = () => {
                     {parseInt(weekNumber || "0") === 2 && !progress?.frenectomy_consult_booked && (
                       <FrenectomyConsultReminder weekNumber={2} />
                     )}
-                    {[7, 8].includes(parseInt(weekNumber || "0")) && <PreOpPreparationCard />}
-                    {[9, 10].includes(parseInt(weekNumber || "0")) && <PostOpProtocolCard />}
                   </div>
                 )}
 
@@ -601,8 +551,9 @@ const WeekDetail = () => {
 
                 {/* Video Assignments - Conditional rendering based on video requirements */}
                 {(() => {
-                  const showBothVideos = week?.requires_video_first && week?.requires_video_last;
-                  const showSingleVideo = !week?.requires_video_first && week?.requires_video_last;
+                  const patientHasVideo = requiresVideo(patient?.program_variant);
+                  const showBothVideos = patientHasVideo && week?.requires_video_first && week?.requires_video_last;
+                  const showSingleVideo = patientHasVideo && !week?.requires_video_first && week?.requires_video_last;
                   
                   if (!showBothVideos && !showSingleVideo) return null;
                   
@@ -685,7 +636,7 @@ const WeekDetail = () => {
 
                   {exercises.length > 0 && (
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                      {patient?.program_variant === 'frenectomy' &&
+                      {isFrenectomyVariant(patient?.program_variant) &&
                         FRENECTOMY_POST_OP_WEEKS.includes(parseInt(weekNumber || "0")) ? (
                         <PostOpSectionedContent
                           weekNumber={parseInt(weekNumber || "0")}
@@ -743,12 +694,12 @@ const WeekDetail = () => {
                     <div className="mt-8 p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-premium text-center space-y-6">
                       <div className="space-y-2">
                         <p className="text-slate-800 text-lg font-bold">
-                          {canSubmitState ? "Part 1 Complete! 🌟" : "Module 1 Progress"}
+                          {canSubmitState ? "Week 1 Complete! 🌟" : "Module Progress"}
                         </p>
                         <p className="text-slate-500 text-sm font-medium">
                           {canSubmitState
-                            ? "You've finished everything for Part 1. Now let's head to Part 2 to complete the module."
-                            : `Complete all tasks for Part 1 & 2 to submit Module ${getModuleInfo(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy').moduleNumber}.`
+                            ? "You've finished everything for Week 1. Now let's head to Week 2 to complete the module."
+                            : `Complete all tasks for Week 1 & 2 to submit Module ${getModuleInfo(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy').moduleNumber}.`
                           }
                         </p>
                       </div>
@@ -758,11 +709,11 @@ const WeekDetail = () => {
                           onClick={() => navigate(`/week/${parseInt(weekNumber || "1") + 1}`)}
                           className="w-full sm:w-auto px-10 h-14 rounded-2xl bg-primary hover:bg-primary-dark font-black text-white shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 text-lg"
                         >
-                          Continue to Part 2 →
+                          Continue to Week 2 →
                         </Button>
                       ) : (
                         <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">
-                          Submission available at the end of Part 2
+                          Submission available at the end of Week 2
                         </p>
                       )}
                     </div>

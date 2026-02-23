@@ -56,7 +56,7 @@ const Home = () => {
   };
   const faqItems = [{
     question: "Can I start without video uploads?",
-    answer: "You can complete weeks without video uploads if your therapist hasn't enabled them for that week."
+    answer: "If you do not require a tongue tie surgery, you can choose to purchase our basic, feedback-free program at a reduced cost. (This may impact results if exercises are not done as instructed)"
   }, {
     question: "How do I log in?",
     answer: "Use your email with either a password or one-click magic link for secure access."
@@ -65,10 +65,10 @@ const Home = () => {
     answer: "Yes — we use secure accounts, private storage, and strict access controls to protect your information."
   }, {
     question: "Who reviews my progress?",
-    answer: "Your assigned therapist at Montrose reviews your biweekly submissions and provides feedback on your exercises."
+    answer: "Montrose Myo"
   }, {
     question: "How do video check-ins work?",
-    answer: "Each week, you upload videos of your exercises for your therapist to review and provide personalized guidance."
+    answer: "For each biweekly module, you will upload first attempt and last attempt videos of your exercises for your therapist to review and provide personalized guidance"
   }];
   return <>
     <Helmet>
@@ -139,7 +139,7 @@ const Home = () => {
                     </div>
                     <div>
                       <p className="font-semibold">Guided exercises</p>
-                      <p className="text-muted-foreground">Clear instructions for each week's focus, from tongue posture to breathing techniques</p>
+                      <p className="text-muted-foreground">Clear instructions for each module's focus, from tongue posture to breathing techniques</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -157,7 +157,7 @@ const Home = () => {
                     </div>
                     <div>
                       <p className="font-semibold">Progress reviews</p>
-                      <p className="text-muted-foreground">Receive timely feedback from your therapist at scheduled review intervals</p>
+                      <p className="text-muted-foreground">Receive timely feedback from your therapist at scheduled review intervals (Program Dependant)</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -166,7 +166,7 @@ const Home = () => {
                     </div>
                     <div>
                       <p className="font-semibold">Video check-ins</p>
-                      <p className="text-muted-foreground">Submit exercise videos for review by your therapist</p>
+                      <p className="text-muted-foreground">Submit exercise videos for review by your therapist (Program Dependant)</p>
                     </div>
                   </div>
                 </div>
@@ -302,7 +302,7 @@ const Home = () => {
                     <Check className="w-6 h-6 text-success mt-1 flex-shrink-0" />
                     <div>
                       <p className="font-semibold">Self-Paced Progress</p>
-                      <p className="text-muted-foreground">Move forward when you're ready, with therapist oversight</p>
+                      <p className="text-muted-foreground">Your therapist reviews each module's progress before you advance.</p>
                     </div>
                   </div>
                 </div>

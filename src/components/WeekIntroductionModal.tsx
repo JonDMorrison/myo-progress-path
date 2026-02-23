@@ -1,27 +1,25 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
+import { getModuleInfo } from "@/lib/moduleUtils";
 
 interface WeekIntroductionModalProps {
   open: boolean;
   weekNumber: number;
   introduction: string;
   onContinue: () => void;
+  programVariant?: string;
 }
-
-const numberToWord = (num: number): string => {
-  const words = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 
-                 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 
-                 'Nineteen', 'Twenty', 'Twenty-One', 'Twenty-Two', 'Twenty-Three', 'Twenty-Four'];
-  return words[num] || num.toString();
-};
 
 export function WeekIntroductionModal({ 
   open, 
   weekNumber, 
   introduction, 
-  onContinue 
+  onContinue,
+  programVariant = 'frenectomy'
 }: WeekIntroductionModalProps) {
+  const moduleInfo = getModuleInfo(weekNumber, programVariant);
+
   return (
     <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onContinue(); }}>
       <DialogContent 
@@ -30,7 +28,7 @@ export function WeekIntroductionModal({
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
             <Sparkles className="h-6 w-6 text-primary" />
-            <DialogTitle className="text-2xl">Part {numberToWord(weekNumber)}</DialogTitle>
+            <DialogTitle className="text-2xl">{moduleInfo.moduleLabel}</DialogTitle>
           </div>
           <DialogDescription className="text-base leading-relaxed pt-4 text-foreground">
             {introduction}

@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { NavPublic } from "@/components/public/NavPublic";
 import { FooterPublic } from "@/components/public/FooterPublic";
 import { SkipToContent } from "@/components/public/SkipToContent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, FileText, ExternalLink, Building2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { BookOpen, FileText, ExternalLink, Building2, Search } from "lucide-react";
 import { getPageTitle } from "@/lib/seo";
 import resourcesHero from "@/assets/resources-hero.jpg";
 import breathBook from "@/assets/books/breath-book.jpg";
@@ -13,7 +15,8 @@ import tongueTiedBook from "@/assets/books/tongue-tied-book.jpg";
 import gaspBook from "@/assets/books/gasp-book.jpg";
 
 const Resources = () => {
-  // Peer-reviewed research - Sam's curated list with publicly available links
+  const [searchQuery, setSearchQuery] = useState("");
+
   const researchArticles = [
     {
       title: "The Anatomical Relationships of the Tongue with the Body System",
@@ -76,7 +79,7 @@ const Resources = () => {
       authors: "Pacheco MC, Casagrande CF, Teixeira LP, et al.",
       journal: "Revista CEFAC",
       year: "2015",
-      description: "Reviews how chronic mouth breathing contributes to various oral and systemic health conditions.",
+      description: "Reviews how chronic mouth breathing contributes to various oral and medical conditions.",
       url: "https://www.redalyc.org/pdf/1804/180445640008.pdf"
     },
     {
@@ -84,7 +87,7 @@ const Resources = () => {
       authors: "Camacho M, Certal V, Abdullatif J, et al.",
       journal: "Sleep",
       year: "2015",
-      description: "Landmark review showing myofunctional therapy significantly reduces sleep apnea severity in both children and adults.",
+      description: "Landmark review showing myofunctional therapy significantly reduces sleep apnea severity.",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4402674/"
     },
     {
@@ -92,31 +95,29 @@ const Resources = () => {
       authors: "Justiniano IC.",
       journal: "American Journal of Orthodontics and Dentofacial Orthopedics",
       year: "2017",
-      description: "Demonstrates that myofunctional therapy helps prevent relapse after orthodontic treatment for open bite.",
+      description: "Demonstrates that myofunctional therapy helps prevent relapse after orthodontic treatment.",
       url: "https://aomtinfo.org/wp-content/uploads/2017/04/AJODO_RelapseAnteriorOpenBite.pdf"
     }
   ];
 
-  // Clinical and professional organizations - curated for patient helpfulness
   const clinicalResources = [
     {
       name: "International Association of Orofacial Myology (IAOM)",
-      description: "The main professional organization for orofacial myofunctional therapy. Sets training and certification standards for therapists. Use their Find a Provider directory to locate certified therapists near you.",
+      description: "The main professional organization for orofacial myofunctional therapy. Sets training and certification standards for therapists.",
       url: "https://iaom.com/"
     },
     {
       name: "MyoMentor",
-      description: "Education and training resource focused on myofunctional therapy. Provides basic explanations about what myofunctional therapy is, why it matters, and how exercises are taught and applied in practice.",
+      description: "The education and training resource used to develop our Montrose Myo programs. Their website provides basic explanations about what myofunctional therapy is.",
       url: "https://www.myomentor.com/"
     },
     {
-      name: "Air Voel",
-      description: "CPAP supply and sleep apnea equipment provider. Helpful for finding machines, masks, and accessories if you have sleep-disordered breathing or use a CPAP device.",
+      name: "AirVoel",
+      description: "Home sleep testing equipment approved by FDA and Health Canada. Helpful for finding CPAP machines and accessories.",
       url: "https://airvoel.ca/"
     }
   ];
 
-  // Clinician-approved book list only
   const recommendedBooks = [
     {
       title: "Breath: The New Science of a Lost Art",
@@ -144,16 +145,27 @@ const Resources = () => {
     }
   ];
 
+  const filterItem = (item: any) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      (item.title || item.name || "").toLowerCase().includes(query) ||
+      (item.description || "").toLowerCase().includes(query) ||
+      (item.authors || item.author || "").toLowerCase().includes(query)
+    );
+  };
+
+  const filteredResearch = researchArticles.filter(filterItem);
+  const filteredClinical = clinicalResources.filter(filterItem);
+  const filteredBooks = recommendedBooks.filter(filterItem);
+
   return (
     <>
       <Helmet>
         <title>{getPageTitle("Research & Resources")}</title>
         <meta 
           name="description" 
-          content="Evidence-based research, clinical resources, and recommended reading on orofacial myofunctional therapy, airway health, and breathing science." 
+          content="Evidence-based research, clinical resources, and recommended reading." 
         />
-        <meta property="og:title" content={getPageTitle("Research & Resources")} />
-        <meta property="og:type" content="website" />
       </Helmet>
 
       <div className="min-h-screen flex flex-col">
@@ -161,97 +173,80 @@ const Resources = () => {
         <NavPublic />
         
         <main id="main-content" className="flex-1">
-          {/* Hero */}
-          <section className="relative py-16 md:py-24 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden">
-            <div className="absolute inset-0">
-              <img 
-                src={resourcesHero} 
-                alt="" 
-                className="w-full h-full object-cover opacity-15"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/95 to-background" />
-            </div>
-            <div className="container max-w-4xl text-center relative">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                Research & Resources
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                Evidence-based information on orofacial myofunctional therapy, airway health, and breathing science
+          <section className="relative py-16 md:py-24 bg-gradient-to-br from-primary/5 to-secondary/5">
+            <div className="container max-w-4xl text-center relative px-4">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">Research & Resources</h1>
+              <p className="text-xl text-muted-foreground mb-10">
+                Evidence-based information on orofacial myofunctional therapy and airway health
               </p>
+              
+              <div className="max-w-md mx-auto relative group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <Input 
+                  placeholder="Search articles, books, or organizations..." 
+                  className="pl-12 h-14 rounded-2xl border-2 focus-visible:ring-primary/20 bg-background/50 backdrop-blur-sm"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
             </div>
           </section>
 
-          {/* Section 1: Peer-Reviewed Research */}
-          <section className="py-16 bg-background">
-            <div className="container max-w-5xl">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-primary" />
-                </div>
-                <h2 className="text-3xl font-bold">Peer-Reviewed Research</h2>
+          {/* Peer-Reviewed Research */}
+          <section className="py-16">
+            <div className="container max-w-5xl px-4">
+              <div className="flex items-center gap-3 mb-8">
+                <FileText className="w-8 h-8 text-primary" />
+                <h2 className="text-3xl font-bold">Research Papers</h2>
               </div>
-              <p className="text-muted-foreground mb-8 max-w-3xl">
-                Published studies from medical and scientific journals supporting the effectiveness of myofunctional therapy for breathing, sleep, and orofacial function.
-              </p>
-
+              
               <div className="space-y-4">
-                {researchArticles.map((article, index) => (
-                  <Card key={index} className="border hover:shadow-md transition-all">
-                    <CardContent className="py-5">
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                {filteredResearch.map((article, index) => (
+                  <Card key={index} className="border hover:shadow-lg transition-all rounded-2xl overflow-hidden">
+                    <CardContent className="p-6">
+                      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-lg mb-1">{article.title}</h3>
-                          <p className="text-sm text-muted-foreground mb-2">
+                          <h3 className="font-bold text-xl mb-1">{article.title}</h3>
+                          <p className="text-sm text-primary font-medium mb-3">
                             {article.authors} • <em>{article.journal}</em> ({article.year})
                           </p>
-                          <p className="text-muted-foreground text-sm">{article.description}</p>
+                          <p className="text-muted-foreground text-sm leading-relaxed">{article.description}</p>
                         </div>
-                        <Button asChild variant="outline" size="sm" className="shrink-0 self-start">
+                        <Button asChild variant="outline" className="rounded-xl border-2 hover:bg-primary hover:text-white transition-all shrink-0">
                           <a href={article.url} target="_blank" rel="noopener noreferrer">
-                            View Study
-                            <ExternalLink className="ml-2 h-4 w-4" />
+                            View Study <ExternalLink className="ml-2 h-4 w-4" />
                           </a>
                         </Button>
                       </div>
                     </CardContent>
                   </Card>
                 ))}
+                {filteredResearch.length === 0 && (
+                  <div className="text-center py-12 border-2 border-dashed rounded-3xl text-muted-foreground">
+                    No articles found matching your search.
+                  </div>
+                )}
               </div>
-
-              <Card className="mt-8 bg-muted/50 border-muted">
-                <CardContent className="py-4">
-                  <p className="text-sm text-muted-foreground">
-                    These research articles are provided for educational purposes. Individual results may vary. 
-                    Always consult with qualified healthcare professionals about your specific situation.
-                  </p>
-                </CardContent>
-              </Card>
             </div>
           </section>
 
-          {/* Section 2: Clinical & Professional Resources */}
-          <section className="py-16 bg-muted/50">
-            <div className="container max-w-5xl">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Building2 className="w-6 h-6 text-primary" />
-                </div>
-                <h2 className="text-3xl font-bold">Clinical & Professional Resources</h2>
+          {/* Clinical Organizations */}
+          <section className="py-16 bg-muted/30">
+            <div className="container max-w-5xl px-4">
+              <div className="flex items-center gap-3 mb-8">
+                <Building2 className="w-8 h-8 text-primary" />
+                <h2 className="text-3xl font-bold">Clinical Resources</h2>
               </div>
-              <p className="text-muted-foreground mb-8 max-w-3xl">
-                Reputable organizations in the fields of orofacial myology, airway health, and sleep medicine.
-              </p>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {clinicalResources.map((resource, index) => (
-                  <Card key={index} className="border hover:shadow-md transition-all h-full">
-                    <CardContent className="py-5 h-full flex flex-col">
-                      <h3 className="font-semibold mb-2">{resource.name}</h3>
-                      <p className="text-sm text-muted-foreground mb-4 flex-1">{resource.description}</p>
-                      <Button asChild variant="ghost" size="sm" className="self-start -ml-2">
+              
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredClinical.map((resource, index) => (
+                  <Card key={index} className="border hover:shadow-lg transition-all h-full rounded-2xl flex flex-col">
+                    <CardContent className="p-6 flex-1 flex flex-col">
+                      <h3 className="font-bold text-lg mb-3">{resource.name}</h3>
+                      <p className="text-sm text-muted-foreground mb-6 flex-1">{resource.description}</p>
+                      <Button asChild variant="ghost" className="text-primary font-bold justify-start p-0 h-auto hover:bg-transparent hover:text-primary/80">
                         <a href={resource.url} target="_blank" rel="noopener noreferrer">
-                          Visit Website
-                          <ExternalLink className="ml-2 h-4 w-4" />
+                          Visit Website <ExternalLink className="ml-2 h-3 w-3" />
                         </a>
                       </Button>
                     </CardContent>
@@ -261,42 +256,33 @@ const Resources = () => {
             </div>
           </section>
 
-          {/* Section 3: Recommended Reading */}
-          <section className="py-16 bg-background">
-            <div className="container max-w-5xl">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <BookOpen className="w-6 h-6 text-primary" />
-                </div>
+          {/* Recommended Books */}
+          <section className="py-16">
+            <div className="container max-w-5xl px-4">
+              <div className="flex items-center gap-3 mb-8">
+                <BookOpen className="w-8 h-8 text-primary" />
                 <h2 className="text-3xl font-bold">Recommended Reading</h2>
               </div>
-              <p className="text-muted-foreground mb-8 max-w-3xl">
-                Books we reference in practice that provide valuable insights into breathing, airway health, and myofunctional therapy.
-              </p>
-
-              <div className="grid sm:grid-cols-2 gap-6">
-                {recommendedBooks.map((book, index) => (
-                  <Card key={index} className="border overflow-hidden">
-                    <div className="flex flex-col sm:flex-row">
-                      {book.cover ? (
-                        <div className="sm:w-1/3 flex-shrink-0 bg-muted">
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                {filteredBooks.map((book, index) => (
+                  <Card key={index} className="border-none shadow-premium hover:shadow-2xl transition-all rounded-[2rem] overflow-hidden group bg-white">
+                    <div className="flex flex-col sm:flex-row h-full">
+                      <div className="sm:w-2/5 shrink-0 bg-slate-50 p-6 flex items-center justify-center">
+                        {book.cover ? (
                           <img 
                             src={book.cover} 
-                            alt={`${book.title} book cover`}
-                            className="w-full h-full object-cover aspect-[2/3] sm:aspect-auto"
+                            alt={book.title}
+                            className="w-full shadow-lg rounded-lg transform group-hover:scale-105 transition-transform duration-500"
                           />
-                        </div>
-                      ) : (
-                        <div className="sm:w-1/3 flex-shrink-0 bg-muted flex items-center justify-center aspect-[2/3] sm:aspect-auto">
-                          <BookOpen className="w-12 h-12 text-muted-foreground/50" />
-                        </div>
-                      )}
-                      <div className="flex-1 p-6">
-                        <h3 className="text-lg font-semibold leading-tight mb-1">
-                          {book.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground mb-3">by {book.author}</p>
-                        <p className="text-muted-foreground text-sm">{book.description}</p>
+                        ) : (
+                          <BookOpen className="w-16 h-16 text-slate-200" />
+                        )}
+                      </div>
+                      <div className="flex-1 p-8 flex flex-col justify-center">
+                        <h3 className="text-xl font-bold mb-1 leading-tight">{book.title}</h3>
+                        <p className="text-sm text-primary font-semibold mb-4 italic">by {book.author}</p>
+                        <p className="text-muted-foreground text-sm leading-relaxed">{book.description}</p>
                       </div>
                     </div>
                   </Card>

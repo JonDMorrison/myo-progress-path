@@ -1,20 +1,22 @@
 [
   {
     "week": 1,
-    "title": "Module 1 – Weeks 1-2: Foundations",
+    "module": 1,
+    "title": "Module 1",
     "introduction": "This module focuses on the initial steps of myofunctional therapy. We'll start with active tongue exercises, sensory input, and your baseline breathing assessment.",
-    "overview": "Focus: Active exercises for tongue control, sensory stimulation, and establishing a baseline for your breathing health.",
     "objectives": [
-      "Improve tongue control and mobility",
-      "Develop sensory awareness of the tongue and palate",
-      "Measure baseline breathing health (BOLT Test)"
+      "Perform click and tick-tock exercises to strengthen tongue and mid face muscles",
+      "Complete tongue brushing for neuromuscular re-education",
+      "Practice tongue trace movements to stretch the frenum",
+      "Establish baseline breathing health with BOLT test",
+      "Maintain tongue-to-spot positioning with elastic hold exercise"
     ],
-    "video_title": "Module 1 (Weeks 1-2) Overview",
+    "video_title": "Module 1 Overview",
     "video_url": "https://vimeo.com/placeholder-module1",
     "exercises": [
       {
         "name": "Clicks and Tick-Tocks",
-        "description": "Clicks (1 min): Suction tongue to roof for 3 sec, then click while keeping cheeks back. Tick-Tocks (1 min): Fast clicking sounds moving lips from smile to pursed."
+        "description": "If you have difficulty controlling compensations, use a bite block between your back teeth to stabilize your jaw while performing these exercises. The video demonstrates both the regular and modified techniques."
       },
       {
         "name": "Brushing",
@@ -22,7 +24,7 @@
       },
       {
         "name": "Tongue Trace",
-        "description": "Tip of tongue against 'the spot' and trace back along the palate in a straight line as far as possible."
+        "description": "Tip of tongue against 'the spot' and trace back along the palate in a straight line."
       },
       {
         "name": "BOLT Test",
@@ -42,15 +44,16 @@
   },
   {
     "week": 2,
-    "title": "Week 2 – Tongue Strength & Cheek Control",
-    "introduction": "Now that you've found your spot, it's time to make your tongue stronger while keeping your cheeks relaxed. Strong tongue muscles mean your airway stays open and your teeth have better support. Cheeks and lips sometimes 'help' too much, and that creates strain — so we'll train them to stay relaxed. This week is about control, not force. The more balanced your muscles are, the easier breathing and swallowing become.",
-    "overview": "Let's build a stronger tongue while keeping your cheeks relaxed. Small corrections here make a big difference later.",
+    "module": 1,
+    "title": "Module 1 (Week 2)",
+    "introduction": "Now that you've found your spot, it's time to make your tongue stronger while keeping your cheeks relaxed.",
     "objectives": [
-      "Press tongue firmly upward",
-      "Keep cheeks soft"
+      "Perform click and tick-tock exercises to strengthen tongue and mid face muscles",
+      "Complete tongue brushing for neuromuscular re-education",
+      "Practice tongue trace movements to stretch the frenum",
+      "Establish baseline breathing health with BOLT test",
+      "Maintain tongue-to-spot positioning with elastic hold exercise"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week2",
     "exercises": [
       {
         "name": "Tongue Press",
@@ -70,13 +73,15 @@
   },
   {
     "week": 3,
-    "title": "Module 2 – Weeks 3-4: Suction & Breathing",
+    "module": 2,
+    "title": "Module 2",
     "introduction": "In this module, we advance to suction strength and deep breathing techniques. Mastering these is crucial for airway stability.",
-    "overview": "Focus: Lingual palatal suction, tongue points, and diaphragmatic breathing.",
     "objectives": [
-      "Master lingual palatal suction",
-      "Improve tongue point accurate movements",
-      "Learn proper belly breathing"
+      "Strengthen posterior tongue muscles by practicing lingual palatal suction",
+      "Improve tongue coordination and tongue-mandible dissociation through tongue point exercise",
+      "Develop facial muscle tone and improve lip seal with cheek puffs",
+      "Practice diaphragmatic breathing",
+      "Maintain proper mid-tongue to palate positioning with elastic hold exercise"
     ],
     "exercises": [
       {
@@ -109,15 +114,16 @@
   },
   {
     "week": 4,
-    "title": "Week 4 – Tongue Lift Challenge",
-    "introduction": "This week is about lifting your tongue smoothly and evenly. A full tongue lift keeps your palate supported and gives stability to your whole oral posture. Think of it as strength training for your airway — the stronger your tongue, the clearer your breathing path. Don't worry if it feels tricky at first; control comes with practice. Every rep is an investment in easier breathing and better sleep.",
-    "overview": "Your tongue is stronger now! Let's practice lifting smoothly and evenly.",
+    "module": 2,
+    "title": "Module 2 (Week 2)",
+    "introduction": "This week is about lifting your tongue smoothly and evenly.",
     "objectives": [
-      "Strengthen full tongue lift",
-      "Maintain nasal breathing"
+      "Strengthen posterior tongue muscles by practicing lingual palatal suction",
+      "Improve tongue coordination and tongue-mandible dissociation through tongue point exercise",
+      "Develop facial muscle tone and improve lip seal with cheek puffs",
+      "Practice diaphragmatic breathing",
+      "Maintain proper mid-tongue to palate positioning with elastic hold exercise"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week4",
     "exercises": [
       {
         "name": "Full Tongue Lift",
@@ -137,13 +143,15 @@
   },
   {
     "week": 5,
-    "title": "Module 3 – Weeks 5-6: Speech & Lip Trace",
+    "module": 3,
+    "title": "Module 3",
     "introduction": "This module introduces sound patterns and more complex lip/tongue coordination drills.",
-    "overview": "Focus: K sounds, tongue in cheek, and circular lip movements.",
     "objectives": [
-      "Improve soft palate control with K sounds",
-      "Strengthen lateral tongue muscles",
-      "Improve lip seal and mobility"
+      "Strengthen lateral tongue muscles, improve coordination of the tongue and encourage tongue-mandible dissociation through tongue in cheek exercise",
+      "Improve posterior tongue elevation with K sounds",
+      "Improve tongue coordination, lip seal strength and tongue-mandible dissociation with tongue trace",
+      "Establish the 4-7-8 breathing pattern",
+      "Maintain proper mid-tongue to palate positioning with elastic hold exercise for an extended time"
     ],
     "exercises": [
       {
@@ -176,15 +184,16 @@
   },
   {
     "week": 6,
-    "title": "Week 6 – Swallow Training Basics",
-    "introduction": "This week we retrain your swallow. Many people push with their lips, cheeks, or even their chin when they swallow — but the healthiest swallow is led by the tongue. By keeping your tongue on the spot and letting your throat do the work, you create a cleaner, more efficient swallow. This reduces strain on facial muscles and supports long-term oral health. Each correct swallow is one step closer to lasting change.",
-    "overview": "Now let's retrain your swallow — smooth, no cheek or chin strain.",
+    "module": 3,
+    "title": "Module 3 (Week 2)",
+    "introduction": "This week we retrain your swallow.",
     "objectives": [
-      "Practice correct swallow",
-      "Reduce extra movement"
+      "Strengthen lateral tongue muscles, improve coordination of the tongue and encourage tongue-mandible dissociation through tongue in cheek exercise",
+      "Improve posterior tongue elevation with K sounds",
+      "Improve tongue coordination, lip seal strength and tongue-mandible dissociation with tongue trace",
+      "Establish the 4-7-8 breathing pattern",
+      "Maintain proper mid-tongue to palate positioning with elastic hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week6",
     "exercises": [
       {
         "name": "Spot Swallow",
@@ -204,23 +213,29 @@
   },
   {
     "week": 7,
-    "title": "Week 7 – Jaw & Cheek Awareness",
-    "introduction": "Your cheeks and jaw love to 'help out,' but this week we're teaching them to stay calm. Too much movement in those areas makes swallowing less efficient and can strain your bite. By practicing quiet, controlled swallows, you'll train your tongue to do the heavy lifting. Over time, this saves energy and reduces tension. Imagine swallowing smoothly without even thinking — that's where you're headed.",
-    "overview": "Less jaw movement, more tongue control. Focus on quiet, efficient swallows.",
+    "module": 4,
+    "title": "Module 4",
+    "introduction": "This module prepares you for your procedure by mastering essential suction and stretching techniques.",
     "objectives": [
-      "Reduce jaw use",
-      "Refine swallow"
+      "Master the lingual palatal suction hold for 60 seconds (most important pre-frenectomy exercise)",
+      "Develop awareness of tongue overflow patterns",
+      "Learn manual stretching and release techniques",
+      "Recognize and reduce over-breathing habits",
+      "Improve tongue coordination, lip seal strength and tongue-mandible dissociation with tongue trace",
+      "Maintain proper mid-tongue to palate positioning with elastic hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week7",
     "exercises": [
       {
-        "name": "Cheek Relax",
-        "description": "Press tongue up while teeth stay apart and cheeks soft."
+        "name": "Cave Suction",
+        "description": "Deep suction hold. Aim for 60 seconds of silent suction."
       },
       {
-        "name": "Quiet Swallow",
-        "description": "Swallow in front of mirror; watch for no chin or jaw movement."
+        "name": "Lip Pulls",
+        "description": "Gently pull lips away from teeth while maintaining lip seal. 10 reps."
+      },
+      {
+        "name": "Gargle",
+        "description": "Gargle water to improve posterior tongue and soft palate coordination."
       }
     ],
     "tracking": {
@@ -232,15 +247,17 @@
   },
   {
     "week": 8,
-    "title": "Week 8 – Breathing Under Effort",
-    "introduction": "Breathing is more than just air — it's energy for your whole body. This week challenges you to maintain nose breathing even when your body is moving or working harder. Keeping your mouth closed during activity strengthens your airway and builds endurance. You'll notice calmer breathing, more stamina, and even better recovery after exercise. Think of this as fitness training for your breathing system.",
-    "overview": "Maintain nasal breathing even with mild exertion. A key endurance skill.",
+    "module": 4,
+    "title": "Module 4 (Week 2)",
+    "introduction": "Maintaining nasal breathing even during activity.",
     "objectives": [
-      "Sustain nasal breathing",
-      "Coordinate with movement"
+      "Master the lingual palatal suction hold for 60 seconds (most important pre-frenectomy exercise)",
+      "Develop awareness of tongue overflow patterns",
+      "Learn manual stretching and release techniques",
+      "Recognize and reduce over-breathing habits",
+      "Improve tongue coordination, lip seal strength and tongue-mandible dissociation with tongue trace",
+      "Maintain proper mid-tongue to palate positioning with elastic hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week8",
     "exercises": [
       {
         "name": "Walking Nose Breathing",
@@ -260,16 +277,14 @@
   },
   {
     "week": 9,
-    "title": "Post-Op Days 1–7: Initial Healing & Gentle Mobility",
-    "introduction": "The first week after your procedure is all about healing and very gentle movement. Do not force any stretches during this time. The goal is simply to keep the area clean and maintain light mobility to prevent the tissue from healing too tightly. Focus on rest and follow the post-op care instructions provided by your surgeon.",
-    "overview": "Focus: Wound healing and very gentle tongue mobility (up/down/side-to-side).",
+    "module": 5,
+    "title": "Module 5",
+    "introduction": "Initial healing and gentle mobility after the procedure.",
     "objectives": [
-      "Ensure proper wound healing",
-      "Maintain gentle mobility without strain",
-      "Follow post-operative care protocol"
+      "Wound check after surgery with surgeon",
+      "Complete daily gentle ROM exercises as instructed by surgeon",
+      "Resume tongue brushing and floor of mouth massage"
     ],
-    "video_title": "Post-Op Recovery: Week 1 (Days 1-7)",
-    "video_url": "https://vimeo.com/placeholder-postop-week1",
     "exercises": [
       {
         "name": "Gentle Tongue Lift (Days 1-3)",
@@ -292,21 +307,19 @@
       "nasal_breathing_percent": true,
       "BOLT_score": false
     },
-    "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_first": false,
+    "requires_video_last": false
   },
   {
     "week": 10,
-    "title": "Post-Op Days 8–14: Resuming Routine & Mobility",
-    "introduction": "By the second week, initial healing is typically well underway. We now begin to re-introduce more structured stretches and exercises to ensure optimal mobility. Mouth taping is also introduced to support nasal breathing during sleep, which is critical for long-term recovery and oral health.",
-    "overview": "Focus: Resuming active exercises, introducing surgical stretches, and nighttime mouth taping.",
+    "module": 6,
+    "title": "Module 6",
+    "introduction": "Resuming routine and re-introducing mobility stretches.",
     "objectives": [
       "Increase range of motion post-surgery",
       "Begin surgical-specific stretches",
       "Establish nighttime nasal breathing habit"
     ],
-    "video_title": "Post-Op Recovery: Week 2 (Days 8-14)",
-    "video_url": "https://vimeo.com/placeholder-postop-week2",
     "exercises": [
       {
         "name": "Tongue Stretch (Post-Op)",
@@ -329,20 +342,21 @@
       "nasal_breathing_percent": true,
       "BOLT_score": false
     },
-    "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_first": false,
+    "requires_video_last": false
   },
   {
     "week": 11,
-    "title": "Module 5 – Weeks 11-12: Linking Habits",
-    "introduction": "Your exercises shouldn't just live in practice time — they should follow you into everyday life. This week is about integrating your skills during meals, conversations, and casual moments. The more often you practice in real life, the faster they become natural habits. Imagine sitting at dinner, breathing calmly and swallowing smoothly without thinking — that's the goal.",
-    "overview": "Bring your tongue posture and breathing into daily life moments.",
+    "module": 7,
+    "title": "Module 7",
+    "introduction": "Restoring proper function and linking habits into daily life.",
     "objectives": [
-      "Build all-day awareness",
-      "Integrate habits"
+      "Strengthen tongue muscles with suction on spot/hold",
+      "Refine swallowing technique to transition to soft foods",
+      "Practice counting 1-10 with tip of tongue on spot",
+      "Restore proper breathing habits after surgery including nasal unblocking and BOLT score measuring",
+      "Maintain proper mid-tongue to palate positioning with elastic hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week11",
     "exercises": [
       {
         "name": "Meal Practice",
@@ -351,6 +365,10 @@
       {
         "name": "Conversation Breathing",
         "description": "Between sentences, breathe calmly through your nose."
+      },
+      {
+        "name": "Counting Drill",
+        "description": "Count 1-10 while keeping the tip of the tongue on the spot."
       }
     ],
     "tracking": {
@@ -362,15 +380,16 @@
   },
   {
     "week": 12,
-    "title": "Module 5 – Completion: Midpoint Check",
-    "introduction": "Congratulations, you've reached the halfway point! This week is about reviewing your progress and seeing how far you've come. Recording your posture and swallow now gives you proof of the improvements you've made. Even small wins — calmer breathing, fewer open-mouth moments — are worth celebrating. Remember, the effort you've put in is laying the foundation for lasting health.",
-    "overview": "You're halfway! Time for a checkpoint — review posture, breathing, and swallowing.",
+    "module": 7,
+    "title": "Module 7 (Week 2)",
+    "introduction": "Reviewing progress and maintaining control.",
     "objectives": [
-      "Review skills",
-      "Record progress"
+      "Strengthen tongue muscles with suction on spot/hold",
+      "Refine swallowing technique to transition to soft foods",
+      "Practice counting 1-10 with tip of tongue on spot",
+      "Restore proper breathing habits after surgery including nasal unblocking and BOLT score measuring",
+      "Maintain proper mid-tongue to palate positioning with elastic hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week12",
     "exercises": [
       {
         "name": "Posture Scan",
@@ -390,23 +409,24 @@
   },
   {
     "week": 13,
-    "title": "Module 6 – Weeks 13-14: Adding Strength",
-    "introduction": "It's time to add intensity. Your tongue is stronger now, so let's push it further. Stronger holds and longer times make your airway more stable and your posture more reliable. Think of this as strength training for your mouth and airway. The more consistent you are, the easier these skills will feel in daily life.",
-    "overview": "We'll add intensity — stronger holds, longer times.",
+    "module": 8,
+    "title": "Module 8",
+    "introduction": "Adding strength and intensity to your exercises.",
     "objectives": [
-      "Increase strength",
-      "Maintain relaxed face"
+      "Improve muscle tone through practicing suction pops",
+      "Practice tongue trace movements to improve coordination and improve frenum mobility",
+      "Refine swallowing technique to transition to whole food groups",
+      "Establish proper breathing patterns during conversation",
+      "Maintain proper whole tongue to palate positioning with elastic hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week13",
     "exercises": [
+      {
+        "name": "Suction Pops",
+        "description": "Suction tongue and release with a loud 'pop'. 10 times."
+      },
       {
         "name": "Power Hold",
         "description": "Press tongue strongly against palate for 7 seconds, 10 reps."
-      },
-      {
-        "name": "Relaxation Reset",
-        "description": "After holds, consciously relax cheeks and jaw."
       }
     ],
     "tracking": {
@@ -418,23 +438,20 @@
   },
   {
     "week": 14,
-    "title": "Module 6 – Completion: Speaking & Breathing",
-    "introduction": "Speaking and breathing often get out of sync — but not anymore. This week you'll learn how to maintain good tongue posture and nasal breathing even when you talk. This helps you speak more clearly, avoid strain, and stay energized. These small adjustments can improve confidence and make conversations feel easier.",
-    "overview": "Apply your skills during speech and conversation.",
+    "module": 8,
+    "title": "Module 8 (Week 2)",
+    "introduction": "Speaking and breathing synchronization.",
     "objectives": [
-      "Coordinate speaking & breathing",
-      "Keep nasal flow"
+      "Improve muscle tone through practicing suction pops",
+      "Practice tongue trace movements to improve coordination and improve frenum mobility",
+      "Refine swallowing technique to transition to whole food groups",
+      "Establish proper breathing patterns during conversation",
+      "Maintain proper whole tongue to palate positioning with elastic hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week14",
     "exercises": [
       {
         "name": "Read Aloud Drill",
         "description": "Read aloud for 5 minutes, pause with lips closed, breathe through nose."
-      },
-      {
-        "name": "Speech Awareness",
-        "description": "Notice tongue rest position when not speaking."
       }
     ],
     "tracking": {
@@ -446,23 +463,23 @@
   },
   {
     "week": 15,
-    "title": "Module 7 – Weeks 15-16: Endurance Challenge",
-    "introduction": "Endurance is the theme again. Long holds and consistent breathing create the muscle memory you need for automatic posture. Just like training for a sport, endurance sets you apart. You're building habits that last through the day, not just during practice. The stronger your endurance, the less you'll have to think about it.",
-    "overview": "Push stamina — longer holds, consistent breathing.",
+    "module": 9,
+    "title": "Module 9",
+    "introduction": "Advanced control and endurance.",
     "objectives": [
-      "Hold posture longer",
-      "Sustain calm nose breathing"
+      "Strengthen tongue and build endurance through suction clicks",
+      "Incorporate proper breathing while speaking",
+      "Refine swallowing technique to transition to difficult whole foods like chicken and raw vegetables",
+      "Maintain proper whole tongue to palate positioning with two elastics hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week15",
     "exercises": [
       {
-        "name": "Long Hold",
-        "description": "Hold tongue suction for 20 seconds, 5 times."
+        "name": "Suction Clicks",
+        "description": "Repeated fast suction and release clicks. 1 minute."
       },
       {
-        "name": "Movement + Nose Breathing",
-        "description": "Do light exercise (stairs/walk) while keeping nose breathing."
+        "name": "Difficult Foods Training",
+        "description": "Practice swallowing difficult foods (chicken, raw veg) with correct technique."
       }
     ],
     "tracking": {
@@ -474,14 +491,15 @@
   },
   {
     "week": 16,
-    "title": "Module 7 – Completion: Chew & Swallow Refinement",
-    "introduction": "This week is about chewing and swallowing refinement. Eating is something we all do every day, and practicing proper mechanics here reinforces everything you've learned. When your chew and swallow are efficient, digestion improves and muscles stay balanced. It may seem small, but this is one of the most practical skills you'll ever master.",
-    "overview": "Focus on chewing and swallowing with control.",
+    "module": 9,
+    "title": "Module 9 (Week 2)",
+    "introduction": "Chewing and swallowing refinement.",
     "objectives": [
-      "Refine chew-swallow coordination"
+      "Strengthen tongue and build endurance through suction clicks",
+      "Incorporate proper breathing while speaking",
+      "Refine swallowing technique to transition to difficult whole foods like chicken and raw vegetables",
+      "Maintain proper whole tongue to palate positioning with two elastics hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week16",
     "exercises": [
       {
         "name": "Chewing Practice",
@@ -501,23 +519,19 @@
   },
   {
     "week": 17,
-    "title": "Module 8 – Weeks 17-18: Breathing Endurance",
-    "introduction": "Breathing endurance is your focus now. By training yourself to breathe calmly through your nose for longer, you're building a stronger airway and a more resilient body. Nose breathing even during activity reduces fatigue and supports better sleep. Think of this as building the stamina to keep your body supplied with energy all day long.",
-    "overview": "Build breath endurance and calm rhythm.",
+    "module": 10,
+    "title": "Module 10",
+    "introduction": "Maximum endurance and breathing efficiency.",
     "objectives": [
-      "Improve nasal endurance",
-      "Enhance calm control"
+      "Establish proper swallowing of liquids and solids without any compensations",
+      "Finalize proper tongue posture and lip seal habits",
+      "Consolidate new breathing habits",
+      "Maintain proper whole tongue to palate positioning with two elastics hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week17",
     "exercises": [
       {
         "name": "Nose Walk",
         "description": "Walk 10 minutes nose-only breathing, lips sealed."
-      },
-      {
-        "name": "Breath Holds",
-        "description": "Practice gentle holds and measure BOLT once daily."
       }
     ],
     "tracking": {
@@ -529,22 +543,19 @@
   },
   {
     "week": 18,
-    "title": "Module 8 – Completion: Swallow Integration",
-    "introduction": "This week we want your correct swallow to feel automatic. By now, you've practiced enough that it should start to happen without effort. The goal is for your body to choose the right motion naturally. Automatic, efficient swallows protect your teeth, jaw, and airway every day — without you needing to think about it.",
-    "overview": "Automatic swallows with no effort.",
+    "module": 10,
+    "title": "Module 10 (Week 2)",
+    "introduction": "Integrating the swallow automatically into daily life.",
     "objectives": [
-      "Automatic correct swallow"
+      "Establish proper swallowing of liquids and solids without any compensations",
+      "Finalize proper tongue posture and lip seal habits",
+      "Consolidate new breathing habits",
+      "Maintain proper whole tongue to palate positioning with two elastics hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week18",
     "exercises": [
       {
-        "name": "Sip & Swallow",
-        "description": "Drink 10 sips, swallow correctly each time."
-      },
-      {
-        "name": "Daily Check",
-        "description": "Notice each swallow throughout day, correct if off."
+        "name": "Automaticity Check",
+        "description": "Randomly check posture/swallow 10 times a day; ensure it's correct."
       }
     ],
     "tracking": {
@@ -556,22 +567,18 @@
   },
   {
     "week": 19,
-    "title": "Module 9 – Weeks 19-20: Speech & Smile",
-    "introduction": "Smiles and conversations — that's where your skills shine this week. You'll practice keeping posture and breathing steady even while talking and smiling. This creates confidence and consistency. When your habits stay strong even in social settings, you know the work is paying off.",
-    "overview": "Blend tongue posture with natural speech and smiling.",
+    "module": 11,
+    "title": "Module 11",
+    "introduction": "Consolidating all habits and finalizing technique.",
     "objectives": [
-      "Keep posture during daily talk"
+      "Finalize proper swallowing of liquids and solids without any compensations",
+      "Consolidate new breathing habits",
+      "Maintain proper whole tongue to palate positioning with two elastics hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week19",
     "exercises": [
       {
-        "name": "Smile Practice",
-        "description": "Smile naturally, tongue stays on spot."
-      },
-      {
-        "name": "Conversation Drill",
-        "description": "In casual talk, keep lips sealed between sentences."
+        "name": "All-Skills-Together",
+        "description": "Practice conversation, eating, and breathing simultaneously with correct form."
       }
     ],
     "tracking": {
@@ -583,22 +590,18 @@
   },
   {
     "week": 20,
-    "title": "Module 9 – Completion: Challenge Week",
-    "introduction": "This is a challenge week. You'll test yourself with endurance, posture, and breathing under pressure. Think of it like a personal milestone — a way to measure everything you've built so far. The stronger you finish this week, the more ready you'll be for the final stretch.",
-    "overview": "Test endurance, posture, and breathing under stress.",
+    "module": 11,
+    "title": "Module 11 (Week 2)",
+    "introduction": "Challenge week: testing endurance under pressure.",
     "objectives": [
-      "Challenge yourself"
+      "Finalize proper swallowing of liquids and solids without any compensations",
+      "Consolidate new breathing habits",
+      "Maintain proper whole tongue to palate positioning with two elastics hold exercise for an extended time"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week20",
     "exercises": [
       {
-        "name": "Endurance Hold",
-        "description": "Hold suction for 30 seconds, repeat 3 times."
-      },
-      {
-        "name": "Exercise Nose Breathing",
-        "description": "Try jogging/walking briskly nose-only for 5 minutes."
+        "name": "Endurance Suction",
+        "description": "Hold suction for 45 seconds. 5 reps."
       }
     ],
     "tracking": {
@@ -610,22 +613,17 @@
   },
   {
     "week": 21,
-    "title": "Module 10 – Weeks 21-22: Everyday Habits",
-    "introduction": "This week is about making your skills part of everyday life. Every activity — school, work, meals, conversations — becomes a chance to reinforce your posture and breathing. The more natural it feels, the closer you are to making it permanent. You're not just practicing now; you're living it.",
-    "overview": "Your skills should feel automatic now. Bring them into every moment.",
+    "module": 12,
+    "title": "Module 12",
+    "introduction": "Final mastery: living the program.",
     "objectives": [
-      "Integrate all skills"
+      "Ensure no compensations or old habits have resurfaced",
+      "Consolidate and maintain proper nasal breathing, lip seal, tongue posture and chewing and swallowing technique"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week21",
     "exercises": [
       {
-        "name": "Posture Scan",
-        "description": "Every hour, check tongue up, lips closed, nose breathing."
-      },
-      {
-        "name": "Daily Life Drill",
-        "description": "At work/school, notice posture and breathing often."
+        "name": "Social Awareness",
+        "description": "Maintain posture during 1 solid hour of social interaction."
       }
     ],
     "tracking": {
@@ -637,22 +635,17 @@
   },
   {
     "week": 22,
-    "title": "Module 10 – Completion: Maintenance Focus",
-    "introduction": "Refinement continues. This week you'll polish your habits so they feel effortless. Smooth swallows, steady posture, calm breathing — they should all start blending into daily life. This is where the hard work transforms into an easy rhythm.",
-    "overview": "Fine-tune — smoother, easier, natural.",
+    "module": 12,
+    "title": "Module 12 (Week 2)",
+    "introduction": "Maintenance focus: effortless rhythm.",
     "objectives": [
-      "Refine natural posture"
+      "Ensure no compensations or old habits have resurfaced",
+      "Consolidate and maintain proper nasal breathing, lip seal, tongue posture and chewing and swallowing technique"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week22",
     "exercises": [
       {
-        "name": "Smooth Swallows",
-        "description": "Swallow 10 times with no visible movement."
-      },
-      {
-        "name": "Relaxed Holds",
-        "description": "Hold tongue posture for 1 minute comfortably."
+        "name": "Effortless Posture",
+        "description": "Hold correct posture for 2 hours with minimal checking."
       }
     ],
     "tracking": {
@@ -664,23 +657,17 @@
   },
   {
     "week": 23,
-    "title": "Module 11 – Weeks 23-24: Final Review",
-    "introduction": "Almost there! This is your practice week before the final celebration. Use this time to polish your skills and record yourself in action. Think of it like rehearsing for graduation. You're preparing to show off the progress you've earned.",
-    "overview": "One more week to polish everything.",
+    "module": 13,
+    "title": "Module 13",
+    "introduction": "Final review and graduation rehearsal.",
     "objectives": [
-      "Polish skills",
-      "Prepare for graduation"
+      "Ensure no compensations or old habits have resurfaced",
+      "Consolidate and maintain proper nasal breathing, lip seal, tongue posture and chewing and swallowing technique"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week23",
     "exercises": [
       {
-        "name": "Combo Drill",
-        "description": "Tongue up, lips closed, nose breathing during reading, smiling, speaking."
-      },
-      {
-        "name": "Pre-Final Video",
-        "description": "Practice your final video performance."
+        "name": "Combo Review",
+        "description": "Review all exercises from previous modules; ensure perfection."
       }
     ],
     "tracking": {
@@ -692,23 +679,17 @@
   },
   {
     "week": 24,
-    "title": "Module 11 – Completion: Graduation & Beyond",
-    "introduction": "Congratulations — you've reached the finish line! This is your chance to showcase everything you've learned and celebrate the transformation. You started with small steps, and now you have stronger posture, better breathing, and healthier habits. The effort you've put in has paid off. This is not the end — it's the beginning of a healthier, more confident you.",
-    "overview": "This week celebrates your progress — posture, breathing, and confidence are now yours.",
+    "module": 13,
+    "title": "Module 13 (Week 2)",
+    "introduction": "Graduation: showcasing your transformation.",
     "objectives": [
-      "Showcase your progress",
-      "Finish strong"
+      "Ensure no compensations or old habits have resurfaced",
+      "Consolidate and maintain proper nasal breathing, lip seal, tongue posture and chewing and swallowing technique"
     ],
-    "video_title": "Watch This Week's Coaching Video",
-    "video_url": "https://vimeo.com/placeholder-week24",
     "exercises": [
       {
-        "name": "Final Combo",
-        "description": "Read aloud, smile, breathe calmly — all skills together."
-      },
-      {
-        "name": "Final Video",
-        "description": "Record your progress video and celebrate your success."
+        "name": "Final Graduation Show",
+        "description": "Record your final results video."
       }
     ],
     "tracking": {

@@ -13,8 +13,8 @@ const navItems: NavItem[] = [
   { href: "/patient", label: "Home", icon: Home },
   { href: "/learn", label: "Learn", icon: BookOpen },
   { href: "/patient/progress", label: "Progress", icon: TrendingUp },
-  { href: "/patient/messages", label: "Messages", icon: MessageSquare },
-  { href: "/patient/account", label: "Account", icon: User },
+  { href: "/patient#messages-card", label: "Messages", icon: MessageSquare },
+  { href: "/patient#account-section", label: "Account", icon: User },
 ];
 
 export function BottomNav() {

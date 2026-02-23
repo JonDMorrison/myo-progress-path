@@ -139,7 +139,7 @@ export function PrivacyManager({ patientId, weekId, onUpdate }: PrivacyManagerPr
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Delete this video?</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    This will permanently remove the video from your record. Dr. Jon will no longer be able to review it.
+                                                    This will permanently remove the video from your record. Your therapist will no longer be able to review it.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>

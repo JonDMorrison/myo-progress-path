@@ -190,17 +190,6 @@ export function WeekExercisesList({
               </div>
             ))}
           </div>
-          {/* Show "The Spot" reference for elastic hold exercises */}
-          {showSpotReference && (
-            <div className="border rounded-lg p-3 bg-muted/30">
-              <p className="text-xs font-medium text-muted-foreground mb-2">Reference: The Spot (incisive papilla)</p>
-              <img 
-                src="/images/learn/the-spot.jpg" 
-                alt="The Spot - incisive papilla location"
-                className="w-full object-contain rounded"
-              />
-            </div>
-          )}
         </div>
       );
     }
@@ -216,17 +205,6 @@ export function WeekExercisesList({
               className="w-full object-contain"
             />
           </div>
-          {/* Show "The Spot" reference for elastic hold exercises */}
-          {showSpotReference && (
-            <div className="border rounded-lg p-3 bg-muted/30">
-              <p className="text-xs font-medium text-muted-foreground mb-2">Reference: The Spot (incisive papilla)</p>
-              <img 
-                src="/images/learn/the-spot.jpg" 
-                alt="The Spot - incisive papilla location"
-                className="w-full object-contain rounded"
-              />
-            </div>
-          )}
         </div>
       );
     }

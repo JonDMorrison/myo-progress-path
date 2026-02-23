@@ -25,6 +25,7 @@ export default function Learn() {
   const [articles, setArticles] = useState<LearnArticle[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
@@ -47,7 +48,10 @@ export default function Learn() {
   }, []);
 
   useEffect(() => {
-    loadLearnIndex().then(setArticles);
+    loadLearnIndex().then((data) => {
+      setArticles(data);
+      setIsLoading(false);
+    });
   }, []);
 
   // Filter out restricted articles for non-authenticated users
@@ -114,7 +118,12 @@ export default function Learn() {
         </div>
 
         {/* Articles Grid */}
-        {filtered.length > 0 ? (
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+            <p className="text-muted-foreground animate-pulse">Loading Learn Hub...</p>
+          </div>
+        ) : filtered.length > 0 ? (
           <div className="grid gap-5 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((article) => (
               <LearnCard key={article.slug} {...article} />

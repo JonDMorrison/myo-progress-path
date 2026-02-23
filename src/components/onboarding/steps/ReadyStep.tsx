@@ -17,7 +17,6 @@ export const ReadyStep = () => {
       <div className="space-y-3">
         <h1 className="text-3xl sm:text-4xl font-bold">You're All Set!</h1>
         <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto">
-          Congratulations! You've completed the onboarding process. 
           Let's begin your journey to better breathing and oral health.
         </p>
       </div>

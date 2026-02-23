@@ -66,9 +66,23 @@ export function NasalUnblockModal() {
               </div>
             </section>
 
-            <p className="text-sm text-muted-foreground border-t pt-4">
-              * The more you breathe through your nose, the less congested you'll be.
-            </p>
+            <section className="bg-rose-50 dark:bg-rose-950/20 rounded-[2rem] p-8 border border-rose-100 dark:border-rose-900/30">
+              <h3 className="font-bold text-rose-900 dark:text-rose-100 text-lg mb-3">⚠️ Medical Advisory</h3>
+              <p className="text-sm text-rose-800 dark:text-rose-200 mb-4 leading-relaxed">
+                If you have constant, severe nasal obstruction that does not respond to these exercises, you may require a medical evaluation. Please consult your physician or an ENT specialist if you experience:
+              </p>
+              <ul className="list-disc pl-5 text-sm text-rose-700 dark:text-rose-300 space-y-2 font-medium">
+                <li>Chronic one-sided obstruction (difficulty breathing through only one nostril)</li>
+                <li>Nasal polyps or significant deviated septum</li>
+                <li>Persistent facial pain or pressure</li>
+                <li>Difficulty breathing through your nose during sleep (even with mouth tape)</li>
+              </ul>
+            </section>
+
+            <div className="text-xs text-muted-foreground border-t pt-6 space-y-3 px-2">
+              <p className="font-medium">• The more you breathe through your nose, the less congested you will be. Mouth breathing causes over-breathing, which leads to the body creating more protective congestion.</p>
+              <p className="font-medium">• These exercises are helpful for the duration of your program. It is important to use them as needed to encourage nasal breathing at all times.</p>
+            </div>
           </div>
         </ScrollArea>
       </SheetContent>

@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { getProgramTitle } from "./constants";
 
 export async function approveWeek(
   progressId: string,
@@ -102,9 +103,7 @@ export async function approveWeek(
         .single();
 
       const variant = patientData?.program_variant || 'frenectomy';
-      const programTitle = variant === 'frenectomy' || variant === 'standard'
-        ? 'Frenectomy Program'
-        : 'Non-Frenectomy Program';
+      const programTitle = getProgramTitle(variant);
 
       // Get next week for the patient's program
       const { data: nextWeek } = await supabase

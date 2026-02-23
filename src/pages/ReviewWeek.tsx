@@ -135,9 +135,10 @@ const ReviewWeek = () => {
       );
 
       if (result.success) {
+        const moduleNum = Math.ceil(parseInt(weekNumber || "1") / 2);
         toast({
-          title: "Week Approved!",
-          description: `Week ${weekNumber} has been approved. Next week unlocked.`,
+          title: "Module Approved!",
+          description: `Module ${moduleNum} has been approved. Next module unlocked.`,
         });
         navigate("/therapist");
       } else {
@@ -180,9 +181,10 @@ const ReviewWeek = () => {
       );
 
       if (result.success) {
+        const moduleNum = Math.ceil(parseInt(weekNumber || "1") / 2);
         toast({
           title: "Feedback Sent",
-          description: `Patient "${patient?.user?.name}" has been notified that Week ${weekNumber} needs more practice. Your feedback message has been sent.`,
+          description: `Patient "${patient?.user?.name}" has been notified that Module ${moduleNum} needs more practice. Your feedback message has been sent.`,
         });
         navigate("/therapist");
       } else {
@@ -216,9 +218,10 @@ const ReviewWeek = () => {
       );
 
       if (result.success) {
+        const moduleNum = Math.ceil(parseInt(weekNumber || "1") / 2);
         toast({
-          title: "Week Reassigned",
-          description: `Week ${weekNumber} has been unlocked for ${patient?.user?.name} to practice again.`,
+          title: "Module Reassigned",
+          description: `Module ${moduleNum} has been unlocked for ${patient?.user?.name} to practice again.`,
         });
         navigate("/therapist");
       } else {
@@ -342,7 +345,7 @@ const ReviewWeek = () => {
             <div className="text-right">
               <div className="flex items-center gap-2 mb-1">
                 <Calendar className="w-4 h-4 text-muted-foreground" />
-                <span className="font-semibold">Week {weekNumber}</span>
+                <span className="font-semibold">Module {Math.ceil(parseInt(weekNumber || "1") / 2)}</span>
               </div>
               {progress && getStatusBadge(progress.status)}
             </div>
@@ -356,7 +359,7 @@ const ReviewWeek = () => {
           <div className="space-y-6">
             <Card className="shadow-card">
               <CardHeader>
-                <CardTitle>Week Progress Summary</CardTitle>
+                <CardTitle>Module Progress Summary</CardTitle>
                 <CardDescription>{week?.title}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">

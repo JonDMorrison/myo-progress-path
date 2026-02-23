@@ -28,7 +28,7 @@ export const HowItWorksStep = () => {
             <Video className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h3 className="font-semibold mb-1">Biweekly Check-ins</h3>
+            <h3 className="font-semibold mb-1">Biweekly Check-ins (Program Dependant)</h3>
             <p className="text-sm text-muted-foreground">
               Every two weeks, submit your BOLT score, breathing percentages, and video recordings. This helps your therapist track your progress.
             </p>
@@ -40,7 +40,7 @@ export const HowItWorksStep = () => {
             <MessageSquare className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h3 className="font-semibold mb-1">Therapist Feedback</h3>
+            <h3 className="font-semibold mb-1">Therapist Feedback (Program Dependant)</h3>
             <p className="text-sm text-muted-foreground">
               Your therapist reviews your submissions and provides feedback. They may approve your week or request more practice.
             </p>

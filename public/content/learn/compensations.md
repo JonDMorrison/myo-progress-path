@@ -44,13 +44,6 @@ This article is for **educational purposes only**—to help you understand what 
 
 **Why it happens:** Facial muscles overwork to compensate for improper tongue function or weak oral muscles.
 
-## General Tension
-
-![General Tension](/images/learn/compensations/general-tension.jpg)
-
-**What it looks like:** Holding tension throughout muscles of the body—shoulders raised, jaw clenched, overall stiffness during exercises.
-
-**Why it happens:** Weak muscle coordination and tone can trigger compensations throughout the body as it tries to stabilize during oral movements.
 
 ---
 

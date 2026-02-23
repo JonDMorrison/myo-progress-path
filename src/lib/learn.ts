@@ -71,8 +71,8 @@ export function getArticleTitle(slug: string, articles: LearnArticle[]): string 
 }
 
 const glossary: Record<string, string> = {
-  "incisive papilla": "The small bump on the roof of your mouth just behind your upper front teeth, also called 'the spot'",
-  "the spot": "The incisive papilla - where your tongue should rest",
+  "incisive papilla": "The small bump on the roof of your mouth just behind your upper front teeth",
+  "the spot": "The area on the roof of your mouth behind your front teeth where your tongue should rest",
   "nitric oxide": "A gas produced in the nasal passages that improves oxygen absorption and has antimicrobial properties",
   "UARS": "Upper Airway Resistance Syndrome - a sleep breathing disorder that causes sleep fragmentation without full apneas",
   "BOLT score": "Body Oxygen Level Test - measures breath-hold time to assess breathing efficiency",

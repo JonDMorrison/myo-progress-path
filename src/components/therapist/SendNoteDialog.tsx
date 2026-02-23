@@ -49,7 +49,7 @@ const SendNoteDialog = ({
         <DialogHeader>
           <DialogTitle>Send Note</DialogTitle>
           <DialogDescription>
-            Send a note to {patientName} for Week {weekNumber}
+            Send a note to {patientName} for Module {Math.ceil(weekNumber / 2)}
           </DialogDescription>
         </DialogHeader>
         

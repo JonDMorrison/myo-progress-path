@@ -70,18 +70,23 @@ const HowItWorks = () => {
               <div className="grid gap-12">
                 <StepCard
                   stepNumber={1}
-                  title="Start Your Program"
-                  description="After enrolling, you'll see your personalized 24-week program with clear exercises for each week. Everything you need is in one place—instructions, videos, and progress tracking."
+                  title="Get Your Airway Exam"
+                  description="Complete your airway exam at Montrose Dental Centre to determine a treatment plan and which myofunctional therapy program will best suit your needs."
                 />
                 <StepCard
                   stepNumber={2}
-                  title="Practice & Record"
-                  description="Complete your daily exercises at home, check them off as you go, and record your BOLT score and breathing metrics. Upload videos of your technique so your therapist can see your progress."
+                  title="Start Your Program"
+                  description="After enrolling with the access code received post payment and exam, you'll see your program with clear exercises for each module. Everything you need is in one place—instructions, videos, and progress tracking."
                 />
                 <StepCard
                   stepNumber={3}
+                  title="Practice & Record"
+                  description="Complete your daily exercises at home, check them off as you go, and record your BOLT score and breathing metrics. Upload videos of your technique so your therapist can review your progress, if your selected program allows."
+                />
+                <StepCard
+                  stepNumber={4}
                   title="Get Feedback & Advance"
-                  description="Your therapist reviews your submissions and provides personalized feedback. Once approved, your next week unlocks automatically. If adjustments are needed, you'll receive clear guidance."
+                  description="Your therapist reviews your submissions and provides personalized feedback. Once approved, your next week unlocks automatically. If adjustments are needed, you'll receive clear guidance. (Program Dependent)"
                 />
               </div>
             </div>
@@ -111,17 +116,17 @@ const HowItWorks = () => {
                 <FeatureCard
                   icon={CheckCircle}
                   title="Personalized Feedback"
-                  description="Your therapist reviews your progress and provides guidance tailored to your technique and needs."
+                  description="Your therapist reviews your progress and provides guidance tailored to your technique and needs. (Program Dependant)"
                 />
                 <FeatureCard
                   icon={Video}
                   title="Video Check-ins"
-                  description="Upload videos of your exercises so your therapist can see your form and provide specific corrections."
+                  description="Upload videos of your exercises so your therapist can see your form and provide specific corrections. (Program Dependant)"
                 />
                 <FeatureCard
                   icon={BarChart3}
                   title="Progress Tracking"
-                  description="Watch your BOLT scores improve and see your breathing metrics trend upward over the 24 weeks."
+                  description="Watch your BOLT scores improve and see your breathing metrics trend upward throughout the program."
                 />
                 <FeatureCard
                   icon={Award}

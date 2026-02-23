@@ -23,7 +23,7 @@ export const WelcomeStep = () => {
         <ul className="mt-4 space-y-2 text-left max-w-md mx-auto">
           <li className="flex items-start">
             <span className="text-primary mr-2">✓</span>
-            <span>Your 12-module program structure</span>
+            <span>Your module-based program structure</span>
           </li>
           <li className="flex items-start">
             <span className="text-primary mr-2">✓</span>

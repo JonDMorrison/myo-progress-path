@@ -10,6 +10,7 @@ import {
   type TriageLevel,
 } from "@/lib/triageUtils";
 import { cn } from "@/lib/utils";
+import { isFrenectomyVariant } from "@/lib/constants";
 
 interface ReviewCardProps {
   id: string;
@@ -94,16 +95,16 @@ const ReviewCard = ({
               {patientName}
             </h3>
             
-            {/* Week info - muted */}
+            {/* Module info - muted */}
             <p className="text-sm text-muted-foreground mb-2">
-              Week {weekNumber} · {weekTitle}
+              Module {Math.ceil(weekNumber / 2)} · {weekTitle}
             </p>
             
             {/* Badges row */}
             <div className="flex flex-wrap items-center gap-2 mb-3">
               {/* Program variant badge */}
               <Badge variant="secondary" className="text-xs">
-                {programVariant === 'frenectomy' || programVariant === 'standard' 
+                {isFrenectomyVariant(programVariant)
                   ? 'Frenectomy' 
                   : 'Non-Frenectomy'}
               </Badge>

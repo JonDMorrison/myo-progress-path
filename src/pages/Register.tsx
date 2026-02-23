@@ -79,21 +79,13 @@ const Register = () => {
 
       if (error) throw error;
 
-      // Auto-login after registration
-      const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (loginError) throw loginError;
-
-      toast({
+        toast({
         title: "Account created!",
-        description: "Welcome to Montrose Myo!",
+        description: "Please check your email to verify your account before logging in.",
       });
 
-      // Redirect to onboarding
-      navigate("/onboarding");
+      // Redirect to auth to login after verification
+      navigate("/auth");
     } catch (error: any) {
       console.error("Registration error:", error);
 

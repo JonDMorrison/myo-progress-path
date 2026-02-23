@@ -11,13 +11,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Award, Heart, Eye, Repeat } from "lucide-react";
 import confetti from "canvas-confetti";
+import { isFrenectomyVariant } from "@/lib/constants";
 
 interface ProgramCompletionModalProps {
   open: boolean;
   onClose: () => void;
   completionNote?: string | null;
   therapistName?: string | null;
-  programVariant?: 'frenectomy' | 'non_frenectomy' | 'standard' | null;
+  programVariant?: string | null;
 }
 
 export const ProgramCompletionModal = ({
@@ -27,7 +28,7 @@ export const ProgramCompletionModal = ({
   therapistName,
   programVariant
 }: ProgramCompletionModalProps) => {
-  const isFrenectomyPathway = programVariant === 'frenectomy';
+  const isFrenectomyPathway = isFrenectomyVariant(programVariant);
   useEffect(() => {
     if (open) {
       // Trigger confetti celebration

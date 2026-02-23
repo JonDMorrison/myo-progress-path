@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle2, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { isFrenectomyVariant, requiresVideo } from "@/lib/constants";
 
 interface WeekCompletionChecklistProps {
   progress: any;
@@ -46,11 +47,14 @@ export function WeekCompletionChecklist({
   const allExercisesComplete = totalExercises > 0 && completedExercises === totalExercises;
 
   // Check if frenectomy consult is required (Week 1, frenectomy pathway only)
-  const isFrenectomyWeek1 = weekNumber === 1 && programVariant === 'frenectomy';
+  const isFrenectomyWeek1 = weekNumber === 1 && isFrenectomyVariant(programVariant);
 
-  // Determine video display mode
-  const showBothVideos = week.requires_video_first && week.requires_video_last;
-  const showSingleVideo = !week.requires_video_first && week.requires_video_last;
+  // Check if this patient's plan includes video submissions
+  const patientHasVideo = requiresVideo(programVariant);
+
+  // Determine video display mode (only if patient has video variant)
+  const showBothVideos = patientHasVideo && week.requires_video_first && week.requires_video_last;
+  const showSingleVideo = patientHasVideo && !week.requires_video_first && week.requires_video_last;
 
   // Build requirements array with conditional video labels
   const requirements = [];

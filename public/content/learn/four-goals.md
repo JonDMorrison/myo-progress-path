@@ -49,11 +49,11 @@
 ## 4. Tongue Posture
 
 - Establishing a proper resting position for the tongue is a key focus
-- The tip of the tongue should rest naturally on the incisive papilla (behind the upper incisors). Referred to as the spot (See photo below)
+- The tip of the tongue should rest naturally on the palate behind the upper incisors. Referred to as **the spot**. (See photo below)
 
 ![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 
-- The whole tongue should suction to the palate (See photo below)
+The whole tongue should suction to the palate. (See photo below)
 
 ![Correct Tongue Posture](/images/learn/correct-tongue-posture.jpg)
 

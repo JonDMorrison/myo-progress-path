@@ -20,6 +20,7 @@ import { BookOpen, ChevronDown, ChevronUp, Play, Dumbbell } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { getModuleInfo } from "@/lib/moduleUtils";
+import { getProgramTitle } from "@/lib/constants";
 
 interface Exercise {
   id: string;
@@ -67,9 +68,7 @@ export function PreviousWeeksReview({
   const loadPreviousWeeks = async () => {
     try {
       // Determine program title based on variant
-      const programTitle = programVariant === 'frenectomy' || programVariant === 'standard'
-        ? 'Frenectomy Program' 
-        : 'Non-Frenectomy Program';
+      const programTitle = getProgramTitle(programVariant);
 
       // Get all previous weeks (up to current week - 2, to show completed modules)
       const maxWeekToShow = currentWeekNumber - 2; // Show weeks from completed modules only

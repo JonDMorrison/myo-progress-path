@@ -85,13 +85,13 @@ export function PatientHeader({ userName }: PatientHeaderProps) {
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/patient#account" className="cursor-pointer">
+              <Link to="/patient" className="cursor-pointer">
                 <Settings className="mr-2 h-4 w-4" />
                 Account Settings
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/patient#messages" className="cursor-pointer">
+              <Link to="/patient" className="cursor-pointer">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Messages
               </Link>

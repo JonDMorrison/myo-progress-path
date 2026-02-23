@@ -29,7 +29,7 @@ export function WhyMontroseDifferent() {
                 standardized approach allows us to help more families without compromising on quality.
               </p>
               <p>
-                While personalized, our proven system follows a structured path that has helped 
+                Our proven system follows a structured path that has helped 
                 countless patients achieve their therapy goals.
               </p>
             </CardContent>
@@ -83,7 +83,7 @@ export function WhyMontroseDifferent() {
             <CardContent className="text-muted-foreground">
               <p className="mb-4">
                 Move through the program at your own pace while staying accountable. Your 
-                therapist reviews each week's progress before you advance.
+                therapist reviews each module's progress before you advance.
               </p>
               <p>
                 This balanced approach gives you flexibility while ensuring you master each 

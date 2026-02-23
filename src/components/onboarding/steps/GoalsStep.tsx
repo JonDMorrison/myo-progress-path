@@ -25,15 +25,6 @@ export const GoalsStep = () => {
           </ul>
         </div>
 
-        <div className="p-6 bg-primary/10 border border-primary/20 rounded-lg">
-          <h3 className="font-semibold mb-2">Personalized Therapy</h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Your therapist will create a plan based on your specific needs and goals.
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Discuss your goals during your first week or through messaging anytime.
-          </p>
-        </div>
 
         <div className="p-4 bg-muted/50 rounded-lg">
           <h3 className="font-semibold mb-2">Setting Yourself Up for Success</h3>

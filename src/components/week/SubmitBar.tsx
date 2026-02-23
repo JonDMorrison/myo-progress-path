@@ -42,7 +42,7 @@ export function SubmitButton({
               canSubmit ? "text-slate-400" : "text-slate-400"
             )}>
               {canSubmit
-                ? "Excellent progress! Your biweekly session data is complete and ready for Dr. Jon's clinical review."
+                ? "Excellent progress! Your biweekly session data is complete and ready for your therapist's clinical review."
                 : "Complete all required exercises, BOLT scores, and media uploads to enable your biweekly submission."
               }
             </p>

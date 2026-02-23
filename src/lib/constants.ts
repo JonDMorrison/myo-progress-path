@@ -2,11 +2,52 @@
  * Application constants
  */
 
-// Program variant to title mapping
+// ─── ACCESS CODE → VARIANT MAPPING ───────────────────────────────
+// Patients enter one of these codes during onboarding.
+// The code determines their program_variant in the DB.
+export const ACCESS_CODE_MAP: Record<string, string> = {
+  'montrosefren':          'frenectomy',
+  'montrosefrenvideo':     'frenectomy_video',
+  'montrosenonfren':       'non_frenectomy',
+  'montrosenonfrenvideo':  'non_frenectomy_video',
+};
+
+// ─── VARIANT HELPERS ─────────────────────────────────────────────
+/**
+ * Returns true if the variant is any frenectomy pathway
+ */
+export function isFrenectomyVariant(variant: string | null | undefined): boolean {
+  const v = variant || 'frenectomy';
+  return v === 'frenectomy' || v === 'frenectomy_video' || v === 'standard';
+}
+
+/**
+ * Returns true if the variant includes video submissions
+ */
+export function requiresVideo(variant: string | null | undefined): boolean {
+  const v = variant || '';
+  return v.endsWith('_video');
+}
+
+/**
+ * Normalise the variant into the base program type for DB lookup
+ * e.g. 'frenectomy_video' → 'frenectomy'
+ */
+export function getBaseVariant(variant: string | null | undefined): string {
+  const v = variant || 'frenectomy';
+  if (v === 'frenectomy_video') return 'frenectomy';
+  if (v === 'non_frenectomy_video') return 'non_frenectomy';
+  return v;
+}
+
+// ─── PROGRAM TITLES ──────────────────────────────────────────────
+// All 4 variants (+ legacy 'standard') map to one of two display titles.
 export const PROGRAM_TITLES: Record<string, string> = {
-  'frenectomy': 'Frenectomy Program',
-  'non_frenectomy': 'Non-Frenectomy Program',
-  'standard': 'Frenectomy Program', // Default to frenectomy for legacy/standard users
+  'frenectomy':            'Frenectomy Program',
+  'frenectomy_video':      'Frenectomy Program',
+  'non_frenectomy':        'Non-Frenectomy Program',
+  'non_frenectomy_video':  'Non-Frenectomy Program',
+  'standard':              'Frenectomy Program', // legacy fallback
 };
 
 /**

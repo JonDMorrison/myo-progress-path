@@ -11,6 +11,7 @@ import { NavPublic } from "@/components/public/NavPublic";
 import { PatientHeader } from "@/components/layout/PatientHeader";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
 
 // Articles that require authentication (logged-in only)
 // Public: intro-to-myofunctional-therapy, four-goals, expectations, structural-changes, 
@@ -198,19 +199,33 @@ export default function LearnArticle() {
                       return <p {...props}>{children}</p>;
                     },
                     img: ({node, ...props}) => {
-                      // Check if this is the myokit image or inside a special container
                       const className = props.className || '';
                       const src = props.src || '';
+                      const alt = props.alt || '';
                       
-                      // Don't apply float styling to myokit image
-                      if (className.includes('myokit-image') || src.includes('myokit')) {
-                        return <img {...props} />;
+                      // Full width for comparison or important diagrams
+                      const shouldBeFullWidth = alt.toLowerCase().includes('comparison') || 
+                                               alt.toLowerCase().includes('normal vs') ||
+                                               className.includes('full-width');
+
+                      if (className.includes('myokit-image') || src.includes('myokit') || shouldBeFullWidth) {
+                        return (
+                          <div className="my-8 flex justify-center">
+                            <img 
+                              {...props} 
+                              className={cn(
+                                "rounded-xl shadow-xl max-w-full h-auto",
+                                shouldBeFullWidth ? "w-full md:w-[85%]" : ""
+                              )}
+                            />
+                          </div>
+                        );
                       }
                       
                       return (
                         <img 
                           {...props} 
-                          className="float-right w-[30%] ml-6 mb-4 mt-1 rounded-lg shadow-md clear-right max-sm:float-none max-sm:w-full max-sm:ml-0"
+                          className="float-right w-full sm:w-[45%] md:w-[35%] lg:w-[30%] ml-0 sm:ml-6 mb-4 sm:mb-6 mt-1 rounded-lg shadow-md clear-right max-sm:float-none"
                         />
                       );
                     },

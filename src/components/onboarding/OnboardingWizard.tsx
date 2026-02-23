@@ -16,10 +16,11 @@ import { VideoGuideStep } from "./steps/VideoGuideStep";
 import { GoalsStep } from "./steps/GoalsStep";
 import { ConsentStep } from "./steps/ConsentStep";
 import { ReadyStep } from "./steps/ReadyStep";
+import { requiresVideo } from "@/lib/constants";
 
-const steps = [
+const allSteps = [
   { id: 'welcome', component: WelcomeStep, title: 'Welcome' },
-  { id: 'pathway', component: PathwayStep, title: 'Treatment Pathway' },
+  { id: 'pathway', component: PathwayStep, title: 'Access Code' },
   { id: 'program', component: ProgramOverviewStep, title: 'Program Overview' },
   { id: 'how-it-works', component: HowItWorksStep, title: 'How It Works' },
   { id: 'learn-hub', component: LearnHubStep, title: 'Learning Resources' },
@@ -35,9 +36,17 @@ export const OnboardingWizard = () => {
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const [patientId, setPatientId] = useState<string | null>(null);
   const [consentAccepted, setConsentAccepted] = useState(false);
-  const [selectedPathway, setSelectedPathway] = useState<'frenectomy' | 'non_frenectomy' | null>(null);
+  const [selectedPathway, setSelectedPathway] = useState<string | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Dynamically filter steps: hide VideoGuideStep for no-video variants
+  const steps = allSteps.filter(step => {
+    if (step.id === 'videos' && selectedPathway && !requiresVideo(selectedPathway)) {
+      return false;
+    }
+    return true;
+  });
 
   useEffect(() => {
     loadOnboardingProgress();
@@ -191,7 +200,7 @@ export const OnboardingWizard = () => {
           <div className="min-h-[300px] sm:min-h-[400px] mb-6 sm:mb-8">
             <StepComponent
               onConsentChange={currentStep.id === 'consent' ? setConsentAccepted : undefined}
-              onPathwayChange={currentStep.id === 'pathway' ? setSelectedPathway : undefined}
+              onPathwayChange={currentStep.id === 'pathway' ? (v: string) => setSelectedPathway(v) : undefined}
               initialPathway={currentStep.id === 'pathway' ? selectedPathway : undefined}
               selectedPathway={selectedPathway}
             />

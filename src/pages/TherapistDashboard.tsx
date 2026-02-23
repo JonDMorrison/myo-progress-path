@@ -13,6 +13,7 @@ import SendNoteDialog from "@/components/therapist/SendNoteDialog";
 import ReviewPanel from "@/components/therapist/ReviewPanel";
 import { approveWeek } from "@/lib/reviewActions";
 import { calculateTriageLevel, type TriageLevel } from "@/lib/triageUtils";
+import { getModuleInfo, cleanWeekTitle } from "@/lib/moduleUtils";
 
 interface ReviewItem {
   id: string;
@@ -378,10 +379,9 @@ const TherapistDashboard = () => {
       const result = await approveWeek(progressId, review.patient.id, review.week.number, "");
       if (result.success) {
         const moduleNum = Math.ceil(review.week.number / 2);
-        const partLabel = review.week.number % 2 !== 0 ? 'Part One' : 'Part Two';
         toast({
           title: "Module Approved",
-          description: `Module ${moduleNum} ${partLabel} approved for ${review.patient.user.name}`,
+          description: `Module ${moduleNum} approved for ${review.patient.user.name}`,
         });
         setReviews(prev => prev.map(r => r.id === progressId ? { ...r, status: "approved" } : r));
       }
@@ -408,8 +408,7 @@ const TherapistDashboard = () => {
     });
     if (error) throw error;
     const moduleNum = Math.ceil(noteDialog.weekNumber / 2);
-    const partLabel = noteDialog.weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
-    toast({ title: "Note Sent", description: `Note sent to patient for Module ${moduleNum} ${partLabel}` });
+    toast({ title: "Note Sent", description: `Note sent to patient for Module ${moduleNum}` });
   };
 
   const handleOpenReviewPanel = (progressId: string, patientId: string, weekNumber: number, weekId: string) => {
@@ -533,20 +532,26 @@ const TherapistDashboard = () => {
               {patientMessages.length === 0 ? (
                 <p className="text-center py-16 text-muted-foreground italic">No messages from patients</p>
               ) : (
-                patientMessages.map(msg => (
-                  <Card key={msg.id} className="cursor-pointer hover:bg-slate-50 transition-all" onClick={() => navigate(`/review/${msg.patient?.id}/${msg.week?.number || 1}`)}>
-                    <CardContent className="p-4">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="font-bold">{msg.patient?.user?.name}</p>
-                          <p className="text-xs text-muted-foreground">Week {msg.week?.number || 'General'}</p>
+                patientMessages.map(msg => {
+                  const weekNumber = msg.week?.number || 1;
+                  const weekTitle = msg.week?.title || 'General';
+                  return (
+                    <Card key={msg.id} className="cursor-pointer hover:bg-slate-50 transition-all" onClick={() => navigate(`/review/${msg.patient?.id}/${weekNumber}`)}>
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <p className="font-bold">{msg.patient?.user?.name}</p>
+                            <p className="text-sm text-muted-foreground mb-2">
+                              Module {Math.ceil(weekNumber / 2)} · {weekTitle}
+                            </p>
+                          </div>
+                          <Badge variant="outline">{new Date(msg.created_at).toLocaleDateString()}</Badge>
                         </div>
-                        <Badge variant="outline">{new Date(msg.created_at).toLocaleDateString()}</Badge>
-                      </div>
-                      <p className="mt-2 text-sm italic">"{msg.body}"</p>
-                    </CardContent>
-                  </Card>
-                ))
+                        <p className="mt-2 text-sm italic">"{msg.body}"</p>
+                      </CardContent>
+                    </Card>
+                  );
+                })
               )}
             </div>
           </TabsContent>
@@ -565,25 +570,28 @@ const TherapistDashboard = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {allWeeks
                       .filter(w => w.programs?.title === dbTitle)
-                      .map(w => (
-                        <Card
-                          key={w.id}
-                          className="group border-none shadow-premium rounded-2xl overflow-hidden hover:bg-slate-50 cursor-pointer transition-all active:scale-[0.98]"
-                          onClick={() => {
-                            navigate(`/week/${w.number}?variant=${variant}`);
-                          }}
-                        >
-                          <CardContent className="p-5 flex items-center justify-between bg-white group-hover:bg-slate-50/50 transition-colors">
-                            <div className="min-w-0">
-                              <p className="font-black text-slate-900 tracking-tight">Module {w.number}</p>
-                              <p className="text-[11px] font-bold text-slate-400 uppercase truncate max-w-[200px]">{(w.title || 'Untitled Module').replace(/^week\s*\d+\s*:\s*/i, '')}</p>
-                            </div>
-                            <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                              <ChevronRight className="h-4 w-4" />
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
+                      .map(w => {
+                        const moduleInfo = getModuleInfo(w.number, variant);
+                        return (
+                          <Card
+                            key={w.id}
+                            className="group border-none shadow-premium rounded-2xl overflow-hidden hover:bg-slate-50 cursor-pointer transition-all active:scale-[0.98]"
+                            onClick={() => {
+                              navigate(`/week/${w.number}?variant=${variant}`);
+                            }}
+                          >
+                            <CardContent className="p-5 flex items-center justify-between bg-white group-hover:bg-slate-50/50 transition-colors">
+                              <div className="min-w-0">
+                                <p className="font-black text-slate-900 tracking-tight">{moduleInfo.displayLabel}</p>
+                                <p className="text-[11px] font-bold text-slate-400 uppercase truncate max-w-[200px]">{cleanWeekTitle(w.title)}</p>
+                              </div>
+                              <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                                <ChevronRight className="h-4 w-4" />
+                              </div>
+                            </CardContent>
+                          </Card>
+                        );
+                      })}
                   </div>
                 </div>
               ))}
