@@ -183,6 +183,18 @@ export function getTimelineItems(programVariant: string): TimelineItem[] {
       });
     }
 
+    // Add Frenectomy Protocol Item
+    items.push({
+      id: "frenectomy-procedure",
+      weekNumbers: [],
+      label: "Frenectomy",
+      shortLabel: "OR", // Operating Room / Surgery
+      isPostOp: false,
+      isProtocol: true,
+      protocolSlug: "frenectomy",
+      order: 8.5,
+    });
+
     // Post-Op Weeks 9-10 (individual) re-labeled as Module 5 and 6
     items.push({
       id: 'postop-module-5',

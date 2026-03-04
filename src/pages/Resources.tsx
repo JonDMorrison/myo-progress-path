@@ -113,7 +113,7 @@ const Resources = () => {
     },
     {
       name: "AirVoel",
-      description: "Home sleep testing equipment approved by FDA and Health Canada. Helpful for finding CPAP machines and accessories.",
+      description: "Get your sleep apnea formally diagnosed without visiting your doctor’s office. Their home sleep testing equipment is approved by FDA and Health Canada. AirVoel also sells CPAP machines, masks, and accessories",
       url: "https://airvoel.ca/"
     }
   ];

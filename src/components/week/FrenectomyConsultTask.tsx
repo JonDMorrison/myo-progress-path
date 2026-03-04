@@ -81,10 +81,10 @@ export function FrenectomyConsultTask({
               htmlFor="frenectomy-consult" 
               className="font-medium cursor-pointer block"
             >
-              Book a frenectomy consultation with Vedder Dental
+              Frenectomy consultation with Dr Laura Caylor has been booked or completed
             </label>
             <p className="text-sm text-muted-foreground mt-1">
-              Before you can complete Week 1, please contact Vedder Dental to schedule your frenectomy consultation appointment.
+              For patients on the frenectomy pathway, this consultation is a required step during your first module.
             </p>
             <p className="text-sm text-primary font-medium mt-2">
               💡 Tip: Prebook your frenectomy for 8 weeks into your myo program

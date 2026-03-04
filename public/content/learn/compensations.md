@@ -30,7 +30,7 @@ This article is for **educational purposes only**—to help you understand what 
 
 ## Floor of Mouth Activation
 
-![Floor of Mouth Activation](/images/learn/compensations/floor-of-mouth.jpg)
+![Floor of Mouth Activation](/images/assets/floor-mouth-activation.png)
 
 **What it looks like:** The area under the tongue or behind the chin (floor of the mouth) bulges or lifts during tongue exercises.
 
@@ -38,11 +38,22 @@ This article is for **educational purposes only**—to help you understand what 
 
 ## Facial Grimace
 
-![Facial Grimace](/images/learn/compensations/facial-grimace.jpg)
-
 **What it looks like:** Lips round or purse, cheeks pull inward, and/or the chin dimples or shows strain—often during mouth opening or swallowing.
+![Facial Grimace/Tongue Posture](/images/assets/tongue-posture-grimace.png)
 
 **Why it happens:** Facial muscles overwork to compensate for improper tongue function or weak oral muscles.
+
+## Tension
+
+**What it looks like:** Tension through any muscles of the body that are not being used for the exercise. This could be hands/fingers, shoulders, toes etc.
+
+**Why it happens:** This is a common habit when trying to focus on a new skill. It is important to keep the rest of your body relaxed while focusing on your oral exercises.
+
+## Mouth Breathing
+
+**What it looks like:** Breathing through the mouth instead of the nose.
+
+**Why it happens:** This often happens due to habit or nasal congestion. It is important to prioritize nasal breathing. If you are feeling congested, please use the **Nasal Unblocking Exercises** provided.
 
 
 ---

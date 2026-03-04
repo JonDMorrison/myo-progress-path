@@ -26,7 +26,7 @@ export const ProgramOverviewStep = ({ selectedPathway }: ProgramOverviewStepProp
           <p className="text-sm text-muted-foreground">
             {isFrenectomy
               ? 'Biweekly modules before surgery, followed by post-op recovery phases'
-              : 'each module requires dedicated daily practice'}
+              : 'Each module requires dedicated daily practice'}
           </p>
         </div>
 

@@ -38,23 +38,30 @@ export function WeekCompletionChecklist({
     );
   }
 
-  // Calculate exercise completion
+  // Calculate exercise completion based on specific targets
   const exerciseCompletions = progress?.exercise_completions || {};
-  const completedExercises = Object.values(exerciseCompletions).filter(
-    (count): count is number => typeof count === 'number' && count > 0
-  ).length;
-  const totalExercises = exercises.length;
-  const allExercisesComplete = totalExercises > 0 && completedExercises === totalExercises;
+  const exerciseStatus = exercises.map(ex => {
+    const count = exerciseCompletions[ex.id] || 0;
+    const target = ex.completion_target || 1; // Default to 1 if not specified
+    return {
+      id: ex.id,
+      complete: count >= target,
+      count,
+      target
+    };
+  });
 
-  // Check if frenectomy consult is required (Week 1, frenectomy pathway only)
-  const isFrenectomyWeek1 = weekNumber === 1 && isFrenectomyVariant(programVariant);
+  const completedSessions = exerciseStatus.reduce((acc, s) => acc + s.count, 0);
+  const totalSessionsTarget = exerciseStatus.reduce((acc, s) => acc + s.target, 0);
+  const allExercisesComplete = totalSessionsTarget > 0 && completedSessions >= totalSessionsTarget;
 
-  // Check if this patient's plan includes video submissions
-  const patientHasVideo = requiresVideo(programVariant);
+  // Check if frenectomy consult is required (Module 1, frenectomy pathway only)
+  const isFrenectomyModule1 = (weekNumber === 1 || weekNumber === 2) && isFrenectomyVariant(programVariant);
 
-  // Determine video display mode (only if patient has video variant)
-  const showBothVideos = patientHasVideo && week.requires_video_first && week.requires_video_last;
-  const showSingleVideo = patientHasVideo && !week.requires_video_first && week.requires_video_last;
+  // Per client update: emailing videos is now required for ALL pathways
+  const isModule1 = weekNumber === 1 || weekNumber === 2;
+  const showBothVideos = isModule1;
+  const showSingleVideo = !isModule1;
 
   // Build requirements array with conditional video labels
   const requirements = [];
@@ -63,13 +70,13 @@ export function WeekCompletionChecklist({
   if (showBothVideos) {
     // Post-Op Recovery: Both videos required
     requirements.push({
-      label: 'First Video',
+      label: 'First attempt video emailed',
       complete: uploads.some((u: any) => u.kind === 'first_attempt'),
       required: true,
       icon: "🎥"
     });
     requirements.push({
-      label: 'Final Video',
+      label: 'Last attempt video emailed',
       complete: uploads.some((u: any) => u.kind === 'last_attempt'),
       required: true,
       icon: "🎬"
@@ -77,7 +84,7 @@ export function WeekCompletionChecklist({
   } else if (showSingleVideo) {
     // Part Two: Single module video required
     requirements.push({
-      label: 'Module Video',
+      label: 'Module video emailed',
       complete: uploads.some((u: any) => u.kind === 'last_attempt'),
       required: true,
       icon: "🎥"
@@ -87,33 +94,33 @@ export function WeekCompletionChecklist({
   // Add remaining requirements
   requirements.push(
     {
-      label: 'BOLT Score',
+      label: 'BOLT Test done',
       complete: week.requires_bolt && !!progress.bolt_score,
       required: week.requires_bolt,
       icon: "📊"
     },
     {
-      label: 'Breathing',
+      label: 'Nasal Breathing chart completed',
       complete: progress.nasal_breathing_pct !== null && progress.nasal_breathing_pct !== undefined,
       required: true,
       icon: "💨"
     },
     {
-      label: 'Posture',
+      label: 'Tongue on Spot chart completed',
       complete: progress.tongue_on_spot_pct !== null && progress.tongue_on_spot_pct !== undefined,
       required: true,
       icon: "👅"
     },
     {
-      label: `Exercises (${completedExercises}/${totalExercises})`,
+      label: `Exercise sessions (${completedSessions}/${totalSessionsTarget})`,
       complete: allExercisesComplete,
-      required: totalExercises > 0,
+      required: totalSessionsTarget > 0,
       icon: "🏃"
     },
     {
-      label: 'Consult',
+      label: 'Frenectomy consultation with Dr Laura Caylor',
       complete: progress?.frenectomy_consult_booked === true,
-      required: isFrenectomyWeek1,
+      required: isFrenectomyModule1,
       icon: "📅"
     }
   );

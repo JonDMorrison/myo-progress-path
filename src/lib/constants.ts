@@ -23,10 +23,11 @@ export function isFrenectomyVariant(variant: string | null | undefined): boolean
 
 /**
  * Returns true if the variant includes video submissions
+ * Per client update: emailing videos is now required for ALL pathways
  */
 export function requiresVideo(variant: string | null | undefined): boolean {
-  const v = variant || '';
-  return v.endsWith('_video');
+  if (!variant) return true; // Default to true if not specified
+  return true; // Force true for all variants as per the latest requirements
 }
 
 /**

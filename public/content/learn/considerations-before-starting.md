@@ -1,0 +1,34 @@
+# Considerations Before Starting
+
+## Program Details
+By signing this agreement, you will be able to purchase a comprehensive myofunctional therapy program. This includes 24 weeks of exercises and depending on the tier purchased a brief evaluation done biweekly by a myofunctional therapist through video submissions and written feedback. There are two different programs available based on whether you require a tongue tie surgery/frenectomy or not. This is determined by a tongue tie grading scale and will be assessed during your airway exam at Montrose Dental. There is an option to have multiple family members do the same myofunctional therapy program as long as they have the same grade of tongue tie. If additional people would still like to have the weekly evaluations from the myofunctional therapist then an additional fee will be charged.
+
+This comprehensive myofunctional therapy program may also require additional treatment outside of this program. You may need to coordinate with other healthcare providers, such as a medical doctor, allergist, ENT, dentist, orthodontist, physiotherapist, chiropractor, massage therapist, or speech language pathologist. This will provide multi-disciplinary support for your airway and myofunctional needs. This will be discussed at your airway exam.
+
+## Treatment Outcomes
+Generally, informed and cooperative patients can achieve successful results from myofunctional therapy. As with any form of treatment, there are limitations and risks. These are seldom serious enough to indicate that you should not undergo treatment. This at-home program was developed to reduce the cost and the number of in-person appointments for the patient as these were determined to be the biggest barriers for starting therapy. It is important to understand that this is not as ideal as seeing a myofunctional therapist in person every 2 weeks who can provide you with case by case care. Every patient presents with unique symptoms and circumstances, but we wanted to create a more accessible option for patients. For patients with more complicated cases, we will be referring them to Pearl OMT. The most common risks associated with myofunctional therapy are pain and fatigue of the orofacial muscles during/post exercises.
+
+To achieve optimal results, it is recommended that patients practice all their exercises, twice per day, in the mirror. It is not only important to do these exercises, but to do them as instructed. We cannot guarantee that you will be completely satisfied with your results if the provided exercises are not completed. The success of your therapy depends on the level of cooperation and involvement that you are willing to take. It is important to keep in mind that outside of the exercises given, developing an awareness of your breathing and oral postures is crucial. We will try to provide you with all the necessary tools to help you develop awareness. Ultimately, this is a skill each patient will need to cultivate on their own.
+
+Completing myofunctional therapy treatment does not guarantee perfect breathing or oral and facial musculature for the rest of a person's life. Therapy will help develop awareness of correct breathing, swallowing, facial muscle function, resting posture of the lips and tongue, and poor habits. Without maintaining this awareness, old habits and muscle patterns can resurface months or years later. After myofunctional therapy is completed, you will not be required to practice regular myofunctional exercises if the awareness of your newly learned habits is maintained.
+
+## Specific Treatment Concerns
+Myofunctional therapy addresses various conditions, and some patients may need additional support from specialists. Here's what you need to know about specific treatment areas.
+
+**Allergies or Other Breathing Concerns:** In some cases, it may be necessary to work with a specialist to manage and control airway issues related to breathing prior to myofunctional therapy. A referral to a medical doctor, allergist, or ENT may be recommended to allow for the necessary nasal breathing.
+
+**Temporomandibular Joint (TMJ) Dysfunction:** Many patients will find relief from problems that occur in the temporomandibular joints (TMJ). These problems can cause: pain, headaches, and ear problems. Problems associated with the TMJ are often multi-faceted and can be rooted in non-muscular causes; therefore, we cannot predict that these outcomes will be consistent for every patient undergoing therapy. Treatment by other medical or dental specialists may be necessary and recommended accordingly.
+
+**Speech Therapy:** Myofunctional therapy has been shown to improve speech when muscular concerns are the underlying issue. Myofunctional therapy can be considered a building block that is often part of achieving successful speech changes. Due to the wide variation in causes for speech concerns and disorders, it is impossible to guarantee that myofunctional therapy alone will improve your speech. Treatment by a licensed speech pathologist may be necessary.
+
+**Orthodontics or Palatal Expansion:** In order to create the space required for adequate tongue placement, a referral to an orthodontist and/or oral surgeon may be required prior to myofunctional therapy.
+
+**Ankyloglossia (Tongue-Tie) and Frenectomy:** Many patients experience myofunctional disorders caused by a tongue tie (a tight or restricted lingual frenum). In these cases, a frenectomy is recommended. This is because it is difficult for patients to complete myofunctional therapy as the tongue tie causes severe tongue restriction where the tongue is unable to function or move properly.
+
+After an assessment, you will be provided with one of two programs depending on whether you require a frenectomy or not. Occasionally, further tongue mobility restrictions are noticed during therapy, and it may be determined at any point that the other program and a frenectomy is indicated.
+
+In the circumstance a frenectomy should be performed, you will be referred to Dr. Laura Caylor at Vedder Dental Clinic in Chilliwack. There will be an additional fee for the consultation with Dr. Caylor and the frenectomy. The frenectomy plus follow-up cost is approximately $1,000. Most dental insurance plans cover this under basic coverage at 80%+. More detailed estimates can be provided at Vedder Dental Clinic.
+
+If you choose not to have a frenectomy when advised, we cannot guarantee optimal outcomes for your myofunctional therapy, although you can still expect some improvement.
+
+For patients who are undergoing a frenectomy, the program includes 8 weeks of pre-frenectomy stretches/exercises and post-frenectomy healing protocols. If these protocols are not strictly followed, it is possible for the frenum to reattach. It is also important to continue with myofunctional therapy post-frenectomy to allow for proper muscle coordination of the tongue to be developed.

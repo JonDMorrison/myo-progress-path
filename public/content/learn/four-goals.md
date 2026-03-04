@@ -3,6 +3,7 @@
 ## 1. Nasal Breathing (all day and all night)
 
 - Myofunctional therapy helps the transition from mouth breathing to nasal breathing, which is crucial for proper oxygenation, structural development and overall health.
+![Normal vs High-Arched Palate](/images/learn/palate-comparison.jpg)
 - It is important to determine the cause and address issues which may be affecting breathing before myofunctional therapy. Examples include:
   - Deviated septums
   - Enlarged adenoids
@@ -11,8 +12,7 @@
   - Enlarged tonsils
   - Allergies
 - Those who mouth breath during developmental years, regardless of the cause, will often develop high vaulted and narrow palates (see photo below). This palatal difference reduces the width and height of the nasal cavity and will affect breathing for life.
-
-![Normal vs High-Arched Palate](/images/learn/palate-comparison.jpg)
+![Vu and Hickey - Structural jaw changes](/images/assets/vu-hickey.png)
 
 - Some functions of nasal breathing include:
   - Filtration of air
@@ -40,6 +40,7 @@
   - Mouth tape
   - Chin up Strips
   - Chin Straps
+![Mouth Taping Example](/images/assets/mouth-taping-demo.png)
 
 ## 3. Chewing and Swallowing
 
@@ -50,6 +51,7 @@
 
 - Establishing a proper resting position for the tongue is a key focus
 - The tip of the tongue should rest naturally on the palate behind the upper incisors. Referred to as **the spot**. (See photo below)
+![Roof of Mouth Anatomy](/images/assets/roof-of-mouth.png)
 
 ![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 

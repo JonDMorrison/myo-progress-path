@@ -568,30 +568,41 @@ const TherapistDashboard = () => {
                     <h2 className="text-xl font-black text-slate-900 tracking-tight underline decoration-primary/30 decoration-4 underline-offset-4">{label}</h2>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {allWeeks
-                      .filter(w => w.programs?.title === dbTitle)
-                      .map(w => {
-                        const moduleInfo = getModuleInfo(w.number, variant);
-                        return (
-                          <Card
-                            key={w.id}
-                            className="group border-none shadow-premium rounded-2xl overflow-hidden hover:bg-slate-50 cursor-pointer transition-all active:scale-[0.98]"
-                            onClick={() => {
-                              navigate(`/week/${w.number}?variant=${variant}`);
-                            }}
-                          >
-                            <CardContent className="p-5 flex items-center justify-between bg-white group-hover:bg-slate-50/50 transition-colors">
-                              <div className="min-w-0">
-                                <p className="font-black text-slate-900 tracking-tight">{moduleInfo.displayLabel}</p>
-                                <p className="text-[11px] font-bold text-slate-400 uppercase truncate max-w-[200px]">{cleanWeekTitle(w.title)}</p>
-                              </div>
-                              <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                                <ChevronRight className="h-4 w-4" />
-                              </div>
-                            </CardContent>
-                          </Card>
-                        );
-                      })}
+                    {Object.values(
+                      allWeeks
+                        .filter(w => w.programs?.title === dbTitle)
+                        .reduce((acc, w) => {
+                          const moduleInfo = getModuleInfo(w.number, variant);
+                          if (!acc[moduleInfo.moduleNumber]) {
+                            acc[moduleInfo.moduleNumber] = {
+                              w,
+                              moduleInfo
+                            };
+                          }
+                          return acc;
+                        }, {} as Record<number, any>)
+                    ).map((item: any) => {
+                      const { w, moduleInfo } = item;
+                      return (
+                        <Card
+                          key={w.id}
+                          className="group border-none shadow-premium rounded-2xl overflow-hidden hover:bg-slate-50 cursor-pointer transition-all active:scale-[0.98]"
+                          onClick={() => {
+                            navigate(`/week/${moduleInfo.weekRange[0]}?variant=${variant}`);
+                          }}
+                        >
+                          <CardContent className="p-5 flex items-center justify-between bg-white group-hover:bg-slate-50/50 transition-colors">
+                            <div className="min-w-0">
+                              <p className="font-black text-slate-900 tracking-tight">{moduleInfo.displayLabel}</p>
+                              <p className="text-[11px] font-bold text-slate-400 uppercase truncate max-w-[200px]">{cleanWeekTitle(w.title)}</p>
+                            </div>
+                            <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                              <ChevronRight className="h-4 w-4" />
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </div>
                 </div>
               ))}

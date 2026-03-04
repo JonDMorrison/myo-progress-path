@@ -32,12 +32,15 @@ Once you are comfortable wearing mouth tape for extended periods during the day,
 **When to Stop:**
 Remove tape immediately if you experience difficulty breathing, panic, or significant nasal congestion. Consult your therapist if overnight taping remains uncomfortable after 2 weeks of attempting.`;
 
-export const MOUTH_TAPE_DAYTIME_INSTRUCTIONS = `1. Make sure you have tape that will stick and not irritate your skin (Micropore or Surgical Tape are recommended as they are breathable)
-2. Use lip balm or Chapstick if your lips are dry, before applying the tape
-3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable
-4. Find a 1 hour quiet activity (during screen time, reading, in the car, cooking etc)
+export const MOUTH_TAPE_DAYTIME_INSTRUCTIONS = `1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)
+2. Use lip balm or Chapstick if your lips are dry, before applying the tape.
+3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.
+4. Find a 1 hour quiet activity you can do to let the time pass (during screen time, reading, in the car, cooking etc).
+
+- If you cannot find a full hour to use the tape, just do it for as long as you can. You can always come back to add more time later. Remember that a continuous hour is better than a split-up hour if you can do it.
 
 **Tips:**
-- You may not be able to do a full hour. Start with 5 or 10 minutes and add more time
-- If you feel claustrophobic, practice Belly Breathing first to help relax before applying tape
-- Consider doing the unblocking your nose exercises first`;
+- You may not be able to do a full hour. I recommend starting with 5 or 10 minutes and adding more time depending on how well you do.
+- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape
+- Consider doing the unblocking your nose exercises first
+- Start applying mouth tape over night once comfortable with longer periods of time. This will be added as a second passive exercise in future weeks.`;

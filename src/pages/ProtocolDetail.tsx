@@ -82,6 +82,7 @@ const ProtocolDetail = () => {
   const [patient, setPatient] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const isFrenectomyOverview = slug === 'frenectomy';
   const isPreOp = slug === 'pre-op-protocol' || slug === 'pre-op';
   const protocol = isPreOp ? PRE_OP_PROTOCOL : POST_OP_PROTOCOL;
 

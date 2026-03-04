@@ -65,7 +65,7 @@ const Home = () => {
     answer: "Yes — we use secure accounts, private storage, and strict access controls to protect your information."
   }, {
     question: "Who reviews my progress?",
-    answer: "Montrose Myo"
+    answer: "Our Myofunctional Therapist at Montrose Myo"
   }, {
     question: "How do video check-ins work?",
     answer: "For each biweekly module, you will upload first attempt and last attempt videos of your exercises for your therapist to review and provide personalized guidance"

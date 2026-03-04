@@ -12,12 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import learnHubHero from "@/assets/learn-hub-hero.jpg";
 
 // Articles that require authentication (logged-in only)
-// Public: intro-to-myofunctional-therapy, four-goals, expectations, structural-changes, 
-//         health-effects, sleep-apnea, children-signs, causes-in-infancy
 const RESTRICTED_ARTICLES = [
-  'program-specifics',
-  'compensations',
-  'frenectomy-pathway',
   'therapy-kit'
 ];
 

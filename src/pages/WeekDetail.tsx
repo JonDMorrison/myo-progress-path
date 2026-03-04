@@ -551,9 +551,9 @@ const WeekDetail = () => {
 
                 {/* Video Assignments - Conditional rendering based on video requirements */}
                 {(() => {
-                  const patientHasVideo = requiresVideo(patient?.program_variant);
-                  const showBothVideos = patientHasVideo && week?.requires_video_first && week?.requires_video_last;
-                  const showSingleVideo = patientHasVideo && !week?.requires_video_first && week?.requires_video_last;
+                  const isModule1 = parseInt(weekNumber || "0") === 1 || parseInt(weekNumber || "0") === 2;
+                  const showBothVideos = isModule1;
+                  const showSingleVideo = !isModule1;
                   
                   if (!showBothVideos && !showSingleVideo) return null;
                   
