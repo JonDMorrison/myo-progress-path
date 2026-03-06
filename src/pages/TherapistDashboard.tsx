@@ -426,18 +426,14 @@ const TherapistDashboard = () => {
     }, 300);
   };
 
-  if (loading) {
-    return (
-      <TherapistLayout title="Inbox" description="Review & approve patient progress">
-        <div className="flex items-center justify-center py-16">
-          <div className="text-center">
-            <Loader className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
-            <p className="text-muted-foreground">Loading inbox...</p>
-          </div>
-        </div>
-      </TherapistLayout>
-    );
-  }
+  const loadingSpinner = (
+    <div className="flex items-center justify-center py-16">
+      <div className="text-center">
+        <Loader className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+        <p className="text-muted-foreground">Loading inbox...</p>
+      </div>
+    </div>
+  );
 
   const needsReviewCount = reviews.filter(r => r.status === "submitted" || r.status === "needs_more").length;
 
