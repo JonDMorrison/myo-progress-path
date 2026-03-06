@@ -522,7 +522,7 @@ const ReviewPanel = ({
                       <h4 className="font-semibold text-success">Program Completion Note</h4>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      This is the final week! Write a personalized completion note emphasizing
+                      This is the final module! Write a personalized completion note emphasizing
                       habit awareness, long-term carryover, and self-monitoring skills.
                     </p>
                     <Button
