@@ -11,7 +11,7 @@ import { notifyTherapistSubmission } from "@/lib/notify";
 import { grantBadgeWithToast } from "@/lib/gamification";
 import confetti from "canvas-confetti";
 import { ResponsiveVideo } from "@/components/week/ResponsiveVideo";
-import { VideoUpload } from "@/components/week/VideoUpload";
+
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { isWeekAccessible, isWeekReadOnly } from "@/lib/userProgress";
