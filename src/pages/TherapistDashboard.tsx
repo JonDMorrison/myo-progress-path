@@ -549,7 +549,7 @@ const TherapistDashboard = () => {
                   );
                 })
               )}
-            </div>
+            </div>}
           </TabsContent>
 
           <TabsContent value="curriculum" className="space-y-8">
