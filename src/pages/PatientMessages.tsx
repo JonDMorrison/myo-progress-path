@@ -57,7 +57,7 @@ const PatientMessages = () => {
       const { data: patientData } = await supabase
         .from("patients")
         .select("*")
-        .eq("user_id", user.id)
+        .eq("user_id", uid)
         .single();
 
       if (!patientData) throw new Error("Patient not found");
