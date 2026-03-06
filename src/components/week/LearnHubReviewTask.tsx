@@ -15,10 +15,10 @@ interface LearnHubReviewTaskProps {
 }
 
 const keyArticles = [
-  { slug: "intro-to-myofunctional-therapy", title: "Introduction to Myofunctional Therapy" },
-  { slug: "four-goals", title: "The Four Goals" },
-  { slug: "expectations", title: "What to Expect" },
+  { slug: "program-specifics", title: "Program Specifics" },
   { slug: "compensations", title: "Compensations to Limit" },
+  { slug: "frenectomy-pathway", title: "Frenectomy Pathway" },
+  { slug: "therapy-kit", title: "Your Therapy Kit" },
 ];
 
 export function LearnHubReviewTask({

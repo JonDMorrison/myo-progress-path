@@ -2,10 +2,10 @@ import { BookOpen, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const keyArticles = [
-  { slug: "intro-to-myofunctional-therapy", title: "Introduction to Myofunctional Therapy" },
-  { slug: "four-goals", title: "The Four Goals of Therapy" },
-  { slug: "expectations", title: "What to Expect" },
+  { slug: "program-specifics", title: "Program Specifics" },
   { slug: "compensations", title: "Compensations to Limit" },
+  { slug: "frenectomy-pathway", title: "Frenectomy Pathway" },
+  { slug: "therapy-kit", title: "Your Therapy Kit" },
 ];
 
 export const LearnHubStep = () => {
