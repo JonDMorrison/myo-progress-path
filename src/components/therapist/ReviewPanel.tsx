@@ -537,7 +537,7 @@ const ReviewPanel = ({
                   </div>
                 )}
 
-                {/* Quick Templates (hidden for week 24 to emphasize completion note) */}
+                {/* Quick Templates (hidden for final module to emphasize completion note) */}
                 {weekNumber !== 24 && (
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-muted-foreground">Quick notes</label>
