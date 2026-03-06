@@ -7,12 +7,6 @@
       "description": "Learn what myofunctional therapy is, how it works, and who can benefit from this evidence-based approach to improving oral function."
     },
     { 
-      "slug": "considerations-before-starting", 
-      "title": "Considerations Before Starting", 
-      "tags": ["program", "overview"],
-      "description": "Important details you need to know before starting your myofunctional therapy program, including program details, outcomes, and specific concerns."
-    },
-    { 
       "slug": "four-goals", 
       "title": "The Four Goals of Myofunctional Therapy", 
       "tags": ["nasal-breathing","lip-seal","chewing-swallowing","tongue-posture"],
@@ -53,6 +47,12 @@
       "title": "Causes of Myofunctional Disorders During Infancy", 
       "tags": ["infancy"],
       "description": "Discover how feeding practices, pacifier use, and other infant factors can contribute to myofunctional disorders."
+    },
+    { 
+      "slug": "considerations-before-starting", 
+      "title": "Considerations Before Starting", 
+      "tags": ["program", "overview"],
+      "description": "Important details you need to know before starting your myofunctional therapy program, including program details, outcomes, and specific concerns."
     },
     { 
       "slug": "program-specifics", 
