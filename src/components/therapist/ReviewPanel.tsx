@@ -514,7 +514,7 @@ const ReviewPanel = ({
                   Send Rich Feedback (Video/Photo/Text)
                 </Button>
 
-                {/* Week 24 Special Completion Note Section */}
+                {/* Final Module Special Completion Note Section */}
                 {weekNumber === 24 && (
                   <div className="bg-success/5 border border-success/20 rounded-lg p-4 space-y-3">
                     <div className="flex items-center gap-2">
