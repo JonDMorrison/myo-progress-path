@@ -201,7 +201,7 @@ const Reports = () => {
       "Patient Name",
       "Email",
       "Program Variant",
-      "Week #",
+      "Module #",
       "Status",
       "BOLT Score",
       "Nasal %",
