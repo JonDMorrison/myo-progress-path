@@ -378,8 +378,8 @@ export function WeekExercisesList({
                 </div>
               )}
 
-              {/* Per-Exercise Video Upload - show for all exercises */}
-              {patientId && weekId && !readOnly && (
+              {/* Per-Exercise Video Upload */}
+              {patientId && weekId && (
                 <ExerciseVideoUpload
                   patientId={patientId}
                   weekId={weekId}
