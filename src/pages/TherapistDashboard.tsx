@@ -426,18 +426,14 @@ const TherapistDashboard = () => {
     }, 300);
   };
 
-  if (loading) {
-    return (
-      <TherapistLayout title="Inbox" description="Review & approve patient progress">
-        <div className="flex items-center justify-center py-16">
-          <div className="text-center">
-            <Loader className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
-            <p className="text-muted-foreground">Loading inbox...</p>
-          </div>
-        </div>
-      </TherapistLayout>
-    );
-  }
+  const loadingSpinner = (
+    <div className="flex items-center justify-center py-16">
+      <div className="text-center">
+        <Loader className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+        <p className="text-muted-foreground">Loading inbox...</p>
+      </div>
+    </div>
+  );
 
   const needsReviewCount = reviews.filter(r => r.status === "submitted" || r.status === "needs_more").length;
 
@@ -468,7 +464,7 @@ const TherapistDashboard = () => {
           )}
 
           <TabsContent value="needs-review" className="space-y-4">
-            {filteredReviews.length === 0 ? (
+            {loading ? loadingSpinner : filteredReviews.length === 0 ? (
               <div className="text-center py-16">
                 <CheckCircle2 className="w-16 h-16 text-success mx-auto mb-4" />
                 <p className="text-lg font-medium">All caught up!</p>
@@ -503,7 +499,7 @@ const TherapistDashboard = () => {
           </TabsContent>
 
           <TabsContent value="approved" className="space-y-4">
-            {reviews.filter(r => r.status === "approved").length === 0 ? (
+            {loading ? loadingSpinner : reviews.filter(r => r.status === "approved").length === 0 ? (
               <p className="text-center py-16 text-muted-foreground">No approved weeks in last 30 days.</p>
             ) : (
               reviews.filter(r => r.status === "approved").map(review => (
@@ -528,7 +524,7 @@ const TherapistDashboard = () => {
           </TabsContent>
 
           <TabsContent value="messages" className="space-y-3">
-            <div className="space-y-4">
+            {loading ? loadingSpinner : <div className="space-y-4">
               {patientMessages.length === 0 ? (
                 <p className="text-center py-16 text-muted-foreground italic">No messages from patients</p>
               ) : (
@@ -553,7 +549,7 @@ const TherapistDashboard = () => {
                   );
                 })
               )}
-            </div>
+            </div>}
           </TabsContent>
 
           <TabsContent value="curriculum" className="space-y-8">
