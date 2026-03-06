@@ -110,7 +110,7 @@ export function PrivacyManager({ patientId, weekId, onUpdate }: PrivacyManagerPr
                     </h4>
 
                     {uploads.length === 0 ? (
-                        <p className="text-sm text-slate-400 italic">No videos uploaded for this week.</p>
+                        <p className="text-sm text-slate-400 italic">No videos uploaded for this module.</p>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {uploads.map((upload) => (
