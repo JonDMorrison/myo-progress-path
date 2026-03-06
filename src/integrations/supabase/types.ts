@@ -69,22 +69,7 @@ export type Database = {
           target_type?: string
           user_agent?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "audit_log_actor_id_fkey"
-            columns: ["actor_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "audit_log_actor_id_fkey"
-            columns: ["actor_id"]
-            isOneToOne: false
-            referencedRelation: "v_master_patient_list"
-            referencedColumns: ["therapist_id"]
-          },
-        ]
+        Relationships: []
       }
       badges: {
         Row: {
