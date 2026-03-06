@@ -58,38 +58,8 @@ export function WeekCompletionChecklist({
   // Check if frenectomy consult is required (Module 1, frenectomy pathway only)
   const isFrenectomyModule1 = (weekNumber === 1 || weekNumber === 2) && isFrenectomyVariant(programVariant);
 
-  // Per client update: emailing videos is now required for ALL pathways
-  const isModule1 = weekNumber === 1 || weekNumber === 2;
-  const showBothVideos = isModule1;
-  const showSingleVideo = !isModule1;
-
-  // Build requirements array with conditional video labels
+  // Build requirements array (video uploads are now per-exercise, not week-level)
   const requirements = [];
-
-  // Add video requirements based on configuration
-  if (showBothVideos) {
-    // Post-Op Recovery: Both videos required
-    requirements.push({
-      label: 'First attempt video emailed',
-      complete: uploads.some((u: any) => u.kind === 'first_attempt'),
-      required: true,
-      icon: "🎥"
-    });
-    requirements.push({
-      label: 'Last attempt video emailed',
-      complete: uploads.some((u: any) => u.kind === 'last_attempt'),
-      required: true,
-      icon: "🎬"
-    });
-  } else if (showSingleVideo) {
-    // Part Two: Single module video required
-    requirements.push({
-      label: 'Module video emailed',
-      complete: uploads.some((u: any) => u.kind === 'last_attempt'),
-      required: true,
-      icon: "🎥"
-    });
-  }
 
   // Add remaining requirements
   requirements.push(
