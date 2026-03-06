@@ -11,7 +11,7 @@ import { notifyTherapistSubmission } from "@/lib/notify";
 import { grantBadgeWithToast } from "@/lib/gamification";
 import confetti from "canvas-confetti";
 import { ResponsiveVideo } from "@/components/week/ResponsiveVideo";
-import { VideoUpload } from "@/components/week/VideoUpload";
+
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { isWeekAccessible, isWeekReadOnly } from "@/lib/userProgress";
@@ -549,77 +549,7 @@ const WeekDetail = () => {
                   )}
                 </div>
 
-                {/* Video Assignments - Conditional rendering based on video requirements */}
-                {(() => {
-                  const isModule1 = parseInt(weekNumber || "0") === 1 || parseInt(weekNumber || "0") === 2;
-                  const showBothVideos = isModule1;
-                  const showSingleVideo = !isModule1;
-                  
-                  if (!showBothVideos && !showSingleVideo) return null;
-                  
-                  return (
-                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-5 duration-700">
-                      <div className="flex items-center gap-4">
-                        <div className="h-10 w-1 bg-primary rounded-full" />
-                        <h2 className="text-2xl font-bold text-slate-900">
-                          {showBothVideos ? 'Video Assignments' : 'Module Video'}
-                        </h2>
-                      </div>
-
-                      <div className={`grid grid-cols-1 ${showBothVideos ? 'md:grid-cols-2' : ''} gap-6`}>
-                        {/* Post-Op Recovery: First Attempt (only when both videos required) */}
-                        {showBothVideos && (
-                          <Card className="rounded-[2rem] border-slate-200 shadow-sm overflow-hidden">
-                            <CardContent className="p-6 space-y-4">
-                              <div className="flex items-center gap-3 mb-2">
-                                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 font-bold">1</div>
-                                <h3 className="font-bold text-lg">First Attempt</h3>
-                              </div>
-                              <p className="text-sm text-muted-foreground mb-4">
-                                Record your first attempt during recovery. This helps us track your healing progress.
-                              </p>
-                              <VideoUpload
-                                patientId={patient.id}
-                                weekId={week.id}
-                                kind="first_attempt"
-                                onUploadComplete={handleVideoUploadComplete}
-                                hasExisting={uploads.some(u => u.kind === 'first_attempt')}
-                                disabled={isReadOnly}
-                              />
-                            </CardContent>
-                          </Card>
-                        )}
-
-                        {/* Part Two: Single Module Video OR Post-Op: Final Result */}
-                        <Card className="rounded-[2rem] border-slate-200 shadow-sm overflow-hidden">
-                          <CardContent className="p-6 space-y-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <div className={`w-10 h-10 rounded-full ${showBothVideos ? 'bg-indigo-50' : 'bg-primary/10'} flex items-center justify-center ${showBothVideos ? 'text-indigo-500' : 'text-primary'} font-bold`}>
-                                {showBothVideos ? '2' : '🎥'}
-                              </div>
-                              <h3 className="font-bold text-lg">
-                                {showBothVideos ? 'Final Result' : 'Module Completion Video'}
-                              </h3>
-                            </div>
-                            <p className="text-sm text-muted-foreground mb-4">
-                              {showBothVideos 
-                                ? 'Record your progress at the end of this recovery phase.'
-                                : 'Record your best attempt at completing this module\'s exercises to demonstrate your progress.'}
-                            </p>
-                            <VideoUpload
-                              patientId={patient.id}
-                              weekId={week.id}
-                              kind="last_attempt"
-                              onUploadComplete={handleVideoUploadComplete}
-                              hasExisting={uploads.some(u => u.kind === 'last_attempt')}
-                              disabled={isReadOnly}
-                            />
-                          </CardContent>
-                        </Card>
-                      </div>
-                    </div>
-                  );
-                })()}
+                {/* Video uploads are now per-exercise within the exercises list */}
 
                 {/* Exercise Progress & List */}
                 <div className="space-y-10 pt-6">

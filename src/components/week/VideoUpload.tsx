@@ -168,7 +168,7 @@ export function VideoUpload({
 
       {!uploading && !hasExisting && (
         <p className="text-xs text-muted-foreground text-center">
-          Max 100MB • .mp4 or .mov only
+          Max 500MB • .mp4 or .mov only
         </p>
       )}
 

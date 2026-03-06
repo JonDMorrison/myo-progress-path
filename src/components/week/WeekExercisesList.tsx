@@ -378,8 +378,8 @@ export function WeekExercisesList({
                 </div>
               )}
 
-              {/* Per-Exercise Video Upload - only show if video_required is true */}
-              {exercise.video_required && patientId && weekId && !readOnly && (
+              {/* Per-Exercise Video Upload */}
+              {patientId && weekId && (
                 <ExerciseVideoUpload
                   patientId={patientId}
                   weekId={weekId}
