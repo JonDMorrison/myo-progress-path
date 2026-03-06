@@ -602,7 +602,7 @@ const ReviewPanel = ({
                   </Button>
                   {showNoteField && (
                     <p className="text-xs text-muted-foreground mt-2 text-center">
-                      This will unlock the week for the patient to practice again
+                      This will unlock the module for the patient to practice again
                     </p>
                   )}
                 </div>
