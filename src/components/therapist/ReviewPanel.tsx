@@ -608,7 +608,7 @@ const ReviewPanel = ({
                 </div>
               )}
 
-              {/* Week 24 Maintenance Mode Option */}
+              {/* Final Module Maintenance Mode Option */}
               {weekNumber === 24 && (
                 <div className="flex flex-col gap-2 mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
                   <p className="text-sm font-medium text-primary flex items-center gap-2">
