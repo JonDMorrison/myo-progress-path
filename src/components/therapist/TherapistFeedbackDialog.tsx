@@ -85,10 +85,10 @@ const TherapistFeedbackDialog = ({
   const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 100 * 1024 * 1024) {
+      if (file.size > 500 * 1024 * 1024) {
         toast({
           title: "File too large",
-          description: "Video must be under 100MB",
+          description: "Video must be under 500MB",
           variant: "destructive",
         });
         return;
