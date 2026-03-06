@@ -140,7 +140,7 @@ export function PreviousWeeksReview({
       // Post-op days/weeks
       return moduleInfo.displayLabel;
     }
-    return `${moduleInfo.moduleLabel} (Weeks ${moduleInfo.weekRange[0]}–${moduleInfo.weekRange[1]})`;
+    return moduleInfo.moduleLabel;
   };
 
   return (
@@ -186,11 +186,11 @@ export function PreviousWeeksReview({
               {/* Week Selector */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">
-                  Select a week to review:
+                  Select a module to review:
                 </label>
                 <Select value={selectedWeek} onValueChange={setSelectedWeek}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choose a week..." />
+                    <SelectValue placeholder="Choose a module..." />
                   </SelectTrigger>
                   <SelectContent>
                     {previousWeeks.map((week) => (

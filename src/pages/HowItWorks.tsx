@@ -86,7 +86,7 @@ const HowItWorks = () => {
                 <StepCard
                   stepNumber={4}
                   title="Get Feedback & Advance"
-                  description="Your therapist reviews your submissions and provides personalized feedback. Once approved, your next week unlocks automatically. If adjustments are needed, you'll receive clear guidance. (Program Dependent)"
+                  description="Your therapist reviews your submissions and provides personalized feedback. Once approved, your next module unlocks automatically. If adjustments are needed, you'll receive clear guidance. (Program Dependent)"
                 />
               </div>
             </div>

@@ -201,7 +201,7 @@ const Reports = () => {
       "Patient Name",
       "Email",
       "Program Variant",
-      "Week #",
+      "Module #",
       "Status",
       "BOLT Score",
       "Nasal %",
@@ -302,7 +302,7 @@ const Reports = () => {
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={adherenceData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="week_number" label={{ value: "Week #", position: "insideBottom", offset: -5 }} />
+                <XAxis dataKey="week_number" label={{ value: "Module #", position: "insideBottom", offset: -5 }} />
                 <YAxis label={{ value: "Percentage (%)", angle: -90, position: "insideLeft" }} />
                 <Tooltip />
                 <Legend />
@@ -323,7 +323,7 @@ const Reports = () => {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={boltData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="week_number" label={{ value: "Week #", position: "insideBottom", offset: -5 }} />
+                <XAxis dataKey="week_number" label={{ value: "Module #", position: "insideBottom", offset: -5 }} />
                 <YAxis label={{ value: "BOLT Score", angle: -90, position: "insideLeft" }} />
                 <Tooltip />
                 <Legend />

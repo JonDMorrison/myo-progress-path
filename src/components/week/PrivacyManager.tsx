@@ -79,7 +79,7 @@ export function PrivacyManager({ patientId, weekId, onUpdate }: PrivacyManagerPr
         if (!error) {
             toast({
                 title: "Vitals Reset",
-                description: "Your biometric data for this week has been cleared.",
+                description: "Your biometric data for this module has been cleared.",
             });
             onUpdate?.();
         }
@@ -110,7 +110,7 @@ export function PrivacyManager({ patientId, weekId, onUpdate }: PrivacyManagerPr
                     </h4>
 
                     {uploads.length === 0 ? (
-                        <p className="text-sm text-slate-400 italic">No videos uploaded for this week.</p>
+                        <p className="text-sm text-slate-400 italic">No videos uploaded for this module.</p>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {uploads.map((upload) => (
@@ -168,7 +168,7 @@ export function PrivacyManager({ patientId, weekId, onUpdate }: PrivacyManagerPr
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 rounded-[2rem] bg-slate-900 text-white">
                         <div className="space-y-1">
                             <p className="text-sm font-bold">Clear Biometric History</p>
-                            <p className="text-xs text-slate-400">Reset your BOLT scores and breathing percentages for this week.</p>
+                            <p className="text-xs text-slate-400">Reset your BOLT scores and breathing percentages for this module.</p>
                         </div>
 
                         <AlertDialog>
@@ -184,7 +184,7 @@ export function PrivacyManager({ patientId, weekId, onUpdate }: PrivacyManagerPr
                                         Clear Biometric Data?
                                     </AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        All your breathing and BOLT scores for this week will be deleted. This action cannot be undone.
+                                        All your breathing and BOLT scores for this module will be deleted. This action cannot be undone.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>

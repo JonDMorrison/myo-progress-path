@@ -139,8 +139,8 @@ export default function WeekSettingsEditor() {
 
   if (isLoading) {
     return (
-      <AdminLayout title="Week Settings" description="Edit week configurations and requirements">
-        <div className="text-center py-12">Loading weeks...</div>
+      <AdminLayout title="Module Settings" description="Edit module configurations and requirements">
+        <div className="text-center py-12">Loading modules...</div>
       </AdminLayout>
     );
   }

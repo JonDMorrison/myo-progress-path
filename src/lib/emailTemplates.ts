@@ -131,7 +131,7 @@ export function onboardingEmail(
               </h1>
               <p style="margin:0;color:#353a44;line-height:1.6;font-size:16px;">
                 I'm <strong>Dr. Matt Francisco</strong>. We're excited to start your Montrose Myo program.
-                Over the next weeks, you'll build healthy habits for <strong>tongue posture</strong>, <strong>nasal breathing</strong>,
+                Over the coming modules, you'll build healthy habits for <strong>tongue posture</strong>, <strong>nasal breathing</strong>,
                 <strong>chewing</strong>, and <strong>swallowing</strong> — at a relaxed, sustainable pace.
               </p>
             </td>

@@ -72,7 +72,7 @@ const NOTE_TEMPLATES = [
   { label: "Watch jaw", text: "Watch jaw compensation." },
 ];
 
-// Completion note template for Week 24
+// Completion note template for final module
 const COMPLETION_NOTE_TEMPLATE = `Congratulations on completing your myofunctional therapy program! 
 
 You've made remarkable progress in developing healthy breathing and tongue posture habits. Here are my observations:
@@ -514,7 +514,7 @@ const ReviewPanel = ({
                   Send Rich Feedback (Video/Photo/Text)
                 </Button>
 
-                {/* Week 24 Special Completion Note Section */}
+                {/* Final Module Special Completion Note Section */}
                 {weekNumber === 24 && (
                   <div className="bg-success/5 border border-success/20 rounded-lg p-4 space-y-3">
                     <div className="flex items-center gap-2">
@@ -522,7 +522,7 @@ const ReviewPanel = ({
                       <h4 className="font-semibold text-success">Program Completion Note</h4>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      This is the final week! Write a personalized completion note emphasizing
+                      This is the final module! Write a personalized completion note emphasizing
                       habit awareness, long-term carryover, and self-monitoring skills.
                     </p>
                     <Button
@@ -537,7 +537,7 @@ const ReviewPanel = ({
                   </div>
                 )}
 
-                {/* Quick Templates (hidden for week 24 to emphasize completion note) */}
+                {/* Quick Templates (hidden for final module to emphasize completion note) */}
                 {weekNumber !== 24 && (
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-muted-foreground">Quick notes</label>
@@ -602,13 +602,13 @@ const ReviewPanel = ({
                   </Button>
                   {showNoteField && (
                     <p className="text-xs text-muted-foreground mt-2 text-center">
-                      This will unlock the week for the patient to practice again
+                      This will unlock the module for the patient to practice again
                     </p>
                   )}
                 </div>
               )}
 
-              {/* Week 24 Maintenance Mode Option */}
+              {/* Final Module Maintenance Mode Option */}
               {weekNumber === 24 && (
                 <div className="flex flex-col gap-2 mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
                   <p className="text-sm font-medium text-primary flex items-center gap-2">
@@ -634,7 +634,7 @@ const ReviewPanel = ({
                       onClick={async () => {
                         setSubmitting(true);
                         try {
-                          // First approve Week 24
+                          // First approve final module
                           const approveResult = await approveWeek(
                             progressId,
                             patientId,

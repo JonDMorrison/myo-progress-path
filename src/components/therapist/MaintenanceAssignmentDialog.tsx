@@ -154,10 +154,10 @@ export function MaintenanceAssignmentDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-primary" />
-            Assign Practice Week
+            Assign Practice Module
           </DialogTitle>
           <DialogDescription>
-            Assign a previous week's exercises for {patientName} to practice during maintenance.
+            Assign a previous module's exercises for {patientName} to practice during maintenance.
           </DialogDescription>
         </DialogHeader>
 
@@ -170,7 +170,7 @@ export function MaintenanceAssignmentDialog({
               disabled={loadingWeeks}
             >
               <SelectTrigger>
-                <SelectValue placeholder={loadingWeeks ? "Loading weeks..." : "Choose a week"} />
+                <SelectValue placeholder={loadingWeeks ? "Loading modules..." : "Choose a module"} />
               </SelectTrigger>
               <SelectContent>
                 {weeks.map((week) => (

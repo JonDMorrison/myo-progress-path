@@ -2,9 +2,9 @@ import { PartyPopper, CalendarCheck, Dumbbell, Send, MessageSquare } from "lucid
 
 export const ReadyStep = () => {
   const steps = [
-    { icon: CalendarCheck, text: "Your dashboard will have Week 1 ready to start" },
+    { icon: CalendarCheck, text: "Your dashboard will have Module 1 ready to start" },
     { icon: Dumbbell, text: "Review your exercises and begin practicing daily" },
-    { icon: Send, text: "At the end of each week, submit your check-in" },
+    { icon: Send, text: "At the end of each module, submit your check-in" },
     { icon: MessageSquare, text: "Your therapist will review and provide feedback" },
   ];
 

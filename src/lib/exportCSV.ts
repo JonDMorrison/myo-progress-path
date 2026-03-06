@@ -16,8 +16,8 @@ export function patientListToCSV(patients: MasterPatientListItem[]): string {
     'Therapist Email',
     'Status',
     'Program Variant',
-    'Current Week',
-    'Week Status',
+    'Current Module',
+    'Module Status',
     'Adherence %',
     'Last Activity',
     'Enrolled Date'
