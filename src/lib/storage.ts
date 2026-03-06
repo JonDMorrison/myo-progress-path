@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
+const MAX_VIDEO_SIZE = 500 * 1024 * 1024; // 500MB
 const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/quicktime']; // .mp4 and .mov
 
 export interface UploadProgress {
