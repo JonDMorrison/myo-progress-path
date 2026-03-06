@@ -523,7 +523,7 @@ const WeekDetail = () => {
                 )}
 
                 {/* Hub Actions: Learning & Video */}
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                <div className={`grid grid-cols-1 ${week?.video_url ? 'xl:grid-cols-2' : ''} gap-8`}>
                   <div className="space-y-8">
                     {parseInt(weekNumber || "0") === 1 && (
                       <LearnHubReviewTask
