@@ -137,7 +137,8 @@ const TherapistDashboard = () => {
       const { data: sessionData } = await supabase.auth.getSession();
       const user = sessionData.session?.user;
       if (!user) {
-        navigate("/auth");
+        // Don't redirect — the auth listener in init() will retry when session restores
+        setLoading(false);
         return;
       }
 
