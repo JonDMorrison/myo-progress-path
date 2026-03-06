@@ -80,7 +80,7 @@ export function OnboardingQuiz({ onComplete }: OnboardingQuizProps) {
     } else {
       // Quiz complete
       if (correctCount + (selectedAnswer === questions[currentQuestion].correct ? 1 : 0) >= 2) {
-        toast.success("Great job! You're ready to start Week 1!");
+        toast.success("Great job! You're ready to start Module 1!");
         onComplete();
       } else {
         toast.error("Please review the material and try again");

@@ -110,7 +110,7 @@ export function WeekExercisesList({
   if (exercises.length === 0) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        No exercises for this week
+        No exercises for this module
       </div>
     );
   }

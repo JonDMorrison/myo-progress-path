@@ -170,7 +170,7 @@ export function MaintenanceAssignmentDialog({
               disabled={loadingWeeks}
             >
               <SelectTrigger>
-                <SelectValue placeholder={loadingWeeks ? "Loading weeks..." : "Choose a week"} />
+                <SelectValue placeholder={loadingWeeks ? "Loading modules..." : "Choose a module"} />
               </SelectTrigger>
               <SelectContent>
                 {weeks.map((week) => (

@@ -190,7 +190,7 @@ export function PreviousWeeksReview({
                 </label>
                 <Select value={selectedWeek} onValueChange={setSelectedWeek}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choose a week..." />
+                    <SelectValue placeholder="Choose a module..." />
                   </SelectTrigger>
                   <SelectContent>
                     {previousWeeks.map((week) => (

@@ -270,8 +270,8 @@ const PatientDashboard = () => {
       const accessible = await isWeekAccessible(patient.id, weekNumber);
       if (!accessible) {
         toast({
-          title: "Week Locked",
-          description: "Please complete the previous week first.",
+          title: "Module Locked",
+          description: "Please complete the previous module first.",
           variant: "destructive",
         });
         return;

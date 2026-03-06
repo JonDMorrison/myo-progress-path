@@ -634,7 +634,7 @@ const ReviewPanel = ({
                       onClick={async () => {
                         setSubmitting(true);
                         try {
-                          // First approve Week 24
+                          // First approve final module
                           const approveResult = await approveWeek(
                             progressId,
                             patientId,

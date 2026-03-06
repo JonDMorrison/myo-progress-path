@@ -184,7 +184,7 @@ export function PrivacyManager({ patientId, weekId, onUpdate }: PrivacyManagerPr
                                         Clear Biometric Data?
                                     </AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        All your breathing and BOLT scores for this week will be deleted. This action cannot be undone.
+                                        All your breathing and BOLT scores for this module will be deleted. This action cannot be undone.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>

@@ -70,8 +70,8 @@ const WeekDetail = () => {
         });
       } else {
         toast({
-          title: "Week 1 Complete!",
-          description: "You've finished Week 1. Complete Week 2 to submit this module.",
+          title: "Part One Complete!",
+          description: "You've finished Part One. Complete Part Two to submit this module.",
         });
       }
     }

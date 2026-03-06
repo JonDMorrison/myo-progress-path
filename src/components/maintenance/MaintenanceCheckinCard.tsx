@@ -124,7 +124,7 @@ export function MaintenanceCheckinCard({ patientId, onCheckinComplete }: Mainten
           <div className="space-y-2">
             <Label>Notes (optional)</Label>
             <Textarea
-              placeholder="Any observations or concerns this week..."
+              placeholder="Any observations or concerns this module..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
