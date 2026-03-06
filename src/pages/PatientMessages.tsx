@@ -42,12 +42,16 @@ const PatientMessages = () => {
     };
   }, []);
 
-  const loadMessages = async () => {
+  const loadMessages = async (userId?: string) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-        return;
+      let uid = userId;
+      if (!uid) {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session?.user) {
+          navigate("/auth");
+          return;
+        }
+        uid = session.user.id;
       }
 
       const { data: patientData } = await supabase
