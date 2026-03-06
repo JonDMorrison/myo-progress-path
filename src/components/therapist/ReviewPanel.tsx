@@ -72,7 +72,7 @@ const NOTE_TEMPLATES = [
   { label: "Watch jaw", text: "Watch jaw compensation." },
 ];
 
-// Completion note template for Week 24
+// Completion note template for final module
 const COMPLETION_NOTE_TEMPLATE = `Congratulations on completing your myofunctional therapy program! 
 
 You've made remarkable progress in developing healthy breathing and tongue posture habits. Here are my observations:
