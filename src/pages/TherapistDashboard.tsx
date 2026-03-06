@@ -39,6 +39,7 @@ const TherapistDashboard = () => {
   const [patientMessages, setPatientMessages] = useState<any[]>([]);
   const [allWeeks, setAllWeeks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [weeksLoading, setWeeksLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
