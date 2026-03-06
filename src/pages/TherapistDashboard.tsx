@@ -464,7 +464,7 @@ const TherapistDashboard = () => {
           )}
 
           <TabsContent value="needs-review" className="space-y-4">
-            {filteredReviews.length === 0 ? (
+            {loading ? loadingSpinner : filteredReviews.length === 0 ? (
               <div className="text-center py-16">
                 <CheckCircle2 className="w-16 h-16 text-success mx-auto mb-4" />
                 <p className="text-lg font-medium">All caught up!</p>
