@@ -557,6 +557,16 @@ const TherapistDashboard = () => {
           </TabsContent>
 
           <TabsContent value="curriculum" className="space-y-8">
+            {weeksLoading ? (
+              <div className="flex items-center justify-center py-16">
+                <div className="text-center">
+                  <Loader className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+                  <p className="text-muted-foreground">Loading curriculum...</p>
+                </div>
+              </div>
+            ) : allWeeks.length === 0 ? (
+              <p className="text-center py-16 text-muted-foreground">No curriculum data found. Please ensure you are logged in.</p>
+            ) : (
             <div className="grid grid-cols-1 gap-8">
               {[
                 { dbTitle: 'Frenectomy Program', label: 'Surgical Pathway (Frenectomy)', variant: 'frenectomy' },
