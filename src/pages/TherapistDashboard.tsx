@@ -255,6 +255,7 @@ const TherapistDashboard = () => {
   };
 
   const loadWeeksData = async () => {
+    setWeeksLoading(true);
     try {
       const { data: weeksData } = await supabase
         .from("weeks")
@@ -263,6 +264,8 @@ const TherapistDashboard = () => {
       setAllWeeks(weeksData || []);
     } catch (error) {
       console.error("Error loading weeks:", error);
+    } finally {
+      setWeeksLoading(false);
     }
   };
 
