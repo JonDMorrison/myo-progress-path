@@ -337,7 +337,7 @@ const WeekDetail = () => {
       const moduleInfo = getModuleInfo(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy');
       const { data: moduleWeeks } = await supabase
         .from("weeks")
-        .select("id")
+        .select("id, program_id, programs!inner(title)")
         .eq("programs.title", getProgramTitle(patient?.program_variant))
         .gte("number", moduleInfo.weekRange[0])
         .lte("number", moduleInfo.weekRange[1]);
@@ -348,7 +348,7 @@ const WeekDetail = () => {
         .from("patient_week_progress")
         .update({
           status: "submitted",
-          submitted_at: new Date().toISOString(),
+          completed_at: new Date().toISOString(),
         })
         .in("week_id", weekIds)
         .eq("patient_id", patient.id);
