@@ -84,11 +84,16 @@ const TherapistDashboard = () => {
       setLoading(false);
     }, 10000);
 
+    // Safety timeout for curriculum loading
+    const weeksSafetyTimer = setTimeout(() => {
+      setWeeksLoading(false);
+    }, 10000);
+
     loadInboxData().finally(() => clearTimeout(safetyTimer));
 
     // Load curriculum weeks independently so the Curriculum tab works
     // even if inbox queries hang
-    loadWeeksData();
+    loadWeeksData().finally(() => clearTimeout(weeksSafetyTimer));
 
     // Switch to curriculum tab if hash is present
     if (location.hash === '#curriculum') {
@@ -257,10 +262,22 @@ const TherapistDashboard = () => {
   const loadWeeksData = async () => {
     setWeeksLoading(true);
     try {
-      const { data: weeksData } = await supabase
+      // Ensure we have an active session before querying (RLS requires auth)
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) {
+        console.warn("No session available for curriculum query");
+        setWeeksLoading(false);
+        return;
+      }
+
+      const { data: weeksData, error } = await supabase
         .from("weeks")
         .select("*, programs(title)")
         .order("number", { ascending: true });
+
+      if (error) {
+        console.error("Error loading weeks:", error);
+      }
       setAllWeeks(weeksData || []);
     } catch (error) {
       console.error("Error loading weeks:", error);
