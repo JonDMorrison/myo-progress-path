@@ -17,27 +17,41 @@ const PatientAccount = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-        return;
+    let mounted = true;
+    
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user && mounted) {
+        fetchUser(session.user);
       }
-      setUser(user);
-      
-      // Get user name from users table
-      const { data: userData } = await supabase
-        .from("users")
-        .select("name, email")
-        .eq("id", user.id)
-        .single();
-      
-      setUserName(userData?.name || user.email?.split("@")[0] || "User");
-      setLoading(false);
     };
-
-    fetchUser();
+    
+    init();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user && mounted) {
+        fetchUser(session.user);
+      }
+    });
+    
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, [navigate]);
+
+  const fetchUser = async (authUser: any) => {
+    setUser(authUser);
+    
+    const { data: userData } = await supabase
+      .from("users")
+      .select("name, email")
+      .eq("id", authUser.id)
+      .single();
+    
+    setUserName(userData?.name || authUser.email?.split("@")[0] || "User");
+    setLoading(false);
+  };
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
