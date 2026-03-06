@@ -441,8 +441,13 @@ const TherapistDashboard = () => {
 
   const needsReviewCount = reviews.filter(r => r.status === "submitted" || r.status === "needs_more").length;
 
+  const layoutTitle = activeTab === "curriculum" ? "Curriculum" : "Inbox";
+  const layoutDescription = activeTab === "curriculum" 
+    ? "Browse program modules and content" 
+    : "Review & approve patient progress";
+
   return (
-    <TherapistLayout title="Inbox" description="Review & approve patient progress">
+    <TherapistLayout title={layoutTitle} description={layoutDescription}>
       <div className="max-w-4xl mx-auto">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-5 mb-4">
