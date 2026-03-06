@@ -617,6 +617,7 @@ const TherapistDashboard = () => {
                 </div>
               ))}
             </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>
