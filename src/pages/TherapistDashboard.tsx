@@ -524,7 +524,7 @@ const TherapistDashboard = () => {
           </TabsContent>
 
           <TabsContent value="messages" className="space-y-3">
-            <div className="space-y-4">
+            {loading ? loadingSpinner : <div className="space-y-4">
               {patientMessages.length === 0 ? (
                 <p className="text-center py-16 text-muted-foreground italic">No messages from patients</p>
               ) : (
