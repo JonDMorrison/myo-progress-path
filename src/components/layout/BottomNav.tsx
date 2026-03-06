@@ -13,8 +13,8 @@ const navItems: NavItem[] = [
   { href: "/patient", label: "Home", icon: Home },
   { href: "/learn", label: "Learn", icon: BookOpen },
   { href: "/patient/progress", label: "Progress", icon: TrendingUp },
-  { href: "/patient#messages-card", label: "Messages", icon: MessageSquare },
-  { href: "/patient#account-section", label: "Account", icon: User },
+  { href: "/patient/messages", label: "Messages", icon: MessageSquare },
+  { href: "/patient/account", label: "Account", icon: User },
 ];
 
 export function BottomNav() {
@@ -28,8 +28,7 @@ export function BottomNav() {
       <ul className="grid grid-cols-5 text-center">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = location.pathname === item.href || 
-            (item.href === "/patient" && location.pathname === "/patient");
+          const isActive = location.pathname === item.href;
           
           return (
             <li key={item.href}>
