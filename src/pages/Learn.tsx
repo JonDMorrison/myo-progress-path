@@ -119,7 +119,7 @@ export default function Learn() {
             <p className="text-muted-foreground animate-pulse">Loading Learn Hub...</p>
           </div>
         ) : filtered.length > 0 ? (
-          <div className="grid gap-5 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:gap-6 grid-cols-1 max-w-2xl mx-auto">
             {filtered.map((article) => (
               <LearnCard key={article.slug} {...article} />
             ))}
