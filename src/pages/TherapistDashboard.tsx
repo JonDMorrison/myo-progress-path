@@ -499,7 +499,7 @@ const TherapistDashboard = () => {
           </TabsContent>
 
           <TabsContent value="approved" className="space-y-4">
-            {reviews.filter(r => r.status === "approved").length === 0 ? (
+            {loading ? loadingSpinner : reviews.filter(r => r.status === "approved").length === 0 ? (
               <p className="text-center py-16 text-muted-foreground">No approved weeks in last 30 days.</p>
             ) : (
               reviews.filter(r => r.status === "approved").map(review => (
