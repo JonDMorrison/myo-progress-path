@@ -84,11 +84,16 @@ const TherapistDashboard = () => {
       setLoading(false);
     }, 10000);
 
+    // Safety timeout for curriculum loading
+    const weeksSafetyTimer = setTimeout(() => {
+      setWeeksLoading(false);
+    }, 10000);
+
     loadInboxData().finally(() => clearTimeout(safetyTimer));
 
     // Load curriculum weeks independently so the Curriculum tab works
     // even if inbox queries hang
-    loadWeeksData();
+    loadWeeksData().finally(() => clearTimeout(weeksSafetyTimer));
 
     // Switch to curriculum tab if hash is present
     if (location.hash === '#curriculum') {
