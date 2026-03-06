@@ -168,7 +168,7 @@ export function PrivacyManager({ patientId, weekId, onUpdate }: PrivacyManagerPr
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 rounded-[2rem] bg-slate-900 text-white">
                         <div className="space-y-1">
                             <p className="text-sm font-bold">Clear Biometric History</p>
-                            <p className="text-xs text-slate-400">Reset your BOLT scores and breathing percentages for this week.</p>
+                            <p className="text-xs text-slate-400">Reset your BOLT scores and breathing percentages for this module.</p>
                         </div>
 
                         <AlertDialog>
