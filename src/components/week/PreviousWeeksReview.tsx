@@ -140,7 +140,7 @@ export function PreviousWeeksReview({
       // Post-op days/weeks
       return moduleInfo.displayLabel;
     }
-    return `${moduleInfo.moduleLabel} (Weeks ${moduleInfo.weekRange[0]}–${moduleInfo.weekRange[1]})`;
+    return moduleInfo.moduleLabel;
   };
 
   return (
