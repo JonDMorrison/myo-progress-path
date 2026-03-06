@@ -33,18 +33,39 @@ export default function TherapistPatients() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadPatients();
+    let cancelled = false;
+
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (cancelled) return;
+
+      if (session?.user) {
+        loadPatients(session.user.id);
+      } else {
+        // Wait for session to restore
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+          (_event, newSession) => {
+            if (newSession?.user && !cancelled) {
+              subscription.unsubscribe();
+              loadPatients(newSession.user.id);
+            }
+          }
+        );
+        // Safety timeout
+        const timer = setTimeout(() => {
+          subscription.unsubscribe();
+          if (!cancelled) setLoading(false);
+        }, 10000);
+        return () => clearTimeout(timer);
+      }
+    };
+
+    init();
+    return () => { cancelled = true; };
   }, []);
 
-  useEffect(() => {
-    filterPatients();
-  }, [searchQuery, statusFilter, patients]);
-
-  const loadPatients = async () => {
+  const loadPatients = async (_userId?: string) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
       const { data } = await supabase
         .from('v_master_patient_list')
         .select('*')
