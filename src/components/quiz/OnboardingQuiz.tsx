@@ -37,12 +37,12 @@ const questions: Question[] = [
     explanation: "Nasal breathing filters and humidifies air, produces nitric oxide for better oxygen absorption, and supports proper facial development and health."
   },
   {
-    question: "How often should you practice each week's exercises for best results?",
+    question: "How often should you practice each module's exercises for best results?",
     options: [
       "Once per day",
       "Only when you remember",
-      "Twice daily for the full week",
-      "Three times per week"
+      "Twice daily for the full module",
+      "Three times per module"
     ],
     correct: 2,
     explanation: "For optimal results, exercises should be practiced twice daily, every day. Consistency is key to retraining muscle patterns and creating lasting change."
