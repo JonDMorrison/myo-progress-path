@@ -79,7 +79,7 @@ export function PrivacyManager({ patientId, weekId, onUpdate }: PrivacyManagerPr
         if (!error) {
             toast({
                 title: "Vitals Reset",
-                description: "Your biometric data for this week has been cleared.",
+                description: "Your biometric data for this module has been cleared.",
             });
             onUpdate?.();
         }
