@@ -26,7 +26,7 @@ export function validateVideoFile(file: File): { valid: boolean; error?: string 
     const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
     return { 
       valid: false, 
-      error: `File size (${sizeMB}MB) exceeds the 100MB limit.` 
+      error: `File size (${sizeMB}MB) exceeds the 500MB limit.` 
     };
   }
 
