@@ -257,10 +257,22 @@ const TherapistDashboard = () => {
   const loadWeeksData = async () => {
     setWeeksLoading(true);
     try {
-      const { data: weeksData } = await supabase
+      // Ensure we have an active session before querying (RLS requires auth)
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) {
+        console.warn("No session available for curriculum query");
+        setWeeksLoading(false);
+        return;
+      }
+
+      const { data: weeksData, error } = await supabase
         .from("weeks")
         .select("*, programs(title)")
         .order("number", { ascending: true });
+
+      if (error) {
+        console.error("Error loading weeks:", error);
+      }
       setAllWeeks(weeksData || []);
     } catch (error) {
       console.error("Error loading weeks:", error);
