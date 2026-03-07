@@ -26,28 +26,39 @@ const Auth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const redirectByRole = async (userId: string) => {
-    // Use SECURITY DEFINER RPC to avoid RLS-related timeouts
-    const { data: role, error: roleError } = await withTimeout(
-      supabase.rpc("get_user_role", { _user_id: userId }),
-      10_000,
-      "Checking account permissions"
-    );
+  const redirectByRole = async (userId: string, metadataRole?: string) => {
+    // Try user_metadata role first (available immediately from auth response, no extra query)
+    // Fall back to RPC only if metadata is missing
+    let role = metadataRole || null;
+    
+    if (!role) {
+      try {
+        const { data: rpcRole } = await withTimeout(
+          supabase.rpc("get_user_role", { _user_id: userId }),
+          10_000,
+          "Checking account permissions"
+        );
+        role = rpcRole;
+      } catch {
+        // If RPC times out, try reading from session metadata as last resort
+        const { data: { session } } = await supabase.auth.getSession();
+        role = session?.user?.user_metadata?.role || null;
+      }
+    }
 
-    if (!roleError && role && (role === "therapist" || role === "admin" || role === "super_admin")) {
+    if (role && (role === "therapist" || role === "admin" || role === "super_admin")) {
       navigate("/therapist", { replace: true });
       return;
     }
 
     // If not a known staff role, check if they are a patient
-    const { data: patient, error: patientError } = await withTimeout(
+    const { data: patient } = await withTimeout(
       supabase.from("patients").select("id").eq("user_id", userId).maybeSingle(),
       15_000,
       "Loading patient profile",
     );
 
     if (patient?.id) {
-      // Check onboarding status
       const { data: onboarding } = await withTimeout(
         supabase
           .from("onboarding_progress")
@@ -67,14 +78,11 @@ const Auth = () => {
       return;
     }
 
-    // Fallback if no role and no patient profile found (Auth only)
     if (role) {
-      // Is a staff role but logic above missed it? (Shouldn't happen due to first check)
       navigate("/therapist", { replace: true });
       return;
     }
 
-    // Default fallback
     navigate("/", { replace: true });
   };
 
@@ -84,7 +92,8 @@ const Auth = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         try {
-          await redirectByRole(session.user.id);
+          const metaRole = session.user?.user_metadata?.role as string | undefined;
+          await redirectByRole(session.user.id, metaRole);
         } catch {
           // If something is misconfigured, keep the user on /auth so they can retry or reset password.
         }
@@ -139,8 +148,8 @@ const Auth = () => {
           title: "Welcome back!",
           description: "Successfully logged in.",
         });
-
-        await redirectByRole(signedInUserId);
+        const metaRole = data.user?.user_metadata?.role as string | undefined;
+        await redirectByRole(signedInUserId, metaRole);
       }
     } catch (error: any) {
       toast({
