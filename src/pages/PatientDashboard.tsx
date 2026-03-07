@@ -51,8 +51,9 @@ const PatientDashboard = () => {
     }
     loadPatientData(authUser);
   }, [isReady, authUser?.id]);
-    
-    // Smooth Hash Scroll logic
+
+  // Smooth Hash Scroll logic
+  useEffect(() => {
     const handleHashScroll = () => {
       const hash = window.location.hash;
       if (hash) {
@@ -68,7 +69,6 @@ const PatientDashboard = () => {
     handleHashScroll();
     window.addEventListener('hashchange', handleHashScroll);
     return () => {
-      cancelled = true;
       window.removeEventListener('hashchange', handleHashScroll);
     };
   }, []);
