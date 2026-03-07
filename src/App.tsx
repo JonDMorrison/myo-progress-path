@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import HowItWorks from "./pages/HowItWorks";
@@ -47,6 +49,8 @@ import PatientAccount from "./pages/PatientAccount";
 import ClinicalTesting from "./pages/ClinicalTesting";
 import ProtocolDetail from "./pages/ProtocolDetail";
 import Settings from "./pages/Settings";
+import Dashboard from "./pages/Dashboard";
+import SetupMFA from "./pages/SetupMFA";
 
 const queryClient = new QueryClient();
 
@@ -58,51 +62,67 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/how-it-works" element={<HowItWorks />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/onboarding" element={<OnboardingWizard />} />
-              <Route path="/week-0" element={<Week0 />} />
-              <Route path="/learn" element={<Learn />} />
-              <Route path="/learn/:slug" element={<LearnArticle />} />
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/what-is-myofunctional-therapy" element={<WhatIsMyofunctionalTherapy />} />
-              <Route path="/clinical-testing" element={<ClinicalTesting />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/update-password" element={<UpdatePassword />} />
-              <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
-              <Route path="/patient" element={<PatientDashboard />} />
-              <Route path="/patient/progress" element={<PatientProgress />} />
-              <Route path="/patient/messages" element={<PatientMessages />} />
-              <Route path="/patient/account" element={<PatientAccount />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/therapist" element={<TherapistDashboard />} />
-              <Route path="/therapist/patients" element={<TherapistPatients />} />
-              <Route path="/admin/content" element={<AdminContent />} />
-              <Route path="/admin/master" element={<MasterAdmin />} />
-              <Route path="/admin/seed-program" element={<SeedProgram />} />
-              <Route path="/admin/update-weeks-1-2" element={<UpdateWeeks1And2 />} />
-              <Route path="/admin/update-weeks-3-4" element={<UpdateWeeks3And4 />} />
-              <Route path="/admin/update-weeks-5-6" element={<UpdateWeeks5And6 />} />
-              <Route path="/admin/media-audit" element={<MediaAudit />} />
-              <Route path="/admin/exercise-editor" element={<ExerciseContentEditor />} />
-              <Route path="/admin/week-settings" element={<WeekSettingsEditor />} />
-              <Route path="/admin/super-admins" element={<SuperAdminManagement />} />
-              <Route path="/admin/delete-patients" element={<PatientDeleteTool />} />
-              <Route path="/admin/testing-feedback" element={<TestingFeedback />} />
-              <Route path="/reports" element={<Reports />} />
-              <Route path="/therapist/ai-assist" element={<TherapistAIAssist />} />
-              <Route path="/week/:weekNumber" element={<WeekDetail />} />
-              <Route path="/protocol/:slug" element={<ProtocolDetail />} />
-              <Route path="/review/:patientId/:weekNumber" element={<ReviewWeek />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AuthProvider>
+              <Routes>
+                {/* Public routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/how-it-works" element={<HowItWorks />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/learn" element={<Learn />} />
+                <Route path="/learn/:slug" element={<LearnArticle />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/what-is-myofunctional-therapy" element={<WhatIsMyofunctionalTherapy />} />
+                <Route path="/clinical-testing" element={<ClinicalTesting />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/update-password" element={<UpdatePassword />} />
+                <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
+
+                {/* Protected: Any authenticated user */}
+                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/onboarding" element={<ProtectedRoute><OnboardingWizard /></ProtectedRoute>} />
+                <Route path="/week-0" element={<ProtectedRoute><Week0 /></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                <Route path="/setup-mfa" element={<ProtectedRoute><SetupMFA /></ProtectedRoute>} />
+
+                {/* Protected: Patient routes */}
+                <Route path="/patient" element={<ProtectedRoute><PatientDashboard /></ProtectedRoute>} />
+                <Route path="/patient/progress" element={<ProtectedRoute><PatientProgress /></ProtectedRoute>} />
+                <Route path="/patient/messages" element={<ProtectedRoute><PatientMessages /></ProtectedRoute>} />
+                <Route path="/patient/account" element={<ProtectedRoute><PatientAccount /></ProtectedRoute>} />
+                <Route path="/week/:weekNumber" element={<ProtectedRoute><WeekDetail /></ProtectedRoute>} />
+                <Route path="/protocol/:slug" element={<ProtectedRoute><ProtocolDetail /></ProtectedRoute>} />
+
+                {/* Protected: Staff routes */}
+                <Route path="/therapist" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistDashboard /></ProtectedRoute>} />
+                <Route path="/therapist/patients" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistPatients /></ProtectedRoute>} />
+                <Route path="/therapist/ai-assist" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistAIAssist /></ProtectedRoute>} />
+                <Route path="/review/:patientId/:weekNumber" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><ReviewWeek /></ProtectedRoute>} />
+                <Route path="/reports" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><Reports /></ProtectedRoute>} />
+
+                {/* Protected: Admin routes */}
+                <Route path="/admin/content" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><AdminContent /></ProtectedRoute>} />
+                <Route path="/admin/seed-program" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><SeedProgram /></ProtectedRoute>} />
+                <Route path="/admin/update-weeks-1-2" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><UpdateWeeks1And2 /></ProtectedRoute>} />
+                <Route path="/admin/update-weeks-3-4" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><UpdateWeeks3And4 /></ProtectedRoute>} />
+                <Route path="/admin/update-weeks-5-6" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><UpdateWeeks5And6 /></ProtectedRoute>} />
+                <Route path="/admin/media-audit" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><MediaAudit /></ProtectedRoute>} />
+                <Route path="/admin/exercise-editor" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><ExerciseContentEditor /></ProtectedRoute>} />
+                <Route path="/admin/week-settings" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><WeekSettingsEditor /></ProtectedRoute>} />
+
+                {/* Protected: Super admin routes */}
+                <Route path="/admin/master" element={<ProtectedRoute requiredRoles={["super_admin"]}><MasterAdmin /></ProtectedRoute>} />
+                <Route path="/admin/super-admins" element={<ProtectedRoute requiredRoles={["super_admin"]}><SuperAdminManagement /></ProtectedRoute>} />
+                <Route path="/admin/delete-patients" element={<ProtectedRoute requiredRoles={["super_admin"]}><PatientDeleteTool /></ProtectedRoute>} />
+                <Route path="/admin/testing-feedback" element={<ProtectedRoute requiredRoles={["super_admin"]}><TestingFeedback /></ProtectedRoute>} />
+
+                {/* Catch-all */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
