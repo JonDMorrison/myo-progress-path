@@ -171,9 +171,14 @@ export const NavPublic = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link to="/auth" className="hidden md:inline-flex">
-              <Button>Login</Button>
-            </Link>
+            <div className="hidden md:inline-flex gap-2">
+              <Link to="/register">
+                <Button variant="outline">Get Started</Button>
+              </Link>
+              <Link to="/auth">
+                <Button>Login</Button>
+              </Link>
+            </div>
           )}
 
           {/* Mobile Menu */}
