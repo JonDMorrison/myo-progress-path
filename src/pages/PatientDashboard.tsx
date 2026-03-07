@@ -41,7 +41,33 @@ const PatientDashboard = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    loadPatientData();
+    let cancelled = false;
+
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (cancelled) return;
+
+      if (!session?.user) {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+          (_event, newSession) => {
+            if (newSession?.user && !cancelled) {
+              subscription.unsubscribe();
+              loadPatientData(newSession.user);
+            }
+          }
+        );
+        setTimeout(() => {
+          subscription.unsubscribe();
+          if (!cancelled) navigate("/auth");
+        }, 10000);
+        return;
+      }
+
+      loadPatientData(session.user);
+    };
+
+    init();
     
     // Smooth Hash Scroll logic
     const handleHashScroll = () => {
@@ -58,17 +84,15 @@ const PatientDashboard = () => {
 
     handleHashScroll();
     window.addEventListener('hashchange', handleHashScroll);
-    return () => window.removeEventListener('hashchange', handleHashScroll);
+    return () => {
+      cancelled = true;
+      window.removeEventListener('hashchange', handleHashScroll);
+    };
   }, []);
 
-  const loadPatientData = async () => {
+  const loadPatientData = async (authUser: any) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-        return;
-      }
-      setUser(user);
+      setUser(authUser);
 
       // Check if user is super admin (bypasses week locks)
       const { data: userData } = await supabase
