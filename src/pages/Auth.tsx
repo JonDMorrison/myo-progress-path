@@ -92,7 +92,8 @@ const Auth = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         try {
-          await redirectByRole(session.user.id);
+          const metaRole = session.user?.user_metadata?.role as string | undefined;
+          await redirectByRole(session.user.id, metaRole);
         } catch {
           // If something is misconfigured, keep the user on /auth so they can retry or reset password.
         }
