@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthReady } from "@/hooks/useAuthReady";
+import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar } from "lucide-react";
@@ -41,14 +41,11 @@ const PatientDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const { user: authUser, isReady } = useAuthReady();
+  const { user: authUser, isAuthReady: isReady } = useAuth();
 
   useEffect(() => {
     if (!isReady) return;
-    if (!authUser) {
-      navigate("/auth");
-      return;
-    }
+    if (!authUser) return; // ProtectedRoute handles redirect
     loadPatientData(authUser);
   }, [isReady, authUser?.id]);
 

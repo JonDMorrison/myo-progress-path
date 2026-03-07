@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,40 +19,20 @@ const PatientMessages = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const { user: authUser } = useAuth();
+
   useEffect(() => {
-    let mounted = true;
-    
-    const init = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user && mounted) {
-        loadMessages(session.user.id);
-      }
-    };
-    
-    init();
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user && mounted) {
-        loadMessages(session.user.id);
-      }
-    });
-    
-    return () => {
-      mounted = false;
-      subscription.unsubscribe();
-    };
-  }, []);
+    if (authUser) {
+      loadMessages(authUser.id);
+    }
+  }, [authUser?.id]);
 
   const loadMessages = async (userId?: string) => {
     try {
       let uid = userId;
       if (!uid) {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session?.user) {
-          navigate("/auth");
-          return;
-        }
-        uid = session.user.id;
+        uid = authUser?.id;
+        if (!uid) return;
       }
 
       const { data: patientData } = await supabase

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuthReady } from "@/hooks/useAuthReady";
+import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,7 @@ const Reports = () => {
   const [patients, setPatients] = useState<any[]>([]);
   const [selectedPatients, setSelectedPatients] = useState<string[]>([]);
 
-  const { user: authUser, isReady, isStaff, role } = useAuthReady();
+  const { user: authUser, isAuthReady: isReady, isStaff, role } = useAuth();
 
   useEffect(() => {
     if (!isReady) return;

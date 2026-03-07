@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -86,26 +87,24 @@ const ProtocolDetail = () => {
   const isPreOp = slug === 'pre-op-protocol' || slug === 'pre-op';
   const protocol = isPreOp ? PRE_OP_PROTOCOL : POST_OP_PROTOCOL;
 
+  const { user: authUser } = useAuth();
+
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-        return;
-      }
+    const loadPatient = async () => {
+      if (!authUser) return;
 
       const { data: patientData } = await supabase
         .from("patients")
         .select("*")
-        .eq("user_id", user.id)
-        .single();
+        .eq("user_id", authUser.id)
+        .maybeSingle();
 
       setPatient(patientData);
       setLoading(false);
     };
 
-    checkAuth();
-  }, [navigate]);
+    loadPatient();
+  }, [authUser?.id]);
 
   if (loading) {
     return (

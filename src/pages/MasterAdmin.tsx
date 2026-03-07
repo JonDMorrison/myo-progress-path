@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuthReady } from "@/hooks/useAuthReady";
+import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
@@ -36,7 +36,7 @@ const MasterAdmin = () => {
     pageSize: 50
   });
 
-  const { isReady, user: authUser, isSuperAdmin } = useAuthReady();
+  const { isAuthReady: isReady, user: authUser, isSuperAdmin } = useAuth();
 
   useEffect(() => {
     if (!isReady) return;

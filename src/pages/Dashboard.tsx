@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthReady } from "@/hooks/useAuthReady";
+import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 const Index = () => {
   const navigate = useNavigate();
-  const { isReady, user, role } = useAuthReady();
+  const { isAuthReady, user, role, isRoleReady } = useAuth();
 
   useEffect(() => {
-    if (!isReady) return;
+    if (!isAuthReady || !isRoleReady) return;
 
     if (!user) {
       navigate("/auth");
@@ -50,7 +50,7 @@ const Index = () => {
     };
 
     redirect();
-  }, [isReady, user?.id, role]);
+  }, [isAuthReady, isRoleReady, user?.id, role]);
 
   return <LoadingSpinner message="Loading Montrose Myo..." />;
 };

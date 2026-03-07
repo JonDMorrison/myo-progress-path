@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { useAuthReady } from "@/hooks/useAuthReady";
+import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -79,7 +79,7 @@ const TherapistDashboard = () => {
   const location = useLocation();
   const { toast } = useToast();
 
-  const { user: authUser, isReady, isStaff, isAdmin: authIsAdmin, isSuperAdmin: authIsSuperAdmin } = useAuthReady();
+  const { user: authUser, isAuthReady: isReady, isStaff, isAdmin: authIsAdmin, isSuperAdmin: authIsSuperAdmin } = useAuth();
 
   // Once auth is ready & user is staff, load data
   useEffect(() => {

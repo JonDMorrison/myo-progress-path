@@ -52,22 +52,10 @@ const TestingFeedback = () => {
   const [feedback, setFeedback] = useState<FeedbackRecord[]>([]);
   const [deleting, setDeleting] = useState<string | null>(null);
 
+  // Auth + super_admin check handled by ProtectedRoute in App.tsx
   useEffect(() => {
-    const checkAccess = async () => {
-      const auth = await checkAuth();
-      if (!auth.isAuthenticated) {
-        navigate("/auth");
-        return;
-      }
-      if (!canAccessSuperAdminRoutes(auth.role)) {
-        toast({ title: "Access denied", description: "Super admin access required.", variant: "destructive" });
-        navigate("/therapist");
-        return;
-      }
-      fetchFeedback();
-    };
-    checkAccess();
-  }, [navigate]);
+    fetchFeedback();
+  }, []);
 
   const fetchFeedback = async () => {
     setLoading(true);
