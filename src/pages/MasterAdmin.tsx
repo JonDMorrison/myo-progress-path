@@ -36,38 +36,21 @@ const MasterAdmin = () => {
     pageSize: 50
   });
 
+  const { isReady, user: authUser, isSuperAdmin } = useAuthReady();
+
   useEffect(() => {
-    checkAuthorization();
-  }, []);
-
-  const checkAuthorization = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        navigate('/auth');
-        return;
-      }
-
-      const { data: userData, error } = await supabase
-        .from('users')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-
-      if (error || userData?.role !== 'super_admin') {
+    if (!isReady) return;
+    if (!authUser || !isSuperAdmin) {
+      if (isReady && authUser && !isSuperAdmin) {
         toast.error('Access denied. Super admin privileges required.');
         navigate('/therapist');
-        return;
       }
-
-      setIsAuthorized(true);
-      await loadData();
-    } catch (error) {
-      console.error('Authorization error:', error);
-      navigate('/dashboard');
+      setLoading(false);
+      return;
     }
-  };
+    setIsAuthorized(true);
+    loadData();
+  }, [isReady, authUser?.id, isSuperAdmin]);
 
   const loadData = async () => {
     setLoading(true);
