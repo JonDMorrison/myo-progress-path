@@ -276,7 +276,7 @@ const PatientDashboard = () => {
       });
 
       // Reload messages
-      loadPatientData();
+      if (user) loadPatientData(user);
     } catch (error: any) {
       toast({
         title: "Error",
