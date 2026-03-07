@@ -87,16 +87,7 @@ const AdminContent = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center">
-          <div className="w-12 h-12 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading admin panel...</p>
-        </div>
-      </div>
-    );
-  }
+  // Auth loading handled by ProtectedRoute
 
   return (
     <AdminLayout title="Content Import" description="Import programs and manage settings">

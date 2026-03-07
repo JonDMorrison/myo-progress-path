@@ -83,11 +83,7 @@ export default function SuperAdminManagement() {
 
   const superAdminCount = users.filter(u => u.role === "super_admin").length;
 
-  if (!isAuthorized) {
-    return null;
-  }
-
-  return (
+  // Auth check handled by ProtectedRoute
     <AdminLayout title="Super Admins" description="Grant or revoke super admin access to users">
       <Card>
         <CardHeader>
