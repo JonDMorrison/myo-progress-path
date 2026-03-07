@@ -41,14 +41,11 @@ const PatientDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const { user: authUser, isReady } = useAuthReady();
+  const { user: authUser, isAuthReady: isReady } = useAuth();
 
   useEffect(() => {
     if (!isReady) return;
-    if (!authUser) {
-      navigate("/auth");
-      return;
-    }
+    if (!authUser) return; // ProtectedRoute handles redirect
     loadPatientData(authUser);
   }, [isReady, authUser?.id]);
 
