@@ -41,34 +41,16 @@ const PatientDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const { user: authUser, isReady } = useAuthReady();
+
   useEffect(() => {
-    let cancelled = false;
-
-    const init = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (cancelled) return;
-
-      if (!session?.user) {
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          (_event, newSession) => {
-            if (newSession?.user && !cancelled) {
-              subscription.unsubscribe();
-              loadPatientData(newSession.user);
-            }
-          }
-        );
-        setTimeout(() => {
-          subscription.unsubscribe();
-          if (!cancelled) navigate("/auth");
-        }, 10000);
-        return;
-      }
-
-      loadPatientData(session.user);
-    };
-
-    init();
+    if (!isReady) return;
+    if (!authUser) {
+      navigate("/auth");
+      return;
+    }
+    loadPatientData(authUser);
+  }, [isReady, authUser?.id]);
     
     // Smooth Hash Scroll logic
     const handleHashScroll = () => {
