@@ -120,7 +120,7 @@ export default function PatientDeleteTool() {
     }
   };
 
-  if (!isAuthorized) return null;
+  // Auth check handled by ProtectedRoute
 
   return (
     <AdminLayout title="Delete Patients" description="Safely remove test accounts and anonymize patient data">
