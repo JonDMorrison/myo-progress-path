@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,43 +11,13 @@ import { importProgram } from "@/lib/importProgram";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 
 const AdminContent = () => {
-  const [loading, setLoading] = useState(true);
   const [importing, setImporting] = useState(false);
   const [jsonFile, setJsonFile] = useState<File | null>(null);
   const [jsonPreview, setJsonPreview] = useState<any>(null);
   
   const navigate = useNavigate();
   const { toast } = useToast();
-
-  useEffect(() => {
-    checkAdminAccess();
-  }, []);
-
-  const checkAdminAccess = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-
-    const { data: userData } = await supabase
-      .from("users")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (!userData || (userData.role !== "admin" && userData.role !== "super_admin")) {
-      toast({
-        title: "Access Denied",
-        description: "Admin privileges required.",
-        variant: "destructive",
-      });
-      navigate("/therapist");
-      return;
-    }
-
-    setLoading(false);
-  };
+  // Auth + role check handled by ProtectedRoute in App.tsx
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
