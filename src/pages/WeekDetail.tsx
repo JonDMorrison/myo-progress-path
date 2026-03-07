@@ -193,7 +193,7 @@ const WeekDetail = () => {
       setExercises(exercisesData || []);
 
       let progressData = null;
-      if (patientData.id !== 'dummy') {
+      if (patientData && patientData.id !== 'dummy') {
         // Get or create progress
         let { data: pData, error: progressError } = await supabase
           .from("patient_week_progress")
