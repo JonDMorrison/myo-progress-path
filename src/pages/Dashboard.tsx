@@ -1,45 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthReady } from "@/hooks/useAuthReady";
 import { supabase } from "@/integrations/supabase/client";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 const Index = () => {
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { isReady, user, role } = useAuthReady();
 
   useEffect(() => {
-    checkUserAndRedirect();
-  }, []);
+    if (!isReady) return;
 
-  const checkUserAndRedirect = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate("/auth");
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    const redirect = async () => {
+      if (role === "therapist" || role === "admin" || role === "super_admin") {
+        navigate("/therapist", { replace: true });
         return;
       }
 
-      // Get user's role
-      const { data: userData, error } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", session.user.id)
-        .single();
-
-      if (error) {
-        console.error("Error fetching user role:", error);
-        navigate("/auth");
-        return;
-      }
-
-      // Redirect based on role
-      if (userData.role === "patient") {
-        // Check if patient needs to complete onboarding
+      if (role === "patient") {
         const { data: patient } = await supabase
           .from("patients")
           .select("id")
-          .eq("user_id", session.user.id)
+          .eq("user_id", user.id)
           .single();
 
         if (patient) {
@@ -50,30 +37,22 @@ const Index = () => {
             .maybeSingle();
 
           if (!onboarding?.completed_at) {
-            navigate("/onboarding");
+            navigate("/onboarding", { replace: true });
             return;
           }
         }
-        
-        navigate("/patient");
-      } else if (userData.role === "therapist" || userData.role === "admin" || userData.role === "super_admin") {
-        navigate("/therapist");
-      } else {
-        navigate("/auth");
+
+        navigate("/patient", { replace: true });
+        return;
       }
-    } catch (error) {
-      console.error("Error:", error);
-      navigate("/auth");
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  if (loading) {
-    return <LoadingSpinner message="Loading Montrose Myo..." />;
-  }
+      navigate("/auth", { replace: true });
+    };
 
-  return null;
+    redirect();
+  }, [isReady, user?.id, role]);
+
+  return <LoadingSpinner message="Loading Montrose Myo..." />;
 };
 
 export default Index;

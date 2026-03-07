@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthReady } from "@/hooks/useAuthReady";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar } from "lucide-react";
@@ -40,36 +41,19 @@ const PatientDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const { user: authUser, isReady } = useAuthReady();
+
   useEffect(() => {
-    let cancelled = false;
+    if (!isReady) return;
+    if (!authUser) {
+      navigate("/auth");
+      return;
+    }
+    loadPatientData(authUser);
+  }, [isReady, authUser?.id]);
 
-    const init = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (cancelled) return;
-
-      if (!session?.user) {
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          (_event, newSession) => {
-            if (newSession?.user && !cancelled) {
-              subscription.unsubscribe();
-              loadPatientData(newSession.user);
-            }
-          }
-        );
-        setTimeout(() => {
-          subscription.unsubscribe();
-          if (!cancelled) navigate("/auth");
-        }, 10000);
-        return;
-      }
-
-      loadPatientData(session.user);
-    };
-
-    init();
-    
-    // Smooth Hash Scroll logic
+  // Smooth Hash Scroll logic
+  useEffect(() => {
     const handleHashScroll = () => {
       const hash = window.location.hash;
       if (hash) {
@@ -85,7 +69,6 @@ const PatientDashboard = () => {
     handleHashScroll();
     window.addEventListener('hashchange', handleHashScroll);
     return () => {
-      cancelled = true;
       window.removeEventListener('hashchange', handleHashScroll);
     };
   }, []);

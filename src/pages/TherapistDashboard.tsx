@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import { useAuthReady } from "@/hooks/useAuthReady";
 import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -78,52 +79,24 @@ const TherapistDashboard = () => {
   const location = useLocation();
   const { toast } = useToast();
 
-  // Wait for auth to be ready, then load all data
+  const { user: authUser, isReady, isStaff, isAdmin: authIsAdmin, isSuperAdmin: authIsSuperAdmin } = useAuthReady();
+
+  // Once auth is ready & user is staff, load data
   useEffect(() => {
-    let cancelled = false;
-
-    const init = async () => {
-      // Wait for the session to be restored from storage
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (cancelled) return;
-
-      if (!session?.user) {
-        // If no session yet, listen for the auth state change
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          async (_event, newSession) => {
-            if (newSession?.user && !cancelled) {
-              subscription.unsubscribe();
-              loadInboxData();
-              loadWeeksData();
-            }
-          }
-        );
-        // Safety: stop waiting after 10s
-        setTimeout(() => {
-          subscription.unsubscribe();
-          if (!cancelled) {
-            setLoading(false);
-            setWeeksLoading(false);
-          }
-        }, 10000);
-        return;
-      }
-
-      // Session is available — load everything
-      loadInboxData();
-      loadWeeksData();
-    };
-
-    init();
+    if (!isReady) return;
+    if (!authUser || !isStaff) {
+      setLoading(false);
+      setWeeksLoading(false);
+      return;
+    }
+    loadInboxData();
+    loadWeeksData();
 
     // Switch to curriculum tab if hash is present
     if (location.hash === '#curriculum') {
       setActiveTab('curriculum');
     }
-
-    return () => { cancelled = true; };
-  }, [location.hash]);
+  }, [isReady, authUser?.id, isStaff, location.hash]);
 
   // Clear selection when changing tabs or filters
   useEffect(() => {
@@ -132,31 +105,16 @@ const TherapistDashboard = () => {
 
   const loadInboxData = async () => {
     try {
-      // Use the current session (fast, local) to avoid occasional hangs with getUser()
-      // during token refresh.
-      const { data: sessionData } = await supabase.auth.getSession();
-      const user = sessionData.session?.user;
+      // Use authUser from the hook — no need to re-check session
+      const user = authUser;
       if (!user) {
-        // Don't redirect — the auth listener in init() will retry when session restores
         setLoading(false);
         return;
       }
 
       setUserId(user.id);
-
-      // Check user role
-      const { data: userData } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-
-      if (userData?.role === "admin" || userData?.role === "super_admin") {
-        setIsAdmin(true);
-      }
-      if (userData?.role === "super_admin") {
-        setIsSuperAdmin(true);
-      }
+      setIsAdmin(authIsAdmin);
+      setIsSuperAdmin(authIsSuperAdmin);
 
       // Get all reviews from last 30 days with related data
       const thirtyDaysAgo = new Date();
@@ -186,7 +144,7 @@ const TherapistDashboard = () => {
 
       // Filter by therapist if not admin
       let filteredData = progressData || [];
-      if (userData?.role === "therapist") {
+      if (!authIsAdmin) {
         filteredData = filteredData.filter(
           (r: any) => r.patient?.assigned_therapist_id === user.id
         );
@@ -266,7 +224,7 @@ const TherapistDashboard = () => {
 
       if (!msgsError) {
         let filteredMsgs = allRecentMsgs || [];
-        if (userData?.role === "therapist") {
+        if (!authIsAdmin) {
           filteredMsgs = filteredMsgs.filter(m => m.patient?.assigned_therapist_id === user.id);
         }
         setPatientMessages(filteredMsgs);

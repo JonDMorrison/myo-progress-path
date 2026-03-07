@@ -26,24 +26,22 @@ const Auth = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const redirectByRole = async (userId: string, metadataRole?: string) => {
-    // Try user_metadata role first (available immediately from auth response, no extra query)
-    // Fall back to RPC only if metadata is missing
-    let role = metadataRole || null;
-    
-    if (!role) {
-      try {
-        const { data: rpcRole } = await withTimeout(
-          supabase.rpc("get_user_role", { _user_id: userId }),
-          10_000,
-          "Checking account permissions"
-        );
-        role = rpcRole;
-      } catch {
-        // If RPC times out, try reading from session metadata as last resort
-        const { data: { session } } = await supabase.auth.getSession();
-        role = session?.user?.user_metadata?.role || null;
-      }
+  const redirectByRole = async (userId: string) => {
+    // ALWAYS check the DB role — user_metadata.role can be stale/wrong
+    // (e.g. super_admins may have "patient" in metadata from initial signup)
+    let role: string | null = null;
+
+    try {
+      const { data: rpcRole } = await withTimeout(
+        supabase.rpc("get_user_role", { _user_id: userId }),
+        10_000,
+        "Checking account permissions"
+      );
+      role = rpcRole;
+    } catch {
+      // If RPC times out, fall back to user_metadata as last resort
+      const { data: { session } } = await supabase.auth.getSession();
+      role = session?.user?.user_metadata?.role || null;
     }
 
     if (role && (role === "therapist" || role === "admin" || role === "super_admin")) {
@@ -92,8 +90,7 @@ const Auth = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         try {
-          const metaRole = session.user?.user_metadata?.role as string | undefined;
-          await redirectByRole(session.user.id, metaRole);
+          await redirectByRole(session.user.id);
         } catch {
           // If something is misconfigured, keep the user on /auth so they can retry or reset password.
         }
@@ -148,8 +145,7 @@ const Auth = () => {
           title: "Welcome back!",
           description: "Successfully logged in.",
         });
-        const metaRole = data.user?.user_metadata?.role as string | undefined;
-        await redirectByRole(signedInUserId, metaRole);
+        await redirectByRole(signedInUserId);
       }
     } catch (error: any) {
       toast({
