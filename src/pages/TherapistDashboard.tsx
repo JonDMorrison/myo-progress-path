@@ -144,7 +144,7 @@ const TherapistDashboard = () => {
 
       // Filter by therapist if not admin
       let filteredData = progressData || [];
-      if (userData?.role === "therapist") {
+      if (!authIsAdmin) {
         filteredData = filteredData.filter(
           (r: any) => r.patient?.assigned_therapist_id === user.id
         );
