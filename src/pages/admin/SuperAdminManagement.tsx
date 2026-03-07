@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,42 +20,14 @@ interface User {
 export default function SuperAdminManagement() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isAuthorized, setIsAuthorized] = useState(false);
   const [search, setSearch] = useState("");
   const [updating, setUpdating] = useState<string | null>(null);
   const { toast } = useToast();
-  const navigate = useNavigate();
+  // Auth + super_admin check handled by ProtectedRoute in App.tsx
 
   useEffect(() => {
-    checkAuthorization();
-  }, []);
-
-  const checkAuthorization = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-
-    const { data: userData } = await supabase
-      .from("users")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (userData?.role !== "super_admin") {
-      toast({
-        title: "Access Denied",
-        description: "You must be a super admin to access this page.",
-        variant: "destructive",
-      });
-      navigate("/therapist");
-      return;
-    }
-
-    setIsAuthorized(true);
     loadUsers();
-  };
+  }, []);
 
   const loadUsers = async () => {
     setLoading(true);
