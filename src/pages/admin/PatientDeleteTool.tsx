@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AlertTriangle, Search, Trash2, User, Calendar, Mail } from "lucide-react";
 import { deletePatientData } from "@/lib/patientData";
 import { AdminLayout } from "@/components/layout/AdminLayout";
+import { supabase } from "@/integrations/supabase/client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,41 +42,10 @@ export default function PatientDeleteTool() {
   const [confirmText, setConfirmText] = useState("");
   const [reason, setReason] = useState("");
   const [deleting, setDeleting] = useState(false);
-  const [isAuthorized, setIsAuthorized] = useState(false);
   const { toast } = useToast();
-  const navigate = useNavigate();
+  // Auth + super_admin check handled by ProtectedRoute in App.tsx
 
   const CONFIRM_TEXT = "DELETE";
-
-  useEffect(() => {
-    checkAuthorization();
-  }, []);
-
-  const checkAuthorization = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-
-    const { data: userData } = await supabase
-      .from("users")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (userData?.role !== "super_admin") {
-      toast({
-        title: "Access Denied",
-        description: "Super admin privileges required.",
-        variant: "destructive",
-      });
-      navigate("/therapist");
-      return;
-    }
-
-    setIsAuthorized(true);
-  };
 
   const handleSearch = async () => {
     if (!search.trim()) return;

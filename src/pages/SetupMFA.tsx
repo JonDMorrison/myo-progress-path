@@ -19,27 +19,23 @@ export default function SetupMFA() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const { user: authUser, role, isRoleReady } = useAuth();
+
   useEffect(() => {
+    if (!isRoleReady || !authUser) return;
     checkMfaStatus();
-  }, []);
+  }, [isRoleReady, authUser?.id]);
 
   async function checkMfaStatus() {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-        return;
-      }
-
       // Check if user already has MFA enabled
       const { data: userData } = await supabase
         .from("users")
         .select("role, mfa_enabled")
-        .eq("id", user.id)
+        .eq("id", authUser!.id)
         .single();
 
       if (userData?.mfa_enabled) {
-        // Already set up, redirect to dashboard
         navigate("/dashboard");
         return;
       }
