@@ -98,7 +98,7 @@ const PatientDashboard = () => {
       const { data: userData } = await supabase
         .from("users")
         .select("role")
-        .eq("id", user.id)
+        .eq("id", authUser.id)
         .single();
 
       setIsSuperAdmin(userData?.role === "super_admin");
