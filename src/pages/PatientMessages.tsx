@@ -19,29 +19,13 @@ const PatientMessages = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const { user: authUser } = useAuth();
+
   useEffect(() => {
-    let mounted = true;
-    
-    const init = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user && mounted) {
-        loadMessages(session.user.id);
-      }
-    };
-    
-    init();
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user && mounted) {
-        loadMessages(session.user.id);
-      }
-    });
-    
-    return () => {
-      mounted = false;
-      subscription.unsubscribe();
-    };
-  }, []);
+    if (authUser) {
+      loadMessages(authUser.id);
+    }
+  }, [authUser?.id]);
 
   const loadMessages = async (userId?: string) => {
     try {
