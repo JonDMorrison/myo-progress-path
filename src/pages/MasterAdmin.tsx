@@ -36,7 +36,7 @@ const MasterAdmin = () => {
     pageSize: 50
   });
 
-  const { isReady, user: authUser, isSuperAdmin } = useAuthReady();
+  const { isAuthReady: isReady, user: authUser, isSuperAdmin } = useAuth();
 
   useEffect(() => {
     if (!isReady) return;

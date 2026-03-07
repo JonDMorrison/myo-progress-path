@@ -79,7 +79,7 @@ const TherapistDashboard = () => {
   const location = useLocation();
   const { toast } = useToast();
 
-  const { user: authUser, isReady, isStaff, isAdmin: authIsAdmin, isSuperAdmin: authIsSuperAdmin } = useAuthReady();
+  const { user: authUser, isAuthReady: isReady, isStaff, isAdmin: authIsAdmin, isSuperAdmin: authIsSuperAdmin } = useAuth();
 
   // Once auth is ready & user is staff, load data
   useEffect(() => {

@@ -29,7 +29,7 @@ const Reports = () => {
   const [patients, setPatients] = useState<any[]>([]);
   const [selectedPatients, setSelectedPatients] = useState<string[]>([]);
 
-  const { user: authUser, isReady, isStaff, role } = useAuthReady();
+  const { user: authUser, isAuthReady: isReady, isStaff, role } = useAuth();
 
   useEffect(() => {
     if (!isReady) return;
