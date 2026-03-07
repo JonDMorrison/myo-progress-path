@@ -145,8 +145,7 @@ const Auth = () => {
           title: "Welcome back!",
           description: "Successfully logged in.",
         });
-        const metaRole = data.user?.user_metadata?.role as string | undefined;
-        await redirectByRole(signedInUserId, metaRole);
+        await redirectByRole(signedInUserId);
       }
     } catch (error: any) {
       toast({
