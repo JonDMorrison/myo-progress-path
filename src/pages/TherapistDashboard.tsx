@@ -79,52 +79,24 @@ const TherapistDashboard = () => {
   const location = useLocation();
   const { toast } = useToast();
 
-  // Wait for auth to be ready, then load all data
+  const { user: authUser, isReady, isStaff, isAdmin: authIsAdmin, isSuperAdmin: authIsSuperAdmin } = useAuthReady();
+
+  // Once auth is ready & user is staff, load data
   useEffect(() => {
-    let cancelled = false;
-
-    const init = async () => {
-      // Wait for the session to be restored from storage
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (cancelled) return;
-
-      if (!session?.user) {
-        // If no session yet, listen for the auth state change
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          async (_event, newSession) => {
-            if (newSession?.user && !cancelled) {
-              subscription.unsubscribe();
-              loadInboxData();
-              loadWeeksData();
-            }
-          }
-        );
-        // Safety: stop waiting after 10s
-        setTimeout(() => {
-          subscription.unsubscribe();
-          if (!cancelled) {
-            setLoading(false);
-            setWeeksLoading(false);
-          }
-        }, 10000);
-        return;
-      }
-
-      // Session is available — load everything
-      loadInboxData();
-      loadWeeksData();
-    };
-
-    init();
+    if (!isReady) return;
+    if (!authUser || !isStaff) {
+      setLoading(false);
+      setWeeksLoading(false);
+      return;
+    }
+    loadInboxData();
+    loadWeeksData();
 
     // Switch to curriculum tab if hash is present
     if (location.hash === '#curriculum') {
       setActiveTab('curriculum');
     }
-
-    return () => { cancelled = true; };
-  }, [location.hash]);
+  }, [isReady, authUser?.id, isStaff, location.hash]);
 
   // Clear selection when changing tabs or filters
   useEffect(() => {
