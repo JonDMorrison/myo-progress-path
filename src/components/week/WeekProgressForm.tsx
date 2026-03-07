@@ -43,7 +43,7 @@ export function WeekProgressForm({ progress, week, readOnly = false, onUpdate }:
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <h3 className="text-3xl font-black text-slate-900 tracking-tighter italic">
-            {readOnly ? "Clinical Summary" : "Your Biweekly Vitals"}
+            {readOnly ? "Clinical Summary" : "Your Vitals"}
           </h3>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Respiratory & Myofunctional Tracking</p>
         </div>
