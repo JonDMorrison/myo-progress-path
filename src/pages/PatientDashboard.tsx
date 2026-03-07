@@ -107,7 +107,7 @@ const PatientDashboard = () => {
       const { data: patientData, error: patientError } = await supabase
         .from("patients")
         .select("*")
-        .eq("user_id", user.id)
+        .eq("user_id", authUser.id)
         .maybeSingle();
 
       if (patientError) throw patientError;
