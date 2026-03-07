@@ -224,7 +224,7 @@ const TherapistDashboard = () => {
 
       if (!msgsError) {
         let filteredMsgs = allRecentMsgs || [];
-        if (userData?.role === "therapist") {
+        if (!authIsAdmin) {
           filteredMsgs = filteredMsgs.filter(m => m.patient?.assigned_therapist_id === user.id);
         }
         setPatientMessages(filteredMsgs);
