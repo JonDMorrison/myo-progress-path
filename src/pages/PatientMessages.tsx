@@ -31,12 +31,8 @@ const PatientMessages = () => {
     try {
       let uid = userId;
       if (!uid) {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session?.user) {
-          navigate("/auth");
-          return;
-        }
-        uid = session.user.id;
+        uid = authUser?.id;
+        if (!uid) return;
       }
 
       const { data: patientData } = await supabase

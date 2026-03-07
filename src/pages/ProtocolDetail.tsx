@@ -87,26 +87,24 @@ const ProtocolDetail = () => {
   const isPreOp = slug === 'pre-op-protocol' || slug === 'pre-op';
   const protocol = isPreOp ? PRE_OP_PROTOCOL : POST_OP_PROTOCOL;
 
+  const { user: authUser } = useAuth();
+
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-        return;
-      }
+    const loadPatient = async () => {
+      if (!authUser) return;
 
       const { data: patientData } = await supabase
         .from("patients")
         .select("*")
-        .eq("user_id", user.id)
-        .single();
+        .eq("user_id", authUser.id)
+        .maybeSingle();
 
       setPatient(patientData);
       setLoading(false);
     };
 
-    checkAuth();
-  }, [navigate]);
+    loadPatient();
+  }, [authUser?.id]);
 
   if (loading) {
     return (

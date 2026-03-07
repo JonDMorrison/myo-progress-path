@@ -82,23 +82,15 @@ const WeekDetail = () => {
     loadWeekData();
   }, [weekNumber]);
 
+  const { user: authUser, role: authRole, isAuthReady } = useAuth();
+
   const loadWeekData = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-        return;
-      }
+      const user = authUser;
+      if (!user) return;
 
-      // Check user role
-      const { data: userData } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-
-      const isSuperAdmin = userData?.role === "super_admin";
-      const isTherapist = userData?.role === "therapist";
+      const isSuperAdmin = authRole === "super_admin";
+      const isTherapist = authRole === "therapist" || authRole === "admin";
 
       // Get patient - if user is therapist/admin but NOT a patient themselves, we create a partial dummy state
       const { data: patientData, error: patientError } = await supabase

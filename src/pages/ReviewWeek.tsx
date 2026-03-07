@@ -40,11 +40,7 @@ const ReviewWeek = () => {
 
   const loadReviewData = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/auth");
-        return;
-      }
+      // Auth is guaranteed by ProtectedRoute — no need to check here
 
       // Get patient
       const { data: patientData, error: patientError } = await supabase
