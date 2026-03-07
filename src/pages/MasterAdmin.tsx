@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAuthReady } from "@/hooks/useAuthReady";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
