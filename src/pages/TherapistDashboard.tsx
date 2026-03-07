@@ -105,31 +105,16 @@ const TherapistDashboard = () => {
 
   const loadInboxData = async () => {
     try {
-      // Use the current session (fast, local) to avoid occasional hangs with getUser()
-      // during token refresh.
-      const { data: sessionData } = await supabase.auth.getSession();
-      const user = sessionData.session?.user;
+      // Use authUser from the hook — no need to re-check session
+      const user = authUser;
       if (!user) {
-        // Don't redirect — the auth listener in init() will retry when session restores
         setLoading(false);
         return;
       }
 
       setUserId(user.id);
-
-      // Check user role
-      const { data: userData } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-
-      if (userData?.role === "admin" || userData?.role === "super_admin") {
-        setIsAdmin(true);
-      }
-      if (userData?.role === "super_admin") {
-        setIsSuperAdmin(true);
-      }
+      setIsAdmin(authIsAdmin);
+      setIsSuperAdmin(authIsSuperAdmin);
 
       // Get all reviews from last 30 days with related data
       const thirtyDaysAgo = new Date();
