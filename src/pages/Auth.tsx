@@ -92,12 +92,12 @@ const Auth = () => {
         try {
           await redirectByRole(session.user.id);
         } catch {
-          // If something is misconfigured, keep the user on /auth so they can retry or reset password.
+          // Keep user on /auth
         }
       }
     };
     checkSession();
-  }, [navigate]);
+  }, []);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
