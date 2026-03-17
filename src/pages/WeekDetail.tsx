@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -84,9 +84,23 @@ const WeekDetail = () => {
 
   const { user: authUser, role: authRole, isAuthReady } = useAuth();
 
-  const isStaff = authRole === 'therapist' || authRole === 'admin' || authRole === 'super_admin';
-  const backDestination = isStaff ? '/therapist' : '/patient';
-  const backLabel = isStaff ? 'Curriculum' : 'Dashboard';
+  const backDestination = useMemo(() => {
+    if (authRole === 'therapist' || authRole === 'admin' || authRole === 'super_admin') {
+      return '/therapist';
+    }
+    if (authRole === 'patient') {
+      return '/patient';
+    }
+    // Role not yet resolved — fall back to browser history to avoid hardcoding /patient
+    return window.history.length > 1 ? -1 as any : '/patient';
+  }, [authRole]);
+
+  const backLabel = useMemo(() => {
+    if (authRole === 'therapist' || authRole === 'admin' || authRole === 'super_admin') {
+      return 'Curriculum';
+    }
+    return 'Dashboard';
+  }, [authRole]);
 
   const loadWeekData = async () => {
     try {
@@ -488,7 +502,13 @@ const WeekDetail = () => {
           week={week}
           progress={progress}
           programVariant={patient?.program_variant || 'frenectomy'}
-          onBack={() => navigate(backDestination)}
+          onBack={() => {
+            if (typeof backDestination === 'number') {
+              navigate(-1);
+            } else {
+              navigate(backDestination);
+            }
+          }}
           backLabel={backLabel}
           isReadOnly={isReadOnly}
         />

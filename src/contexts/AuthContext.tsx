@@ -45,6 +45,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isRoleReady, setIsRoleReady] = useState(false);
 
   const resolveRole = useCallback(async (authUser: User) => {
+    // If we already have a role for this user, skip the DB fetch to prevent
+    // isRoleReady flickering during navigation-triggered auth events
+    if (role !== null) {
+      authLog("Role already resolved:", role, "— skipping re-fetch");
+      setIsRoleReady(true);
+      return;
+    }
     try {
       authLog("Resolving role for", authUser.id);
       const { data, error } = await supabase
@@ -64,7 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsRoleReady(true);
     }
-  }, []);
+  }, [role]);
 
   const refreshRole = useCallback(async () => {
     if (user) {

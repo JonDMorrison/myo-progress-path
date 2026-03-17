@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth, type AppRole } from "@/contexts/AuthContext";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -28,20 +28,33 @@ function authLog(...args: any[]) {
 export function ProtectedRoute({ children, requiredRoles }: ProtectedRouteProps) {
   const { isAuthReady, isAuthenticated, isRoleReady, role } = useAuth();
 
-  const [permissionTimeout, setPermissionTimeout] = useState(false);
+  const permissionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [permissionTimedOut, setPermissionTimedOut] = useState(false);
 
+  // Start timer ONCE on mount — empty dep array prevents re-starting on re-renders
   useEffect(() => {
-    if (!isRoleReady && isAuthenticated) {
-      const t = setTimeout(() => {
-        authLog("Permission check timeout — forcing resolution");
-        setPermissionTimeout(true);
-      }, 3000);
-      return () => clearTimeout(t);
+    if (permissionTimedOut) return;
+    if (isRoleReady) return;
+    if (!isAuthenticated) return;
+
+    permissionTimeoutRef.current = setTimeout(() => {
+      authLog("Permission check timeout — forcing resolution");
+      setPermissionTimedOut(true);
+    }, 3000);
+
+    return () => {
+      if (permissionTimeoutRef.current) {
+        clearTimeout(permissionTimeoutRef.current);
+      }
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Clear timeout when role resolves
+  useEffect(() => {
+    if (isRoleReady && permissionTimeoutRef.current) {
+      clearTimeout(permissionTimeoutRef.current);
+      setPermissionTimedOut(false);
     }
-  }, [isRoleReady, isAuthenticated]);
-
-  useEffect(() => {
-    if (isRoleReady) setPermissionTimeout(false);
   }, [isRoleReady]);
 
   // Still hydrating auth — show loading, NEVER redirect
@@ -57,7 +70,7 @@ export function ProtectedRoute({ children, requiredRoles }: ProtectedRouteProps)
   }
 
   // User is authenticated but role is still resolving
-  if (requiredRoles && !isRoleReady && !permissionTimeout) {
+  if (requiredRoles && !isRoleReady && !permissionTimedOut) {
     authLog("Waiting for role resolution...");
     return <LoadingSpinner message="Checking permissions..." />;
   }
