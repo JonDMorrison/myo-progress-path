@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     question: "How do video check-ins work?",
-    answer: "For each biweekly module, you will upload first attempt and last attempt videos of your exercises for your therapist to review and provide personalized guidance",
+    answer: "For each module, you will upload first attempt and last attempt videos of your exercises for your therapist to review and provide personalized guidance",
   },
 ];
 
