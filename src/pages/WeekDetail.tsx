@@ -144,8 +144,8 @@ const WeekDetail = () => {
 
       if (!weekData) {
         toast({
-          title: "Week Not Available",
-          description: "This week's content hasn't been set up yet.",
+          title: "Module Not Available",
+          description: "This module's content hasn't been set up yet.",
           variant: "destructive",
         });
         setLoading(false);
@@ -617,12 +617,12 @@ const WeekDetail = () => {
                     <div className="mt-8 p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-premium text-center space-y-6">
                       <div className="space-y-2">
                         <p className="text-slate-800 text-lg font-bold">
-                          {canSubmitState ? "Week 1 Complete! 🌟" : "Module Progress"}
+                          {canSubmitState ? "Part One Complete! 🌟" : "Module Progress"}
                         </p>
                         <p className="text-slate-500 text-sm font-medium">
                           {canSubmitState
-                            ? "You've finished everything for Week 1. Now let's head to Week 2 to complete the module."
-                            : `Complete all tasks for Week 1 & 2 to submit Module ${getModuleInfo(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy').moduleNumber}.`
+                            ? "You've finished everything for Part One. Now let's head to Part Two to complete the module."
+                            : `Complete all tasks for both parts to submit Module ${getModuleInfo(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy').moduleNumber}.`
                           }
                         </p>
                       </div>
@@ -632,11 +632,11 @@ const WeekDetail = () => {
                           onClick={() => navigate(`/week/${parseInt(weekNumber || "1") + 1}`)}
                           className="w-full sm:w-auto px-10 h-14 rounded-2xl bg-primary hover:bg-primary-dark font-black text-white shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 text-lg"
                         >
-                          Continue to Week 2 →
+                          Continue to Part Two →
                         </Button>
                       ) : (
                         <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">
-                          Submission available at the end of Week 2
+                          Submission available at the end of Part Two
                         </p>
                       )}
                     </div>

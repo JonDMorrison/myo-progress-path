@@ -561,7 +561,7 @@ const ReviewWeek = () => {
 
                 {progress?.status !== "submitted" && !isReassignable && (
                   <p className="text-xs text-center text-muted-foreground">
-                    This week has already been reviewed
+                    This module has already been reviewed
                   </p>
                 )}
               </CardContent>

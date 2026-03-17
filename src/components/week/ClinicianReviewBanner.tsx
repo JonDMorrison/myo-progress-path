@@ -9,7 +9,7 @@ interface ClinicianReviewBannerProps {
 
 export function ClinicianReviewBanner({ weekNumber, programVariant = 'frenectomy' }: ClinicianReviewBannerProps) {
   const moduleInfo = getModuleInfo(weekNumber, programVariant);
-  const partLabel = weekNumber === moduleInfo.weekRange[0] ? 'Week 1' : 'Week 2';
+  const partLabel = weekNumber === moduleInfo.weekRange[0] ? 'Part One' : 'Part Two';
   const displayLabel = moduleInfo.isWeekly 
     ? moduleInfo.displayLabel 
     : `${moduleInfo.moduleLabel} ${partLabel}`;

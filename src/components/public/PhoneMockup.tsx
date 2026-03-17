@@ -25,7 +25,7 @@ export const PhoneMockup = () => {
             <div className="p-4 space-y-4 pb-8">
               {/* Header */}
               <div className="space-y-2">
-                <h2 className="text-xl font-bold">Week 3</h2>
+                <h2 className="text-xl font-bold">Module 2</h2>
                 <p className="text-sm text-muted-foreground">Tongue Positioning & Breathing</p>
               </div>
 
@@ -51,7 +51,7 @@ export const PhoneMockup = () => {
               {/* Progress */}
               <Card className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium">Week Progress</span>
+                  <span className="text-sm font-medium">Module Progress</span>
                   <span className="text-sm text-muted-foreground">6/7 days</span>
                 </div>
                 <Progress value={85} className="h-2" />
