@@ -51,7 +51,7 @@ export function NasalUnblockModal() {
                 <ol className="list-decimal pl-5 space-y-2">
                   <li>Take 3 normal breaths, in and out naturally.</li>
                   <li>After the 3rd exhale, pinch your nose and hold your breath.</li>
-                  <li>Optional: gently nod your head up and down or side to side.</li>
+                  <li>Gently nod your head up and down or side to side.</li>
                   <li>Hold until you feel a mild air hunger, then inhale through your nose.</li>
                   <li>Repeat 3–5 times as needed.</li>
                 </ol>

@@ -1,8 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
 export async function syncProgramData(weeksData: any[]) {
-    console.log("Starting sync with", weeksData.length, "weeks of data...");
-
     const results = {
         weeksSynced: 0,
         exercisesSynced: 0,

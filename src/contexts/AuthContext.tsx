@@ -29,7 +29,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const AUTH_DEBUG = true;
+const AUTH_DEBUG = false;
 
 function authLog(...args: any[]) {
   if (AUTH_DEBUG) {

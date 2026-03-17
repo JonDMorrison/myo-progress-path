@@ -677,7 +677,7 @@ const ReviewPanel = ({
                   </div>
                   <p className="text-xs text-muted-foreground">
                     <strong>Complete Program:</strong> Marks patient as completed. <br />
-                    <strong>Maintenance Mode:</strong> Keeps patient active for weekly check-ins and therapist-assigned practice.
+                    <strong>Maintenance Mode:</strong> Keeps patient active for biweekly check-ins and therapist-assigned practice.
                   </p>
                 </div>
               )}

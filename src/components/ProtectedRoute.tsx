@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
   requiredRoles?: AppRole[];
 }
 
-const AUTH_DEBUG = true;
+const AUTH_DEBUG = false;
 
 function authLog(...args: any[]) {
   if (AUTH_DEBUG) {

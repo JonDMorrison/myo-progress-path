@@ -79,7 +79,6 @@ const App = () => {
                 <Route path="/clinical-testing" element={<ClinicalTesting />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/update-password" element={<UpdatePassword />} />
-                <Route path="/seed-super-admins" element={<SeedSuperAdmins />} />
 
                 {/* Protected: Any authenticated user */}
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -89,12 +88,12 @@ const App = () => {
                 <Route path="/setup-mfa" element={<ProtectedRoute><SetupMFA /></ProtectedRoute>} />
 
                 {/* Protected: Patient routes */}
-                <Route path="/patient" element={<ProtectedRoute><PatientDashboard /></ProtectedRoute>} />
-                <Route path="/patient/progress" element={<ProtectedRoute><PatientProgress /></ProtectedRoute>} />
-                <Route path="/patient/messages" element={<ProtectedRoute><PatientMessages /></ProtectedRoute>} />
-                <Route path="/patient/account" element={<ProtectedRoute><PatientAccount /></ProtectedRoute>} />
-                <Route path="/week/:weekNumber" element={<ProtectedRoute><WeekDetail /></ProtectedRoute>} />
-                <Route path="/protocol/:slug" element={<ProtectedRoute><ProtocolDetail /></ProtectedRoute>} />
+                <Route path="/patient" element={<ProtectedRoute requiredRoles={["patient"]}><PatientDashboard /></ProtectedRoute>} />
+                <Route path="/patient/progress" element={<ProtectedRoute requiredRoles={["patient"]}><PatientProgress /></ProtectedRoute>} />
+                <Route path="/patient/messages" element={<ProtectedRoute requiredRoles={["patient"]}><PatientMessages /></ProtectedRoute>} />
+                <Route path="/patient/account" element={<ProtectedRoute requiredRoles={["patient"]}><PatientAccount /></ProtectedRoute>} />
+                <Route path="/week/:weekNumber" element={<ProtectedRoute requiredRoles={["patient", "therapist", "admin", "super_admin"]}><WeekDetail /></ProtectedRoute>} />
+                <Route path="/protocol/:slug" element={<ProtectedRoute requiredRoles={["patient", "therapist", "admin", "super_admin"]}><ProtocolDetail /></ProtectedRoute>} />
 
                 {/* Protected: Staff routes */}
                 <Route path="/therapist" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistDashboard /></ProtectedRoute>} />
@@ -114,6 +113,7 @@ const App = () => {
                 <Route path="/admin/week-settings" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><WeekSettingsEditor /></ProtectedRoute>} />
 
                 {/* Protected: Super admin routes */}
+                <Route path="/seed-super-admins" element={<ProtectedRoute requiredRoles={["super_admin"]}><SeedSuperAdmins /></ProtectedRoute>} />
                 <Route path="/admin/master" element={<ProtectedRoute requiredRoles={["super_admin"]}><MasterAdmin /></ProtectedRoute>} />
                 <Route path="/admin/super-admins" element={<ProtectedRoute requiredRoles={["super_admin"]}><SuperAdminManagement /></ProtectedRoute>} />
                 <Route path="/admin/delete-patients" element={<ProtectedRoute requiredRoles={["super_admin"]}><PatientDeleteTool /></ProtectedRoute>} />

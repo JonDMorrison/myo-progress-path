@@ -32,7 +32,6 @@ export async function sendEmail(options: EmailOptions): Promise<void> {
       throw new Error(`Email send failed: ${data?.error || 'Unknown error'}`);
     }
 
-    console.log('[sendEmail] Success:', options.subject);
   } catch (err) {
     console.error('[sendEmail] Unexpected error:', err);
     throw err;
