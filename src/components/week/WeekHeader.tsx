@@ -10,11 +10,12 @@ interface WeekHeaderProps {
   progress: any;
   programVariant?: string;
   onBack: () => void;
+  backLabel?: string;
   action?: ReactNode;
   isReadOnly?: boolean;
 }
 
-export function WeekHeader({ week, progress, programVariant = 'frenectomy', onBack, action, isReadOnly }: WeekHeaderProps) {
+export function WeekHeader({ week, progress, programVariant = 'frenectomy', onBack, backLabel = 'Dashboard', action, isReadOnly }: WeekHeaderProps) {
   const getStatusConfig = (status: string) => {
     switch (status) {
       case 'approved':
@@ -57,7 +58,7 @@ export function WeekHeader({ week, progress, programVariant = 'frenectomy', onBa
           <div className="flex items-center gap-4 min-w-0">
             <Button variant="ghost" size="sm" onClick={onBack} className="h-8 w-8 sm:h-9 sm:w-auto sm:px-3 rounded-lg -ml-1">
               <ArrowLeft className="h-4 w-4" />
-              <span className="hidden sm:inline ml-1 font-medium">Dashboard</span>
+              <span className="hidden sm:inline ml-1 font-medium">{backLabel}</span>
             </Button>
 
             <div className="flex flex-col min-w-0">

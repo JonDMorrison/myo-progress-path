@@ -45,6 +45,25 @@ export function ProtectedRoute({ children, requiredRoles }: ProtectedRouteProps)
     return <LoadingSpinner message="Checking permissions..." />;
   }
 
+  // Role resolved to null — user has no role assigned
+  if (requiredRoles && isRoleReady && !role) {
+    authLog("Role resolved to null — no role assigned for this user.");
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-bold">Account Setup Incomplete</h1>
+          <p className="text-muted-foreground">
+            Your account doesn't have a role assigned yet. Please contact
+            your administrator.
+          </p>
+          <a href="/auth" className="text-primary hover:underline">
+            Back to login
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   // Check role-based access
   if (requiredRoles && role && !requiredRoles.includes(role)) {
     authLog("Access denied. User role:", role, "Required:", requiredRoles);

@@ -84,6 +84,10 @@ const WeekDetail = () => {
 
   const { user: authUser, role: authRole, isAuthReady } = useAuth();
 
+  const isStaff = authRole === 'therapist' || authRole === 'admin' || authRole === 'super_admin';
+  const backDestination = isStaff ? '/therapist' : '/patient';
+  const backLabel = isStaff ? 'Curriculum' : 'Dashboard';
+
   const loadWeekData = async () => {
     try {
       const user = authUser;
@@ -484,7 +488,8 @@ const WeekDetail = () => {
           week={week}
           progress={progress}
           programVariant={patient?.program_variant || 'frenectomy'}
-          onBack={() => navigate("/patient")}
+          onBack={() => navigate(backDestination)}
+          backLabel={backLabel}
           isReadOnly={isReadOnly}
         />
 
