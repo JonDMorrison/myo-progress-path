@@ -70,12 +70,12 @@ const HowItWorks = () => {
                 <StepCard
                   stepNumber={1}
                   title="Get Your Airway Exam"
-                  description="Complete your airway exam at Montrose Dental Centre to determine a treatment plan and which myofunctional therapy program will best suit your needs."
+                  description="Complete your exam at Montrose Dental Centre to determine a treatment plan and which myofunctional therapy program will best suit your needs."
                 />
                 <StepCard
                   stepNumber={2}
                   title="Start Your Program"
-                  description="After enrolling with the access code received post payment and exam, you'll see your program with clear exercises for each module. Everything you need is in one place—instructions, videos, and progress tracking."
+                  description="Enroll using the access code received post payment and exam. You'll see your personalized 24-week program with clear exercises for each week. Everything you need is in one place—instructions, videos, and progress tracking."
                 />
                 <StepCard
                   stepNumber={3}
@@ -85,7 +85,7 @@ const HowItWorks = () => {
                 <StepCard
                   stepNumber={4}
                   title="Get Feedback & Advance"
-                  description="Your therapist reviews your submissions and provides personalized feedback. Once approved, your next module unlocks automatically. If adjustments are needed, you'll receive clear guidance. (Program Dependent)"
+                  description="Your therapist reviews your submissions and provides personalized feedback. Once approved, your next week unlocks automatically. If adjustments are needed, you'll receive clear guidance. (Program Dependent)"
                 />
               </div>
             </div>

@@ -7,24 +7,16 @@ import {
 
 const faqs = [
   {
-    question: "Do I need to upload videos?",
-    answer: "Video uploads are required for certain weeks as determined by your therapist. Your biweekly view will clearly show if uploads are needed.",
+    question: "Can I start without video uploads?",
+    answer: "If you do not require a tongue tie surgery, you can choose to purchase our basic, feedback-free program at a reduced cost. (This may impact results if exercises are not done as instructed)",
   },
   {
-    question: "How do patients log in?",
-    answer: "Patients use passwordless email authentication. They simply enter their email address and receive a secure login link.",
+    question: "Who reviews my progress?",
+    answer: "Our Myofunctional Therapist at Montrose Myo",
   },
   {
-    question: "Can we customize program content?",
-    answer: "Absolutely. The Admin interface allows you to import and customize weekly exercise programs to match your clinic's approach.",
-  },
-  {
-    question: "Is there reporting?",
-    answer: "Yes. You'll get comprehensive adherence metrics, completion trends, and patient progress reports to help optimize your therapy outcomes.",
-  },
-  {
-    question: "Can we add more therapists later?",
-    answer: "Yes! Montrose Myo supports multi-user clinics. You can add therapists and admin users as your practice grows.",
+    question: "How do video check-ins work?",
+    answer: "For each biweekly module, you will upload first attempt and last attempt videos of your exercises for your therapist to review and provide personalized guidance",
   },
 ];
 

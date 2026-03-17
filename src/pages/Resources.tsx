@@ -108,7 +108,7 @@ const Resources = () => {
     },
     {
       name: "MyoMentor",
-      description: "The education and training resource used to develop our Montrose Myo programs. Their website provides basic explanations about what myofunctional therapy is.",
+      description: "The education and training resource used to develop our Montrose Myo programs. Their website provides basic explanations about what myofunctional therapy is, why it matters, and how exercises are taught and applied in practice",
       url: "https://www.myomentor.com/"
     },
     {
