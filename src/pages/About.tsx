@@ -26,7 +26,6 @@ const About = () => {
           content="Built with clinicians. Focused on families. Montrose Myo is created by Montrose Dental Centre to help patients follow through at home." 
         />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/placeholder.svg" />
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 

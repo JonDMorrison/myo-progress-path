@@ -7,7 +7,6 @@ export interface SEOProps {
 
 export const DEFAULT_SEO = {
   siteName: "Montrose Myo",
-  defaultImage: "/placeholder.svg",
   twitterHandle: "@montrosemyo",
 };
 

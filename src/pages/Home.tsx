@@ -34,21 +34,13 @@ const Home = () => {
       setIsLoggedIn(true);
       // User is logged in, redirect to appropriate dashboard
       const {
-        data: userData, error
+        data: userData
       } = await supabase.from("users").select("role").eq("id", session.user.id).single();
 
-      console.log("Login Debug - CheckAuth:", { userData, error });
-
       if (userData?.role === "patient") {
-        console.log("Redirecting to Patient Dashboard");
         navigate("/patient");
       } else if (userData?.role === "therapist" || userData?.role === "admin" || userData?.role === "super_admin") {
-        console.log("Redirecting to Therapist Dashboard");
         navigate("/therapist");
-      } else {
-        console.warn("Unknown role, staying on home or defaulting to patient??", userData?.role);
-        // Optional: Default to patient if role is missing but user is logged in
-        // navigate("/patient"); 
       }
     } else {
       setIsLoggedIn(false);
@@ -77,7 +69,6 @@ const Home = () => {
       <meta property="og:title" content={getPageTitle("Home")} />
       <meta property="og:description" content="Trusted Montrose care in a guided myofunctional program you can follow from home." />
       <meta property="og:type" content="website" />
-      <meta property="og:image" content="/placeholder.svg" />
       <meta name="twitter:card" content="summary_large_image" />
       <script type="application/ld+json">
         {JSON.stringify(schemaData)}

@@ -101,7 +101,7 @@ const Register = () => {
                 Create Account
               </h1>
               <p className="text-primary font-bold tracking-widest text-[10px] uppercase">
-                Start Your Journey
+                Get Started
               </p>
             </div>
           </div>

@@ -35,7 +35,6 @@ const HowItWorks = () => {
           content="Your step-by-step guide to myofunctional therapy. Learn how to complete exercises, track progress, and get personalized feedback from your therapist." 
         />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/placeholder.svg" />
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
