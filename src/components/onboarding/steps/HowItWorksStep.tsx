@@ -42,7 +42,7 @@ export const HowItWorksStep = () => {
           <div>
             <h3 className="font-semibold mb-1">Therapist Feedback (Program Dependant)</h3>
             <p className="text-sm text-muted-foreground">
-              Your therapist reviews your submissions and provides feedback. They may approve your week or request more practice.
+              Your therapist reviews your submissions and provides feedback. They may approve your module or request more practice.
             </p>
           </div>
         </div>

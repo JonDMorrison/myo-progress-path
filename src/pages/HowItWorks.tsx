@@ -69,7 +69,7 @@ const HowItWorks = () => {
               <div className="grid gap-12">
                 <StepCard
                   stepNumber={1}
-                  title="Get Your Airway Exam"
+                  title="Get Your Exam"
                   description="Complete your exam at Montrose Dental Centre to determine a treatment plan and which myofunctional therapy program will best suit your needs."
                 />
                 <StepCard

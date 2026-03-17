@@ -118,7 +118,7 @@ export const PhoneMockup = () => {
                     <Trophy className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium">Week Warrior</p>
+                    <p className="text-sm font-medium">Module Warrior</p>
                     <p className="text-xs text-muted-foreground">Completed 7 days in a row</p>
                   </div>
                 </Card>

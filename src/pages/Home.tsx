@@ -221,7 +221,7 @@ const Home = () => {
                   Expert Guidance Every Step of the Way
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6">
-                  Our Orofacial Myofunctional Therapist reviews your biweekly submissions and provides
+                  Our Orofacial Myofunctional Therapist reviews your submissions and provides
                   personalized feedback to ensure you're performing exercises correctly and
                   achieving your health goals.
                 </p>
