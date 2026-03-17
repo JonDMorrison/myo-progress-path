@@ -90,10 +90,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(newSession);
 
       if (authUser) {
-        // Use setTimeout to avoid deadlock — don't await inside onAuthStateChange
-        setTimeout(() => {
-          if (!cancelled) resolveRole(authUser);
-        }, 0);
+        // Call without awaiting — avoids Supabase deadlock while starting
+        // resolution immediately (no tick delay)
+        if (!cancelled) resolveRole(authUser);
       } else {
         setRole(null);
         setIsRoleReady(true);
@@ -127,6 +126,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       subscription.unsubscribe();
     };
   }, [resolveRole]);
+
+  // Safety net: if auth is ready and user exists but role still hasn't resolved
+  // within 2 seconds, force a re-attempt
+  useEffect(() => {
+    if (!isAuthReady || !user) return;
+    if (isRoleReady) return;
+
+    const timeout = setTimeout(() => {
+      if (!isRoleReady && user) {
+        authLog("Role resolution timeout — forcing re-attempt");
+        resolveRole(user);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [isAuthReady, user, isRoleReady, resolveRole]);
 
   const value: AuthContextValue = {
     isAuthReady,

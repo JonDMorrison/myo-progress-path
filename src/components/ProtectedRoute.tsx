@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth, type AppRole } from "@/contexts/AuthContext";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -27,6 +28,22 @@ function authLog(...args: any[]) {
 export function ProtectedRoute({ children, requiredRoles }: ProtectedRouteProps) {
   const { isAuthReady, isAuthenticated, isRoleReady, role } = useAuth();
 
+  const [permissionTimeout, setPermissionTimeout] = useState(false);
+
+  useEffect(() => {
+    if (!isRoleReady && isAuthenticated) {
+      const t = setTimeout(() => {
+        authLog("Permission check timeout — forcing resolution");
+        setPermissionTimeout(true);
+      }, 3000);
+      return () => clearTimeout(t);
+    }
+  }, [isRoleReady, isAuthenticated]);
+
+  useEffect(() => {
+    if (isRoleReady) setPermissionTimeout(false);
+  }, [isRoleReady]);
+
   // Still hydrating auth — show loading, NEVER redirect
   if (!isAuthReady) {
     authLog("Waiting for auth hydration...");
@@ -40,7 +57,7 @@ export function ProtectedRoute({ children, requiredRoles }: ProtectedRouteProps)
   }
 
   // User is authenticated but role is still resolving
-  if (requiredRoles && !isRoleReady) {
+  if (requiredRoles && !isRoleReady && !permissionTimeout) {
     authLog("Waiting for role resolution...");
     return <LoadingSpinner message="Checking permissions..." />;
   }
