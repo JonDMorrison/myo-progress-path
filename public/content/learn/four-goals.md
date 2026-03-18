@@ -3,7 +3,7 @@
 ## 1. Nasal Breathing (all day and all night)
 
 - Myofunctional therapy helps the transition from mouth breathing to nasal breathing, which is crucial for proper oxygenation, structural development and overall health.
-![Normal vs High-Arched Palate](/images/learn/Photo A.png)
+![Normal vs High-Arched Palate](/images/learn/palate-comparison-new.jpg)
 - It is important to determine the cause and address issues which may be affecting breathing before myofunctional therapy. Examples include:
   - Deviated septums
   - Enlarged adenoids
