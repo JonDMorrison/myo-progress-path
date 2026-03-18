@@ -13,6 +13,9 @@ import learnHubHero from "@/assets/learn-hub-hero.jpg";
 
 // Articles that require authentication (logged-in only)
 const RESTRICTED_ARTICLES = [
+  'program-specifics',
+  'compensations',
+  'frenectomy-pathway',
   'therapy-kit'
 ];
 

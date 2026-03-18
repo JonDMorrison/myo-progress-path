@@ -91,16 +91,16 @@ export default function LearnArticle() {
             <div className="inline-flex items-center justify-center p-4 rounded-full bg-primary/10 mb-4">
               <Lock className="w-8 h-8 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold mb-2">Authentication Required</h1>
+            <h1 className="text-2xl font-bold mb-2">Login Required</h1>
             <p className="text-muted-foreground mb-6">
-              This article is available to registered users. Please sign in to access this content.
+              This content is available to enrolled patients only. Please sign in to access your learning hub.
             </p>
             <div className="flex gap-3 justify-center">
               <Button onClick={() => navigate("/auth")}>
                 Sign In
               </Button>
               <Button variant="outline" onClick={() => navigate("/learn")}>
-                Back to Learn Hub
+                Back to Learning Hub
               </Button>
             </div>
           </Card>
