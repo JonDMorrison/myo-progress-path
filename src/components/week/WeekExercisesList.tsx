@@ -17,6 +17,7 @@ interface WeekExercisesListProps {
   existingCompletions?: Record<string, number>;
   onUpdate?: () => void;
   readOnly?: boolean;
+  showVideoUpload?: boolean;
 }
 
 const getExerciseIcon = (type: string) => {
@@ -68,13 +69,14 @@ const isClinicianReviewPlaceholder = (title: string): boolean => {
   return title === 'Clinician Review Required';
 };
 
-export function WeekExercisesList({ 
+export function WeekExercisesList({
   exercises,
   patientId,
   weekId,
   existingCompletions = {},
   onUpdate,
-  readOnly = false
+  readOnly = false,
+  showVideoUpload = true
 }: WeekExercisesListProps) {
   const [completions, setCompletions] = useState<Record<string, number>>(existingCompletions);
 
@@ -378,8 +380,8 @@ export function WeekExercisesList({
                 </div>
               )}
 
-              {/* Per-Exercise Video Upload */}
-              {patientId && weekId && (
+              {/* Per-Exercise Video Upload — hidden for non-video pathways */}
+              {showVideoUpload && patientId && weekId && (
                 <ExerciseVideoUpload
                   patientId={patientId}
                   weekId={weekId}

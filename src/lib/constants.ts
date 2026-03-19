@@ -22,12 +22,13 @@ export function isFrenectomyVariant(variant: string | null | undefined): boolean
 }
 
 /**
- * Returns true if the variant includes video submissions
- * Per client update: emailing videos is now required for ALL pathways
+ * Returns true if the variant requires video submissions
+ * frenectomy and standard pathways require video; non_frenectomy does not
  */
 export function requiresVideo(variant: string | null | undefined): boolean {
-  if (!variant) return true; // Default to true if not specified
-  return true; // Force true for all variants as per the latest requirements
+  const v = variant || 'frenectomy';
+  if (v === 'non_frenectomy' || v === 'non_frenectomy_video') return false;
+  return true;
 }
 
 /**

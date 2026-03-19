@@ -631,6 +631,7 @@ const WeekDetail = () => {
                           existingCompletions={progress?.exercise_completions || {}}
                           onUpdate={handleProgressUpdate}
                           readOnly={isReadOnly}
+                          showVideoUpload={requiresVideo(patient?.program_variant)}
                         />
                       )}
                     </div>

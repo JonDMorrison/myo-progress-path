@@ -48,11 +48,12 @@
       "tags": ["infancy"],
       "description": "Discover how feeding practices, pacifier use, and other infant factors can contribute to myofunctional disorders."
     },
-    { 
-      "slug": "considerations-before-starting", 
-      "title": "Considerations Before Starting", 
+    {
+      "slug": "considerations-before-starting",
+      "title": "Considerations Before Starting",
       "tags": ["program", "overview"],
-      "description": "Important details you need to know before starting your myofunctional therapy program, including program details, outcomes, and specific concerns."
+      "description": "Program details, treatment outcomes, and specific treatment concerns to review before starting your therapy.",
+      "restricted": false
     },
     { 
       "slug": "program-specifics", 
