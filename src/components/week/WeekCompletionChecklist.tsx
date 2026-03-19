@@ -61,6 +61,24 @@ export function WeekCompletionChecklist({
   // Build requirements array (video uploads are now per-exercise, not week-level)
   const requirements = [];
 
+  // Video submission items — only for pathways that require video
+  if (requiresVideo(programVariant)) {
+    requirements.push(
+      {
+        label: 'First attempt videos submitted',
+        complete: progress?.first_video_submitted === true,
+        required: true,
+        icon: "🎥"
+      },
+      {
+        label: 'Last attempt videos submitted',
+        complete: progress?.last_video_submitted === true,
+        required: true,
+        icon: "🎬"
+      }
+    );
+  }
+
   // Add remaining requirements
   requirements.push(
     {
