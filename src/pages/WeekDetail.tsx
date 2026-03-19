@@ -49,6 +49,7 @@ const WeekDetail = () => {
   const [newMessage, setNewMessage] = useState("");
 
   const [uploads, setUploads] = useState<any[]>([]);
+  const [postProgramText, setPostProgramText] = useState<string | null>(null);
   const [canSubmitState, setCanSubmitState] = useState(false);
   const [missingRequirements, setMissingRequirements] = useState<string[]>([]);
   const [isReadOnly, setIsReadOnly] = useState(false);
@@ -211,6 +212,9 @@ const WeekDetail = () => {
             objectives: weekEntry.objectives || prev.objectives,
             introduction: weekEntry.introduction || prev.introduction,
           } : prev);
+          if (weekEntry.post_program_text) {
+            setPostProgramText(weekEntry.post_program_text);
+          }
         } else {
           // Fallback to Supabase if JSON has no exercises for this week
           const { data: exercisesData } = await supabase
@@ -609,6 +613,16 @@ const WeekDetail = () => {
                       totalCount={exercises.length}
                     />
                   </div>
+
+                  {postProgramText && (
+                    <div className="rounded-2xl bg-gradient-to-br from-success/10 to-primary/10 border border-success/20 p-8 text-center space-y-4">
+                      <div className="text-4xl">🎉</div>
+                      <h2 className="text-2xl font-bold text-success">Congratulations!</h2>
+                      <div className="text-sm text-muted-foreground whitespace-pre-line text-left max-w-2xl mx-auto">
+                        {postProgramText}
+                      </div>
+                    </div>
+                  )}
 
                   {exercises.length > 0 && (
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
