@@ -205,6 +205,12 @@ const WeekDetail = () => {
             media_status: 'approved',
           }));
           setExercises(mapped);
+          // Also update objectives and introduction from JSON
+          setWeek(prev => prev ? {
+            ...prev,
+            objectives: weekEntry.objectives || prev.objectives,
+            introduction: weekEntry.introduction || prev.introduction,
+          } : prev);
         } else {
           // Fallback to Supabase if JSON has no exercises for this week
           const { data: exercisesData } = await supabase
