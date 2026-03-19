@@ -245,25 +245,25 @@ const TherapistDashboard = () => {
   const loadWeeksData = async () => {
     setWeeksLoading(true);
     try {
-      // Ensure we have an active session before querying (RLS requires auth)
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session?.user) {
-        console.warn("No session available for curriculum query");
-        setWeeksLoading(false);
-        return;
-      }
+      const response = await fetch('/24-week-program.json');
+      const programData = await response.json();
 
-      const { data: weeksData, error } = await supabase
-        .from("weeks")
-        .select("*, programs(title)")
-        .order("number", { ascending: true });
+      // Map JSON entries to the shape the curriculum tab expects:
+      // - number: used by getModuleInfo(w.number, variant)
+      // - programs.title: matched against 'Frenectomy Program' / 'Non-Frenectomy Program'
+      const mapped = programData.map((entry: any) => ({
+        ...entry,
+        number: entry.week,
+        programs: {
+          title: entry.program_variant === 'frenectomy'
+            ? 'Frenectomy Program'
+            : 'Non-Frenectomy Program'
+        }
+      }));
 
-      if (error) {
-        console.error("Error loading weeks:", error);
-      }
-      setAllWeeks(weeksData || []);
+      setAllWeeks(mapped);
     } catch (error) {
-      console.error("Error loading weeks:", error);
+      console.error("Error loading curriculum from JSON:", error);
     } finally {
       setWeeksLoading(false);
     }
