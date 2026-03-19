@@ -255,7 +255,7 @@ const TherapistDashboard = () => {
         ...entry,
         number: entry.week,
         programs: {
-          title: entry.program_variant === 'frenectomy'
+          title: (entry.program_variant === 'frenectomy' || entry.program_variant === 'standard')
             ? 'Frenectomy Program'
             : 'Non-Frenectomy Program'
         }
@@ -585,7 +585,7 @@ const TherapistDashboard = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {Object.values(
                       allWeeks
-                        .filter(w => w.programs?.title === dbTitle)
+                        .filter(w => w.programs?.title === dbTitle && w.number >= 1 && w.number <= 24)
                         .reduce((acc, w) => {
                           const moduleInfo = getModuleInfo(w.number, variant);
                           if (!acc[moduleInfo.moduleNumber]) {
@@ -596,7 +596,8 @@ const TherapistDashboard = () => {
                           }
                           return acc;
                         }, {} as Record<number, any>)
-                    ).map((item: any) => {
+                    ).sort((a: any, b: any) => a.moduleInfo.moduleNumber - b.moduleInfo.moduleNumber)
+                    .map((item: any) => {
                       const { w, moduleInfo } = item;
                       return (
                         <Card

@@ -64,4 +64,4 @@ The whole tongue should suction to the palate. (See photo below)
 - Proper tongue posture balances out the inward pressure applied by the cheeks to promote proper skeletal growth for the upper jaw
 - Patients who are born with a severe tongue tie require surgery or they will not be able to accomplish the correct tongue posture.
 
-![Correct tongue position - Vu and Hickey](/images/learn/Vu and Hickey.png)
+![Correct tongue position - Vu and Hickey](/images/learn/vu-hickey.png)
