@@ -30,7 +30,7 @@ This article is for **educational purposes only**—to help you understand what 
 
 ## Floor of Mouth Activation
 
-![Floor of Mouth Activation](/images/assets/floor-mouth-activation.png)
+![Floor of Mouth Activation](/images/learn/compensations/floor-of-mouth.jpg)
 
 **What it looks like:** The area under the tongue or behind the chin (floor of the mouth) bulges or lifts during tongue exercises.
 
@@ -39,7 +39,7 @@ This article is for **educational purposes only**—to help you understand what 
 ## Facial Grimace
 
 **What it looks like:** Lips round or purse, cheeks pull inward, and/or the chin dimples or shows strain—often during mouth opening or swallowing.
-![Facial Grimace/Tongue Posture](/images/assets/tongue-posture-grimace.png)
+![Facial Grimace](/images/learn/compensations/facial-grimace.jpg)
 
 **Why it happens:** Facial muscles overwork to compensate for improper tongue function or weak oral muscles.
 
