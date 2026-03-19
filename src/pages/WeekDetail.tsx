@@ -720,16 +720,18 @@ const WeekDetail = () => {
                   </div>
                 )}
 
-                <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-400">
-                  <div className="rounded-[2.5rem] overflow-hidden shadow-xl ring-1 ring-slate-100 bg-white">
-                    <WeekMessagesPanel
-                      messages={messages}
-                      newMessage={newMessage}
-                      onMessageChange={setNewMessage}
-                      onSendMessage={handleSendMessage}
-                    />
+                {patient?.program_variant !== 'non_frenectomy' && (
+                  <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-400">
+                    <div className="rounded-[2.5rem] overflow-hidden shadow-xl ring-1 ring-slate-100 bg-white">
+                      <WeekMessagesPanel
+                        messages={messages}
+                        newMessage={newMessage}
+                        onMessageChange={setNewMessage}
+                        onSendMessage={handleSendMessage}
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
               </aside>
 
             </div>
