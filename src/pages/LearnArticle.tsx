@@ -29,6 +29,7 @@ export default function LearnArticle() {
   const [article, setArticle] = useState<{ title: string; content: string } | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [userName, setUserName] = useState<string>("");
+  const [programVariant, setProgramVariant] = useState<string | null>(null);
 
   useEffect(() => {
     // Parallel loading: Check auth AND load article simultaneously
@@ -37,10 +38,16 @@ export default function LearnArticle() {
         supabase.auth.getSession(),
         slug ? loadArticle(slug).then(setArticle) : Promise.resolve()
       ]);
-      
+
       setIsAuthenticated(!!session);
       if (session?.user) {
         setUserName(session.user.user_metadata?.name || "");
+        const { data: patientData } = await supabase
+          .from('patients')
+          .select('program_variant')
+          .eq('user_id', session.user.id)
+          .single();
+        setProgramVariant(patientData?.program_variant ?? null);
       }
     };
 
@@ -50,21 +57,60 @@ export default function LearnArticle() {
       setIsAuthenticated(!!session);
       if (session?.user) {
         setUserName(session.user.user_metadata?.name || "");
+      } else {
+        setProgramVariant(null);
       }
     });
 
     return () => subscription.unsubscribe();
   }, [slug]);
 
-  // Check if article is restricted and user is not authenticated
+  // Non-frenectomy patients: programVariant is set but not a frenectomy variant
+  const isNonFrenectomyPatient = programVariant !== null &&
+    programVariant !== 'frenectomy' &&
+    programVariant !== 'frenectomy_video' &&
+    programVariant !== 'standard';
+
+  // Article requires login
   const isRestricted = slug && RESTRICTED_ARTICLES.includes(slug);
-  
+  // Article is frenectomy-only and this patient is on the non-surgical pathway
+  const isWrongPathway = isAuthenticated && slug === 'frenectomy-pathway' && isNonFrenectomyPatient;
+
   if (isAuthenticated === null) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-3">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isWrongPathway) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-accent/20 to-background">
+        <div className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-10">
+          <div className="container mx-auto px-4 sm:px-6 py-4 max-w-7xl">
+            <Button variant="ghost" onClick={() => navigate("/learn")} className="hover:bg-accent">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Learn Hub
+            </Button>
+          </div>
+        </div>
+        <div className="container mx-auto px-4 sm:px-6 py-12 max-w-2xl">
+          <Card className="p-8 text-center">
+            <div className="inline-flex items-center justify-center p-4 rounded-full bg-primary/10 mb-4">
+              <Lock className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-2xl font-bold mb-2">Not Available for Your Pathway</h1>
+            <p className="text-muted-foreground mb-6">
+              This article is for patients on the frenectomy pathway. It doesn't apply to your current program.
+            </p>
+            <Button variant="outline" onClick={() => navigate("/learn")}>
+              Back to Learning Hub
+            </Button>
+          </Card>
         </div>
       </div>
     );

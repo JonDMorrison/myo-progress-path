@@ -25,20 +25,35 @@ export default function Learn() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userName, setUserName] = useState<string>("");
+  const [programVariant, setProgramVariant] = useState<string | null>(null);
+
+  const fetchPatientVariant = async (userId: string) => {
+    const { data: patientData } = await supabase
+      .from('patients')
+      .select('program_variant')
+      .eq('user_id', userId)
+      .single();
+    setProgramVariant(patientData?.program_variant ?? null);
+  };
 
   useEffect(() => {
-    // Check authentication status
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const initAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       setIsAuthenticated(!!session);
       if (session?.user) {
         setUserName(session.user.user_metadata?.name || "");
+        await fetchPatientVariant(session.user.id);
       }
-    });
+    };
+    initAuth();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setIsAuthenticated(!!session);
       if (session?.user) {
         setUserName(session.user.user_metadata?.name || "");
+        await fetchPatientVariant(session.user.id);
+      } else {
+        setProgramVariant(null);
       }
     });
 
@@ -52,9 +67,18 @@ export default function Learn() {
     });
   }, []);
 
-  // Filter out restricted articles for non-authenticated users
-  const availableArticles = isAuthenticated 
-    ? articles 
+  // Non-frenectomy patients: programVariant is set but not a frenectomy variant
+  const isNonFrenectomyPatient = programVariant !== null &&
+    programVariant !== 'frenectomy' &&
+    programVariant !== 'frenectomy_video' &&
+    programVariant !== 'standard';
+
+  // Filter out restricted articles for non-authenticated users,
+  // and hide frenectomy-pathway from non-frenectomy patients
+  const availableArticles = isAuthenticated
+    ? articles.filter(article =>
+        !(article.slug === 'frenectomy-pathway' && isNonFrenectomyPatient)
+      )
     : articles.filter(article => !RESTRICTED_ARTICLES.includes(article.slug));
 
   const filtered = fuzzySearch(availableArticles, searchTerm);
