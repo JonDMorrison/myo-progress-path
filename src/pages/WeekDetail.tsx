@@ -172,36 +172,58 @@ const WeekDetail = () => {
 
       setWeek(weekData);
 
-      // Get exercises
-      let { data: exercisesData, error: exercisesError } = await supabase
-        .from("exercises")
-        .select("*")
-        .eq("week_id", weekData.id)
-        .order("title");
+      // Load exercises from JSON file (source of truth)
+      try {
+        const response = await fetch('/24-week-program.json');
+        const programData = await response.json(); // flat array, not { weeks: [] }
 
-      // Audit Mode Fallback: If no exercises in DB, load from JSON
-      if (!exercisesData || exercisesData.length === 0) {
-        try {
-          const response = await fetch('/24-week-program.json');
-          const programData = await response.json();
-          const currentWeekData = programData.weeks.find((w: any) => w.week === parseInt(weekNumber || "1"));
-          if (currentWeekData) {
-            exercisesData = currentWeekData.exercises.map((ex: any, idx: number) => ({
-              id: `temp-${idx}`,
-              title: ex.title,
-              description: ex.description,
-              objective: ex.objective || 'Complete the exercise as described.',
-              video_url: ex.video_url || '',
-              duration: '2 minutes'
-            }));
-          }
-        } catch (e) {
-          console.error("Failed to load local JSON fallback", e);
+        // Find entries matching this week number for both weeks in the module
+        // weekData.number is the week number from Supabase weeks table
+        const weekEntries = programData.filter(
+          (entry: any) => entry.week === weekData.number &&
+          entry.program_variant === (variant || 'frenectomy')
+        );
+
+        const weekEntry = weekEntries[0];
+
+        if (weekEntry?.exercises?.length > 0) {
+          // Map JSON exercise shape to what the component expects
+          const mapped = weekEntry.exercises.map((ex: any, index: number) => ({
+            id: `json-${weekData.number}-${index}`,
+            title: ex.name,
+            instructions: ex.description,
+            type: ex.type || 'active',
+            duration: ex.duration || '',
+            frequency: ex.frequency || '',
+            props: ex.props || [],
+            compensations: ex.compensations || [],
+            demo_video_url: ex.demo_video_url || null,
+            modified_video_url: null,
+            order_index: index,
+            week_id: weekData.id,
+            completion_target: 1,
+            media_status: 'approved',
+          }));
+          setExercises(mapped);
+        } else {
+          // Fallback to Supabase if JSON has no exercises for this week
+          const { data: exercisesData } = await supabase
+            .from("exercises")
+            .select("*")
+            .eq("week_id", weekData.id)
+            .order("title");
+          setExercises(exercisesData || []);
         }
+      } catch (error) {
+        console.error("Error loading exercises from JSON:", error);
+        // Fallback to Supabase on error
+        const { data: exercisesData } = await supabase
+          .from("exercises")
+          .select("*")
+          .eq("week_id", weekData.id)
+          .order("title");
+        setExercises(exercisesData || []);
       }
-
-      if (exercisesError && (!exercisesData || exercisesData.length === 0)) throw exercisesError;
-      setExercises(exercisesData || []);
 
       let progressData = null;
       if (patientData && patientData.id !== 'dummy') {
