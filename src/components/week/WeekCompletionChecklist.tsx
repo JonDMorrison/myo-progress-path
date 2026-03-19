@@ -66,13 +66,13 @@ export function WeekCompletionChecklist({
     requirements.push(
       {
         label: 'First attempt videos submitted',
-        complete: progress?.first_video_submitted === true,
+        complete: (uploads || []).some(u => u.kind === 'first_attempt'),
         required: true,
         icon: "🎥"
       },
       {
         label: 'Last attempt videos submitted',
-        complete: progress?.last_video_submitted === true,
+        complete: (uploads || []).some(u => u.kind === 'last_attempt'),
         required: true,
         icon: "🎬"
       }
