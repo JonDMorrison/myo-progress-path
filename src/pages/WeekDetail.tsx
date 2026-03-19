@@ -552,7 +552,7 @@ const WeekDetail = () => {
               <div className="lg:col-span-8 space-y-12">
 
                 {/* Preparation Logic (Frenectomy reminders etc) */}
-                {isFrenectomyVariant(patient?.program_variant) && (
+                {isFrenectomyVariant(new URLSearchParams(window.location.search).get('variant') || patient?.program_variant) && (
                   <div className="space-y-6">
                     {parseInt(weekNumber || "0") === 1 && (
                       <FrenectomyConsultTask
