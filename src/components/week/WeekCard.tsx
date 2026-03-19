@@ -72,13 +72,7 @@ export function WeekCard({ week, weekTitle, programVariant = 'frenectomy', onNav
   };
   
   const getSubtitle = () => {
-    if (moduleInfo.isWeekly) {
-      // Post-op days/weeks - show title if available
-      return weekTitle || undefined;
-    }
-    // For biweekly modules, show Part One / Part Two within the module
-    const weekPosition = week.weekNumber === moduleInfo.weekRange[0] ? 'Part One' : 'Part Two';
-    return weekTitle ? `${weekPosition} • ${weekTitle}` : weekPosition;
+    return weekTitle || undefined;
   };
 
   return (
