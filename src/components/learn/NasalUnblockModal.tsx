@@ -83,6 +83,8 @@ export function NasalUnblockModal() {
               <p className="font-medium">• Mouth breathing causes over breathing and your body will create congestion to protect itself. Therefore, the more you breath through your nose the less congested you will be.</p>
               <p className="font-medium">• The exercises below are recommended to be done before you do your daily exercises if your nose is feeling congested.</p>
               <p className="font-medium mt-2 text-xs opacity-75">• These exercises are helpful for the duration of your program. It is important to use them as needed to encourage nasal breathing at all times.</p>
+              <p className="font-medium">• The more you breathe through your nose, the less congested you will be. Mouth breathing causes over breathing which forces the body to produce more congestion to try to reduce your breathing.</p>
+              <p className="font-medium">• These exercises will be very helpful for the duration of your program, it is important to use as needed to encourage nasal breathing at all times, even when sick or suffering from allergies.</p>
             </div>
           </div>
         </ScrollArea>
