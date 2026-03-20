@@ -381,7 +381,7 @@ export function WeekExercisesList({
               )}
 
               {/* Per-Exercise Video Upload — hidden for non-video pathways */}
-              {showVideoUpload && patientId && weekId && (
+              {showVideoUpload && exercise.type === 'active' && patientId && weekId && (
                 <ExerciseVideoUpload
                   patientId={patientId}
                   weekId={weekId}
