@@ -1,0 +1,41 @@
+# MyoCoach (myo-progress-path)
+
+## Critical Rules
+- Sam's Word documents are the authority for all patient-facing content. App content is derived. When content doesn't match the document, the document wins. Always read the relevant section of the Word doc before touching patient-facing content.
+- Do not run SeedProgram, syncProgramData, or any seeding scripts — they wipe Vimeo URLs and overwrite exercise data
+- Supabase weeks and exercises tables are empty — all program data comes from public/24-week-program.json only
+- Vimeo video URLs live directly in public/24-week-program.json — do not look for them in Supabase
+- Deploy via Lovable publish only — git push does not deploy. Lovable must be manually synced from GitHub and published
+- Read only first, report findings, confirm with Jon, then make changes — never restructure without understanding the full data flow
+
+## Architecture
+- Program content: public/24-week-program.json (single source of truth)
+- Exercises load from JSON in WeekDetail.tsx — Supabase is fallback only
+- Objectives, introduction, tracking, progress_benchmark all load from JSON and merge into week state
+- Vimeo URLs are in JSON exercises[].demo_video_url as https://player.vimeo.com/video/[id]
+- Images for exercises are comma-separated in demo_video_url alongside or instead of video URLs
+- Learn Hub articles are markdown files in public/content/learn/
+- Learn Hub article index is public/content/learn/index.json
+
+## Key People
+- Sam Raniak (samantha.raniak@hotmail.com) — Myofunctional Therapist, content authority
+- Matt Francisco (matt@montrosedentalcentre.com) — Dentist, client
+
+## Stack
+- Vite + React + TypeScript
+- Supabase (auth + uploads + patient progress only — program data is JSON)
+- Lovable (visual editor + deployment)
+- Vercel (hosting, auto-deploys from Lovable publish)
+
+## Pathways
+- program_variant: 'frenectomy' | 'standard' | 'non_frenectomy'
+- frenectomy = surgical pathway (26 weeks including post-op)
+- standard = non-surgical pathway (24 weeks)
+- non_frenectomy = basic no-feedback pathway (messaging disabled)
+
+## Common Mistakes to Avoid
+- Don't change exercises, checklist, demo_video_url, or tracking fields when only updating objectives or introduction
+- Don't assume Supabase has data — query it first and check if empty
+- Don't use the /images/assets/ path for vu-hickey — correct path is /images/learn/vu-hickey.png
+- Don't add "Why Compensations Matter" or "What to Watch For" sections to compensations.md — Sam didn't write them
+- The standard variant maps to Non-Frenectomy Program in the curriculum tab, not Frenectomy Program
