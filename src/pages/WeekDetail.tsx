@@ -50,6 +50,7 @@ const WeekDetail = () => {
 
   const [uploads, setUploads] = useState<any[]>([]);
   const [postProgramText, setPostProgramText] = useState<string | null>(null);
+  const [progressBenchmark, setProgressBenchmark] = useState<string | null>(null);
   const [canSubmitState, setCanSubmitState] = useState(false);
   const [missingRequirements, setMissingRequirements] = useState<string[]>([]);
   const [isReadOnly, setIsReadOnly] = useState(false);
@@ -197,7 +198,9 @@ const WeekDetail = () => {
             duration: ex.duration || '',
             frequency: ex.frequency || '',
             props: ex.props || [],
-            compensations: ex.compensations || [],
+            compensations: Array.isArray(ex.compensations)
+              ? ex.compensations.map((c: string) => `- ${c}`).join('\n')
+              : ex.compensations || '',
             demo_video_url: ex.demo_video_url || null,
             modified_video_url: null,
             order_index: index,
@@ -206,14 +209,42 @@ const WeekDetail = () => {
             media_status: 'approved',
           }));
           setExercises(mapped);
+
+          // Fetch Vimeo video URLs from Supabase and merge into JSON exercises
+          try {
+            const { data: supabaseExercises } = await supabase
+              .from("exercises")
+              .select("title, demo_video_url, modified_video_url")
+              .eq("week_id", weekData.id);
+
+            if (supabaseExercises && supabaseExercises.length > 0) {
+              setExercises(prev => prev.map(ex => {
+                const match = supabaseExercises.find(
+                  se => se.title?.toLowerCase().trim() === ex.title?.toLowerCase().trim()
+                );
+                return match ? {
+                  ...ex,
+                  demo_video_url: match.demo_video_url || ex.demo_video_url,
+                  modified_video_url: match.modified_video_url || null,
+                } : ex;
+              }));
+            }
+          } catch (e) {
+            console.error("Error merging Supabase video URLs:", e);
+          }
+
           // Also update objectives and introduction from JSON
           setWeek(prev => prev ? {
             ...prev,
             objectives: weekEntry.objectives || prev.objectives,
             introduction: weekEntry.introduction || prev.introduction,
+            requires_bolt: weekEntry.tracking?.bolt_score === true ? true : prev.requires_bolt,
           } : prev);
           if (weekEntry.post_program_text) {
             setPostProgramText(weekEntry.post_program_text);
+          }
+          if (weekEntry.progress_benchmark) {
+            setProgressBenchmark(weekEntry.progress_benchmark);
           }
         } else {
           // Fallback to Supabase if JSON has no exercises for this week
@@ -587,6 +618,15 @@ const WeekDetail = () => {
                       objectives={week?.objectives}
                       weekNumber={parseInt(weekNumber || "0")}
                     />
+                    {progressBenchmark && (
+                      <div className="rounded-xl bg-primary/5 border border-primary/20 p-4 flex gap-3 items-start">
+                        <span className="text-lg">📊</span>
+                        <div>
+                          <p className="text-sm font-medium text-primary mb-1">Progress Check</p>
+                          <p className="text-sm text-muted-foreground">{progressBenchmark}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {week?.video_url && (
