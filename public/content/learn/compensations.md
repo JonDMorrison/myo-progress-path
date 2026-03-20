@@ -54,29 +54,3 @@ This article is for **educational purposes only**—to help you understand what 
 **What it looks like:** Breathing through the mouth instead of the nose.
 
 **Why it happens:** This often happens due to habit or nasal congestion. It is important to prioritize nasal breathing. If you are feeling congested, please use the **Nasal Unblocking Exercises** provided.
-
-
----
-
-## Why Compensations Matter
-
-When compensations are present:
-
-- The target muscles don't get properly strengthened
-- Old muscle patterns are reinforced instead of corrected
-- Progress in therapy is slower
-- Results may not be as lasting
-
-Your therapist will help you identify which compensations you use and guide you through exercises to address them. The goal is to isolate and strengthen the correct muscles without relying on these compensatory patterns.
-
-## What to Watch For
-
-As you practice your exercises:
-
-- Use a mirror to observe your face and neck
-- Notice if your neck tenses during tongue movements
-- Watch for jaw shifting or chin tension
-- Check if the area under your tongue or behind your chin bulges
-- Pay attention to overall body tension
-
-Awareness is the first step. Once you can recognize compensations, you can work with your therapist to gradually eliminate them.
