@@ -50,8 +50,6 @@
 
 - Establishing a proper resting position for the tongue is a key focus
 - The tip of the tongue should rest naturally on the palate behind the upper incisors. Referred to as **the spot**. (See photo below)
-![Roof of Mouth Anatomy](/images/assets/roof-of-mouth.png)
-
 ![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 
 The whole tongue should suction to the palate. (See photo below)
