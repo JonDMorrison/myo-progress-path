@@ -12,7 +12,6 @@
   - Enlarged tonsils
   - Allergies
 - Those who mouth breath during developmental years, regardless of the cause, will often develop high vaulted and narrow palates (see photo below). This palatal difference reduces the width and height of the nasal cavity and will affect breathing for life.
-![Vu and Hickey - Structural jaw changes](/images/assets/vu-hickey.png)
 
 - Some functions of nasal breathing include:
   - Filtration of air
@@ -56,8 +55,6 @@
 ![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 
 The whole tongue should suction to the palate. (See photo below)
-
-![Correct Tongue Posture](/images/learn/correct-tongue-posture.jpg)
 
 - Proper tongue posture will block airflow through the mouth if open
 - Proper tongue posture allows all oxygen breathed through nose to enter lungs rather than filling the mouth first
