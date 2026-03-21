@@ -155,7 +155,7 @@ const WeekDetail = () => {
       const variant = variantOverride || (patientData?.program_variant) || 'frenectomy';
       const programTitle = getProgramTitle(variant);
 
-      const { data: weekData } = await supabase
+      let { data: weekData } = await supabase
         .from("weeks")
         .select("*, programs!inner(title)")
         .eq("number", parseInt(weekNumber || "1"))
@@ -163,13 +163,17 @@ const WeekDetail = () => {
         .single();
 
       if (!weekData) {
-        toast({
-          title: "Module Not Available",
-          description: "This module's content hasn't been set up yet.",
-          variant: "destructive",
-        });
-        setLoading(false);
-        return;
+        // No Supabase row — create synthetic week so JSON-only mode can proceed
+        weekData = {
+          id: `json-week-${parseInt(weekNumber || "1")}`,
+          number: parseInt(weekNumber || "1"),
+          title: '',
+          objectives: null,
+          introduction: null,
+          requires_bolt: false,
+          video_url: null,
+          video_title: null,
+        } as any;
       }
 
       setWeek(weekData);

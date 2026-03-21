@@ -39,7 +39,6 @@
   - Mouth tape
   - Chin up Strips
   - Chin Straps
-![Mouth Taping Example](/images/assets/mouth-taping-demo.png)
 
 ## 3. Chewing and Swallowing
 
@@ -51,6 +50,7 @@
 - Establishing a proper resting position for the tongue is a key focus
 - The tip of the tongue should rest naturally on the palate behind the upper incisors. Referred to as **the spot**. (See photo below)
 ![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
+![Vu and Hickey - Tongue Posture Diagram](/images/learn/vu-hickey.png)
 
 The whole tongue should suction to the palate. (See photo below)
 
