@@ -39,3 +39,6 @@
 - Don't use the /images/assets/ path for vu-hickey — correct path is /images/learn/vu-hickey.png
 - Don't add "Why Compensations Matter" or "What to Watch For" sections to compensations.md — Sam didn't write them
 - The standard variant maps to Non-Frenectomy Program in the curriculum tab, not Frenectomy Program
+- Supabase weeks and exercises tables are empty — do not query them for program data
+- Week 25 curriculum filter uses <= 25, not <= 24, to include Post Program Review
+- NasalUnblockModal has known duplicate text issue — only one set of footer notes should exist
