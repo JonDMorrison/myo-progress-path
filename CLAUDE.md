@@ -42,3 +42,12 @@
 - Supabase weeks and exercises tables are empty — do not query them for program data
 - Week 25 curriculum filter uses <= 25, not <= 24, to include Post Program Review
 - NasalUnblockModal has known duplicate text issue — only one set of footer notes should exist
+
+## Outstanding Items from Sam (as of March 21)
+- Four Goals photo placement — verify each photo matches exact position in Sam's Word doc
+- Elastic hold M2-4 — both photos (elastic-on-tongue.jpg + vu-hickey.png) need visual confirmation
+- Belly breathing — Sam says remove a photo; demo_video_url is empty but check description field for image refs
+- BOLT score M8 — verify recording spot shows on live site after Lovable push
+- Module 7 alternating note text — "Alternate each practice session between this exercise and the other two" — verify it shows in UI
+- Non-surgical curriculum — verify Lovable sync resolved this
+- Sam's new screenshots not yet reviewed — Jon has them, start new session
