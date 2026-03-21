@@ -1310,20 +1310,46 @@
         "demo_video_url": "https://player.vimeo.com/video/1143170307"
       },
       {
-        "name": "Alternating: Lingual Palatal Suction / Tongue Stretch / Tongue Trace",
+        "name": "Lingual Palatal Suction (Alternating)",
         "type": "active",
-        "duration": "1 minute each",
-        "frequency": "ALTERNATING each session",
+        "frequency": "1 minute ALTERNATING",
+        "duration": "1 minute",
         "props": [
           "Bite Block or Chopstick"
         ],
-        "description": "ALTERNATE EACH PRACTICE SESSION BETWEEN these three exercises:\n\n3a) Lingual Palatal Suction (1 minute ALTERNATING): Keep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use strong suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate. If tongue is overflowing you can slowly open and close teeth together to help tongue squish inside the arch. Using provided chopsticks to push the tongue inside of the arch can also help.\n\n3b) Tongue Stretch (1 minute ALTERNATING): Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.\n\n3c) Tongue Trace (1 minute ALTERNATING): Try with your mouth open, halfway or closed. Place the tip of the tongue against the spot and trace back along the palate in a straight line and far back as possible. You should feel a stretch in the frenum and floor of your mouth.",
+        "description": "Keep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use strong suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate.",
         "compensations": [
-          "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation -- use bite block to avoid (for Lingual Palatal Suction)",
-          "Watch in mirror for jaw lateralization and jaw protrusion - use bite block to avoid (for Tongue Trace)",
+          "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation – use bite block to avoid"
+        ],
+        "demo_video_url": "https://player.vimeo.com/video/1143170960",
+        "notes": "Alternate each practice session between this exercise and the other two alternating exercises."
+      },
+      {
+        "name": "Tongue Stretch (Alternating)",
+        "type": "active",
+        "frequency": "1 minute ALTERNATING",
+        "duration": "1 minute",
+        "props": [],
+        "description": "Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.",
+        "compensations": [],
+        "demo_video_url": "https://player.vimeo.com/video/1143178528",
+        "notes": "Alternate each practice session between this exercise and the other two alternating exercises."
+      },
+      {
+        "name": "Tongue Trace (Alternating)",
+        "type": "active",
+        "frequency": "1 minute ALTERNATING",
+        "duration": "1 minute",
+        "props": [
+          "Bite Block"
+        ],
+        "description": "Try with your mouth open, halfway or closed. Place the tip of the tongue against the spot and trace back along the palate in a straight line and as far back as possible. You should feel a stretch in the frenum and floor of your mouth.",
+        "compensations": [
+          "Watch in mirror for jaw lateralization and jaw protrusion - use bite block to avoid",
           "Scan for head/neck/facial/body tension and try to ease"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143170960"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "notes": "Alternate each practice session between this exercise and the other two alternating exercises."
       },
       {
         "name": "Take a 15-Minute Walk: Nasal Breathing Only",
@@ -1446,20 +1472,46 @@
         "demo_video_url": "https://player.vimeo.com/video/1143170307"
       },
       {
-        "name": "Alternating: Lingual Palatal Suction / Tongue Stretch / Tongue Trace",
+        "name": "Lingual Palatal Suction (Alternating)",
         "type": "active",
-        "duration": "1 minute each",
-        "frequency": "ALTERNATING each session",
+        "frequency": "1 minute ALTERNATING",
+        "duration": "1 minute",
         "props": [
           "Bite Block or Chopstick"
         ],
-        "description": "ALTERNATE EACH PRACTICE SESSION BETWEEN these three exercises:\n\n3a) Lingual Palatal Suction (1 minute ALTERNATING): Keep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use strong suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate. If tongue is overflowing you can slowly open and close teeth together to help tongue squish inside the arch. Using provided chopsticks to push the tongue inside of the arch can also help.\n\n3b) Tongue Stretch (1 minute ALTERNATING): Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.\n\n3c) Tongue Trace (1 minute ALTERNATING): Try with your mouth open, halfway or closed. Place the tip of the tongue against the spot and trace back along the palate in a straight line and far back as possible. You should feel a stretch in the frenum and floor of your mouth.",
+        "description": "Keep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use strong suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate.",
         "compensations": [
-          "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation -- use bite block to avoid (for Lingual Palatal Suction)",
-          "Watch in mirror for jaw lateralization and jaw protrusion - use bite block to avoid (for Tongue Trace)",
+          "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation – use bite block to avoid"
+        ],
+        "demo_video_url": "https://player.vimeo.com/video/1143170960",
+        "notes": "Alternate each practice session between this exercise and the other two alternating exercises."
+      },
+      {
+        "name": "Tongue Stretch (Alternating)",
+        "type": "active",
+        "frequency": "1 minute ALTERNATING",
+        "duration": "1 minute",
+        "props": [],
+        "description": "Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.",
+        "compensations": [],
+        "demo_video_url": "https://player.vimeo.com/video/1143178528",
+        "notes": "Alternate each practice session between this exercise and the other two alternating exercises."
+      },
+      {
+        "name": "Tongue Trace (Alternating)",
+        "type": "active",
+        "frequency": "1 minute ALTERNATING",
+        "duration": "1 minute",
+        "props": [
+          "Bite Block"
+        ],
+        "description": "Try with your mouth open, halfway or closed. Place the tip of the tongue against the spot and trace back along the palate in a straight line and as far back as possible. You should feel a stretch in the frenum and floor of your mouth.",
+        "compensations": [
+          "Watch in mirror for jaw lateralization and jaw protrusion - use bite block to avoid",
           "Scan for head/neck/facial/body tension and try to ease"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143170960"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "notes": "Alternate each practice session between this exercise and the other two alternating exercises."
       },
       {
         "name": "Take a 15-Minute Walk: Nasal Breathing Only",
