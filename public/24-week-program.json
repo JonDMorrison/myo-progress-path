@@ -1406,7 +1406,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 12,
@@ -1542,7 +1542,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 13,
@@ -2527,7 +2527,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 75%+ improvement or 75%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 75%+ improvement or 75%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 20,
@@ -2668,7 +2668,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 75%+ improvement or 75%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 75%+ improvement or 75%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 21,
@@ -2821,7 +2821,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 85%+ improvement or 85%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 85%+ improvement or 85%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 22,
@@ -2974,7 +2974,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 85%+ improvement or 85%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 85%+ improvement or 85%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 23,
@@ -3107,7 +3107,8 @@
       "bolt_score": true
     },
     "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_last": true,
+    "progress_benchmark": "Final benchmark: You should expect 95%+ total with tongue posture, nasal breathing and lip seal by the end of the program."
   },
   {
     "week": 24,
@@ -3240,7 +3241,8 @@
       "bolt_score": true
     },
     "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_last": true,
+    "progress_benchmark": "Final benchmark: You should expect 95%+ total with tongue posture, nasal breathing and lip seal by the end of the program."
   },
   {
     "week": 25,
@@ -4643,7 +4645,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 12,
@@ -4784,7 +4786,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 13,
@@ -5201,7 +5203,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 60%+ improvement or 60%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 60%+ improvement or 60%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 16,
@@ -5342,7 +5344,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 60%+ improvement or 60%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 60%+ improvement or 60%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 17,
@@ -5725,7 +5727,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 75%+ improvement or 75%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 75%+ improvement or 75%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 20,
@@ -5832,7 +5834,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 75%+ improvement or 75%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 75%+ improvement or 75%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 21,
@@ -5949,7 +5951,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 85%+ improvement or 85%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 85%+ improvement or 85%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 22,
@@ -6066,7 +6068,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "You should expect 85%+ improvement or 85%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Benchmark check: You should expect 85%+ improvement or 85%+ total with tongue posture, nasal breathing and lip seal."
   },
   {
     "week": 23,
@@ -6198,7 +6200,8 @@
       "bolt_score": true
     },
     "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_last": true,
+    "progress_benchmark": "Final benchmark: You should expect 95%+ total with tongue posture, nasal breathing and lip seal by the end of the program."
   },
   {
     "week": 24,
@@ -6330,7 +6333,8 @@
       "bolt_score": true
     },
     "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_last": true,
+    "progress_benchmark": "Final benchmark: You should expect 95%+ total with tongue posture, nasal breathing and lip seal by the end of the program."
   },
   {
     "week": 25,
