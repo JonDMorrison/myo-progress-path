@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/((?!assets|images|favicon|robots|24-week|content|sample|weeks).*)", "destination": "/index.html" }
+  ]
+}
