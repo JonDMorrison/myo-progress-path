@@ -32,9 +32,9 @@ export function useIdleTimer({
   useEffect(() => {
     if (!enabled) return;
 
-    let idleTimer: NodeJS.Timeout;
-    let warningTimer: NodeJS.Timeout;
-    let countdownInterval: NodeJS.Timeout;
+    let idleTimer: ReturnType<typeof setTimeout>;
+    let warningTimer: ReturnType<typeof setTimeout>;
+    let countdownInterval: ReturnType<typeof setInterval>;
 
     const startTimers = () => {
       // Clear existing timers
