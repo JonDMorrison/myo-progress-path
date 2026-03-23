@@ -228,7 +228,9 @@ const WeekDetail = () => {
                 );
                 return match ? {
                   ...ex,
-                  demo_video_url: match.demo_video_url || ex.demo_video_url,
+                  demo_video_url: (match.demo_video_url && match.demo_video_url.includes('vimeo'))
+                    ? match.demo_video_url
+                    : ex.demo_video_url,
                   modified_video_url: match.modified_video_url || null,
                 } : ex;
               }));
