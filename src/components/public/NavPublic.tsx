@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
 
@@ -24,49 +25,37 @@ const secondaryNavLinks = [
 export const NavPublic = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { role: authRole } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check current session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
-
-      if (session?.user) {
-        const { data: userData } = await supabase
-          .from("users")
-          .select("role, name")
-          .eq("id", session.user.id)
-          .single();
-
-        setUserRole(userData?.role ?? null);
-        setUserName(userData?.name ?? null);
-      }
     });
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-
-      if (session?.user) {
-        const { data: userData } = await supabase
-          .from("users")
-          .select("role, name")
-          .eq("id", session.user.id)
-          .single();
-
-        setUserRole(userData?.role ?? null);
-        setUserName(userData?.name ?? null);
-      } else {
+      if (!session?.user) {
         setUserRole(null);
         setUserName(null);
       }
     });
-
     return () => subscription.unsubscribe();
   }, []);
+
+  // Sync role from AuthContext
+  useEffect(() => {
+    if (authRole) setUserRole(authRole);
+  }, [authRole]);
+
+  // Fetch display name
+  useEffect(() => {
+    if (!user) return;
+    supabase.from("users").select("name").eq("id", user.id).single()
+      .then(({ data }) => { if (data?.name) setUserName(data.name); });
+  }, [user?.id]);
 
   const isActive = (href: string) => location.pathname === href;
 
