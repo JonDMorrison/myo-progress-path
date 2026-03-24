@@ -49,7 +49,33 @@ const Register = () => {
 
       // If email confirmation is disabled, session is returned immediately
       if (data.session) {
-        // Logged in — go straight to onboarding
+        const userId = data.session.user.id;
+        const userEmail = data.session.user.email || email;
+        const userName = name;
+
+        // Create public.users and patients rows immediately (don't rely on DB trigger)
+        await supabase.from('users').upsert({
+          id: userId,
+          email: userEmail,
+          name: userName,
+          role: 'patient'
+        }, { onConflict: 'id' });
+
+        // Insert into patients
+        const { data: patientRow } = await supabase.from('patients').upsert({
+          user_id: userId,
+          email: userEmail,
+          name: userName,
+          program_variant: 'frenectomy'
+        }, { onConflict: 'user_id' }).select('id').single();
+
+        // Create onboarding_progress row
+        if (patientRow?.id) {
+          await supabase.from('onboarding_progress').upsert({
+            patient_id: patientRow.id
+          }, { onConflict: 'patient_id' });
+        }
+
         navigate("/onboarding");
       } else {
         // Email confirmation still required
