@@ -53,30 +53,37 @@ const Register = () => {
         const userEmail = data.session.user.email || email;
         const userName = name;
 
-        // Create public.users and patients rows immediately (don't rely on DB trigger)
-        await supabase.from('users').upsert({
-          id: userId,
-          email: userEmail,
-          name: userName,
-          role: 'patient'
-        }, { onConflict: 'id' });
+        const withTimeout = <T,>(p: Promise<T>, ms = 5000): Promise<T> =>
+          Promise.race([p, new Promise<T>((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
 
-        // Insert into patients
-        const { data: patientRow } = await supabase.from('patients').upsert({
-          user_id: userId,
-          email: userEmail,
-          name: userName,
-          program_variant: 'frenectomy'
-        }, { onConflict: 'user_id' }).select('id').single();
+        try {
+          await withTimeout(supabase.from('users').upsert(
+            { id: userId, email: userEmail, name: userName, role: 'patient' },
+            { onConflict: 'id' }
+          ));
+        } catch (e) { console.error('users upsert:', e); }
 
-        // Create onboarding_progress row
-        if (patientRow?.id) {
-          await supabase.from('onboarding_progress').upsert({
-            patient_id: patientRow.id
-          }, { onConflict: 'patient_id' });
+        let patientId: string | null = null;
+        try {
+          const { data: pr } = await withTimeout(
+            supabase.from('patients').upsert(
+              { user_id: userId, email: userEmail, name: userName, program_variant: 'frenectomy' },
+              { onConflict: 'user_id' }
+            ).select('id').single()
+          );
+          patientId = pr?.id ?? null;
+        } catch (e) { console.error('patients upsert:', e); }
+
+        if (patientId) {
+          try {
+            await withTimeout(supabase.from('onboarding_progress').upsert(
+              { patient_id: patientId },
+              { onConflict: 'patient_id' }
+            ));
+          } catch (e) { console.error('onboarding_progress upsert:', e); }
         }
 
-        navigate("/onboarding");
+        navigate('/onboarding');
       } else {
         // Email confirmation still required
         toast({
