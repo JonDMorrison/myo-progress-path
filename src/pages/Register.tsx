@@ -33,7 +33,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -47,12 +47,18 @@ const Register = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "Account created!",
-        description: "Please check your email to verify your account before logging in.",
-      });
-
-      navigate("/auth");
+      // If email confirmation is disabled, session is returned immediately
+      if (data.session) {
+        // Logged in — go straight to onboarding
+        navigate("/onboarding");
+      } else {
+        // Email confirmation still required
+        toast({
+          title: "Account created!",
+          description: "Please check your email to verify your account before logging in.",
+        });
+        navigate("/auth");
+      }
     } catch (error: any) {
       console.error("Registration error:", error);
 
