@@ -54,14 +54,25 @@ const Register = () => {
         const userName = name;
 
         // Call edge function to create profile rows (bypasses RLS)
+        let profileCreated = false;
         try {
-          await supabase.functions.invoke('create-user-profile', {
+          const { data: fnData, error: fnError } = await supabase.functions.invoke('create-user-profile', {
             body: { userId, email: userEmail, name: userName }
           });
+          if (fnError) {
+            console.error('Edge function error:', fnError);
+          } else {
+            profileCreated = true;
+          }
         } catch (e) {
           console.error('Profile creation failed:', e);
         }
 
+        // Navigate regardless — OnboardingWizard has retry logic
+        // but log if it failed so we can debug
+        if (!profileCreated) {
+          console.error('Profile creation failed for:', userEmail, userId);
+        }
         navigate('/onboarding');
       } else {
         // Email confirmation still required
