@@ -42,8 +42,8 @@ export function ExerciseVideoUpload({
       .from('uploads')
       .select('id, kind, file_url, created_at')
       .eq('patient_id', patientId)
-      .eq('week_id', weekId)
-      .eq('exercise_id', exerciseId);
+      .eq('week_id', weekId?.startsWith('json-') ? '00000000-0000-0000-0000-000000000000' : weekId)
+      .eq('exercise_id', exerciseId?.startsWith('json-') ? '00000000-0000-0000-0000-000000000000' : exerciseId);
 
     if (!error && data) {
       setUploads(data as ExistingUpload[]);
