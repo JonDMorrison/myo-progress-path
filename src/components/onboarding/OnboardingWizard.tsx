@@ -60,17 +60,23 @@ export const OnboardingWizard = () => {
         return;
       }
 
-      // Get patient record
-      const { data: patient } = await supabase
-        .from('patients')
-        .select('id, consent_accepted_at')
-        .eq('user_id', session.user.id)
-        .single();
+      // Get patient record — retry up to 5 times with 1s delay
+      // (DB trigger may not have fired yet right after signup)
+      let patient = null;
+      for (let attempt = 0; attempt < 5; attempt++) {
+        const { data } = await supabase
+          .from('patients')
+          .select('id, consent_accepted_at')
+          .eq('user_id', session.user.id)
+          .maybeSingle();
+        if (data) { patient = data; break; }
+        await new Promise(r => setTimeout(r, 1000));
+      }
 
       if (!patient) {
         toast({
           title: "Error",
-          description: "Patient record not found",
+          description: "Could not load your account. Please try refreshing the page.",
           variant: "destructive",
         });
         navigate('/auth');
