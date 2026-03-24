@@ -28,7 +28,7 @@ export const HowItWorksStep = () => {
             <Video className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h3 className="font-semibold mb-1">Biweekly Check-ins (Program Dependant)</h3>
+            <h3 className="font-semibold mb-1">Therapist Check-Ins</h3>
             <p className="text-sm text-muted-foreground">
               Every two weeks, submit your BOLT score, breathing percentages, and video recordings. This helps your therapist track your progress.
             </p>

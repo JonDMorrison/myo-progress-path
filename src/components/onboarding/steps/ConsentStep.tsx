@@ -13,7 +13,7 @@ interface ConsentStepProps {
 export const ConsentStep = ({ onConsentChange }: ConsentStepProps) => {
   const [accepted, setAccepted] = useState(false);
   const [patientId, setPatientId] = useState<string | null>(null);
-  const [consentText, setConsentText] = useState("");
+  const [consentText, setConsentText] = useState("Loading consent form...");
   const [consentVersion, setConsentVersion] = useState("1.0");
 
   useEffect(() => {
@@ -36,10 +36,7 @@ export const ConsentStep = ({ onConsentChange }: ConsentStepProps) => {
     }
   };
 
-  const loadConsent = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    const patientName = session?.user?.user_metadata?.name || session?.user?.email || "Patient";
-    const consentTextContent = `# Informed Consent
+  const buildConsentText = (patientName: string) => `# Informed Consent
 
 ## PROGRAM DETAILS
 
@@ -88,7 +85,15 @@ For patients who are undergoing a frenectomy, the program includes 8 weeks of pr
 ## CONSENT TO UNDERGO MYOFUNCTIONAL THERAPY TREATMENT
 
 I, **${patientName}**, acknowledge that I have read and fully understand the treatment considerations presented in this form. I also understand that there are problems that can occur and that actual results may differ from the anticipated results. I acknowledge that I have been given the opportunity to discuss this form and ask any questions. I consent to the Myofunctional Therapy program provided by Matt Francisco, DMD and Samantha Raniak, RDH, OMT at Montrose Dental Centre. I understand that my program fee covers only Myofunctional Therapy, and that treatment provided by other dental or medical professionals is not included in the cost.`;
-    setConsentText(consentTextContent);
+
+  const loadConsent = async () => {
+    // Render immediately with placeholder name
+    setConsentText(buildConsentText("Patient"));
+
+    // Then update with real name once session loads
+    const { data: { session } } = await supabase.auth.getSession();
+    const patientName = session?.user?.user_metadata?.name || session?.user?.email || "Patient";
+    setConsentText(buildConsentText(patientName));
   };
 
   const handleAcceptChange = async (checked: boolean) => {
