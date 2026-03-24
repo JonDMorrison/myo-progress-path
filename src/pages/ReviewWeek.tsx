@@ -84,7 +84,7 @@ const ReviewWeek = () => {
       // Get messages
       const { data: messagesData } = await supabase
         .from("messages")
-        .select("*, therapist:therapist_id(name)")
+        .select("*")
         .eq("patient_id", patientId)
         .eq("week_id", weekData.id)
         .order("created_at", { ascending: true });

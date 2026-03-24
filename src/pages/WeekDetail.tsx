@@ -314,7 +314,7 @@ const WeekDetail = () => {
         // Get messages
         const { data: messagesData } = await supabase
           .from("messages")
-          .select("*, therapist:therapist_id(name)")
+          .select("*")
           .eq("patient_id", patientData.id)
           .eq("week_id", weekData.id)
           .order("created_at", { ascending: true });
@@ -538,7 +538,7 @@ const WeekDetail = () => {
 
       const { data: messagesData } = await supabase
         .from("messages")
-        .select("*, therapist:therapist_id(name)")
+        .select("*")
         .eq("patient_id", patient.id)
         .eq("week_id", week.id)
         .order("created_at", { ascending: true });

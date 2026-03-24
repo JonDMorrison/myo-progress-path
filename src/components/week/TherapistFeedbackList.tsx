@@ -71,8 +71,7 @@ const TherapistFeedbackList = ({ patientId, weekId }: TherapistFeedbackListProps
           photo_url,
           created_at,
           read_at,
-          therapist:therapist_id(name),
-          exercise:exercise_id(title)
+          therapist:therapist_id(name)
         `)
         .eq("patient_id", patientId)
         .order("created_at", { ascending: false });
