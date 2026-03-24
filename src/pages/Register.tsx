@@ -53,6 +53,9 @@ const Register = () => {
         const userEmail = data.session.user.email || email;
         const userName = name;
 
+        // Brief delay to ensure auth session is fully propagated to Supabase
+        await new Promise(r => setTimeout(r, 500));
+
         const withTimeout = <T,>(p: Promise<T>, ms = 5000): Promise<T> =>
           Promise.race([p, new Promise<T>((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
 
@@ -61,7 +64,7 @@ const Register = () => {
             { id: userId, email: userEmail, name: userName, role: 'patient' },
             { onConflict: 'id' }
           ));
-        } catch (e) { console.error('users upsert:', e); }
+        } catch (e) { console.error('users upsert failed:', JSON.stringify(e)); }
 
         let patientId: string | null = null;
         try {
@@ -72,7 +75,7 @@ const Register = () => {
             ).select('id').single()
           );
           patientId = pr?.id ?? null;
-        } catch (e) { console.error('patients upsert:', e); }
+        } catch (e) { console.error('patients upsert failed:', JSON.stringify(e)); }
 
         if (patientId) {
           try {
