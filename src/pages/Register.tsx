@@ -77,7 +77,7 @@ const Register = () => {
         if (patientId) {
           try {
             await withTimeout(supabase.from('onboarding_progress').upsert(
-              { patient_id: patientId },
+              { patient_id: patientId, completed_at: null, completed_steps: [], current_step: 'welcome' },
               { onConflict: 'patient_id' }
             ));
           } catch (e) { console.error('onboarding_progress upsert:', e); }
