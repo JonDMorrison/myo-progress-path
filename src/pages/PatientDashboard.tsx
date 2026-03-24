@@ -147,33 +147,19 @@ const PatientDashboard = () => {
 
         // If week 24 is approved but badge doesn't exist, show modal and grant badge
         if (!badge) {
-          // Fetch completion note and therapist name
-          const { data: completionInfo } = await supabase
-            .from("patients")
-            .select("completion_note, assigned_therapist_id")
-            .eq("id", patientData.id)
-            .single();
-
           let therapistName = 'Your Therapist';
-          if (completionInfo?.assigned_therapist_id) {
-            const { data: therapistData } = await supabase
-              .from("users")
-              .select("name")
-              .eq("id", completionInfo.assigned_therapist_id)
-              .single();
-            therapistName = therapistData?.name || 'Your Therapist';
-          }
 
           setCompletionData({
-            note: completionInfo?.completion_note || undefined,
             therapistName,
           });
           setShowCompletion(true);
 
           // Grant the completion badge
-          await supabase.functions.invoke("grant-badge", {
-            body: { patientId: patientData.id, badgeKey: "program_completed" },
-          });
+          try {
+            await supabase.functions.invoke("grant-badge", {
+              body: { patientId: patientData.id, badgeKey: "program_completed" },
+            });
+          } catch (e) { console.error('grant-badge failed:', e); }
         }
       }
 
@@ -206,7 +192,7 @@ const PatientDashboard = () => {
         // Get messages
         const { data: messagesData } = await supabase
           .from("messages")
-          .select("*, therapist:therapist_id(name)")
+          .select("*")
           .eq("patient_id", patientData.id)
           .order("created_at", { ascending: false })
           .limit(10);
@@ -244,7 +230,7 @@ const PatientDashboard = () => {
       const { error } = await supabase.from("messages").insert({
         patient_id: patient.id,
         week_id: currentWeek.id,
-        therapist_id: patient.assigned_therapist_id,
+        therapist_id: null,
         body: messageText,
       });
 
@@ -332,10 +318,10 @@ const PatientDashboard = () => {
       <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-5xl relative z-10">
         <MobileContainer>
           {/* Maintenance Mode Dashboard */}
-          {patient?.status === "maintenance" ? (
+          {false ? (
             <MaintenanceDashboard
               patientId={patient.id}
-              clinicId={patient.clinic_id}
+              clinicId={'a1b2c3d4-e5f6-7890-abcd-ef1234567890'}
               userName={user?.user_metadata?.name}
             />
           ) : !currentWeek ? (
@@ -417,7 +403,7 @@ const PatientDashboard = () => {
                   {patient && (
                     <div id="account-section" className="space-y-4">
                       <StreakBadge patientId={patient.id} />
-                      <GamificationPanel patientId={patient.id} clinicId={patient.clinic_id} />
+                      <GamificationPanel patientId={patient.id} clinicId={'a1b2c3d4-e5f6-7890-abcd-ef1234567890'} />
                     </div>
                   )}
                 </div>

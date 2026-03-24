@@ -166,80 +166,100 @@ export async function trackChallenge(
 export async function getGamificationStats(
   patientId: string
 ): Promise<GamificationStats | null> {
-  const { data, error } = await supabase
-    .from("gamification_stats")
-    .select("*")
-    .eq("patient_id", patientId)
-    .single();
+  try {
+    const { data, error } = await supabase
+      .from("gamification_stats")
+      .select("*")
+      .eq("patient_id", patientId)
+      .single();
 
-  if (error) {
-    console.error("Error fetching gamification stats:", error);
+    if (error) {
+      console.error("Error fetching gamification stats:", error);
+      return null;
+    }
+
+    return data;
+  } catch (e) {
+    console.error("gamification_stats query failed:", e);
     return null;
   }
-
-  return data;
 }
 
 /**
  * Get earned badges for a patient
  */
 export async function getEarnedBadges(patientId: string) {
-  const { data, error } = await supabase
-    .from("earned_badges")
-    .select(`
-      *,
-      badge:badges(*)
-    `)
-    .eq("patient_id", patientId)
-    .order("earned_at", { ascending: false });
+  try {
+    const { data, error } = await supabase
+      .from("earned_badges")
+      .select(`
+        *,
+        badge:badges(*)
+      `)
+      .eq("patient_id", patientId)
+      .order("earned_at", { ascending: false });
 
-  if (error) {
-    console.error("Error fetching earned badges:", error);
+    if (error) {
+      console.error("Error fetching earned badges:", error);
+      return [];
+    }
+
+    return data;
+  } catch (e) {
+    console.error("earned_badges query failed:", e);
     return [];
   }
-
-  return data;
 }
 
 /**
  * Get active challenges for a patient's clinic
  */
 export async function getActiveChallenges(clinicId: string) {
-  const today = new Date().toISOString().split("T")[0];
+  try {
+    const today = new Date().toISOString().split("T")[0];
 
-  const { data, error } = await supabase
-    .from("challenges")
-    .select("*")
-    .eq("clinic_id", clinicId)
-    .eq("active", true)
-    .lte("starts_on", today)
-    .gte("ends_on", today);
+    const { data, error } = await supabase
+      .from("challenges")
+      .select("*")
+      .eq("clinic_id", clinicId)
+      .eq("active", true)
+      .lte("starts_on", today)
+      .gte("ends_on", today);
 
-  if (error) {
-    console.error("Error fetching challenges:", error);
+    if (error) {
+      console.error("Error fetching challenges:", error);
+      return [];
+    }
+
+    return data;
+  } catch (e) {
+    console.error("challenges query failed:", e);
     return [];
   }
-
-  return data;
 }
 
 /**
  * Get challenge progress for a patient
  */
 export async function getChallengeProgress(patientId: string, challengeId: string) {
-  const { data, error } = await supabase
-    .from("challenge_progress")
-    .select("*")
-    .eq("patient_id", patientId)
-    .eq("challenge_id", challengeId)
-    .maybeSingle();
+  try {
+    const { data, error } = await supabase
+      .from("challenge_progress")
+      .select("*")
+      .eq("patient_id", patientId)
+      .eq("challenge_id", challengeId)
+      .maybeSingle();
 
-  if (error) {
-    console.error("Error fetching challenge progress:", error);
+    if (error) {
+      console.error("Error fetching challenge progress:", error);
+      return null;
+    }
+
+    return data;
+  } catch (e) {
+    console.error("challenge_progress query failed:", e);
     return null;
   }
-
-  return data;
 }
 
 /**
