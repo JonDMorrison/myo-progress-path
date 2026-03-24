@@ -43,11 +43,18 @@ const TherapistAIAssist = () => {
       }
 
       // Get patient data for context
-      const { data: patients } = await supabase
-        .from("v_weekly_metrics")
-        .select("*")
-        .eq(userData.role === "therapist" ? "assigned_therapist_id" : "assigned_therapist_id", 
-            userData.role === "therapist" ? user.id : undefined);
+      const patientsQuery = supabase
+        .from("patient_week_progress")
+        .select("*, patients!inner(id, name, program_variant, assigned_therapist_id), weeks(number)")
+        .in("status", ["submitted", "needs_more", "approved"])
+        .order("completed_at", { ascending: false })
+        .limit(50);
+
+      if (userData.role === "therapist") {
+        patientsQuery.eq("patients.assigned_therapist_id", user.id);
+      }
+
+      const { data: patients } = await patientsQuery;
 
       const contextData = JSON.stringify(patients?.slice(0, 50) || []); // Limit to 50 for token efficiency
 
