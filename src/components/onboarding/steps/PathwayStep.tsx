@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { KeyRound, CheckCircle2, AlertCircle } from "lucide-react";
-import { ACCESS_CODE_MAP, isFrenectomyVariant, requiresVideo } from "@/lib/constants";
+import { ACCESS_CODE_MAP, isFrenectomyVariant, requiresVideo, getBaseVariant } from "@/lib/constants";
 
 interface PathwayStepProps {
   onPathwayChange?: (pathway: string) => void;
@@ -75,7 +75,7 @@ export const PathwayStep = ({ onPathwayChange, initialPathway }: PathwayStepProp
 
       await supabase
         .from('patients')
-        .update({ program_variant: variant as any })
+        .update({ program_variant: getBaseVariant(variant) as any })
         .eq('user_id', session.user.id);
 
       setSaved(true);
