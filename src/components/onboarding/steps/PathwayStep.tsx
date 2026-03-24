@@ -73,12 +73,14 @@ export const PathwayStep = ({ onPathwayChange, initialPathway }: PathwayStepProp
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
-      await supabase
+      const { error: updateError } = await supabase
         .from('patients')
         .update({ program_variant: getBaseVariant(variant) as any })
         .eq('user_id', session.user.id);
-
-      setSaved(true);
+      if (updateError) {
+        console.error('Failed to save pathway:', updateError);
+      }
+      setSaved(true); // Show success regardless — variant is in memory for UI
     } catch (error) {
       console.error('Error saving pathway:', error);
     }

@@ -126,7 +126,7 @@ export const OnboardingWizard = () => {
           completed_steps: newCompletedSteps,
           completed_at: completed && stepId === 'ready' ? new Date().toISOString() : null,
           updated_at: new Date().toISOString(),
-        });
+        }, { onConflict: 'patient_id' });
 
       if (error) throw error;
 
