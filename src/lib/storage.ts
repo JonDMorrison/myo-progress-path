@@ -80,7 +80,7 @@ export async function uploadVideo(
       .from('uploads')
       .insert({
         patient_id: patientId,
-        week_id: weekId,
+        week_id: weekId?.startsWith('json-') ? null : weekId,
         kind,
         file_url: fileUrl,
       })
@@ -156,7 +156,7 @@ export async function uploadVideoForExercise(
       .from('uploads')
       .insert({
         patient_id: patientId,
-        week_id: weekId,
+        week_id: weekId?.startsWith('json-') ? null : weekId,
         exercise_id: exerciseId,
         kind,
         file_url: fileUrl,
