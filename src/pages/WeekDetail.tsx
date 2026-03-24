@@ -162,8 +162,18 @@ const WeekDetail = () => {
         .eq("programs.title", programTitle)
         .single();
 
+      // Fallback: try without program join (in case program mapping differs)
       if (!weekData) {
-        // No Supabase row — create synthetic week so JSON-only mode can proceed
+        const { data: fallbackWeek } = await supabase
+          .from("weeks")
+          .select("*")
+          .eq("number", parseInt(weekNumber || "1"))
+          .maybeSingle();
+        weekData = fallbackWeek;
+      }
+
+      if (!weekData) {
+        // No Supabase row at all — create synthetic week so JSON-only mode can proceed
         weekData = {
           id: `json-week-${parseInt(weekNumber || "1")}`,
           number: parseInt(weekNumber || "1"),
