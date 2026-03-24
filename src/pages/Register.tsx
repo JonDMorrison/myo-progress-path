@@ -53,37 +53,13 @@ const Register = () => {
         const userEmail = data.session.user.email || email;
         const userName = name;
 
-        // Brief delay to ensure auth session is fully propagated to Supabase
-        await new Promise(r => setTimeout(r, 500));
-
-        const withTimeout = <T,>(p: Promise<T>, ms = 5000): Promise<T> =>
-          Promise.race([p, new Promise<T>((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
-
+        // Call edge function to create profile rows (bypasses RLS)
         try {
-          await withTimeout(supabase.from('users').upsert(
-            { id: userId, email: userEmail, name: userName, role: 'patient' },
-            { onConflict: 'id' }
-          ));
-        } catch (e) { console.error('users upsert failed:', JSON.stringify(e)); }
-
-        let patientId: string | null = null;
-        try {
-          const { data: pr } = await withTimeout(
-            supabase.from('patients').upsert(
-              { user_id: userId, email: userEmail, name: userName, program_variant: 'frenectomy' },
-              { onConflict: 'user_id' }
-            ).select('id').single()
-          );
-          patientId = pr?.id ?? null;
-        } catch (e) { console.error('patients upsert failed:', JSON.stringify(e)); }
-
-        if (patientId) {
-          try {
-            await withTimeout(supabase.from('onboarding_progress').upsert(
-              { patient_id: patientId, completed_at: null, completed_steps: [], current_step: 'welcome' },
-              { onConflict: 'patient_id' }
-            ));
-          } catch (e) { console.error('onboarding_progress upsert:', e); }
+          await supabase.functions.invoke('create-user-profile', {
+            body: { userId, email: userEmail, name: userName }
+          });
+        } catch (e) {
+          console.error('Profile creation failed:', e);
         }
 
         navigate('/onboarding');
