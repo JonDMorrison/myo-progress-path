@@ -131,7 +131,6 @@ const TherapistDashboard = () => {
           patient:patients!inner(
             id,
             program_variant,
-            assigned_therapist_id,
             user:users!patients_user_id_fkey(name, email)
           ),
           week:weeks!inner(number, title)
@@ -142,13 +141,8 @@ const TherapistDashboard = () => {
 
       if (error) throw error;
 
-      // Filter by therapist if not admin
+      // Show all patients for now (assigned_therapist_id not in new schema)
       let filteredData = progressData || [];
-      if (!authIsAdmin) {
-        filteredData = filteredData.filter(
-          (r: any) => r.patient?.assigned_therapist_id === user.id
-        );
-      }
 
       // Batch fetch uploads and messages
       const patientIds = [...new Set(filteredData.map((r: any) => r.patient_id))];
@@ -214,7 +208,6 @@ const TherapistDashboard = () => {
           *,
           patient:patients!inner(
             id,
-            assigned_therapist_id,
             user:users!patients_user_id_fkey(name)
           ),
           week:weeks(number)
@@ -223,11 +216,7 @@ const TherapistDashboard = () => {
         .limit(50);
 
       if (!msgsError) {
-        let filteredMsgs = allRecentMsgs || [];
-        if (!authIsAdmin) {
-          filteredMsgs = filteredMsgs.filter(m => m.patient?.assigned_therapist_id === user.id);
-        }
-        setPatientMessages(filteredMsgs);
+        setPatientMessages(allRecentMsgs || []);
       }
 
     } catch (error: any) {
