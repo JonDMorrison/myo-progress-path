@@ -31,6 +31,7 @@ export function PatientHeader({ userName }: PatientHeaderProps) {
   const navItems = [
     { href: "/patient", label: "Dashboard", icon: Home },
     { href: "/learn", label: "Learn", icon: BookOpen },
+    { href: "/patient/messages", label: "Messages", icon: MessageSquare },
   ];
 
   const initials = userName
