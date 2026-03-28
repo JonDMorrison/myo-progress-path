@@ -15,11 +15,25 @@ const Register = () => {
   const [name, setName] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const validatePassword = (pwd: string): string | null => {
+    if (pwd.length < 8) return 'Password must be at least 8 characters';
+    if (!/[A-Z]/.test(pwd)) return 'Password must contain at least one uppercase letter';
+    if (!/[0-9]/.test(pwd)) return 'Password must contain at least one number';
+    return null;
+  };
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const pwdError = validatePassword(password);
+    if (pwdError) {
+      setPasswordError(pwdError);
+      return;
+    }
 
     if (!agreedToTerms) {
       toast({
@@ -179,14 +193,21 @@ const Register = () => {
                 type="password"
                 placeholder="••••••••"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordError(validatePassword(e.target.value));
+                }}
                 required
-                minLength={6}
-                className="h-12 bg-slate-50 border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                minLength={8}
+                className={`h-12 bg-slate-50 border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all ${passwordError && password ? 'border-destructive' : ''}`}
               />
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider ml-1">
-                At least 6 characters
-              </p>
+              {passwordError && password ? (
+                <p className="text-xs text-destructive mt-1 ml-1">{passwordError}</p>
+              ) : (
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider ml-1">
+                  Min 8 characters, 1 uppercase, 1 number
+                </p>
+              )}
             </div>
 
             <div className="flex items-start space-x-3 pt-2">
