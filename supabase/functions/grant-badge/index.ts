@@ -23,11 +23,11 @@ serve(async (req) => {
       throw new Error("Invalid parameters");
     }
 
-    // Check if badge exists
+    // Check if badge exists (badges table uses 'id' as the key column)
     const { data: badge, error: badgeError } = await supabase
       .from("badges")
       .select("*")
-      .eq("key", badgeKey)
+      .eq("id", badgeKey)
       .single();
 
     if (badgeError || !badge) {
@@ -88,7 +88,7 @@ serve(async (req) => {
         success: true, 
         alreadyEarned: false,
         badge: {
-          key: badge.key,
+          key: badge.id,
           name: badge.name,
           icon: badge.icon,
           description: badge.description,

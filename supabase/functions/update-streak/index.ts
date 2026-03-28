@@ -36,25 +36,13 @@ serve(async (req) => {
 
     // If no stats exist, create them
     if (!stats) {
-      // Get patient's clinic_id
-      const { data: patient, error: patientError } = await supabase
-        .from("patients")
-        .select("clinic_id")
-        .eq("id", patientId)
-        .single();
-
-      if (patientError) throw patientError;
-      if (!patient) throw new Error("Patient not found");
-
       const { data: newStats, error: createError } = await supabase
         .from("gamification_stats")
         .insert({
           patient_id: patientId,
-          clinic_id: patient.clinic_id,
-          points: 0,
-          current_streak: 1,
-          longest_streak: 1,
-          last_activity_date: new Date().toISOString().split("T")[0],
+          total_points: 0,
+          streak_days: 1,
+          last_activity_at: new Date().toISOString(),
         })
         .select()
         .single();
@@ -70,9 +58,10 @@ serve(async (req) => {
       );
     }
 
-    const lastActivityDate = stats.last_activity_date;
-    let newStreak = stats.current_streak;
-    let longestStreak = stats.longest_streak;
+    const lastActivityAt = stats.last_activity_at;
+    const lastActivityDate = lastActivityAt ? lastActivityAt.split("T")[0] : null;
+    let newStreak = stats.streak_days || 0;
+    let longestStreak = newStreak; // No separate longest_streak column
 
     // If activity is today, no change
     if (lastActivityDate === today) {
@@ -107,9 +96,8 @@ serve(async (req) => {
     const { error: updateError } = await supabase
       .from("gamification_stats")
       .update({
-        current_streak: newStreak,
-        longest_streak: longestStreak,
-        last_activity_date: today,
+        streak_days: newStreak,
+        last_activity_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
       .eq("patient_id", patientId);
@@ -139,7 +127,7 @@ serve(async (req) => {
       await supabase
         .from("gamification_stats")
         .update({
-          points: stats.points + 200,
+          total_points: (stats.total_points || 0) + 200,
         })
         .eq("patient_id", patientId);
     }

@@ -12,19 +12,29 @@ export interface GamificationStats {
   last_activity_date: string | null;
 }
 
+// Map DB column names to the interface the UI expects
+function mapStats(raw: any): GamificationStats | null {
+  if (!raw) return null;
+  return {
+    points: raw.total_points || 0,
+    current_streak: raw.streak_days || 0,
+    longest_streak: raw.streak_days || 0, // no separate longest column
+    level: Math.floor((raw.total_points || 0) / 500) + 1,
+    last_activity_date: raw.last_activity_at ? raw.last_activity_at.split('T')[0] : null,
+  };
+}
+
 /**
  * Initialize gamification stats for a new patient
  */
-export async function initializeGamification(patientId: string, clinicId: string) {
+export async function initializeGamification(patientId: string, clinicId?: string) {
   const { data, error } = await supabase
     .from("gamification_stats")
     .insert({
       patient_id: patientId,
-      clinic_id: clinicId,
-      points: 0,
-      current_streak: 0,
-      longest_streak: 0,
-      level: 1,
+      clinic_id: clinicId || null,
+      total_points: 0,
+      streak_days: 0,
     })
     .select()
     .single();
@@ -178,7 +188,7 @@ export async function getGamificationStats(
       return null;
     }
 
-    return data;
+    return mapStats(data);
   } catch (e) {
     console.error("gamification_stats query failed:", e);
     return null;
