@@ -63,16 +63,29 @@ export function WeekCompletionChecklist({
 
   // Video submission items — only for pathways that require video
   if (requiresVideo(programVariant)) {
+    // Check that ALL active exercises have uploads, not just any one
+    const activeExercises = exercises.filter(ex => ex.type === 'active' && ex.id);
+    const uploadsList = uploads || [];
+
+    const hasFirstForAll = activeExercises.length > 0 && activeExercises.every(ex =>
+      uploadsList.some(u => u.kind === 'first_attempt' &&
+        (u.exercise_key === ex.id || u.exercise_id === ex.id))
+    );
+    const hasLastForAll = activeExercises.length > 0 && activeExercises.every(ex =>
+      uploadsList.some(u => u.kind === 'last_attempt' &&
+        (u.exercise_key === ex.id || u.exercise_id === ex.id))
+    );
+
     requirements.push(
       {
         label: 'First attempt videos submitted',
-        complete: (uploads || []).some(u => u.kind === 'first_attempt'),
+        complete: hasFirstForAll,
         required: true,
         icon: "🎥"
       },
       {
         label: 'Last attempt videos submitted',
-        complete: (uploads || []).some(u => u.kind === 'last_attempt'),
+        complete: hasLastForAll,
         required: true,
         icon: "🎬"
       }
