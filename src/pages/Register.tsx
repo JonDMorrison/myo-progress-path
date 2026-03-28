@@ -70,21 +70,32 @@ const Register = () => {
         // Call edge function to create profile rows (bypasses RLS)
         let profileCreated = false;
         try {
-          // Re-get the session to ensure JWT is available
-          const { data: { session: currentSession } } = await supabase.auth.getSession();
-          const { data: fnData, error: fnError } = await supabase.functions.invoke('create-user-profile', {
-            body: { userId, email: userEmail, name: userName },
-            headers: currentSession?.access_token
-              ? { Authorization: `Bearer ${currentSession.access_token}` }
-              : {}
-          });
-          if (fnError) {
-            console.error('Edge function error:', fnError);
+          // Retry up to 3 times with increasing delays
+          let fnData, fnError;
+          for (let attempt = 1; attempt <= 3; attempt++) {
+            if (attempt > 1) {
+              await new Promise(resolve => setTimeout(resolve, attempt * 500));
+            }
+            const { data: { session: retrySession } } = await supabase.auth.getSession();
+            const result = await supabase.functions.invoke('create-user-profile', {
+              body: { userId, email: userEmail, name: userName },
+              headers: retrySession?.access_token
+                ? { Authorization: `Bearer ${retrySession.access_token}` }
+                : {}
+            });
+            fnData = result.data;
+            fnError = result.error;
+            if (!fnError && fnData?.success) break;
+            console.warn(`Profile creation attempt ${attempt} failed:`, fnError || fnData);
+          }
+
+          if (fnError || !fnData?.success) {
+            console.error('Profile creation failed after 3 attempts for:', userEmail, userId);
           } else {
             profileCreated = true;
           }
-        } catch (e) {
-          console.error('Profile creation failed:', e);
+        } catch (error) {
+          console.error('Profile creation exception:', error);
         }
 
         // Navigate regardless — OnboardingWizard has retry logic
