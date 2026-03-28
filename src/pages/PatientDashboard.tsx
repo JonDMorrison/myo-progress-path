@@ -384,7 +384,8 @@ const PatientDashboard = () => {
                     const variant = patient?.program_variant || 'frenectomy';
                     const currentModule = getModuleInfo(currentWeek.number, variant).moduleNumber;
                     const upcoming: { moduleNumber: number; label: string; weekRange: [number, number] }[] = [];
-                    for (let w = currentWeek.number + 2; w <= 24 && upcoming.length < 3; w += 2) {
+                    // Start from the next week after current
+                    for (let w = 1; w <= 24 && upcoming.length < 3; w++) {
                       const info = getModuleInfo(w, variant);
                       if (info.moduleNumber > currentModule && !upcoming.some(u => u.moduleNumber === info.moduleNumber)) {
                         upcoming.push({ moduleNumber: info.moduleNumber, label: info.displayLabel, weekRange: info.weekRange });
@@ -392,20 +393,20 @@ const PatientDashboard = () => {
                     }
                     if (upcoming.length === 0) return null;
                     return (
-                      <div className="mt-6">
-                        <div className="mb-3 flex items-center gap-3 px-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
-                          <h2 className="text-sm font-bold text-slate-400 tracking-tight uppercase">What's Coming</h2>
+                      <div className="mt-8">
+                        <div className="mb-4 flex items-center gap-3 px-1">
+                          <Lock className="w-4 h-4 text-slate-400" />
+                          <h2 className="text-lg font-bold text-slate-600 tracking-tight">What's Coming</h2>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                           {upcoming.map(m => (
-                            <div key={m.moduleNumber} className="flex items-center gap-3 p-3 rounded-xl border border-slate-100 bg-slate-50/50 opacity-60">
-                              <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0">
-                                <Lock className="w-4 h-4 text-slate-400" />
+                            <div key={m.moduleNumber} className="flex items-center gap-4 p-4 rounded-2xl border border-slate-200 bg-white/60">
+                              <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0">
+                                <Lock className="w-5 h-5 text-slate-400" />
                               </div>
                               <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold text-slate-500">{m.label}</p>
-                                <p className="text-xs text-slate-400">Weeks {m.weekRange[0]}-{m.weekRange[1]}</p>
+                                <p className="text-sm font-bold text-slate-600">{m.label}</p>
+                                <p className="text-xs text-slate-400 mt-0.5">Weeks {m.weekRange[0]}–{m.weekRange[1]} — Locked</p>
                               </div>
                             </div>
                           ))}
