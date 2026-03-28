@@ -54,14 +54,8 @@ export function ExerciseVideoUpload({
       .select('id, kind, file_url, created_at')
       .eq('patient_id', patientId);
 
-    if (weekId?.startsWith('json-')) {
-      query = query.is('week_id', null);
-    } else {
-      query = query.eq('week_id', weekId);
-    }
-
     if (exerciseId?.startsWith('json-')) {
-      query = query.is('exercise_id', null);
+      query = query.eq('exercise_key', exerciseId);
     } else {
       query = query.eq('exercise_id', exerciseId);
     }
