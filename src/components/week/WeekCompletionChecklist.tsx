@@ -11,6 +11,7 @@ interface WeekCompletionChecklistProps {
   exercises?: any[];
   weekNumber?: number;
   programVariant?: string;
+  requiresVideoUpload?: boolean;
   layout?: 'sidebar' | 'horizontal';
 }
 
@@ -21,6 +22,7 @@ export function WeekCompletionChecklist({
   exercises = [],
   weekNumber = 0,
   programVariant,
+  requiresVideoUpload,
   layout = 'sidebar'
 }: WeekCompletionChecklistProps) {
   // Handle null week or progress (therapist preview mode)
@@ -61,8 +63,9 @@ export function WeekCompletionChecklist({
   // Build requirements array (video uploads are now per-exercise, not week-level)
   const requirements = [];
 
-  // Video submission items — only for pathways that require video
-  if (requiresVideo(programVariant)) {
+  // Video submission items — only for pathways that require video AND patient has video enabled
+  const videoRequired = requiresVideoUpload !== undefined ? requiresVideoUpload : requiresVideo(programVariant);
+  if (videoRequired) {
     // Check that ALL active exercises have uploads, not just any one
     const activeExercises = exercises.filter(ex => ex.type === 'active' && ex.id);
     const uploadsList = uploads || [];

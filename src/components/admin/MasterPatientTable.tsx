@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { Eye, Download } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import { MasterPatientListItem } from "@/lib/masterAdmin";
 import { TherapistAssignmentSelect } from "./TherapistAssignmentSelect";
+import { toast } from "sonner";
 
 interface MasterPatientTableProps {
   patients: MasterPatientListItem[];
@@ -15,6 +18,36 @@ interface MasterPatientTableProps {
 }
 
 export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPatientTableProps) => {
+  const [videoFlags, setVideoFlags] = useState<Record<string, boolean>>({});
+
+  // Load requires_video flags for all patients
+  useEffect(() => {
+    const ids = patients.map(p => p.patient_id);
+    if (ids.length === 0) return;
+    supabase
+      .from('patients')
+      .select('id, requires_video')
+      .in('id', ids)
+      .then(({ data }) => {
+        const flags: Record<string, boolean> = {};
+        data?.forEach(p => { flags[p.id] = p.requires_video !== false; });
+        setVideoFlags(flags);
+      });
+  }, [patients]);
+
+  const handleToggleVideo = async (patientId: string, value: boolean) => {
+    const { error } = await supabase
+      .from('patients')
+      .update({ requires_video: value } as any)
+      .eq('id', patientId);
+    if (error) {
+      toast.error('Could not update setting');
+    } else {
+      setVideoFlags(prev => ({ ...prev, [patientId]: value }));
+      toast.success(value ? 'Video submissions enabled' : 'Video submissions disabled');
+    }
+  };
+
   const getStatusColor = (status: string): "default" | "secondary" | "destructive" => {
     switch (status) {
       case 'completed': return 'secondary';
@@ -58,6 +91,7 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
               <TableHead>Current Week</TableHead>
               <TableHead>Last Activity</TableHead>
               <TableHead>Adherence</TableHead>
+              <TableHead>Video</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -65,7 +99,7 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
           <TableBody>
             {patients.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
+                <TableCell colSpan={9} className="text-center text-muted-foreground py-8">
                   No patients found
                 </TableCell>
               </TableRow>
@@ -124,6 +158,17 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
                     ) : (
                       <span className="text-muted-foreground text-sm">—</span>
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Switch
+                        checked={videoFlags[patient.patient_id] ?? true}
+                        onCheckedChange={(checked) => handleToggleVideo(patient.patient_id, checked)}
+                      />
+                      <span className="text-xs text-muted-foreground">
+                        {videoFlags[patient.patient_id] !== false ? 'On' : 'Off'}
+                      </span>
+                    </div>
                   </TableCell>
                   <TableCell>
                     <Badge variant={getStatusColor(patient.patient_status)}>

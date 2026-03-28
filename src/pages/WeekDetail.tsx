@@ -703,7 +703,7 @@ const WeekDetail = () => {
                           existingCompletions={progress?.exercise_completions || {}}
                           onUpdate={handleProgressUpdate}
                           readOnly={isReadOnly}
-                          showVideoUpload={requiresVideo(patient?.program_variant)}
+                          showVideoUpload={requiresVideo(patient?.program_variant) && patient?.requires_video !== false}
                         />
                       )}
                     </div>
@@ -780,6 +780,7 @@ const WeekDetail = () => {
                     exercises={exercises}
                     weekNumber={parseInt(weekNumber || "0")}
                     programVariant={patient?.program_variant}
+                    requiresVideoUpload={requiresVideo(patient?.program_variant) && patient?.requires_video !== false}
                     layout="sidebar"
                   />
                 </div>
