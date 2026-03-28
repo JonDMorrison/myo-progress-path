@@ -38,12 +38,24 @@ export function ExerciseVideoUpload({
 
   const loadExistingUploads = async () => {
     setIsLoading(true);
-    const { data, error } = await supabase
+    let query = supabase
       .from('uploads')
       .select('id, kind, file_url, created_at')
-      .eq('patient_id', patientId)
-      .eq('week_id', weekId?.startsWith('json-') ? '00000000-0000-0000-0000-000000000000' : weekId)
-      .eq('exercise_id', exerciseId?.startsWith('json-') ? '00000000-0000-0000-0000-000000000000' : exerciseId);
+      .eq('patient_id', patientId);
+
+    if (weekId?.startsWith('json-')) {
+      query = query.is('week_id', null);
+    } else {
+      query = query.eq('week_id', weekId);
+    }
+
+    if (exerciseId?.startsWith('json-')) {
+      query = query.is('exercise_id', null);
+    } else {
+      query = query.eq('exercise_id', exerciseId);
+    }
+
+    const { data, error } = await query;
 
     if (!error && data) {
       setUploads(data as ExistingUpload[]);
