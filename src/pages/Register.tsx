@@ -56,8 +56,13 @@ const Register = () => {
         // Call edge function to create profile rows (bypasses RLS)
         let profileCreated = false;
         try {
+          // Re-get the session to ensure JWT is available
+          const { data: { session: currentSession } } = await supabase.auth.getSession();
           const { data: fnData, error: fnError } = await supabase.functions.invoke('create-user-profile', {
-            body: { userId, email: userEmail, name: userName }
+            body: { userId, email: userEmail, name: userName },
+            headers: currentSession?.access_token
+              ? { Authorization: `Bearer ${currentSession.access_token}` }
+              : {}
           });
           if (fnError) {
             console.error('Edge function error:', fnError);
