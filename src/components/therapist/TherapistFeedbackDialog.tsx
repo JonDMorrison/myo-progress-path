@@ -191,12 +191,8 @@ const TherapistFeedbackDialog = ({
         therapist_id: user.id,
         patient_id: patientId,
         week_id: weekId || null,
-        exercise_id: exerciseId || null,
-        progress_id: progressId || null,
-        feedback_text: combinedFeedback || null,
-        video_url: videoPath,
-        photo_url: photoPath,
-      });
+        feedback: combinedFeedback || null,
+      } as any);
 
       if (insertError) throw insertError;
 

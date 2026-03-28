@@ -23,6 +23,20 @@ interface TherapistFeedback {
   } | null;
 }
 
+// Map DB columns (feedback) to UI columns (feedback_text, etc.)
+function mapFeedbackRow(row: any): TherapistFeedback {
+  return {
+    id: row.id,
+    feedback_text: row.feedback || row.feedback_text || null,
+    video_url: row.video_url || null,
+    photo_url: row.photo_url || null,
+    created_at: row.created_at,
+    read_at: row.read_at || null,
+    therapist: row.therapist || null,
+    exercise: row.exercise || null,
+  };
+}
+
 interface TherapistFeedbackListProps {
   patientId: string;
   weekId?: string;
@@ -64,15 +78,7 @@ const TherapistFeedbackList = ({ patientId, weekId }: TherapistFeedbackListProps
     try {
       let query = supabase
         .from("therapist_feedback")
-        .select(`
-          id,
-          feedback_text,
-          video_url,
-          photo_url,
-          created_at,
-          read_at,
-          therapist:therapist_id(name)
-        `)
+        .select("*")
         .eq("patient_id", patientId)
         .order("created_at", { ascending: false });
 
@@ -83,19 +89,21 @@ const TherapistFeedbackList = ({ patientId, weekId }: TherapistFeedbackListProps
       const { data, error } = await query;
 
       if (error) throw error;
-      setFeedback((data as unknown as TherapistFeedback[]) || []);
+      setFeedback((data || []).map(mapFeedbackRow));
 
-      // Mark unread feedback as read
-      const unreadIds = data
-        ?.filter((f: any) => !f.read_at)
-        .map((f: any) => f.id) || [];
+      // Mark unread feedback as read (read_at may not exist in schema)
+      try {
+        const unreadIds = data
+          ?.filter((f: any) => !f.read_at)
+          .map((f: any) => f.id) || [];
 
-      if (unreadIds.length > 0) {
-        await supabase
-          .from("therapist_feedback")
-          .update({ read_at: new Date().toISOString() })
-          .in("id", unreadIds);
-      }
+        if (unreadIds.length > 0) {
+          await supabase
+            .from("therapist_feedback")
+            .update({ read_at: new Date().toISOString() } as any)
+            .in("id", unreadIds);
+        }
+      } catch (e) { console.error("read_at update failed:", e); }
     } catch (error) {
       console.error("Error loading feedback:", error);
     } finally {
