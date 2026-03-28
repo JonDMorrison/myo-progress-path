@@ -41,7 +41,7 @@ export function PatientHeader({ userName }: PatientHeaderProps) {
     .slice(0, 2) || "U";
 
   return (
-    <header className="hidden md:block border-b bg-background/95 backdrop-blur sticky top-0 z-50">
+    <header className="border-b bg-background/95 backdrop-blur sticky top-0 z-50">
       <nav className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-8">
           <Link to="/patient" className="flex items-center gap-2">

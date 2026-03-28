@@ -15,6 +15,7 @@ import { ResponsiveVideo } from "@/components/week/ResponsiveVideo";
 
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
+import { PatientHeader } from "@/components/layout/PatientHeader";
 import { isWeekAccessible, isWeekReadOnly } from "@/lib/userProgress";
 import { WeekHeader } from "@/components/week/WeekHeader";
 import { WeekObjectives } from "@/components/week/WeekObjectives";
@@ -576,6 +577,7 @@ const WeekDetail = () => {
     <>
 
       <div className="min-h-screen bg-slate-50/50 pb-24 sm:pb-12">
+        <PatientHeader userName={patient?.name} />
         {/* Header - Truly Compact */}
         <WeekHeader
           week={week}

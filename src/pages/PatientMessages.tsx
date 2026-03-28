@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, MessageSquare, Send } from "lucide-react";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { PatientHeader } from "@/components/layout/PatientHeader";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
@@ -102,7 +103,8 @@ const PatientMessages = () => {
 
   return (
     <div className="min-h-screen bg-[#FDFDFD] pb-20">
-      <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-md">
+      <PatientHeader />
+      <header className="border-b bg-white/80">
         <div className="container mx-auto px-4 py-4 flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={() => navigate("/patient")}>
             <ArrowLeft className="h-5 w-5" />

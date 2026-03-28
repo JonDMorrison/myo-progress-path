@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { OnboardingQuiz } from "@/components/quiz/OnboardingQuiz";
 import { BookOpen, Target } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { PatientHeader } from "@/components/layout/PatientHeader";
 import { toast } from "sonner";
 
 export default function Week0() {
@@ -38,6 +39,7 @@ export default function Week0() {
 
   return (
     <div className="min-h-screen bg-background">
+      <PatientHeader />
       <div className="container mx-auto px-6 py-12 max-w-5xl">
         {/* Completion Banner */}
         {!quizCompleted && (
