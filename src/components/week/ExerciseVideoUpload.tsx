@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Upload, Video, CheckCircle2, Loader2, Trash2 } from "lucide-react";
+import { Upload, Video, CheckCircle2, Loader2, Trash2, Play } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
-import { uploadVideoForExercise, validateVideoFile, deleteVideo } from "@/lib/storage";
+import { uploadVideoForExercise, validateVideoFile, deleteVideo, getVideoUrl } from "@/lib/storage";
 import { toast } from "sonner";
 
 interface ExerciseVideoUploadProps {
@@ -31,6 +32,16 @@ export function ExerciseVideoUpload({
   const [uploads, setUploads] = useState<ExistingUpload[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [uploadingKind, setUploadingKind] = useState<'first_attempt' | 'last_attempt' | null>(null);
+  const [playingUrl, setPlayingUrl] = useState<string | null>(null);
+
+  const handlePlay = async (fileUrl: string) => {
+    try {
+      const signedUrl = await getVideoUrl(fileUrl);
+      setPlayingUrl(signedUrl);
+    } catch (e) {
+      toast.error('Could not load video');
+    }
+  };
 
   useEffect(() => {
     loadExistingUploads();
@@ -164,17 +175,30 @@ export function ExerciseVideoUpload({
             </Button>
           </label>
           {hasFirstAttempt && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 px-2 text-destructive hover:text-destructive w-full"
-              onClick={() => {
-                const upload = uploads.find(u => u.kind === 'first_attempt');
-                if (upload) handleDelete(upload.id, upload.file_url);
-              }}
-            >
-              <Trash2 className="h-3 w-3 mr-1" /> Remove
-            </Button>
+            <div className="flex gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-6 px-2 flex-1"
+                onClick={() => {
+                  const upload = uploads.find(u => u.kind === 'first_attempt');
+                  if (upload) handlePlay(upload.file_url);
+                }}
+              >
+                <Play className="h-3 w-3 mr-1" /> Watch
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 px-2 text-destructive hover:text-destructive"
+                onClick={() => {
+                  const upload = uploads.find(u => u.kind === 'first_attempt');
+                  if (upload) handleDelete(upload.id, upload.file_url);
+                }}
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
           )}
         </div>
 
@@ -215,20 +239,48 @@ export function ExerciseVideoUpload({
             </Button>
           </label>
           {hasLastAttempt && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 px-2 text-destructive hover:text-destructive w-full"
-              onClick={() => {
-                const upload = uploads.find(u => u.kind === 'last_attempt');
-                if (upload) handleDelete(upload.id, upload.file_url);
-              }}
-            >
-              <Trash2 className="h-3 w-3 mr-1" /> Remove
-            </Button>
+            <div className="flex gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-6 px-2 flex-1"
+                onClick={() => {
+                  const upload = uploads.find(u => u.kind === 'last_attempt');
+                  if (upload) handlePlay(upload.file_url);
+                }}
+              >
+                <Play className="h-3 w-3 mr-1" /> Watch
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 px-2 text-destructive hover:text-destructive"
+                onClick={() => {
+                  const upload = uploads.find(u => u.kind === 'last_attempt');
+                  if (upload) handleDelete(upload.id, upload.file_url);
+                }}
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
           )}
         </div>
       </div>
+
+      {/* Video Player Dialog */}
+      <Dialog open={!!playingUrl} onOpenChange={(open) => { if (!open) setPlayingUrl(null); }}>
+        <DialogContent className="max-w-2xl p-2">
+          {playingUrl && (
+            <video
+              src={playingUrl}
+              controls
+              autoPlay
+              className="w-full rounded-lg"
+              style={{ maxHeight: '80vh' }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
