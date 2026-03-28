@@ -128,7 +128,10 @@ export const OnboardingWizard = () => {
           updated_at: new Date().toISOString(),
         }, { onConflict: 'patient_id' });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Onboarding progress save failed:', stepId, error);
+        throw error;
+      }
 
       if (completed) {
         setCompletedSteps(newCompletedSteps);
@@ -169,7 +172,21 @@ export const OnboardingWizard = () => {
       setCurrentStepIndex(currentStepIndex + 1);
       await saveProgress(steps[currentStepIndex + 1].id, false);
     } else {
-      // Onboarding complete - redirect to Week 0
+      // Verify completed_at was saved before navigating
+      const { data: verification } = await supabase
+        .from('onboarding_progress')
+        .select('completed_at')
+        .eq('patient_id', patientId)
+        .single();
+
+      if (!verification?.completed_at) {
+        // Force set it directly as a fallback
+        await supabase
+          .from('onboarding_progress')
+          .update({ completed_at: new Date().toISOString() })
+          .eq('patient_id', patientId);
+      }
+
       navigate('/week-0');
     }
   };
