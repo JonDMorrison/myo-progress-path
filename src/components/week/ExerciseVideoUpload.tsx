@@ -61,8 +61,14 @@ export function ExerciseVideoUpload({
       return;
     }
 
+    // Warn on large files
+    const sizeMB = (file.size / (1024 * 1024)).toFixed(0);
+    if (file.size > 20 * 1024 * 1024) {
+      toast(`Large file (${sizeMB}MB) — upload may take a minute`, { icon: '⚠️' });
+    }
+
     setUploadingKind(kind);
-    
+
     const result = await uploadVideoForExercise(file, patientId, weekId, exerciseId, kind);
     
     if (result.success) {
@@ -116,49 +122,47 @@ export function ExerciseVideoUpload({
             {hasFirstAttempt && <CheckCircle2 className="h-4 w-4 text-success" />}
           </div>
           
-          {hasFirstAttempt ? (
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>✓ Uploaded</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 px-2 text-destructive hover:text-destructive"
-                onClick={() => {
-                  const upload = uploads.find(u => u.kind === 'first_attempt');
-                  if (upload) handleDelete(upload.id, upload.file_url);
-                }}
-              >
-                <Trash2 className="h-3 w-3" />
-              </Button>
-            </div>
-          ) : (
-            <label className="cursor-pointer">
-              <input
-                type="file"
-                accept="video/mp4,video/quicktime"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) handleFileSelect('first_attempt', file);
-                }}
-                disabled={uploadingKind !== null}
-              />
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full"
-                disabled={uploadingKind !== null}
-                asChild
-              >
-                <span>
-                  {uploadingKind === 'first_attempt' ? (
-                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Uploading...</>
-                  ) : (
-                    <><Upload className="h-4 w-4 mr-2" /> Upload Video</>
-                  )}
-                </span>
-              </Button>
-            </label>
+          <label className="cursor-pointer">
+            <input
+              type="file"
+              accept="video/mp4,video/quicktime"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleFileSelect('first_attempt', file);
+              }}
+              disabled={uploadingKind !== null}
+            />
+            <Button
+              variant={hasFirstAttempt ? "default" : "outline"}
+              size="sm"
+              className={`w-full ${hasFirstAttempt ? 'bg-green-600 hover:bg-green-700 text-white' : ''}`}
+              disabled={uploadingKind !== null}
+              asChild
+            >
+              <span>
+                {uploadingKind === 'first_attempt' ? (
+                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Uploading...</>
+                ) : hasFirstAttempt ? (
+                  <><CheckCircle2 className="h-4 w-4 mr-2" /> Uploaded</>
+                ) : (
+                  <><Upload className="h-4 w-4 mr-2" /> Upload First Attempt</>
+                )}
+              </span>
+            </Button>
+          </label>
+          {hasFirstAttempt && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-6 px-2 text-destructive hover:text-destructive w-full"
+              onClick={() => {
+                const upload = uploads.find(u => u.kind === 'first_attempt');
+                if (upload) handleDelete(upload.id, upload.file_url);
+              }}
+            >
+              <Trash2 className="h-3 w-3 mr-1" /> Remove
+            </Button>
           )}
         </div>
 
@@ -169,49 +173,47 @@ export function ExerciseVideoUpload({
             {hasLastAttempt && <CheckCircle2 className="h-4 w-4 text-success" />}
           </div>
           
-          {hasLastAttempt ? (
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>✓ Uploaded</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 px-2 text-destructive hover:text-destructive"
-                onClick={() => {
-                  const upload = uploads.find(u => u.kind === 'last_attempt');
-                  if (upload) handleDelete(upload.id, upload.file_url);
-                }}
-              >
-                <Trash2 className="h-3 w-3" />
-              </Button>
-            </div>
-          ) : (
-            <label className="cursor-pointer">
-              <input
-                type="file"
-                accept="video/mp4,video/quicktime"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) handleFileSelect('last_attempt', file);
-                }}
-                disabled={uploadingKind !== null}
-              />
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full"
-                disabled={uploadingKind !== null}
-                asChild
-              >
-                <span>
-                  {uploadingKind === 'last_attempt' ? (
-                    <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Uploading...</>
-                  ) : (
-                    <><Upload className="h-4 w-4 mr-2" /> Upload Video</>
-                  )}
-                </span>
-              </Button>
-            </label>
+          <label className="cursor-pointer">
+            <input
+              type="file"
+              accept="video/mp4,video/quicktime"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleFileSelect('last_attempt', file);
+              }}
+              disabled={uploadingKind !== null}
+            />
+            <Button
+              variant={hasLastAttempt ? "default" : "outline"}
+              size="sm"
+              className={`w-full ${hasLastAttempt ? 'bg-green-600 hover:bg-green-700 text-white' : ''}`}
+              disabled={uploadingKind !== null}
+              asChild
+            >
+              <span>
+                {uploadingKind === 'last_attempt' ? (
+                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Uploading...</>
+                ) : hasLastAttempt ? (
+                  <><CheckCircle2 className="h-4 w-4 mr-2" /> Uploaded</>
+                ) : (
+                  <><Upload className="h-4 w-4 mr-2" /> Upload Last Attempt</>
+                )}
+              </span>
+            </Button>
+          </label>
+          {hasLastAttempt && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-6 px-2 text-destructive hover:text-destructive w-full"
+              onClick={() => {
+                const upload = uploads.find(u => u.kind === 'last_attempt');
+                if (upload) handleDelete(upload.id, upload.file_url);
+              }}
+            >
+              <Trash2 className="h-3 w-3 mr-1" /> Remove
+            </Button>
           )}
         </div>
       </div>

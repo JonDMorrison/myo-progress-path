@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-const MAX_VIDEO_SIZE = 500 * 1024 * 1024; // 500MB
+const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB — larger files upload too slowly
 const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/quicktime']; // .mp4 and .mov
 
 export interface UploadProgress {
@@ -26,7 +26,7 @@ export function validateVideoFile(file: File): { valid: boolean; error?: string 
     const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
     return { 
       valid: false, 
-      error: `File size (${sizeMB}MB) exceeds the 500MB limit.` 
+      error: `File size (${sizeMB}MB) exceeds the 100MB limit. Please trim your video or use a lower resolution.`
     };
   }
 
