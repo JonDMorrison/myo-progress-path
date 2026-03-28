@@ -49,7 +49,7 @@ export const PROGRAM_TITLES: Record<string, string> = {
   'frenectomy_video':      'Frenectomy Program',
   'non_frenectomy':        'Non-Frenectomy Program',
   'non_frenectomy_video':  'Non-Frenectomy Program',
-  'standard':              'Frenectomy Program', // legacy fallback
+  'standard':              'Non-Frenectomy Program', // standard = non-surgical pathway
 };
 
 /**

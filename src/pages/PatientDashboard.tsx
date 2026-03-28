@@ -18,6 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
 import { grantBadgeWithToast } from "@/lib/gamification";
+import { getProgramTitle } from "@/lib/constants";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { PatientHeader } from "@/components/layout/PatientHeader";
@@ -165,9 +166,7 @@ const PatientDashboard = () => {
 
       // Get current week based on patient's program_variant
       const programVariant = (patientData.program_variant as string) || 'frenectomy';
-      const programTitle = programVariant === 'non_frenectomy'
-        ? 'Non-Frenectomy Program'
-        : 'Frenectomy Program';
+      const programTitle = getProgramTitle(programVariant);
 
       const { data: weekData } = await supabase
         .from("weeks")

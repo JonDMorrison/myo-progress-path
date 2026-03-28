@@ -25,9 +25,8 @@ export default function Week0() {
       if (patient) {
         await supabase.from("onboarding_progress").upsert({
           patient_id: patient.id,
-          completed_steps: ["week0"],
           completed_at: new Date().toISOString()
-        });
+        }, { onConflict: 'patient_id' });
 
         // Auto-redirect to dashboard
         setTimeout(() => {
