@@ -19,19 +19,25 @@ interface MasterPatientTableProps {
 
 export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPatientTableProps) => {
   const [videoFlags, setVideoFlags] = useState<Record<string, boolean>>({});
+  const [pathways, setPathways] = useState<Record<string, string>>({});
 
-  // Load requires_video flags for all patients
+  // Load requires_video and program_variant for all patients
   useEffect(() => {
     const ids = patients.map(p => p.patient_id);
     if (ids.length === 0) return;
     supabase
       .from('patients')
-      .select('id, requires_video')
+      .select('id, requires_video, program_variant')
       .in('id', ids)
       .then(({ data }) => {
         const flags: Record<string, boolean> = {};
-        data?.forEach(p => { flags[p.id] = p.requires_video !== false; });
+        const variants: Record<string, string> = {};
+        data?.forEach(p => {
+          flags[p.id] = p.requires_video !== false;
+          variants[p.id] = p.program_variant || 'frenectomy';
+        });
         setVideoFlags(flags);
+        setPathways(variants);
       });
   }, [patients]);
 
@@ -45,6 +51,20 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
     } else {
       setVideoFlags(prev => ({ ...prev, [patientId]: value }));
       toast.success(value ? 'Video submissions enabled' : 'Video submissions disabled');
+    }
+  };
+
+  const handleChangePathway = async (patientId: string, variant: string) => {
+    const { error } = await supabase
+      .from('patients')
+      .update({ program_variant: variant } as any)
+      .eq('id', patientId);
+    if (error) {
+      toast.error('Could not update pathway');
+    } else {
+      setPathways(prev => ({ ...prev, [patientId]: variant }));
+      toast.success('Pathway updated');
+      onRefresh?.();
     }
   };
 
@@ -88,6 +108,7 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
               <TableHead>Patient</TableHead>
               <TableHead>Clinic</TableHead>
               <TableHead>Therapist</TableHead>
+              <TableHead>Pathway</TableHead>
               <TableHead>Current Week</TableHead>
               <TableHead>Last Activity</TableHead>
               <TableHead>Adherence</TableHead>
@@ -99,7 +120,7 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
           <TableBody>
             {patients.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={9} className="text-center text-muted-foreground py-8">
+                <TableCell colSpan={10} className="text-center text-muted-foreground py-8">
                   No patients found
                 </TableCell>
               </TableRow>
@@ -120,6 +141,19 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
                       currentTherapistName={patient.therapist_name}
                       onAssigned={onRefresh}
                     />
+                  </TableCell>
+                  <TableCell>
+                    <select
+                      value={pathways[patient.patient_id] || patient.program_variant || 'frenectomy'}
+                      onChange={(e) => handleChangePathway(patient.patient_id, e.target.value)}
+                      className="text-xs border rounded px-2 py-1 bg-background"
+                    >
+                      <option value="frenectomy">Frenectomy</option>
+                      <option value="frenectomy_video">Frenectomy + Video</option>
+                      <option value="non_frenectomy">Non-Frenectomy</option>
+                      <option value="non_frenectomy_video">Non-Fren + Video</option>
+                      <option value="standard">Standard</option>
+                    </select>
                   </TableCell>
                   <TableCell>
                     {patient.current_week_number ? (
@@ -216,6 +250,21 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
                   currentTherapistName={patient.therapist_name}
                   onAssigned={onRefresh}
                 />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground">Pathway</span>
+                <select
+                  value={pathways[patient.patient_id] || patient.program_variant || 'frenectomy'}
+                  onChange={(e) => handleChangePathway(patient.patient_id, e.target.value)}
+                  className="text-xs border rounded px-2 py-1 bg-background"
+                >
+                  <option value="frenectomy">Frenectomy</option>
+                  <option value="frenectomy_video">Frenectomy + Video</option>
+                  <option value="non_frenectomy">Non-Frenectomy</option>
+                  <option value="non_frenectomy_video">Non-Fren + Video</option>
+                  <option value="standard">Standard</option>
+                </select>
               </div>
               
               <div className="flex items-center justify-between text-sm">
