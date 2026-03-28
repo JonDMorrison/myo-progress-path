@@ -43,24 +43,24 @@ export function PatientHeader({ userName }: PatientHeaderProps) {
 
   return (
     <header className="border-b bg-background/95 backdrop-blur sticky top-0 z-50">
-      <nav className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Link to="/patient" className="flex items-center gap-2">
-            <img src="/favicon.png" alt="Montrose Myo" className="h-8 w-8" />
-            <span className="text-xl font-bold">Montrose Myo</span>
+      <nav className="container flex h-14 sm:h-16 items-center justify-between px-3 sm:px-6">
+        <div className="flex items-center gap-4 sm:gap-8">
+          <Link to="/patient" className="flex items-center gap-2 flex-shrink-0">
+            <img src="/favicon.png" alt="Montrose Myo" className="h-7 w-7 sm:h-8 sm:w-8" />
+            <span className="text-lg sm:text-xl font-bold hidden sm:inline">Montrose Myo</span>
           </Link>
-          
-          <div className="flex gap-6">
+
+          <div className="flex gap-1 sm:gap-6">
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
                 <Link
                   key={item.href}
                   to={item.href}
-                  className="flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary px-2 py-1 rounded-md"
+                  className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium transition-colors hover:text-primary px-2 py-1.5 rounded-md"
                 >
                   <Icon className="h-4 w-4" />
-                  {item.label}
+                  <span className="hidden xs:inline sm:inline">{item.label}</span>
                 </Link>
               );
             })}
@@ -86,13 +86,13 @@ export function PatientHeader({ userName }: PatientHeaderProps) {
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/patient" className="cursor-pointer">
+              <Link to="/patient/account" className="cursor-pointer">
                 <Settings className="mr-2 h-4 w-4" />
                 Account Settings
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/patient" className="cursor-pointer">
+              <Link to="/patient/messages" className="cursor-pointer">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Messages
               </Link>
