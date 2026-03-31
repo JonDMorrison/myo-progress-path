@@ -688,7 +688,7 @@ const WeekDetail = () => {
 
                   {exercises.length > 0 && (
                     <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                      {isFrenectomyVariant(patient?.program_variant) &&
+                      {isFrenectomyVariant(new URLSearchParams(window.location.search).get('variant') || patient?.program_variant) &&
                         FRENECTOMY_POST_OP_WEEKS.includes(parseInt(weekNumber || "0")) ? (
                         <PostOpSectionedContent
                           weekNumber={parseInt(weekNumber || "0")}
