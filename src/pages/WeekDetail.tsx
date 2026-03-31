@@ -251,7 +251,18 @@ const WeekDetail = () => {
             console.error("Error merging Supabase video URLs:", e);
           }
 
-          // Also update objectives and introduction from JSON
+        } else {
+          // Fallback to Supabase if JSON has no exercises for this week
+          const { data: exercisesData } = await supabase
+            .from("exercises")
+            .select("*")
+            .eq("week_id", weekData.id)
+            .order("order_index");
+          setExercises(exercisesData || []);
+        }
+
+        // Always set these from JSON regardless of whether exercises exist
+        if (weekEntry) {
           setWeek(prev => prev ? {
             ...prev,
             objectives: weekEntry.objectives || prev.objectives,
@@ -264,14 +275,6 @@ const WeekDetail = () => {
           if (weekEntry.progress_benchmark) {
             setProgressBenchmark(weekEntry.progress_benchmark);
           }
-        } else {
-          // Fallback to Supabase if JSON has no exercises for this week
-          const { data: exercisesData } = await supabase
-            .from("exercises")
-            .select("*")
-            .eq("week_id", weekData.id)
-            .order("order_index");
-          setExercises(exercisesData || []);
         }
       } catch (error) {
         console.error("Error loading exercises from JSON:", error);
