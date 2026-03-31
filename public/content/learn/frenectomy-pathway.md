@@ -17,3 +17,5 @@ Before your tongue tie release:
 - Nasal blockages/allergies/congestion needs to be manageable
 - Sleep apnea needs to be controlled
 - An up to date sleep study needs to be done
+
+Readiness goals will be discussed in more detail at your consultation at Vedder Dental Clinic.

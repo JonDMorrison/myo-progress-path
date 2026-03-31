@@ -25,7 +25,8 @@
         "compensations": [
           "Watch in the mirror to prevent neck engagement, jaw protrusion and jaw lateralization. Use bite block to avoid"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143169656"
+        "demo_video_url": "https://player.vimeo.com/video/1143169656",
+        "modified_video_url": "https://player.vimeo.com/video/1143169656"
       },
       {
         "name": "Brushing",
@@ -55,7 +56,8 @@
           "Watch in the mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
           "Scan for head/neck/facial/body tension and try to ease"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179366"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "modified_video_url": "https://player.vimeo.com/video/1143178715"
       },
       {
         "name": "BOLT Test",
@@ -160,7 +162,8 @@
         "compensations": [
           "Watch in the mirror to prevent neck engagement, jaw protrusion and jaw lateralization. Use bite block to avoid"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143169656"
+        "demo_video_url": "https://player.vimeo.com/video/1143169656",
+        "modified_video_url": "https://player.vimeo.com/video/1143169656"
       },
       {
         "name": "Brushing",
@@ -190,7 +193,8 @@
           "Watch in the mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
           "Scan for head/neck/facial/body tension and try to ease"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179366"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "modified_video_url": "https://player.vimeo.com/video/1143178715"
       },
       {
         "name": "BOLT Test",
@@ -311,7 +315,8 @@
           "Watch in mirror for jaw lateralization and jaw protrusion -- use bite block to avoid",
           "Continue with nasal breathing (Consider doing the unblocking your nose exercises first)"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143178491"
+        "demo_video_url": "https://player.vimeo.com/video/1143178491",
+        "modified_video_url": "https://player.vimeo.com/video/1143178432"
       },
       {
         "name": "Cheek Puffs",
@@ -435,7 +440,8 @@
           "Watch in mirror for jaw lateralization and jaw protrusion -- use bite block to avoid",
           "Continue with nasal breathing (Consider doing the unblocking your nose exercises first)"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143178491"
+        "demo_video_url": "https://player.vimeo.com/video/1143178491",
+        "modified_video_url": "https://player.vimeo.com/video/1143178432"
       },
       {
         "name": "Cheek Puffs",
@@ -799,7 +805,8 @@
           "Watch in mirror for jaw lateralization and jaw protrusion - use bite block to avoid",
           "Scan for head/neck/facial/body tension and try to ease"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179366"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "modified_video_url": "https://player.vimeo.com/video/1143178715"
       },
       {
         "name": "Lingual Palatal Suction",
@@ -944,7 +951,8 @@
           "Watch in mirror for jaw lateralization and jaw protrusion - use bite block to avoid",
           "Scan for head/neck/facial/body tension and try to ease"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179366"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "modified_video_url": "https://player.vimeo.com/video/1143178715"
       },
       {
         "name": "Lingual Palatal Suction",
@@ -1106,7 +1114,8 @@
           "Watch in mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
           "Scan for head/neck/facial/body tension and try to ease"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179366"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "modified_video_url": "https://player.vimeo.com/video/1143178715"
       },
       {
         "name": "Floor of Mouth Massage (Days 4-7)",
@@ -1223,7 +1232,8 @@
         "props": [],
         "description": "See exercise notes above.",
         "compensations": [],
-        "demo_video_url": "https://player.vimeo.com/video/1143179366"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "modified_video_url": "https://player.vimeo.com/video/1143178715"
       },
       {
         "name": "Mouth Taping (Daytime)",
@@ -1738,7 +1748,8 @@
       "bolt_score": true
     },
     "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_last": true,
+    "progress_benchmark": "Are you on track with progress here? You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 14,
@@ -1878,7 +1889,8 @@
       "bolt_score": true
     },
     "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_last": true,
+    "progress_benchmark": "Are you on track with progress here? You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 15,
@@ -2019,7 +2031,8 @@
       "bolt_score": false
     },
     "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_last": true,
+    "progress_benchmark": "Are you on track with progress here? You should expect 60+% improvement or 60+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 16,
@@ -2160,7 +2173,8 @@
       "bolt_score": false
     },
     "requires_video_first": true,
-    "requires_video_last": true
+    "requires_video_last": true,
+    "progress_benchmark": "Are you on track with progress here? You should expect 60+% improvement or 60+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 17,
@@ -2205,7 +2219,7 @@
           "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
           "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179799"
+        "demo_video_url": ""
       },
       {
         "name": "Horse Lips",
@@ -2346,7 +2360,7 @@
           "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
           "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179799"
+        "demo_video_url": ""
       },
       {
         "name": "Horse Lips",
@@ -2583,7 +2597,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 75%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 75+% improvement or 75+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 20,
@@ -2724,7 +2738,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 75%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 75+% improvement or 75+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 21,
@@ -2877,7 +2891,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 85%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 85+% improvement or 85+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 22,
@@ -3030,7 +3044,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 85%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 85+% improvement or 85+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 23,
@@ -3344,7 +3358,8 @@
         "compensations": [
           "Watch in the mirror to prevent neck engagement, jaw protrusion and jaw lateralization. Use bite block to avoid"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143169656"
+        "demo_video_url": "https://player.vimeo.com/video/1143169656",
+        "modified_video_url": "https://player.vimeo.com/video/1143169656"
       },
       {
         "name": "Brushing",
@@ -3374,7 +3389,8 @@
           "Watch in the mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
           "Scan for head/neck/facial/body tension and try to ease"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179366"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "modified_video_url": "https://player.vimeo.com/video/1143178715"
       },
       {
         "name": "BOLT Test",
@@ -3474,7 +3490,8 @@
         "compensations": [
           "Watch in the mirror to prevent neck engagement, jaw protrusion and jaw lateralization. Use bite block to avoid"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143169656"
+        "demo_video_url": "https://player.vimeo.com/video/1143169656",
+        "modified_video_url": "https://player.vimeo.com/video/1143169656"
       },
       {
         "name": "Brushing",
@@ -3504,7 +3521,8 @@
           "Watch in the mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
           "Scan for head/neck/facial/body tension and try to ease"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179366"
+        "demo_video_url": "https://player.vimeo.com/video/1143179366",
+        "modified_video_url": "https://player.vimeo.com/video/1143178715"
       },
       {
         "name": "BOLT Test",
@@ -3620,7 +3638,8 @@
           "Watch in mirror for jaw lateralization and jaw protrusion -- use bite block to avoid",
           "Continue with nasal breathing (Consider doing the unblocking your nose exercises first)"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143178491"
+        "demo_video_url": "https://player.vimeo.com/video/1143178491",
+        "modified_video_url": "https://player.vimeo.com/video/1143178432"
       },
       {
         "name": "Cheek Puffs",
@@ -3744,7 +3763,8 @@
           "Watch in mirror for jaw lateralization and jaw protrusion -- use bite block to avoid",
           "Continue with nasal breathing (Consider doing the unblocking your nose exercises first)"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143178491"
+        "demo_video_url": "https://player.vimeo.com/video/1143178491",
+        "modified_video_url": "https://player.vimeo.com/video/1143178432"
       },
       {
         "name": "Cheek Puffs",
@@ -3854,7 +3874,8 @@
           "When the mouth is open, try to control for facial grimace (rounding of lips).",
           "Check and prevent muscle bracing."
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143178383"
+        "demo_video_url": "https://player.vimeo.com/video/1143178383",
+        "modified_video_url": "https://player.vimeo.com/video/1143178321"
       },
       {
         "name": "K Sounds (Kuh, Guh, Unk)",
@@ -3870,7 +3891,8 @@
           "Control facial grimace (lips rounding)",
           "Control neck engagement"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143171157"
+        "demo_video_url": "https://player.vimeo.com/video/1143171157",
+        "modified_video_url": "https://player.vimeo.com/video/1143171365"
       },
       {
         "name": "Lip Trace",
@@ -3979,7 +4001,8 @@
           "When the mouth is open, try to control for facial grimace (rounding of lips).",
           "Check and prevent muscle bracing."
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143178383"
+        "demo_video_url": "https://player.vimeo.com/video/1143178383",
+        "modified_video_url": "https://player.vimeo.com/video/1143178321"
       },
       {
         "name": "K Sounds (Kuh, Guh, Unk)",
@@ -3995,7 +4018,8 @@
           "Control facial grimace (lips rounding)",
           "Control neck engagement"
         ],
-        "demo_video_url": "https://player.vimeo.com/video/1143171157"
+        "demo_video_url": "https://player.vimeo.com/video/1143171157",
+        "modified_video_url": "https://player.vimeo.com/video/1143171365"
       },
       {
         "name": "Lip Trace",

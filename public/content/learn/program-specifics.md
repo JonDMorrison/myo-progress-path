@@ -8,7 +8,7 @@ Each set of exercises will typically follow a similar format: each day there wil
 
 **Passive exercises** require less focus and can be done during another activity.
 
-**Breathing exercises** help develop the necessary nasal breathing habits needed.
+**Breathing and Posture exercises** help develop the necessary nasal breathing and postural habits needed.
 
 ## Supporting Materials
 

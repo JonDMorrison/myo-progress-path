@@ -10,7 +10,7 @@
   - Heartburn
   - Bloating
   - Difficulty chewing
-- Larynopharyngeal Reflex: Constant throat clearing, postal nasal drip, feeling a lump in the throat
+- Laryngopharyngeal Reflux: Constant throat clearing, postnasal drip, feeling a lump in the throat
 - Lowered immune function
   - Nasal breathing allows for filtration of air
 - Heart Disease

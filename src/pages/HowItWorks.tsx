@@ -110,7 +110,7 @@ const HowItWorks = () => {
                 <FeatureCard
                   icon={MessageSquare}
                   title="Direct Communication"
-                  description="Message your therapist anytime with questions or concerns. Get answers without waiting for your next appointment."
+                  description="Message your therapist anytime with questions or concerns (Program Dependant). Get answers without waiting for your next appointment."
                 />
                 <FeatureCard
                   icon={CheckCircle}
