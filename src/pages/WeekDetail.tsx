@@ -270,7 +270,7 @@ const WeekDetail = () => {
             .from("exercises")
             .select("*")
             .eq("week_id", weekData.id)
-            .order("title");
+            .order("order_index");
           setExercises(exercisesData || []);
         }
       } catch (error) {
