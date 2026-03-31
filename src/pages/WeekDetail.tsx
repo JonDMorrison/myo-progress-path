@@ -195,10 +195,11 @@ const WeekDetail = () => {
         const programData = await response.json(); // flat array, not { weeks: [] }
 
         // Find entries matching this week number for both weeks in the module
-        // weekData.number is the week number from Supabase weeks table
+        // JSON uses 'frenectomy' and 'standard' — map variant accordingly
+        const jsonVariant = isFrenectomyVariant(variant) ? 'frenectomy' : 'standard';
         const weekEntries = programData.filter(
           (entry: any) => entry.week === weekData.number &&
-          entry.program_variant === (variant || 'frenectomy')
+          entry.program_variant === jsonVariant
         );
 
         const weekEntry = weekEntries[0];
