@@ -1074,7 +1074,7 @@
     "module": 5,
     "title": "Module 5 (Post-Frenectomy)",
     "program_variant": "frenectomy",
-    "introduction": "Follow your post-operative protocol carefully to ensure proper healing and prevent reattachment.",
+    "introduction": "Follow your post-operative protocol carefully to ensure proper healing and prevent reattachment.\n\nYour next myofunctional therapy session should be scheduled 1 week after release to check wound healing, tongue mobility, and adjust exercises if ready.\n\nYour active participation is important to the post-operative success of treatment. It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.\n\nIf you have concerns during the healing period, you can call or text Dr. Caylor at 778-908-7158",
     "objectives": [
       "Follow all post-operative protocol",
       "Continue with recommended exercises to prevent frenum reattachment",
@@ -1085,7 +1085,7 @@
         "name": "Days 1-3: Minimal Activity Protocol",
         "type": "protocol",
         "props": [],
-        "description": "- Minimal Activity to avoid sutures coming out\n- Try to talk and eat as normally as possible but avoid spicy, crunchy, sharp and acidic foods\n- Soft, cold foods are best\n- Gently lift tongue up and down, left and right\n- Floor of Mouth Massage",
+        "description": "Passive tongue exercises can be started right away: With the mouth comfortably open, gently reach your tongue up to touch the spot and move the tongue left and right to touch the inside of the cheeks.\n\n- Minimal Activity to avoid sutures coming out\n- Try to talk and eat as normally as possible but avoid spicy, crunchy, sharp and acidic foods\n- Soft, cold foods are best\n- Gently lift tongue up and down, left and right\n- Floor of Mouth Massage\n\nPain control: You should expect some mild swelling, pain, and/or discomfort as a normal process of wound healing. Pain is usually controlled with over-the-counter Advil and/or Tylenol. Symptoms usually self-resolve over the course of 1-2 weeks with proper rest and myofunctional therapy.\n\nWound care: It is recommended to lightly rinse with salt water several times a day to reduce the risk of infection. A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed — this is not required but is an option if additional pain control is needed.",
         "compensations": [],
         "demo_video_url": "",
         "requires_video": false
@@ -1098,7 +1098,7 @@
         "props": [
           "Bite Block or Chopstick"
         ],
-        "description": "Keep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use gentle suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate. If tongue is overflowing you can slowly open and close teeth together to help tongue squish inside the arch. Using the provided chopsticks to push the tongue inside of the arch can also help.",
+        "description": "Wound care: You can use a very soft toothbrush to gently brush excess granulation tissue off the sutures. Sutures will dissolve on their own within a week.\n\nOptional: A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed prior to exercises to make them more tolerable.\n\nKeep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use gentle suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate. If tongue is overflowing you can slowly open and close teeth together to help tongue squish inside the arch. Using the provided chopsticks to push the tongue inside of the arch can also help.",
         "compensations": [
           "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation -- use bite block to avoid"
         ],
@@ -1190,7 +1190,7 @@
     "module": 6,
     "title": "Module 6 (Post-Frenectomy)",
     "program_variant": "frenectomy",
-    "introduction": "Follow your post-operative protocol carefully to ensure proper healing and prevent reattachment.",
+    "introduction": "Follow your post-operative protocol carefully to ensure proper healing and prevent reattachment.\n\nYour next myofunctional therapy session should be scheduled 1 week after release to check wound healing, tongue mobility, and adjust exercises if ready.\n\nYour active participation is important to the post-operative success of treatment. It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.\n\nIf you have concerns during the healing period, you can call or text Dr. Caylor at 778-908-7158",
     "objectives": [
       "Follow all post-operative protocol",
       "Continue with recommended exercises to prevent frenum reattachment",
