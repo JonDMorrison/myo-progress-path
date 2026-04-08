@@ -243,7 +243,7 @@ const WeekDetail = () => {
                   demo_video_url: (match.demo_video_url && match.demo_video_url.includes('vimeo'))
                     ? match.demo_video_url
                     : ex.demo_video_url,
-                  modified_video_url: match.modified_video_url || null,
+                  modified_video_url: match.modified_video_url || ex.modified_video_url || null,
                 } : ex;
               }));
             }
