@@ -26,6 +26,7 @@
   - Sinus Lavage
   - Nasal Inhaler
   - Breathe Right Strips
+  - Butes
   - HEPA air filter
   - Eliminating allergens where possible
   - Practicing breathing exercises provided
