@@ -65,11 +65,11 @@ export default function LearnArticle() {
     return () => subscription.unsubscribe();
   }, [slug]);
 
-  // Non-frenectomy patients: programVariant is set but not a frenectomy variant
+  // Non-frenectomy patients: standard is the non-surgical pathway and should
+  // not see frenectomy-only content. Only true frenectomy variants are excluded.
   const isNonFrenectomyPatient = programVariant !== null &&
     programVariant !== 'frenectomy' &&
-    programVariant !== 'frenectomy_video' &&
-    programVariant !== 'standard';
+    programVariant !== 'frenectomy_video';
 
   // Article requires login
   const isRestricted = slug && RESTRICTED_ARTICLES.includes(slug);
