@@ -218,7 +218,7 @@ const WeekDetail = () => {
               ? ex.compensations.map((c: string) => `- ${c}`).join('\n')
               : ex.compensations || '',
             demo_video_url: ex.demo_video_url || null,
-            modified_video_url: null,
+            modified_video_url: ex.modified_video_url || null,
             order_index: index,
             week_id: weekData.id,
             completion_target: 1,
