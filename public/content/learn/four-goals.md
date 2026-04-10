@@ -54,7 +54,7 @@
 ![The Spot - where tongue should rest](/images/learn/the-spot.jpg)
 ![Vu and Hickey - Tongue Posture Diagram](/images/learn/vu-hickey.png)
 
-The whole tongue should suction to the palate. (See photo below)
+- The whole tongue should suction to the palate. (See photo below)
 
 - Proper tongue posture will block airflow through the mouth if open
 - Proper tongue posture allows all oxygen breathed through nose to enter lungs rather than filling the mouth first
