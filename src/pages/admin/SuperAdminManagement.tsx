@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -8,6 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Shield, Search, Users } from "lucide-react";
 import { AdminLayout } from "@/components/layout/AdminLayout";
+
+const OWNER_EMAIL = 'jon@getclear.ca';
 
 interface User {
   id: string;
@@ -18,12 +22,19 @@ interface User {
 }
 
 export default function SuperAdminManagement() {
+  const { user: authUser, isAuthReady } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [updating, setUpdating] = useState<string | null>(null);
   const { toast } = useToast();
-  // Auth + super_admin check handled by ProtectedRoute in App.tsx
+
+  // Owner-only gate — only jon@getclear.ca can access this page.
+  // ProtectedRoute already checks super_admin role, but this is an
+  // additional hard lock so other super_admins cannot promote/demote.
+  if (isAuthReady && authUser?.email !== OWNER_EMAIL) {
+    return <Navigate to="/therapist" replace />;
+  }
 
   useEffect(() => {
     loadUsers();
