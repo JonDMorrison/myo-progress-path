@@ -28,30 +28,73 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
     [patients]
   );
 
-  // Detect patients sharing the same name (case-insensitive) across ALL
-  // patients in the DB, not just the currently-visible page. We can't
-  // stop patients from creating duplicate accounts with different emails,
-  // but we can flag look-alikes so the therapist knows to investigate.
-  const [duplicateNames, setDuplicateNames] = useState<Set<string>>(new Set());
+  // Detect patients sharing the same name (case-insensitive). We'd prefer
+  // to check DB-wide so duplicates on page 2 still get flagged on page 1,
+  // but that requires an extra query with a cross-table join through the
+  // users FK — which can fail under RLS (e.g. super_admin accessing via
+  // the anon key) or if PostgREST can't resolve the relationship. If the
+  // DB-wide query fails for any reason we fall back to a page-scoped set
+  // so the table still renders — the warning indicator just becomes less
+  // comprehensive instead of the whole page crashing.
+  const pageScopedDuplicates = useMemo(() => {
+    const counts = new Map<string, number>();
+    patients.forEach(p => {
+      const key = (p.patient_name || '').trim().toLowerCase();
+      if (!key) return;
+      counts.set(key, (counts.get(key) || 0) + 1);
+    });
+    const dupes = new Set<string>();
+    counts.forEach((count, key) => {
+      if (count > 1) dupes.add(key);
+    });
+    return dupes;
+  }, [patients]);
+
+  const [duplicateNames, setDuplicateNames] = useState<Set<string>>(pageScopedDuplicates);
 
   useEffect(() => {
+    // Always start with the page-scoped set so the indicator is available
+    // immediately while the DB-wide fetch runs in the background.
+    setDuplicateNames(pageScopedDuplicates);
+
+    let cancelled = false;
     const loadDuplicates = async () => {
-      const { data } = await supabase
-        .from('patients')
-        .select('users!patients_user_id_fkey(name)');
-      if (!data) return;
-      const counts: Record<string, number> = {};
-      data.forEach((row: any) => {
-        const name = row.users?.name?.toLowerCase().trim();
-        if (!name) return;
-        counts[name] = (counts[name] || 0) + 1;
-      });
-      setDuplicateNames(
-        new Set(Object.entries(counts).filter(([, c]) => c > 1).map(([n]) => n))
-      );
+      try {
+        const { data, error } = await supabase
+          .from('patients')
+          .select('users!patients_user_id_fkey(name)');
+
+        if (error) {
+          console.warn(
+            'MasterPatientTable: DB-wide duplicate-name query failed, falling back to page-scoped detection.',
+            error
+          );
+          return;
+        }
+        if (cancelled || !data) return;
+
+        const counts: Record<string, number> = {};
+        data.forEach((row: any) => {
+          const name = row.users?.name?.toLowerCase().trim();
+          if (!name) return;
+          counts[name] = (counts[name] || 0) + 1;
+        });
+        setDuplicateNames(
+          new Set(Object.entries(counts).filter(([, c]) => c > 1).map(([n]) => n))
+        );
+      } catch (err) {
+        console.warn(
+          'MasterPatientTable: DB-wide duplicate-name query threw, falling back to page-scoped detection.',
+          err
+        );
+      }
     };
     loadDuplicates();
-  }, [patients.length]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [patients.length, pageScopedDuplicates]);
 
   const isDuplicate = (name: string | null | undefined) =>
     !!name && duplicateNames.has(name.trim().toLowerCase());

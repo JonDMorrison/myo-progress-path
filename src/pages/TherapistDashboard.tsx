@@ -102,19 +102,36 @@ const TherapistDashboard = () => {
 
     // Keep the unassigned banner + inbox fresh when an admin assigns or
     // reassigns patients from the Master Patient List in another tab.
-    const channel = supabase
-      .channel('therapist-dashboard-patient-assignments')
-      .on(
-        'postgres_changes',
-        { event: 'UPDATE', schema: 'public', table: 'patients' },
-        () => {
-          loadInboxData();
-        }
-      )
-      .subscribe();
+    // Wrapped in try/catch so a realtime failure (bad websocket, missing
+    // publication, etc.) never prevents the initial data load from
+    // rendering.
+    let channel: ReturnType<typeof supabase.channel> | null = null;
+    try {
+      channel = supabase
+        .channel('therapist-dashboard-patient-assignments')
+        .on(
+          'postgres_changes',
+          { event: 'UPDATE', schema: 'public', table: 'patients' },
+          () => {
+            loadInboxData();
+          }
+        )
+        .subscribe();
+    } catch (err) {
+      console.warn(
+        "TherapistDashboard: failed to subscribe to patient assignment updates.",
+        err
+      );
+    }
 
     return () => {
-      supabase.removeChannel(channel);
+      if (channel) {
+        try {
+          supabase.removeChannel(channel);
+        } catch (err) {
+          console.warn("TherapistDashboard: failed to remove realtime channel.", err);
+        }
+      }
     };
   }, [isReady, authUser?.id, isStaff, location.hash]);
 
@@ -172,12 +189,24 @@ const TherapistDashboard = () => {
 
       // Count how many distinct patients (across the whole DB) have no therapist assigned.
       // Use a count query instead of relying on the reviews list since a patient may have
-      // no submissions yet but still need assignment.
-      const { count: unassignedCount } = await supabase
-        .from("patients")
-        .select("id", { count: "exact", head: true })
-        .is("assigned_therapist_id", null);
-      setUnassignedPatientCount(unassignedCount || 0);
+      // no submissions yet but still need assignment. Wrapped in its own
+      // try/catch so a failure here (e.g. RLS blocks the count for a
+      // regular therapist) just hides the banner instead of breaking the
+      // whole inbox load.
+      try {
+        const { count: unassignedCount, error: unassignedError } = await supabase
+          .from("patients")
+          .select("id", { count: "exact", head: true })
+          .is("assigned_therapist_id", null);
+        if (unassignedError) throw unassignedError;
+        setUnassignedPatientCount(unassignedCount || 0);
+      } catch (err) {
+        console.warn(
+          "TherapistDashboard: unassigned-patient count query failed, banner will be hidden.",
+          err
+        );
+        setUnassignedPatientCount(0);
+      }
 
       // Batch fetch uploads and messages
       const patientIds = [...new Set(filteredData.map((r: any) => r.patient_id))];
@@ -187,16 +216,26 @@ const TherapistDashboard = () => {
       // in needs_more status. This powers the RED triage rule for patients
       // stuck in a feedback loop. (Previously hardcoded to 0 which meant
       // the RED-on-repeated-needs-more path never fired.)
+      // Wrapped in its own try/catch so a failure here degrades triage
+      // accuracy but does not prevent the inbox from loading.
       const needsMoreCount: Record<string, number> = {};
       if (patientIds.length > 0) {
-        const { data: needsMoreData } = await supabase
-          .from("patient_week_progress")
-          .select("patient_id, status")
-          .eq("status", "needs_more")
-          .in("patient_id", patientIds);
-        needsMoreData?.forEach((row: any) => {
-          needsMoreCount[row.patient_id] = (needsMoreCount[row.patient_id] || 0) + 1;
-        });
+        try {
+          const { data: needsMoreData, error: needsMoreError } = await supabase
+            .from("patient_week_progress")
+            .select("patient_id, status")
+            .eq("status", "needs_more")
+            .in("patient_id", patientIds);
+          if (needsMoreError) throw needsMoreError;
+          needsMoreData?.forEach((row: any) => {
+            needsMoreCount[row.patient_id] = (needsMoreCount[row.patient_id] || 0) + 1;
+          });
+        } catch (err) {
+          console.warn(
+            "TherapistDashboard: needs_more triage count query failed, triage will default to 0 for this load.",
+            err
+          );
+        }
       }
 
       // Avoid querying with empty arrays (causes Supabase to hang)
