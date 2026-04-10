@@ -11,7 +11,7 @@ interface BadgeShowcaseProps {
 }
 
 export function BadgeShowcase({ patientId }: BadgeShowcaseProps) {
-  const [badges, setBadges] = useState<any[]>([]);
+  const [earnedBadges, setEarnedBadges] = useState<any[]>([]);
   const [allBadges, setAllBadges] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,21 +21,23 @@ export function BadgeShowcase({ patientId }: BadgeShowcaseProps) {
 
   const loadBadges = async () => {
     try {
-      // Get earned badges
-      const { data: earned } = await supabase
-        .from('earned_badges')
-        .select('*, badge:badges(*)')
-        .eq('patient_id', patientId)
-        .order('earned_at', { ascending: false });
+      // Fetch earned badges and all badges separately to avoid FK join
+      // issues — the badge:badges(*) join silently returns empty if the
+      // FK relationship can't be resolved by PostgREST.
+      const [earnedResult, allResult] = await Promise.all([
+        supabase
+          .from('earned_badges')
+          .select('badge_key, earned_at')
+          .eq('patient_id', patientId)
+          .order('earned_at', { ascending: false }),
+        supabase
+          .from('badges')
+          .select('*')
+          .order('key'),
+      ]);
 
-      // Get all available badges
-      const { data: all } = await supabase
-        .from('badges')
-        .select('*')
-        .order('key');
-
-      setBadges(earned || []);
-      setAllBadges(all || []);
+      setEarnedBadges(earnedResult.data || []);
+      setAllBadges(allResult.data || []);
     } catch (error) {
       console.error('Error loading badges:', error);
     } finally {
@@ -56,21 +58,24 @@ export function BadgeShowcase({ patientId }: BadgeShowcaseProps) {
     );
   }
 
-  const earnedKeys = new Set(badges.map(b => b.badge_key));
+  const earnedKeys = new Set(earnedBadges.map(b => b.badge_key));
+
+  // Helper to look up badge info from the allBadges list
+  const getBadgeInfo = (key: string) => allBadges.find(b => b.key === key);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Badges</CardTitle>
         <CardDescription>
-          {badges.length} of {allBadges.length || 10} earned
+          {earnedBadges.length} of {allBadges.length || 10} earned
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
           {allBadges.map(badge => {
             const earned = earnedKeys.has(badge.key);
-            const earnedBadge = badges.find(b => b.badge_key === badge.key);
+            const earnedEntry = earnedBadges.find(b => b.badge_key === badge.key);
 
             return (
               <TooltipProvider key={badge.key}>
@@ -93,9 +98,9 @@ export function BadgeShowcase({ patientId }: BadgeShowcaseProps) {
                       <div className="text-sm text-muted-foreground">
                         {badge.description}
                       </div>
-                      {earned && earnedBadge && (
+                      {earned && earnedEntry && (
                         <div className="text-xs mt-2">
-                          Earned {format(new Date(earnedBadge.earned_at), 'MMM d, yyyy')}
+                          Earned {format(new Date(earnedEntry.earned_at), 'MMM d, yyyy')}
                         </div>
                       )}
                       {!earned && (
@@ -112,24 +117,27 @@ export function BadgeShowcase({ patientId }: BadgeShowcaseProps) {
         </div>
 
         {/* Recent badges */}
-        {badges.length > 0 && (
+        {earnedBadges.length > 0 && (
           <div className="mt-6">
             <h4 className="text-sm font-medium mb-3">Recently Earned</h4>
             <div className="space-y-2">
-              {badges.slice(0, 3).map(b => (
-                <div
-                  key={b.id}
-                  className="flex items-center gap-3 p-2 rounded-lg bg-muted/50"
-                >
-                  <div className="text-2xl">{b.badge.icon}</div>
-                  <div className="flex-1">
-                    <div className="font-medium">{b.badge.name}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {formatDistanceToNow(new Date(b.earned_at), { addSuffix: true })}
+              {earnedBadges.slice(0, 3).map(eb => {
+                const info = getBadgeInfo(eb.badge_key);
+                return (
+                  <div
+                    key={eb.badge_key}
+                    className="flex items-center gap-3 p-2 rounded-lg bg-muted/50"
+                  >
+                    <div className="text-2xl">{info?.icon || '🏅'}</div>
+                    <div className="flex-1">
+                      <div className="font-medium">{info?.name || eb.badge_key}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {formatDistanceToNow(new Date(eb.earned_at), { addSuffix: true })}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
