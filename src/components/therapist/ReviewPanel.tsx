@@ -143,12 +143,24 @@ const ReviewPanel = ({
         setIsAdmin(userData?.role === "admin" || userData?.role === "super_admin");
       }
 
-      // Load uploads
+      // Load uploads from BOTH weeks of the module so Sam sees all videos.
+      // Patients may upload to Part One, Part Two, or both — we don't want
+      // any of them to be invisible just because the therapist clicked the
+      // other week's card.
+      const partnerNum = weekNumber % 2 === 1 ? weekNumber + 1 : weekNumber - 1;
+      const { data: partnerWeek } = await supabase
+        .from("weeks")
+        .select("id")
+        .eq("number", partnerNum)
+        .maybeSingle();
+
+      const weekIdsToQuery = [weekId, partnerWeek?.id].filter(Boolean) as string[];
+
       const { data: uploadsData } = await supabase
         .from("uploads")
         .select("id, file_url, kind, created_at, ai_feedback, ai_feedback_status")
         .eq("patient_id", patientId)
-        .eq("week_id", weekId)
+        .in("week_id", weekIdsToQuery)
         .order("kind", { ascending: true });
 
       setUploads(uploadsData || []);
