@@ -197,10 +197,7 @@ const PatientDashboard = () => {
           .order("created_at", { ascending: false })
           .limit(10);
 
-        // Filter out test messages so patients don't see development debris
-        setMessages(
-          (messagesData || []).filter((msg: any) => !msg.body?.toLowerCase().includes('test'))
-        );
+        setMessages(messagesData || []);
       }
     } catch (error: any) {
       console.error("Error loading patient data:", error);
