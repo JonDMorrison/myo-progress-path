@@ -197,7 +197,10 @@ const PatientDashboard = () => {
           .order("created_at", { ascending: false })
           .limit(10);
 
-        setMessages(messagesData || []);
+        // Filter out test messages so patients don't see development debris
+        setMessages(
+          (messagesData || []).filter((msg: any) => !msg.body?.toLowerCase().includes('test'))
+        );
       }
     } catch (error: any) {
       console.error("Error loading patient data:", error);
@@ -381,6 +384,21 @@ const PatientDashboard = () => {
 
                   {/* Upcoming Modules Preview */}
                   {(() => {
+                    const moduleDescriptions: Record<number, string> = {
+                      1: "Foundation building — clicks, tongue trace, BOLT test and elastic hold",
+                      2: "Strengthening — tongue points, tongue in cheek, K sounds and brushing",
+                      3: "Coordination — lip trace, 4-7-8 breathing and cheek resistance",
+                      4: "Swallowing — perfect bowl, lip pops, teeth trace and over breathing",
+                      5: "Integration — pickle tongue, smile swallows, button pulls and mouth taping",
+                      6: "Consolidation — nasal breathing, swallowing patterns and posture",
+                      7: "Mid-program review — building on all foundations so far",
+                      8: "Advanced exercises — increasing difficulty and duration",
+                      9: "Habit formation — exercises becoming automatic",
+                      10: "Self study — independent practice with check-in",
+                      11: "Refinement — fine-tuning technique",
+                      12: "Final push — 85%+ consistency targets",
+                      13: "Maintenance — long-term habit review",
+                    };
                     const variant = patient?.program_variant || 'frenectomy';
                     const currentModule = getModuleInfo(currentWeek.number, variant).moduleNumber;
                     const upcoming: { moduleNumber: number; label: string; weekRange: [number, number] }[] = [];
@@ -406,7 +424,10 @@ const PatientDashboard = () => {
                               </div>
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm font-bold text-slate-600">{m.label}</p>
-                                <p className="text-xs text-slate-400 mt-0.5">Weeks {m.weekRange[0]}–{m.weekRange[1]} — Locked</p>
+                                {moduleDescriptions[m.moduleNumber] && (
+                                  <p className="text-xs text-slate-500 mt-0.5">{moduleDescriptions[m.moduleNumber]}</p>
+                                )}
+                                <p className="text-xs text-slate-400 mt-0.5">Weeks {m.weekRange[0]}–{m.weekRange[1]}</p>
                               </div>
                             </div>
                           ))}

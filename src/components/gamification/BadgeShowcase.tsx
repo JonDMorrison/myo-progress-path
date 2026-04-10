@@ -63,7 +63,7 @@ export function BadgeShowcase({ patientId }: BadgeShowcaseProps) {
       <CardHeader>
         <CardTitle>Badges</CardTitle>
         <CardDescription>
-          {badges.length} of {allBadges.length} earned
+          {badges.length} of {allBadges.length || 10} earned
         </CardDescription>
       </CardHeader>
       <CardContent>

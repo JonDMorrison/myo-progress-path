@@ -109,7 +109,7 @@ export function StreakBadge({ patientId }: StreakBadgeProps) {
             </div>
             <div>
               <p className="text-2xl font-bold text-foreground">{currentStreak}</p>
-              <p className="text-sm text-muted-foreground">Day Streak</p>
+              <p className="text-sm text-muted-foreground">Day Streak {currentStreak > 0 ? '🔥' : ''}</p>
             </div>
           </div>
           {longestStreak > currentStreak && (
@@ -162,12 +162,20 @@ export function StreakBadge({ patientId }: StreakBadgeProps) {
         {/* Milestone Hints */}
         {currentStreak > 0 && currentStreak < 7 && (
           <p className="text-xs text-muted-foreground text-center pt-2 border-t">
-            🎯 Keep going! {7 - currentStreak} more days to earn your first badge
+            {badges.length > 0 || points > 0
+              ? `🔥 Great start! Keep up your daily practice to earn streak badges.`
+              : `🎯 Keep going! ${7 - currentStreak} more day${7 - currentStreak === 1 ? '' : 's'} to earn your first streak badge.`
+            }
+          </p>
+        )}
+        {currentStreak === 0 && (points > 0 || badges.length > 0) && (
+          <p className="text-xs text-muted-foreground text-center pt-2 border-t">
+            💪 Practice today to restart your streak!
           </p>
         )}
         {currentStreak >= 7 && currentStreak < 14 && (
           <p className="text-xs text-muted-foreground text-center pt-2 border-t">
-            🔥 Amazing! {14 - currentStreak} more days to the next milestone
+            🔥 Amazing! {14 - currentStreak} more day{14 - currentStreak === 1 ? '' : 's'} to the next milestone
           </p>
         )}
       </CardContent>
