@@ -782,10 +782,14 @@ const WeekDetail = () => {
                   )}
                 </div>
 
-                {/* Progress Vitals Form - Only render when progress record exists (not for therapist preview) */}
+                {/* Progress Vitals Form - Only render when progress record exists (not for therapist preview).
+                    key={progress.id} forces a full remount when the patient navigates between weeks,
+                    so useWeekForm re-initialises from the new progress row's values instead of showing
+                    stale Part One vitals on Part Two. */}
                 {progress && (
                   <Section delay={400}>
                     <WeekProgressForm
+                      key={progress.id}
                       progress={progress}
                       week={week}
                       readOnly={isReadOnly}

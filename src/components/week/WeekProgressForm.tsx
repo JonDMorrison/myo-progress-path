@@ -64,8 +64,13 @@ export function WeekProgressForm({ progress, week, readOnly = false, onUpdate }:
           <Card className="rounded-[2.5rem] border-none shadow-premium bg-white group hover:shadow-2xl transition-all duration-500">
             <CardContent className="p-8 space-y-6">
               <div className="flex items-center justify-between">
-                <div className="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-500">
-                  <Activity className="w-6 h-6" />
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-500">
+                    <Activity className="w-6 h-6" />
+                  </div>
+                  {!readOnly && !formData.boltScore && (
+                    <span className="text-xs font-bold text-amber-500 uppercase tracking-wide">Required</span>
+                  )}
                 </div>
                 <HoverCard>
                   <HoverCardTrigger>
@@ -107,8 +112,13 @@ export function WeekProgressForm({ progress, week, readOnly = false, onUpdate }:
         <Card className="rounded-[2.5rem] border-none shadow-premium bg-white group hover:shadow-2xl transition-all duration-500">
           <CardContent className="p-8 space-y-6">
             <div className="flex items-center justify-between">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-500">
-                <Wind className="w-6 h-6" />
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-500">
+                  <Wind className="w-6 h-6" />
+                </div>
+                {!readOnly && !formData.nasalPct && (
+                  <span className="text-xs font-bold text-amber-500 uppercase tracking-wide">Required</span>
+                )}
               </div>
               <HoverCard>
                 <HoverCardTrigger>
@@ -149,8 +159,13 @@ export function WeekProgressForm({ progress, week, readOnly = false, onUpdate }:
         <Card className="rounded-[2.5rem] border-none shadow-premium bg-white group hover:shadow-2xl transition-all duration-500">
           <CardContent className="p-8 space-y-6">
             <div className="flex items-center justify-between">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-500">
-                <Target className="w-6 h-6" />
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-500">
+                  <Target className="w-6 h-6" />
+                </div>
+                {!readOnly && !formData.tonguePct && (
+                  <span className="text-xs font-bold text-amber-500 uppercase tracking-wide">Required</span>
+                )}
               </div>
               <HoverCard>
                 <HoverCardTrigger>
