@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Video, MessageSquare, CheckCircle, Loader } from "lucide-react";
+import { Video, MessageSquare, CheckCircle, Loader, UserX } from "lucide-react";
 import { 
   calculateTriageLevel, 
   getTriageBorderClass, 
@@ -25,6 +25,7 @@ interface ReviewCardProps {
   consecutiveNeedsMore: number;
   videoCount: number;
   messageCount: number;
+  isUnassigned?: boolean;
   uploads?: { ai_feedback?: any; ai_feedback_status?: string | null }[]; // Kept for API compatibility
   onReview?: (progressId: string, patientId: string, weekNumber: number, weekId: string) => void;
   onApprove?: (progressId: string) => void;
@@ -50,6 +51,7 @@ const ReviewCard = ({
   consecutiveNeedsMore,
   videoCount,
   messageCount,
+  isUnassigned,
   uploads = [],
   onReview,
   onApprove,
@@ -102,10 +104,22 @@ const ReviewCard = ({
             
             {/* Badges row */}
             <div className="flex flex-wrap items-center gap-2 mb-3">
+              {/* Unassigned badge — flags submissions from patients with no therapist */}
+              {isUnassigned && (
+                <Badge
+                  variant="outline"
+                  className="text-xs bg-destructive/10 text-destructive border-destructive/30"
+                  title="This patient has no assigned therapist — assign one from the Master Patient List."
+                >
+                  <UserX className="h-3 w-3 mr-1" />
+                  Unassigned
+                </Badge>
+              )}
+
               {/* Program variant badge */}
               <Badge variant="secondary" className="text-xs">
                 {isFrenectomyVariant(programVariant)
-                  ? 'Frenectomy' 
+                  ? 'Frenectomy'
                   : 'Non-Frenectomy'}
               </Badge>
               

@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Eye, Download } from "lucide-react";
+import { Eye, Download, AlertCircle, Users as UsersIcon } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { MasterPatientListItem } from "@/lib/masterAdmin";
 import { TherapistAssignmentSelect } from "./TherapistAssignmentSelect";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { toast } from "sonner";
 
 interface MasterPatientTableProps {
@@ -20,6 +21,32 @@ interface MasterPatientTableProps {
 export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPatientTableProps) => {
   const [videoFlags, setVideoFlags] = useState<Record<string, boolean>>({});
   const [pathways, setPathways] = useState<Record<string, string>>({});
+
+  // Unassigned patients — so admins can see at a glance how many need a therapist
+  const unassignedCount = useMemo(
+    () => patients.filter(p => !p.therapist_id).length,
+    [patients]
+  );
+
+  // Detect patients sharing the same name (case-insensitive). We can't stop
+  // patients from creating duplicate accounts with different emails, but we
+  // can flag look-alikes so the therapist knows to investigate.
+  const duplicateNames = useMemo(() => {
+    const counts = new Map<string, number>();
+    patients.forEach(p => {
+      const key = (p.patient_name || '').trim().toLowerCase();
+      if (!key) return;
+      counts.set(key, (counts.get(key) || 0) + 1);
+    });
+    const dupes = new Set<string>();
+    counts.forEach((count, key) => {
+      if (count > 1) dupes.add(key);
+    });
+    return dupes;
+  }, [patients]);
+
+  const isDuplicate = (name: string | null | undefined) =>
+    !!name && duplicateNames.has(name.trim().toLowerCase());
 
   // Load requires_video and program_variant for all patients
   useEffect(() => {
@@ -88,6 +115,19 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
 
   return (
     <div className="space-y-4">
+      {unassignedCount > 0 && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>
+            {unassignedCount} unassigned patient{unassignedCount === 1 ? '' : 's'}
+          </AlertTitle>
+          <AlertDescription>
+            Patients without a therapist still show up in Needs Review flagged as "Unassigned",
+            but they won't belong to any therapist's workload until you assign one below.
+          </AlertDescription>
+        </Alert>
+      )}
+
       <div className="flex justify-between items-center">
         <p className="text-sm text-muted-foreground">
           Showing {patients.length} patients
@@ -128,9 +168,29 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
               patients.map((patient) => (
                 <TableRow key={patient.patient_id}>
                   <TableCell>
-                    <div>
-                      <div className="font-medium">{patient.patient_name}</div>
-                      <div className="text-sm text-muted-foreground">{patient.patient_email}</div>
+                    <div className="flex items-start gap-2">
+                      {!patient.therapist_id && (
+                        <span
+                          className="mt-1.5 block h-2 w-2 shrink-0 rounded-full bg-destructive"
+                          title="No therapist assigned"
+                          aria-label="No therapist assigned"
+                        />
+                      )}
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5 font-medium">
+                          <span className="truncate">{patient.patient_name}</span>
+                          {isDuplicate(patient.patient_name) && (
+                            <span
+                              title="Possible duplicate account — another patient has the same name"
+                              aria-label="Possible duplicate account"
+                              className="inline-flex"
+                            >
+                              <UsersIcon className="h-3.5 w-3.5 shrink-0 text-warning" />
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-sm text-muted-foreground truncate">{patient.patient_email}</div>
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>{patient.clinic_name}</TableCell>
@@ -232,10 +292,30 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
         ) : (
           patients.map((patient) => (
             <div key={patient.patient_id} className="border rounded-xl p-4 space-y-3 bg-card hover:shadow-md transition-shadow">
-              <div className="flex items-start justify-between">
-                <div>
-                  <div className="font-medium">{patient.patient_name}</div>
-                  <div className="text-sm text-muted-foreground">{patient.patient_email}</div>
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-2 min-w-0">
+                  {!patient.therapist_id && (
+                    <span
+                      className="mt-1.5 block h-2 w-2 shrink-0 rounded-full bg-destructive"
+                      title="No therapist assigned"
+                      aria-label="No therapist assigned"
+                    />
+                  )}
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5 font-medium">
+                      <span className="truncate">{patient.patient_name}</span>
+                      {isDuplicate(patient.patient_name) && (
+                        <span
+                          title="Possible duplicate account — another patient has the same name"
+                          aria-label="Possible duplicate account"
+                          className="inline-flex"
+                        >
+                          <UsersIcon className="h-3.5 w-3.5 shrink-0 text-warning" />
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-sm text-muted-foreground truncate">{patient.patient_email}</div>
+                  </div>
                 </div>
                 <Badge variant={getStatusColor(patient.patient_status)}>
                   {patient.patient_status}

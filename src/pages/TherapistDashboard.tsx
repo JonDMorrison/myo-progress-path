@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Users, Inbox, CheckCircle2, History, Loader, Clock, AlertCircle, BookOpen, ChevronRight } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Users, Inbox, CheckCircle2, History, Loader, Clock, AlertCircle, AlertTriangle, BookOpen, ChevronRight } from "lucide-react";
 import { TherapistLayout } from "@/components/layout/TherapistLayout";
 import { useToast } from "@/hooks/use-toast";
 import ReviewCard from "@/components/therapist/ReviewCard";
@@ -25,6 +26,7 @@ interface ReviewItem {
   patient: {
     id: string;
     program_variant: string;
+    assigned_therapist_id: string | null;
     user: { name: string; email: string };
   };
   week: { number: number; title: string };
@@ -37,6 +39,7 @@ type FilterType = "all" | "red" | "yellow" | "waiting48h";
 
 const TherapistDashboard = () => {
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
+  const [unassignedPatientCount, setUnassignedPatientCount] = useState(0);
   const [patientMessages, setPatientMessages] = useState<any[]>([]);
   const [allWeeks, setAllWeeks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -131,6 +134,7 @@ const TherapistDashboard = () => {
           patient:patients!inner(
             id,
             program_variant,
+            assigned_therapist_id,
             user:users!patients_user_id_fkey(name, email)
           ),
           week:weeks!inner(number, title)
@@ -141,8 +145,22 @@ const TherapistDashboard = () => {
 
       if (error) throw error;
 
-      // Show all patients for now (assigned_therapist_id not in new schema)
-      let filteredData = progressData || [];
+      // Show submissions from patients assigned to this therapist AND unassigned patients.
+      // Unassigned patients would otherwise fall through the cracks — show them to everyone
+      // so submissions are never silently invisible. They appear with an "Unassigned" badge.
+      let filteredData = (progressData || []).filter((r: any) => {
+        const assigned = r.patient?.assigned_therapist_id;
+        return !assigned || assigned === user.id || authIsAdmin || authIsSuperAdmin;
+      });
+
+      // Count how many distinct patients (across the whole DB) have no therapist assigned.
+      // Use a count query instead of relying on the reviews list since a patient may have
+      // no submissions yet but still need assignment.
+      const { count: unassignedCount } = await supabase
+        .from("patients")
+        .select("id", { count: "exact", head: true })
+        .is("assigned_therapist_id", null);
+      setUnassignedPatientCount(unassignedCount || 0);
 
       // Batch fetch uploads and messages
       const patientIds = [...new Set(filteredData.map((r: any) => r.patient_id))];
@@ -438,6 +456,29 @@ const TherapistDashboard = () => {
   return (
     <TherapistLayout title={layoutTitle} description={layoutDescription}>
       <div className="max-w-4xl mx-auto">
+        {unassignedPatientCount > 0 && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>
+              {unassignedPatientCount} patient{unassignedPatientCount === 1 ? '' : 's'} without an assigned therapist
+            </AlertTitle>
+            <AlertDescription>
+              {isSuperAdmin || isAdmin ? (
+                <>
+                  Open the{' '}
+                  <a href="/admin/patients" className="underline font-medium">
+                    Master Patient List
+                  </a>{' '}
+                  to assign a therapist. Unassigned patients still appear in Needs Review flagged as "Unassigned".
+                </>
+              ) : (
+                <>
+                  These patients still appear in Needs Review flagged as "Unassigned". Ask an admin to assign them to a therapist.
+                </>
+              )}
+            </AlertDescription>
+          </Alert>
+        )}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-5 mb-4">
             <TabsTrigger value="needs-review">
@@ -483,6 +524,7 @@ const TherapistDashboard = () => {
                   consecutiveNeedsMore={review.consecutiveNeedsMore}
                   videoCount={review.uploads.length}
                   messageCount={review.messages.length}
+                  isUnassigned={!review.patient.assigned_therapist_id}
                   onReview={handleOpenReviewPanel}
                   onApprove={handleQuickApprove}
                   onSendNote={handleOpenNoteDialog}
@@ -515,6 +557,7 @@ const TherapistDashboard = () => {
                   consecutiveNeedsMore={review.consecutiveNeedsMore}
                   videoCount={review.uploads.length}
                   messageCount={review.messages.length}
+                  isUnassigned={!review.patient.assigned_therapist_id}
                   onReview={handleOpenReviewPanel}
                 />
               ))
