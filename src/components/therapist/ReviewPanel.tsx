@@ -25,6 +25,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import { moveToMaintenance } from "@/lib/maintenanceActions";
+import { getProgramTitle } from "@/lib/constants";
 import VideoPlayer from "./VideoPlayer";
 // AIReviewSummary removed - AI feedback disabled, therapist provides all feedback
 import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
@@ -147,11 +148,21 @@ const ReviewPanel = ({
       // Patients may upload to Part One, Part Two, or both — we don't want
       // any of them to be invisible just because the therapist clicked the
       // other week's card.
+      // Filter by the patient's program variant so maybeSingle returns
+      // exactly one row (each week number exists once per program).
+      const { data: patientData } = await supabase
+        .from("patients")
+        .select("program_variant")
+        .eq("id", patientId)
+        .single();
+
+      const programTitle = getProgramTitle(patientData?.program_variant || 'frenectomy');
       const partnerNum = weekNumber % 2 === 1 ? weekNumber + 1 : weekNumber - 1;
       const { data: partnerWeek } = await supabase
         .from("weeks")
-        .select("id")
+        .select("id, programs!inner(title)")
         .eq("number", partnerNum)
+        .eq("programs.title", programTitle)
         .maybeSingle();
 
       const weekIdsToQuery = [weekId, partnerWeek?.id].filter(Boolean) as string[];
