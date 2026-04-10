@@ -48,8 +48,6 @@ interface Upload {
   file_url: string;
   kind: string;
   created_at: string;
-  ai_feedback: any;
-  ai_feedback_status: string | null;
 }
 
 interface Exercise {
@@ -169,7 +167,7 @@ const ReviewPanel = ({
 
       const { data: uploadsData } = await supabase
         .from("uploads")
-        .select("id, file_url, kind, created_at, ai_feedback, ai_feedback_status")
+        .select("id, file_url, kind, created_at")
         .eq("patient_id", patientId)
         .in("week_id", weekIdsToQuery)
         .order("kind", { ascending: true });
