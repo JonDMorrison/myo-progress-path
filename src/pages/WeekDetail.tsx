@@ -3,10 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent } from "@/components/ui/card";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Section } from "@/components/ui/Section";
+import { Shield, ChevronDown } from "lucide-react";
 
 import { notifyTherapistSubmission } from "@/lib/notify";
 import { grantBadgeWithToast } from "@/lib/gamification";
@@ -55,6 +57,7 @@ const WeekDetail = () => {
   const [canSubmitState, setCanSubmitState] = useState(false);
   const [missingRequirements, setMissingRequirements] = useState<string[]>([]);
   const [isReadOnly, setIsReadOnly] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   useEffect(() => {
     if (canSubmitState && !loading) {
@@ -726,13 +729,28 @@ const WeekDetail = () => {
                   </Section>
                 )}
 
-                {/* Privacy & Data Manager - Important for user to be able to delete personal videos */}
+                {/* Privacy & Data Manager - collapsed by default */}
                 {patient?.id && week?.id && (
-                  <PrivacyManager
-                    patientId={patient.id}
-                    weekId={week.id}
-                    onUpdate={handleProgressUpdate}
-                  />
+                  <Collapsible open={privacyOpen} onOpenChange={setPrivacyOpen}>
+                    <CollapsibleTrigger className="w-full">
+                      <div className="flex items-center justify-between p-4 rounded-xl border bg-white hover:bg-slate-50 transition-colors cursor-pointer">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                            <Shield className="h-4 w-4 text-blue-500" />
+                          </div>
+                          <span className="text-sm font-semibold text-slate-700">Privacy & Data</span>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform duration-200 ${privacyOpen ? 'rotate-180' : ''}`} />
+                      </div>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <PrivacyManager
+                        patientId={patient.id}
+                        weekId={week.id}
+                        onUpdate={handleProgressUpdate}
+                      />
+                    </CollapsibleContent>
+                  </Collapsible>
                 )}
 
                 {/* Big Global Submit Bar - Only shown on last week of module */}
