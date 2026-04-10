@@ -362,12 +362,52 @@ const WeekDetail = () => {
     }
   };
 
+  // When the Supabase weeks table lookup fails, WeekDetail creates a
+  // synthetic week with id "json-week-N". That fake ID can't be used in
+  // the calc_week_progress RPC (the DB function needs a real UUID that
+  // appears in patient_week_progress). This helper resolves a synthetic
+  // ID back to the real UUID by querying the weeks table.
+  const resolveWeekId = async (rawWeekId: string): Promise<string> => {
+    if (!rawWeekId.startsWith('json-')) return rawWeekId;
+
+    const weekNum = parseInt(weekNumber || '1');
+    const programTitle = getProgramTitle(patient?.program_variant || 'frenectomy');
+
+    // Try with program filter first
+    const { data: matchedWeek } = await supabase
+      .from('weeks')
+      .select('id, programs!inner(title)')
+      .eq('number', weekNum)
+      .eq('programs.title', programTitle)
+      .maybeSingle();
+
+    if (matchedWeek) return matchedWeek.id;
+
+    // Fallback: number-only lookup
+    const { data: fallbackWeek } = await supabase
+      .from('weeks')
+      .select('id')
+      .eq('number', weekNum)
+      .maybeSingle();
+
+    if (fallbackWeek) return fallbackWeek.id;
+
+    // Nothing in the DB — return the original so the RPC at least gets
+    // called (it will return 0 / error, which is the current behaviour)
+    console.warn(`resolveWeekId: no real week row found for synthetic ${rawWeekId}`);
+    return rawWeekId;
+  };
+
   const checkCanSubmit = async (patientId: string, weekId: string, progressData: any) => {
     try {
+      const realWeekId = await resolveWeekId(weekId);
+
       const { data, error } = await supabase.rpc('calc_week_progress', {
         _patient_id: patientId,
-        _week_id: weekId
+        _week_id: realWeekId
       });
+
+      console.log('calc_week_progress result:', data, 'error:', error, 'week_id used:', realWeekId);
 
       if (error) {
         console.error('Progress calculation error:', error);
@@ -392,10 +432,14 @@ const WeekDetail = () => {
   const canSubmit = async () => {
     if (!patient || !week || !progress) return false;
 
+    const realWeekId = await resolveWeekId(week.id);
+
     const { data, error } = await supabase.rpc('calc_week_progress', {
       _patient_id: patient.id,
-      _week_id: week.id
+      _week_id: realWeekId
     });
+
+    console.log('canSubmit calc_week_progress result:', data, 'error:', error, 'week_id used:', realWeekId);
 
     if (error) {
       console.error('Progress calculation error:', error);
@@ -415,9 +459,10 @@ const WeekDetail = () => {
     try {
       const canSubmitNow = await canSubmit();
       if (!canSubmitNow) {
+        const realWeekId = await resolveWeekId(week.id);
         const { data } = await supabase.rpc('calc_week_progress', {
           _patient_id: patient.id,
-          _week_id: week.id
+          _week_id: realWeekId
         });
 
         const progressData = data as { missing: string[] };
