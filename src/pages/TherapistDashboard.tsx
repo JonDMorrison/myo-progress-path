@@ -29,7 +29,7 @@ interface ReviewItem {
     assigned_therapist_id: string | null;
     user: { name: string; email: string };
   };
-  week: { number: number; title: string };
+  week: { number: number; title: string } | null;
   uploads: { id: string; ai_feedback: any; ai_feedback_status: string | null }[];
   messages: { id: string }[];
   consecutiveNeedsMore: number;
@@ -99,6 +99,23 @@ const TherapistDashboard = () => {
     if (location.hash === '#curriculum') {
       setActiveTab('curriculum');
     }
+
+    // Keep the unassigned banner + inbox fresh when an admin assigns or
+    // reassigns patients from the Master Patient List in another tab.
+    const channel = supabase
+      .channel('therapist-dashboard-patient-assignments')
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'patients' },
+        () => {
+          loadInboxData();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [isReady, authUser?.id, isStaff, location.hash]);
 
   // Clear selection when changing tabs or filters
@@ -137,7 +154,7 @@ const TherapistDashboard = () => {
             assigned_therapist_id,
             user:users!patients_user_id_fkey(name, email)
           ),
-          week:weeks!inner(number, title)
+          week:weeks(number, title)
         `)
         .in("status", ["submitted", "needs_more", "approved"])
         .gte("completed_at", thirtyDaysAgo.toISOString())
@@ -165,6 +182,22 @@ const TherapistDashboard = () => {
       // Batch fetch uploads and messages
       const patientIds = [...new Set(filteredData.map((r: any) => r.patient_id))];
       const weekIds = [...new Set(filteredData.map((r: any) => r.week_id))];
+
+      // Count how many patient_week_progress rows per patient currently sit
+      // in needs_more status. This powers the RED triage rule for patients
+      // stuck in a feedback loop. (Previously hardcoded to 0 which meant
+      // the RED-on-repeated-needs-more path never fired.)
+      const needsMoreCount: Record<string, number> = {};
+      if (patientIds.length > 0) {
+        const { data: needsMoreData } = await supabase
+          .from("patient_week_progress")
+          .select("patient_id, status")
+          .eq("status", "needs_more")
+          .in("patient_id", patientIds);
+        needsMoreData?.forEach((row: any) => {
+          needsMoreCount[row.patient_id] = (needsMoreCount[row.patient_id] || 0) + 1;
+        });
+      }
 
       // Avoid querying with empty arrays (causes Supabase to hang)
       let allUploads: any[] = [];
@@ -214,7 +247,7 @@ const TherapistDashboard = () => {
           ...review,
           uploads: uploadsMap.get(key) || [],
           messages: messagesMap.get(key) || [],
-          consecutiveNeedsMore: 0,
+          consecutiveNeedsMore: needsMoreCount[review.patient_id] || 0,
         };
       });
 
@@ -362,6 +395,7 @@ const TherapistDashboard = () => {
 
     try {
       for (const review of toApprove) {
+        if (!review.week) continue; // can't approve a row whose week FK is broken
         const result = await approveWeek(review.id, review.patient.id, review.week.number, "");
         if (result.success) successCount++;
       }
@@ -385,6 +419,14 @@ const TherapistDashboard = () => {
   const handleQuickApprove = async (progressId: string) => {
     const review = reviews.find(r => r.id === progressId);
     if (!review) return;
+    if (!review.week) {
+      toast({
+        title: "Cannot approve",
+        description: "This submission has no linked week — check the database.",
+        variant: "destructive",
+      });
+      return;
+    }
     setApprovingId(progressId);
     try {
       const result = await approveWeek(progressId, review.patient.id, review.week.number, "");
@@ -404,7 +446,7 @@ const TherapistDashboard = () => {
   };
 
   const handleOpenNoteDialog = (patientId: string, weekNumber: number) => {
-    const review = reviews.find(r => r.patient.id === patientId && r.week.number === weekNumber);
+    const review = reviews.find(r => r.patient.id === patientId && r.week?.number === weekNumber);
     if (!review) return;
     setNoteDialog({ open: true, patientId, patientName: review.patient.user.name, weekNumber, weekId: review.week_id });
   };
@@ -509,32 +551,45 @@ const TherapistDashboard = () => {
                 <p className="text-lg font-medium">All caught up!</p>
               </div>
             ) : (
-              filteredReviews.map(review => (
-                <ReviewCard
-                  key={review.id}
-                  id={review.id}
-                  patientId={review.patient.id}
-                  patientName={review.patient.user.name}
-                  weekNumber={review.week.number}
-                  weekId={review.week_id}
-                  weekTitle={review.week.title}
-                  programVariant={review.patient.program_variant}
-                  submittedAt={review.completed_at}
-                  status={review.status}
-                  consecutiveNeedsMore={review.consecutiveNeedsMore}
-                  videoCount={review.uploads.length}
-                  messageCount={review.messages.length}
-                  isUnassigned={!review.patient.assigned_therapist_id}
-                  onReview={handleOpenReviewPanel}
-                  onApprove={handleQuickApprove}
-                  onSendNote={handleOpenNoteDialog}
-                  isApproving={approvingId === review.id}
-                  isExiting={exitingId === review.id}
-                  selectable={true}
-                  selected={selectedIds.has(review.id)}
-                  onSelect={handleToggleSelect}
-                />
-              ))
+              filteredReviews.map(review => {
+                if (!review.week) {
+                  // Left join returned null — surface it instead of silently dropping.
+                  return (
+                    <Card key={review.id} className="border-destructive/30 bg-destructive/5">
+                      <CardContent className="py-3 text-sm">
+                        <strong>{review.patient.user.name}</strong>: submission {review.id} has no
+                        linked week row (week_id {review.week_id}). Check the weeks table.
+                      </CardContent>
+                    </Card>
+                  );
+                }
+                return (
+                  <ReviewCard
+                    key={review.id}
+                    id={review.id}
+                    patientId={review.patient.id}
+                    patientName={review.patient.user.name}
+                    weekNumber={review.week.number}
+                    weekId={review.week_id}
+                    weekTitle={review.week.title}
+                    programVariant={review.patient.program_variant}
+                    submittedAt={review.completed_at}
+                    status={review.status}
+                    consecutiveNeedsMore={review.consecutiveNeedsMore}
+                    videoCount={review.uploads.length}
+                    messageCount={review.messages.length}
+                    isUnassigned={!review.patient.assigned_therapist_id}
+                    onReview={handleOpenReviewPanel}
+                    onApprove={handleQuickApprove}
+                    onSendNote={handleOpenNoteDialog}
+                    isApproving={approvingId === review.id}
+                    isExiting={exitingId === review.id}
+                    selectable={true}
+                    selected={selectedIds.has(review.id)}
+                    onSelect={handleToggleSelect}
+                  />
+                );
+              })
             )}
           </TabsContent>
 
@@ -542,47 +597,73 @@ const TherapistDashboard = () => {
             {loading ? loadingSpinner : reviews.filter(r => r.status === "approved").length === 0 ? (
               <p className="text-center py-16 text-muted-foreground">No approved weeks in last 30 days.</p>
             ) : (
-              reviews.filter(r => r.status === "approved").map(review => (
-                <ReviewCard
-                  key={review.id}
-                  id={review.id}
-                  patientId={review.patient.id}
-                  patientName={review.patient.user.name}
-                  weekNumber={review.week.number}
-                  weekId={review.week_id}
-                  weekTitle={review.week.title}
-                  programVariant={review.patient.program_variant}
-                  submittedAt={review.completed_at}
-                  status={review.status}
-                  consecutiveNeedsMore={review.consecutiveNeedsMore}
-                  videoCount={review.uploads.length}
-                  messageCount={review.messages.length}
-                  isUnassigned={!review.patient.assigned_therapist_id}
-                  onReview={handleOpenReviewPanel}
-                />
-              ))
+              reviews.filter(r => r.status === "approved").map(review => {
+                if (!review.week) return null;
+                return (
+                  <ReviewCard
+                    key={review.id}
+                    id={review.id}
+                    patientId={review.patient.id}
+                    patientName={review.patient.user.name}
+                    weekNumber={review.week.number}
+                    weekId={review.week_id}
+                    weekTitle={review.week.title}
+                    programVariant={review.patient.program_variant}
+                    submittedAt={review.completed_at}
+                    status={review.status}
+                    consecutiveNeedsMore={review.consecutiveNeedsMore}
+                    videoCount={review.uploads.length}
+                    messageCount={review.messages.length}
+                    isUnassigned={!review.patient.assigned_therapist_id}
+                    onReview={handleOpenReviewPanel}
+                  />
+                );
+              })
             )}
           </TabsContent>
 
           <TabsContent value="messages" className="space-y-3">
             {loading ? loadingSpinner : <div className="space-y-4">
               {patientMessages.length === 0 ? (
-                <p className="text-center py-16 text-muted-foreground italic">No messages from patients</p>
+                <p className="text-center py-16 text-muted-foreground italic">No messages</p>
               ) : (
                 patientMessages.map(msg => {
-                  const weekNumber = msg.week?.number || 1;
+                  const weekNumber = msg.week?.number;
                   const weekTitle = msg.week?.title || 'General';
+                  // The messages query pulls both inbound and outbound rows —
+                  // flag which direction this one is so therapists don't
+                  // confuse their own replies with a new patient message.
+                  const isSent = !!msg.therapist_id && msg.therapist_id === userId;
                   return (
-                    <Card key={msg.id} className="cursor-pointer hover:bg-slate-50 transition-all" onClick={() => navigate(`/review/${msg.patient?.id}/${weekNumber}`)}>
+                    <Card
+                      key={msg.id}
+                      className="cursor-pointer hover:bg-slate-50 transition-all"
+                      onClick={() => {
+                        if (!weekNumber) {
+                          toast({
+                            title: "Cannot open review",
+                            description: "This message has no associated week.",
+                            variant: "destructive",
+                          });
+                          return;
+                        }
+                        navigate(`/review/${msg.patient?.id}/${weekNumber}`);
+                      }}
+                    >
                       <CardContent className="p-4">
                         <div className="flex justify-between items-start">
                           <div>
                             <p className="font-bold">{msg.patient?.user?.name}</p>
                             <p className="text-sm text-muted-foreground mb-2">
-                              Module {Math.ceil(weekNumber / 2)} · {weekTitle}
+                              {weekNumber ? `Module ${Math.ceil(weekNumber / 2)} · ${weekTitle}` : 'No linked week'}
                             </p>
                           </div>
-                          <Badge variant="outline">{new Date(msg.created_at).toLocaleDateString()}</Badge>
+                          <div className="flex items-center gap-2">
+                            <Badge variant={isSent ? "secondary" : "default"}>
+                              {isSent ? "Sent" : "From patient"}
+                            </Badge>
+                            <Badge variant="outline">{new Date(msg.created_at).toLocaleDateString()}</Badge>
+                          </div>
                         </div>
                         <p className="mt-2 text-sm italic">"{msg.body}"</p>
                       </CardContent>

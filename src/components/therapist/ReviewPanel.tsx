@@ -380,7 +380,7 @@ const ReviewPanel = ({
           <SheetTitle className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span>{patientName} · Module {Math.ceil(weekNumber / 2)}</span>
-              {weekNumber === 24 && (
+              {weekNumber >= 24 && (
                 <Badge className="bg-success/10 text-success border-success/20">
                   Final Module
                 </Badge>
@@ -515,7 +515,7 @@ const ReviewPanel = ({
                 </Button>
 
                 {/* Final Module Special Completion Note Section */}
-                {weekNumber === 24 && (
+                {weekNumber >= 24 && (
                   <div className="bg-success/5 border border-success/20 rounded-lg p-4 space-y-3">
                     <div className="flex items-center gap-2">
                       <Award className="h-5 w-5 text-success" />
@@ -538,7 +538,7 @@ const ReviewPanel = ({
                 )}
 
                 {/* Quick Templates (hidden for final module to emphasize completion note) */}
-                {weekNumber !== 24 && (
+                {weekNumber < 24 && (
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-muted-foreground">Quick notes</label>
                     <div className="flex flex-wrap gap-2">
@@ -609,7 +609,7 @@ const ReviewPanel = ({
               )}
 
               {/* Final Module Maintenance Mode Option */}
-              {weekNumber === 24 && (
+              {weekNumber >= 24 && (
                 <div className="flex flex-col gap-2 mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
                   <p className="text-sm font-medium text-primary flex items-center gap-2">
                     <Award className="h-4 w-4" />
@@ -682,7 +682,7 @@ const ReviewPanel = ({
                 </div>
               )}
 
-              {weekNumber !== 24 && (
+              {weekNumber < 24 && (
                 <div className="flex flex-col sm:flex-row gap-2">
                   <Button
                     className="flex-1 h-10 sm:h-9"

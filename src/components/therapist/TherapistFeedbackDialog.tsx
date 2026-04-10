@@ -177,26 +177,44 @@ const TherapistFeedbackDialog = ({
 
       let videoPath: string | null = null;
       let photoPath: string | null = null;
+      const uploadedPaths: string[] = [];
 
-      // Upload files if present
-      if (videoFile) {
-        videoPath = await uploadFile(videoFile, "video", patientUserId);
+      // Upload files if present. Track every uploaded path so we can clean
+      // them up if the DB insert fails — otherwise the bucket accumulates
+      // orphaned attachments.
+      try {
+        if (videoFile) {
+          videoPath = await uploadFile(videoFile, "video", patientUserId);
+          uploadedPaths.push(videoPath);
+        }
+        if (photoFile) {
+          photoPath = await uploadFile(photoFile, "photo", patientUserId);
+          uploadedPaths.push(photoPath);
+        }
+
+        // Insert feedback record
+        const { error: insertError } = await supabase.from("therapist_feedback").insert({
+          therapist_id: user.id,
+          patient_id: patientId,
+          week_id: weekId || null,
+          progress_id: progressId || null,
+          exercise_id: exerciseId || null,
+          feedback_text: combinedFeedback || null,
+          video_url: videoPath || null,
+          photo_url: photoPath || null,
+        });
+
+        if (insertError) throw insertError;
+      } catch (uploadOrInsertError) {
+        if (uploadedPaths.length > 0) {
+          try {
+            await supabase.storage.from("therapist-feedback").remove(uploadedPaths);
+          } catch (cleanupError) {
+            console.warn("Failed to clean up orphaned feedback uploads", cleanupError);
+          }
+        }
+        throw uploadOrInsertError;
       }
-      if (photoFile) {
-        photoPath = await uploadFile(photoFile, "photo", patientUserId);
-      }
-
-      // Insert feedback record
-      const { error: insertError } = await supabase.from("therapist_feedback").insert({
-        therapist_id: user.id,
-        patient_id: patientId,
-        week_id: weekId || null,
-        feedback: combinedFeedback || null,
-        video_url: videoPath || null,
-        photo_url: photoPath || null,
-      } as any);
-
-      if (insertError) throw insertError;
 
       const getContextLabel = () => {
         if (exerciseTitle) return `for "${exerciseTitle}"`;

@@ -45,7 +45,7 @@ const TherapistAIAssist = () => {
       // Get patient data for context
       const patientsQuery = supabase
         .from("patient_week_progress")
-        .select("*, patients!inner(id, name, program_variant, assigned_therapist_id), weeks(number)")
+        .select("*, patients!inner(id, program_variant, assigned_therapist_id, users!patients_user_id_fkey(name)), weeks(number)")
         .in("status", ["submitted", "needs_more", "approved"])
         .order("completed_at", { ascending: false })
         .limit(50);

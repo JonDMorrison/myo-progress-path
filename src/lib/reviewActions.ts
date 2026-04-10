@@ -70,8 +70,10 @@ export async function approveWeek(
       console.warn("Could not log check event", e);
     }
 
-    // Check if this is the final week (program completion)
-    if (currentWeekNumber === 24) {
+    // Check if this is the final week (program completion).
+    // Week 25 is the "Post Program Review" — approving it should also
+    // mark the program complete, not try to unlock a nonexistent week 26.
+    if (currentWeekNumber >= 24) {
       // Mark program as complete and save completion note
       await supabase
         .from("patients")
@@ -105,37 +107,50 @@ export async function approveWeek(
       const variant = patientData?.program_variant || 'frenectomy';
       const programTitle = getProgramTitle(variant);
 
-      // Get next week for the patient's program
+      // Get next week for the patient's program.
+      // Use maybeSingle() so a missing row doesn't throw — we surface it
+      // via console.warn so the approve itself still succeeds, but we
+      // don't silently pretend the unlock worked.
       const { data: nextWeek } = await supabase
         .from("weeks")
         .select("id, programs!inner(title)")
         .eq("number", nextWeekNumber)
         .eq("programs.title", programTitle)
-        .single();
+        .maybeSingle();
 
-      if (nextWeek) {
-        // Check if progress exists
-        const { data: existingProgress } = await supabase
+      if (!nextWeek) {
+        console.warn(
+          `approveWeek: no week found for number=${nextWeekNumber} title=${programTitle} — next week unlock skipped`
+        );
+        return { success: true };
+      }
+
+      // Check if progress exists
+      const { data: existingProgress } = await supabase
+        .from("patient_week_progress")
+        .select("id, status")
+        .eq("patient_id", patientId)
+        .eq("week_id", nextWeek.id)
+        .maybeSingle();
+
+      if (!existingProgress) {
+        // Create new progress entry
+        await supabase.from("patient_week_progress").insert({
+          patient_id: patientId,
+          week_id: nextWeek.id,
+          status: "open",
+        });
+      } else if (
+        existingProgress.status !== "open" &&
+        existingProgress.status !== "submitted" &&
+        existingProgress.status !== "approved"
+      ) {
+        // Only reopen rows that were locked/needs_more. Never clobber a
+        // submitted or approved week — that would destroy the patient's work.
+        await supabase
           .from("patient_week_progress")
-          .select("id")
-          .eq("patient_id", patientId)
-          .eq("week_id", nextWeek.id)
-          .maybeSingle();
-
-        if (!existingProgress) {
-          // Create new progress entry
-          await supabase.from("patient_week_progress").insert({
-            patient_id: patientId,
-            week_id: nextWeek.id,
-            status: "open",
-          });
-        } else {
-          // Update existing to open
-          await supabase
-            .from("patient_week_progress")
-            .update({ status: "open" })
-            .eq("id", existingProgress.id);
-        }
+          .update({ status: "open" })
+          .eq("id", existingProgress.id);
       }
     }
 

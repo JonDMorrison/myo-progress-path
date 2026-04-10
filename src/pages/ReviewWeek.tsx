@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Play, Loader, Undo2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
+import { getProgramTitle } from "@/lib/constants";
 import { getVideoUrl } from "@/lib/storage";
 
 // AI feedback has been disabled - therapist feedback only
@@ -52,10 +53,11 @@ const ReviewWeek = () => {
       if (patientError) throw patientError;
       setPatient(patientData);
 
-      // Get week - filter by patient's program variant
-      const programTitle = patientData.program_variant === "frenectomy" || patientData.program_variant === "standard"
-        ? "Frenectomy Program"
-        : "Non-Frenectomy Program";
+      // Get week - filter by patient's program variant.
+      // Use the canonical helper so all four variants (+ legacy 'standard')
+      // map to the correct display program. The previous inline mapping
+      // routed `standard` and `frenectomy_video` to the wrong program title.
+      const programTitle = getProgramTitle(patientData.program_variant);
 
       const { data: weekData, error: weekError } = await supabase
         .from("weeks")

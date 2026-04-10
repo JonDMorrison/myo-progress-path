@@ -28,22 +28,30 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
     [patients]
   );
 
-  // Detect patients sharing the same name (case-insensitive). We can't stop
-  // patients from creating duplicate accounts with different emails, but we
-  // can flag look-alikes so the therapist knows to investigate.
-  const duplicateNames = useMemo(() => {
-    const counts = new Map<string, number>();
-    patients.forEach(p => {
-      const key = (p.patient_name || '').trim().toLowerCase();
-      if (!key) return;
-      counts.set(key, (counts.get(key) || 0) + 1);
-    });
-    const dupes = new Set<string>();
-    counts.forEach((count, key) => {
-      if (count > 1) dupes.add(key);
-    });
-    return dupes;
-  }, [patients]);
+  // Detect patients sharing the same name (case-insensitive) across ALL
+  // patients in the DB, not just the currently-visible page. We can't
+  // stop patients from creating duplicate accounts with different emails,
+  // but we can flag look-alikes so the therapist knows to investigate.
+  const [duplicateNames, setDuplicateNames] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const loadDuplicates = async () => {
+      const { data } = await supabase
+        .from('patients')
+        .select('users!patients_user_id_fkey(name)');
+      if (!data) return;
+      const counts: Record<string, number> = {};
+      data.forEach((row: any) => {
+        const name = row.users?.name?.toLowerCase().trim();
+        if (!name) return;
+        counts[name] = (counts[name] || 0) + 1;
+      });
+      setDuplicateNames(
+        new Set(Object.entries(counts).filter(([, c]) => c > 1).map(([n]) => n))
+      );
+    };
+    loadDuplicates();
+  }, [patients.length]);
 
   const isDuplicate = (name: string | null | undefined) =>
     !!name && duplicateNames.has(name.trim().toLowerCase());
