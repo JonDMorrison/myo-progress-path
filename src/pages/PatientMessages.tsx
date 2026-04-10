@@ -72,6 +72,7 @@ const PatientMessages = () => {
       const { error } = await supabase.from("messages").insert({
         patient_id: patient.id,
         body: newMessage,
+        sent_by: 'patient',
       });
 
       if (error) throw error;
@@ -127,17 +128,17 @@ const PatientMessages = () => {
                   className={`flex ${msg.therapist_id ? "justify-start" : "justify-end"}`}
                 >
                   <div
-                    className={`max-w-[85%] p-4 rounded-3xl shadow-sm ${msg.therapist_id
-                        ? "bg-white border border-slate-100 rounded-bl-none"
-                        : "bg-primary text-white rounded-br-none"
+                    className={`max-w-[85%] p-4 rounded-3xl shadow-sm ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id))
+                        ? "bg-primary text-white rounded-br-none"
+                        : "bg-white border border-slate-100 rounded-bl-none"
                       }`}
                   >
-                    <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${msg.therapist_id ? "text-primary" : "text-white/70"
+                    <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "text-white/70" : "text-primary"
                       }`}>
-                      {msg.therapist_id ? msg.therapist?.name || "Therapist" : "You"}
+                      {(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "You" : msg.therapist?.name || "Therapist"}
                     </p>
                     <p className="text-sm leading-relaxed">{msg.body}</p>
-                    <p className={`text-[9px] mt-2 ${msg.therapist_id ? "text-slate-400" : "text-white/50"
+                    <p className={`text-[9px] mt-2 ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "text-white/50" : "text-slate-400"
                       }`}>
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>

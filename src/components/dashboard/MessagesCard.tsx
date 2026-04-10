@@ -9,6 +9,7 @@ interface Message {
   body: string;
   therapist_id?: string;
   therapist?: { name: string };
+  sent_by?: 'patient' | 'therapist';
   created_at: string;
 }
 
@@ -34,9 +35,8 @@ export function MessagesCard({ messages, onSendMessage }: MessagesCardProps) {
   };
 
   // Show latest 5 messages in chronological order (oldest at top, newest
-  // at bottom — chat style). The parent loads messages descending so we
-  // take the 5 most recent, then reverse for display.
-  const recentMessages = messages.slice(0, 5).reverse();
+  // at bottom — chat style). The parent query is ascending so we just slice.
+  const recentMessages = messages.slice(-5);
 
   return (
     <Card className="rounded-[2.5rem] border-none shadow-premium bg-white relative overflow-hidden h-full flex flex-col group transition-all duration-300 hover:shadow-2xl">
@@ -72,15 +72,15 @@ export function MessagesCard({ messages, onSendMessage }: MessagesCardProps) {
               {recentMessages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`p-3.5 rounded-2xl text-sm transition-all duration-300 ${msg.therapist_id
-                      ? "bg-slate-50 border border-slate-100/50 rounded-bl-none shadow-sm"
-                      : "bg-primary/5 border border-primary/10 rounded-br-none"
+                  className={`p-3.5 rounded-2xl text-sm transition-all duration-300 ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id))
+                      ? "bg-primary/5 border border-primary/10 rounded-br-none ml-8"
+                      : "bg-slate-50 border border-slate-100/50 rounded-bl-none mr-8 shadow-sm"
                     }`}
                 >
                   <div className="flex justify-between items-center mb-1.5">
-                    <span className={`text-[9px] font-black uppercase tracking-widest ${msg.therapist_id ? "text-primary" : "text-slate-400"
+                    <span className={`text-[9px] font-black uppercase tracking-widest ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "text-slate-400" : "text-primary"
                       }`}>
-                      {msg.therapist_id ? msg.therapist?.name || "Therapist" : "You"}
+                      {(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "You" : msg.therapist?.name || "Therapist"}
                     </span>
                     <span className="text-[8px] font-bold text-slate-400 uppercase">
                       {new Date(msg.created_at).toLocaleDateString([], { month: 'short', day: 'numeric' })}

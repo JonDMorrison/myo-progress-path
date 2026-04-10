@@ -194,7 +194,7 @@ const PatientDashboard = () => {
           .from("messages")
           .select("*")
           .eq("patient_id", patientData.id)
-          .order("created_at", { ascending: false })
+          .order("created_at", { ascending: true })
           .limit(10);
 
         setMessages(messagesData || []);
@@ -231,6 +231,7 @@ const PatientDashboard = () => {
         patient_id: patient.id,
         week_id: currentWeek.id,
         body: messageText,
+        sent_by: 'patient',
       });
 
       if (error) throw error;

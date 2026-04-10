@@ -584,6 +584,7 @@ const WeekDetail = () => {
         patient_id: patient.id,
         week_id: week.id,
         body: newMessage,
+        sent_by: 'patient',
       });
 
       if (error) throw error;

@@ -41,6 +41,7 @@ export async function approveWeek(
         week_id: progressData.week_id,
         therapist_id: user?.id,
         body: note,
+        sent_by: 'therapist',
       });
     }
 
@@ -200,6 +201,7 @@ export async function requestMorePractice(
       week_id: progressData.week_id,
       therapist_id: user?.id,
       body: comment,
+      sent_by: 'therapist',
     });
 
     // Create notification for patient
@@ -281,6 +283,7 @@ export async function reassignWeek(
         week_id: progressData.week_id,
         therapist_id: user?.id,
         body: `${moduleLabel} has been reassigned for additional practice. ${reason}`,
+        sent_by: 'therapist',
       });
     }
 

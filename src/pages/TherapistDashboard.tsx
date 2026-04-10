@@ -497,6 +497,7 @@ const TherapistDashboard = () => {
       week_id: noteDialog.weekId,
       therapist_id: userId,
       body: note,
+      sent_by: 'therapist',
     });
     if (error) throw error;
     const moduleNum = Math.ceil(noteDialog.weekNumber / 2);
