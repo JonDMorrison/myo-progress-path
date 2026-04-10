@@ -24,17 +24,17 @@ export function TimelineCard({
   const totalModules = getTotalModules(programVariant);
   
   return (
-    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+    <Card className="rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg">Progress Timeline</CardTitle>
         <CardDescription>
-          {isFrenectomy 
+          {isFrenectomy
             ? `Your therapy journey: ${totalModules} modules including post-op recovery`
             : `Your ${totalModules}-module therapy journey`
           }
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col justify-between">
+      <CardContent>
         <DotTimeline 
           completed={completedWeeks} 
           current={currentWeek} 
