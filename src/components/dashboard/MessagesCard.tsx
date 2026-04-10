@@ -33,8 +33,10 @@ export function MessagesCard({ messages, onSendMessage }: MessagesCardProps) {
     }
   };
 
-  // Show latest 5 messages
-  const recentMessages = messages.slice(0, 5);
+  // Show latest 5 messages in chronological order (oldest at top, newest
+  // at bottom — chat style). The parent loads messages descending so we
+  // take the 5 most recent, then reverse for display.
+  const recentMessages = messages.slice(0, 5).reverse();
 
   return (
     <Card className="rounded-[2.5rem] border-none shadow-premium bg-white relative overflow-hidden h-full flex flex-col group transition-all duration-300 hover:shadow-2xl">

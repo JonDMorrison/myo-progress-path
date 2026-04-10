@@ -583,7 +583,6 @@ const WeekDetail = () => {
       const { error } = await supabase.from("messages").insert({
         patient_id: patient.id,
         week_id: week.id,
-        therapist_id: patient.assigned_therapist_id,
         body: newMessage,
       });
 

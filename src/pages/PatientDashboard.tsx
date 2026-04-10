@@ -230,7 +230,6 @@ const PatientDashboard = () => {
       const { error } = await supabase.from("messages").insert({
         patient_id: patient.id,
         week_id: currentWeek.id,
-        therapist_id: patient.assigned_therapist_id || null,
         body: messageText,
       });
 

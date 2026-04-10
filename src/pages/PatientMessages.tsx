@@ -71,7 +71,6 @@ const PatientMessages = () => {
     try {
       const { error } = await supabase.from("messages").insert({
         patient_id: patient.id,
-        therapist_id: patient.assigned_therapist_id,
         body: newMessage,
       });
 
