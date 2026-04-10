@@ -711,6 +711,26 @@ const WeekDetail = () => {
 
                 {/* Video uploads are now per-exercise within the exercises list */}
 
+                {/* Part Two orientation banner — shown when patient first arrives at the second week of a module */}
+                {(() => {
+                  const wn = parseInt(weekNumber || "1");
+                  const isPartTwo = wn % 2 === 0;
+                  const noCompletions = !progress?.exercise_completions || Object.keys(progress.exercise_completions).length === 0;
+                  const isOpen = progress?.status === "open";
+                  if (isPartTwo && noCompletions && isOpen && !isReadOnly) {
+                    const moduleNum = getModuleInfo(wn, patient?.program_variant || 'frenectomy').moduleNumber;
+                    return (
+                      <div className="rounded-2xl bg-blue-50 border border-blue-100 p-4 mb-6">
+                        <p className="text-sm font-semibold text-blue-800">You've reached Part Two of Module {moduleNum}</p>
+                        <p className="text-sm text-blue-600 mt-1">
+                          Complete all exercises below, record your biometrics, then submit the module for your therapist to review.
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
+                })()}
+
                 {/* Exercise Progress & List */}
                 <div className="space-y-10 pt-6">
                   <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-100">
