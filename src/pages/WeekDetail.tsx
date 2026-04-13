@@ -822,6 +822,18 @@ const WeekDetail = () => {
                   </Collapsible>
                 )}
 
+                {/* Waiting-for-review banner when module has been submitted */}
+                {progress?.status === 'submitted' && (
+                  <div className="rounded-2xl bg-amber-50 border border-amber-200 p-6 text-center space-y-2 mt-4">
+                    <p className="text-2xl">⏳</p>
+                    <p className="font-bold text-amber-900">Waiting for therapist review</p>
+                    <p className="text-sm text-amber-700">
+                      Your therapist will review your submission and unlock your next module.
+                      You'll get a notification when it's approved — no action needed on your end.
+                    </p>
+                  </div>
+                )}
+
                 {/* Big Global Submit Bar - Only shown on last week of module */}
                 {!isReadOnly && progress && (progress.status === "open" || progress.status === "needs_more") && (
                   isLastWeekOfModule(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy') ? (
@@ -845,12 +857,17 @@ const WeekDetail = () => {
                       </div>
 
                       {canSubmitState ? (
-                        <Button
-                          onClick={() => navigate(`/week/${parseInt(weekNumber || "1") + 1}`)}
-                          className="w-full sm:w-auto px-10 h-14 rounded-2xl bg-primary hover:bg-primary-dark font-black text-white shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 text-lg"
-                        >
-                          Continue to Part Two →
-                        </Button>
+                        <>
+                          <Button
+                            onClick={() => navigate(`/week/${parseInt(weekNumber || "1") + 1}`)}
+                            className="w-full sm:w-auto px-10 h-14 rounded-2xl bg-primary hover:bg-primary-dark font-black text-white shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 text-lg"
+                          >
+                            Start Part Two →
+                          </Button>
+                          <p className="text-xs text-slate-400 font-medium">
+                            Complete Part Two exercises to submit this module for your therapist's review
+                          </p>
+                        </>
                       ) : (
                         <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">
                           Submission available at the end of Part Two

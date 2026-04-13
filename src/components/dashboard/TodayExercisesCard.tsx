@@ -104,7 +104,7 @@ export function TodayExercisesCard({
           </h2>
           <p className="text-slate-500 text-sm font-medium">
             {isSubmitted
-              ? "Your therapist is reviewing your module. You'll be notified soon!"
+              ? "Awaiting therapist approval — your next module will unlock soon"
               : isApproved
                 ? "Excellent work! This module has been approved."
                 : <>Next: <span className="text-slate-700 font-bold italic">Active Suction & Tone</span> • ~12 min left</>
