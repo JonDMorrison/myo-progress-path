@@ -38,6 +38,7 @@ import { PreviousWeeksReview } from "@/components/week/PreviousWeeksReview";
 import { PrivacyManager } from "@/components/week/PrivacyManager";
 import { FRENECTOMY_POST_OP_WEEKS, isLastWeekOfModule, getModuleInfo } from "@/lib/moduleUtils";
 import { isFrenectomyVariant, requiresVideo, getProgramTitle } from "@/lib/constants";
+import { approveWeek } from "@/lib/reviewActions";
 
 const WeekDetail = () => {
   const { weekNumber } = useParams();
@@ -528,12 +529,35 @@ const WeekDetail = () => {
         }
       }
 
-      toast({
-        title: "Submitted for review!",
-        description: "Your therapist will review your progress soon.",
-      });
+      // Auto-approve if the patient does not require video review.
+      // This skips the "waiting for therapist" state entirely and unlocks
+      // the next module immediately.
+      if (patient.requires_video === false) {
+        const wn = parseInt(weekNumber || "1");
+        const approveResult = await approveWeek(progress.id, patient.id, wn, "");
+        if (approveResult.success) {
+          toast({
+            title: "Module complete!",
+            description: "Your next module is now unlocked.",
+          });
+        } else {
+          // Approval failed but submission succeeded — fall back to the
+          // normal waiting flow so the therapist can approve manually.
+          console.warn("Auto-approve failed after submit:", approveResult.error);
+          toast({
+            title: "Submitted for review!",
+            description: "Your therapist will review your progress soon.",
+          });
+        }
+      } else {
+        toast({
+          title: "Submitted for review!",
+          description: "Your therapist will review your progress soon.",
+        });
+      }
 
-      navigate("/patient");
+      // Brief delay so the patient sees the toast before navigating
+      setTimeout(() => navigate("/patient"), 1500);
     } catch (error: any) {
       toast({
         title: "Error",
