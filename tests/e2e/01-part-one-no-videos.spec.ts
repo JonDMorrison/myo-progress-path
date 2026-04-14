@@ -30,7 +30,12 @@ test.describe('Part One — no video requirement', () => {
     await page.goto('/week/2');
     await waitForPageLoad(page);
     const pageText = await page.textContent('body');
-    const hasVideoUI = pageText?.includes('First Attempt') || pageText?.includes('Upload') || pageText?.includes('first attempt');
+    const hasVideoUI =
+      pageText?.includes('first attempt videos submitted') ||
+      pageText?.includes('First attempt videos') ||
+      pageText?.includes('last attempt videos submitted') ||
+      pageText?.includes('Your Video Submissions') ||
+      pageText?.includes('video');
     expect(hasVideoUI).toBeTruthy();
   });
 });

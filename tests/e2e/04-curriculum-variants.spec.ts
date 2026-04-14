@@ -35,10 +35,22 @@ test.describe('Curriculum variant routing', () => {
   test('Frenectomy Module 1 shows Regular and Modified video tabs', async ({ page }) => {
     await page.goto('/week/1?variant=frenectomy');
     await waitForPageLoad(page);
-    // Click first exercise to expand it (tabs only show when expanded)
-    await page.locator('[class*="exercise"], [class*="Exercise"]').first().click();
-    await page.waitForTimeout(500);
+    // Verify the page loaded with exercise content
     const pageText = await page.textContent('body');
-    expect(pageText?.includes('Regular') || pageText?.includes('Modified')).toBeTruthy();
+    // Module 1 frenectomy always has Clicks and Tongue Trace
+    expect(pageText).toContain('Clicks');
+    // Expand the first exercise by finding a chevron or expand button
+    const expandBtn = page.getByRole('button').filter({ hasText: /clicks|tongue trace/i }).first();
+    if (await expandBtn.count() > 0) {
+      await expandBtn.click();
+      await page.waitForTimeout(1000);
+      const expanded = await page.textContent('body');
+      const hasTabs = expanded?.includes('Regular') || expanded?.includes('Modified');
+      expect(hasTabs).toBeTruthy();
+    } else {
+      // Exercises may already be expanded — check directly
+      const hasTabs = pageText?.includes('Regular') || pageText?.includes('Modified');
+      expect(hasTabs).toBeTruthy();
+    }
   });
 });
