@@ -9,7 +9,7 @@ test.describe('Module submission UX', () => {
   test('Patient dashboard loads correctly', async ({ page }) => {
     await page.goto('/patient');
     await waitForPageLoad(page);
-    await expect(page.getByText('Module')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('Module 1').first()).toBeVisible({ timeout: 10000 });
   });
 
   test('Week 1 shows Part Two navigation not submit button', async ({ page }) => {

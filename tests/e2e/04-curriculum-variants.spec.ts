@@ -35,6 +35,9 @@ test.describe('Curriculum variant routing', () => {
   test('Frenectomy Module 1 shows Regular and Modified video tabs', async ({ page }) => {
     await page.goto('/week/1?variant=frenectomy');
     await waitForPageLoad(page);
+    // Click first exercise to expand it (tabs only show when expanded)
+    await page.locator('[class*="exercise"], [class*="Exercise"]').first().click();
+    await page.waitForTimeout(500);
     const pageText = await page.textContent('body');
     expect(pageText?.includes('Regular') || pageText?.includes('Modified')).toBeTruthy();
   });

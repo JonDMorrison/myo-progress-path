@@ -79,20 +79,22 @@ export function WeekCompletionChecklist({
         (u.exercise_key === ex.id || u.exercise_id === ex.id))
     );
 
-    requirements.push(
-      {
+    if (week.requires_video_first) {
+      requirements.push({
         label: 'First attempt videos submitted',
         complete: hasFirstForAll,
         required: true,
         icon: "🎥"
-      },
-      {
+      });
+    }
+    if (week.requires_video_last) {
+      requirements.push({
         label: 'Last attempt videos submitted',
         complete: hasLastForAll,
         required: true,
         icon: "🎬"
-      }
-    );
+      });
+    }
   }
 
   // Add remaining requirements
