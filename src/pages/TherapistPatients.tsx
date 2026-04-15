@@ -192,7 +192,15 @@ export default function TherapistPatients() {
                     </TableRow>
                   ) : (
                     filteredPatients.map(patient => (
-                      <TableRow key={patient.patient_id}>
+                      <TableRow
+                        key={patient.patient_id}
+                        className="cursor-pointer hover:bg-slate-50"
+                        onClick={(e) => {
+                          if ((e.target as HTMLElement).closest('button')) return;
+                          const weekNum = patient.current_week_number || 1;
+                          navigate(`/review/${patient.patient_id}/${weekNum}`);
+                        }}
+                      >
                         <TableCell>
                           <div>
                             <div className="font-medium">{patient.patient_name}</div>
@@ -259,7 +267,15 @@ export default function TherapistPatients() {
             </Card>
           ) : (
             filteredPatients.map(patient => (
-              <Card key={patient.patient_id} className="rounded-2xl border hover:shadow-md transition-shadow">
+              <Card
+                key={patient.patient_id}
+                className="rounded-2xl border hover:shadow-md transition-shadow cursor-pointer hover:bg-slate-50"
+                onClick={(e) => {
+                  if ((e.target as HTMLElement).closest('button')) return;
+                  const weekNum = patient.current_week_number || 1;
+                  navigate(`/review/${patient.patient_id}/${weekNum}`);
+                }}
+              >
                 <CardContent className="p-4 space-y-3">
                   <div>
                     <div className="font-medium text-base">{patient.patient_name}</div>
