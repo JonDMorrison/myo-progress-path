@@ -93,12 +93,25 @@ const ReviewWeek = () => {
 
       setMessages(messagesData || []);
 
-      // Get uploads with AI feedback
+      // Get uploads from both weeks of the module (Part One + Part Two)
+      const partnerNum = parseInt(weekNumber || '1') % 2 === 1
+        ? parseInt(weekNumber || '1') + 1
+        : parseInt(weekNumber || '1') - 1;
+
+      const { data: partnerWeek } = await supabase
+        .from("weeks")
+        .select("id, programs!inner(title)")
+        .eq("number", partnerNum)
+        .eq("programs.title", programTitle)
+        .maybeSingle();
+
+      const weekIdsToQuery = [weekData.id, partnerWeek?.id].filter(Boolean) as string[];
+
       const { data: uploadsData } = await supabase
         .from("uploads")
-        .select("*")
+        .select("id, file_url, kind, created_at, exercise_key")
         .eq("patient_id", patientId)
-        .eq("week_id", weekData.id)
+        .in("week_id", weekIdsToQuery)
         .order("created_at", { ascending: true });
 
       setUploads(uploadsData || []);
