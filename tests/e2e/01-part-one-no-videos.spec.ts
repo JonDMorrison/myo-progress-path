@@ -1,22 +1,23 @@
 import { test, expect } from '@playwright/test';
 import { loginAs, TEST_PATIENT, waitForPageLoad } from './helpers';
 
-test.describe('Part One — no video requirement', () => {
+test.describe('Part One — first attempt only, no last attempt', () => {
   test.beforeEach(async ({ page }) => {
     await loginAs(page, TEST_PATIENT);
   });
 
-  test('Week 1 does not show video upload section', async ({ page }) => {
+  test('Week 1 shows first attempt but not last attempt upload', async ({ page }) => {
     await page.goto('/week/1');
     await waitForPageLoad(page);
-    await expect(page.getByText('First Attempt').first()).not.toBeVisible();
-    await expect(page.getByText('Last Attempt').first()).not.toBeVisible();
+    // Week 1 requires first attempt only — last attempt should not appear
+    await expect(page.getByText('Last attempt videos submitted')).not.toBeVisible();
   });
 
-  test('Week 1 checklist does not include video items', async ({ page }) => {
+  test('Week 1 checklist shows first attempt but not last attempt', async ({ page }) => {
     await page.goto('/week/1');
     await waitForPageLoad(page);
-    await expect(page.getByText('First attempt videos submitted')).not.toBeVisible();
+    // First attempt should appear (Sam wants to review it early)
+    // Last attempt should NOT appear on Part One
     await expect(page.getByText('Last attempt videos submitted')).not.toBeVisible();
   });
 
