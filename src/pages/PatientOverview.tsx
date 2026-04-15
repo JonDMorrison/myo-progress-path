@@ -19,6 +19,7 @@ export default function PatientOverview() {
   const [progressRows, setProgressRows] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
   const [messageCount, setMessageCount] = useState(0);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   useEffect(() => {
     if (patientId) loadData();
@@ -117,6 +118,14 @@ export default function PatientOverview() {
   const pendingCount = modules.filter((m) => m.status === "submitted").length;
   const totalWithProgress = progressRows.length;
 
+  const scrollTo = (id: string) => {
+    setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+  };
+
+  const filteredModules = statusFilter
+    ? modules.filter((m) => m.status === statusFilter)
+    : modules;
+
   const getModuleStatusBadge = (status: string) => {
     switch (status) {
       case "approved":
@@ -186,25 +195,37 @@ export default function PatientOverview() {
 
         {/* Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <Card>
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => { setStatusFilter("approved"); scrollTo("module-timeline"); }}
+          >
             <CardContent className="pt-4 pb-3 px-4 text-center">
               <p className="text-2xl font-bold text-emerald-600">{approvedCount}</p>
               <p className="text-xs text-muted-foreground mt-1">Approved</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => { setStatusFilter("submitted"); scrollTo("module-timeline"); }}
+          >
             <CardContent className="pt-4 pb-3 px-4 text-center">
               <p className="text-2xl font-bold text-amber-600">{pendingCount}</p>
               <p className="text-xs text-muted-foreground mt-1">Pending</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => { setStatusFilter(null); scrollTo("module-timeline"); }}
+          >
             <CardContent className="pt-4 pb-3 px-4 text-center">
               <p className="text-2xl font-bold">{totalWithProgress}</p>
               <p className="text-xs text-muted-foreground mt-1">Total Progress</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => { setStatusFilter(null); scrollTo("messages-section"); }}
+          >
             <CardContent className="pt-4 pb-3 px-4 text-center">
               <p className="text-2xl font-bold">{messageCount}</p>
               <p className="text-xs text-muted-foreground mt-1">Messages</p>
@@ -213,13 +234,26 @@ export default function PatientOverview() {
         </div>
 
         {/* Module Timeline */}
-        <Card>
+        <Card id="module-timeline">
           <CardHeader>
-            <CardTitle>Module Timeline</CardTitle>
-            <CardDescription>{totalModules} modules total</CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Module Timeline</CardTitle>
+                <CardDescription>
+                  {statusFilter
+                    ? `Showing ${filteredModules.length} ${statusFilter} module${filteredModules.length !== 1 ? "s" : ""}`
+                    : `${totalModules} modules total`}
+                </CardDescription>
+              </div>
+              {statusFilter && (
+                <Button variant="ghost" size="sm" onClick={() => setStatusFilter(null)}>
+                  Show all
+                </Button>
+              )}
+            </div>
           </CardHeader>
           <CardContent className="space-y-1">
-            {modules.map((mod) => {
+            {filteredModules.map((mod) => {
               const isClickable = mod.status !== "locked";
               const weekNum = mod.evenWeek;
 
@@ -307,7 +341,7 @@ export default function PatientOverview() {
         </Card>
 
         {/* Recent Messages */}
-        <Card>
+        <Card id="messages-section">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
