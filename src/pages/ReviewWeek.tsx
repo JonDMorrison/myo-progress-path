@@ -563,8 +563,14 @@ const ReviewWeek = () => {
                     const lastAttempts = uploads.filter((u: any) => u.kind === 'last_attempt');
 
                     const renderUploadCard = (upload: any, label: string) => (
-                      <div key={upload.id} className="space-y-3">
-                        <div className="p-3 bg-muted rounded-lg space-y-3">
+                      <div key={upload.id} className="mb-3">
+                        <div
+                          className="p-3 bg-muted rounded-lg space-y-3 cursor-pointer hover:bg-slate-100 transition-colors"
+                          onClick={(e) => {
+                            if ((e.target as HTMLElement).closest('button')) return;
+                            handlePlayVideo(upload.id, upload.file_url);
+                          }}
+                        >
                           <div className="flex items-center justify-between">
                             <div>
                               <p className="font-medium text-sm">{label}</p>
