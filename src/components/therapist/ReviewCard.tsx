@@ -71,12 +71,20 @@ const ReviewCard = ({
   const isGreen = triage.level === 'green';
   
   return (
-    <Card className={cn(
-      "bg-card shadow-card hover:shadow-elevated transition-shadow duration-200",
-      borderClass,
-      isExiting && "opacity-0 scale-[0.98] transition-all duration-200",
-      selected && "ring-2 ring-primary ring-offset-2 ring-offset-background"
-    )}>
+    <Card
+      className={cn(
+        "bg-card shadow-card hover:shadow-elevated transition-shadow duration-200 cursor-pointer hover:bg-slate-50",
+        borderClass,
+        isExiting && "opacity-0 scale-[0.98] transition-all duration-200",
+        selected && "ring-2 ring-primary ring-offset-2 ring-offset-background"
+      )}
+      onClick={(e) => {
+        // Don't navigate if clicking a button, checkbox, or label
+        const target = e.target as HTMLElement;
+        if (target.closest('button') || target.closest('[role="checkbox"]') || target.closest('label')) return;
+        onReview?.(id, patientId, weekNumber, weekId);
+      }}
+    >
       <CardContent className="py-4">
         <div className="flex items-start justify-between gap-4">
           {/* Checkbox for batch selection (GREEN cards only) */}
