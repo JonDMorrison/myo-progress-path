@@ -644,7 +644,7 @@ const ReviewWeek = () => {
                     onChange={(e) => setNote(e.target.value)}
                     placeholder="Provide feedback on their progress..."
                     rows={4}
-                    disabled={submitting || progress?.status !== "submitted"}
+                    disabled={submitting}
                   />
                 </div>
 
