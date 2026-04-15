@@ -558,15 +558,16 @@ const ReviewWeek = () => {
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    {uploads.map((upload: any) => (
+                  (() => {
+                    const firstAttempts = uploads.filter((u: any) => u.kind === 'first_attempt');
+                    const lastAttempts = uploads.filter((u: any) => u.kind === 'last_attempt');
+
+                    const renderUploadCard = (upload: any, label: string) => (
                       <div key={upload.id} className="space-y-3">
                         <div className="p-3 bg-muted rounded-lg space-y-3">
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="font-medium text-sm">
-                                {upload.kind === "first_attempt" ? "First Attempt" : "Last Attempt"}
-                              </p>
+                              <p className="font-medium text-sm">{label}</p>
                               <p className="text-xs text-muted-foreground">
                                 {new Date(upload.created_at).toLocaleDateString()}
                               </p>
@@ -581,7 +582,7 @@ const ReviewWeek = () => {
                               ) : (
                                 <Play className="h-4 w-4" />
                               )}
-                              <span className="ml-2">Play</span>
+                              <span className="ml-2">Open</span>
                             </Button>
                           </div>
                           {upload.thumb_url && (
@@ -596,8 +597,33 @@ const ReviewWeek = () => {
 
                         {/* AI feedback section removed - therapist provides all feedback */}
                       </div>
-                    ))}
-                  </div>
+                    );
+
+                    return (
+                      <div className="space-y-4">
+                        {firstAttempts.length > 0 && (
+                          <div>
+                            <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">
+                              First Attempt ({firstAttempts.length} video{firstAttempts.length > 1 ? 's' : ''})
+                            </p>
+                            {firstAttempts.map((upload, idx) =>
+                              renderUploadCard(upload, firstAttempts.length > 1 ? `First Attempt ${idx + 1}` : 'First Attempt')
+                            )}
+                          </div>
+                        )}
+                        {lastAttempts.length > 0 && (
+                          <div className="mt-4">
+                            <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">
+                              Last Attempt ({lastAttempts.length} video{lastAttempts.length > 1 ? 's' : ''})
+                            </p>
+                            {lastAttempts.map((upload, idx) =>
+                              renderUploadCard(upload, lastAttempts.length > 1 ? `Last Attempt ${idx + 1}` : 'Last Attempt')
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()
                 )}
               </CardContent>
             </Card>
