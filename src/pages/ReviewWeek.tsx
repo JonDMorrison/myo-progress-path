@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Play, Loader, Undo2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertCircle, User, Calendar, FileDown, Play, Loader, Undo2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import { getProgramTitle } from "@/lib/constants";
@@ -32,7 +32,8 @@ const ReviewWeek = () => {
   const [uploads, setUploads] = useState<any[]>([]);
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
   const [loadingVideo, setLoadingVideo] = useState<string | null>(null);
-  // AI analysis state removed - therapist feedback only
+  const [allProgress, setAllProgress] = useState<any[]>([]);
+  const [weekLookup, setWeekLookup] = useState<Record<string, number>>({});
 
   useEffect(() => {
     loadReviewData();
@@ -83,15 +84,29 @@ const ReviewWeek = () => {
       if (progressError) throw progressError;
       setProgress(progressData);
 
-      // Get messages
+      // Get ALL messages for this patient (across all modules)
       const { data: messagesData } = await supabase
         .from("messages")
-        .select("*")
+        .select("*, week:weeks(number)")
         .eq("patient_id", patientId)
-        .eq("week_id", weekData.id)
         .order("created_at", { ascending: true });
 
       setMessages(messagesData || []);
+
+      // Get all progress rows for module navigation
+      const { data: allProgressData } = await supabase
+        .from("patient_week_progress")
+        .select("id, week_id, status, week:weeks(number)")
+        .eq("patient_id", patientId);
+
+      setAllProgress(allProgressData || []);
+
+      // Build week_id → week_number lookup from progress data
+      const lookup: Record<string, number> = {};
+      (allProgressData || []).forEach((p: any) => {
+        if (p.week_id && p.week?.number) lookup[p.week_id] = p.week.number;
+      });
+      setWeekLookup(lookup);
 
       // Get uploads from both weeks of the module (Part One + Part Two)
       const partnerNum = parseInt(weekNumber || '1') % 2 === 1
@@ -337,11 +352,19 @@ const ReviewWeek = () => {
           </Button>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+              <div
+                className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-colors"
+                onClick={() => navigate(`/therapist?patient=${patientId}`)}
+              >
                 <User className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">{patient?.user?.name}</h1>
+                <h1
+                  className="text-2xl font-bold cursor-pointer hover:text-primary transition-colors"
+                  onClick={() => navigate(`/therapist?patient=${patientId}`)}
+                >
+                  {patient?.user?.name}
+                </h1>
                 <p className="text-sm text-muted-foreground">{patient?.user?.email}</p>
               </div>
               <Button
@@ -362,6 +385,49 @@ const ReviewWeek = () => {
               {progress && getStatusBadge(progress.status)}
             </div>
           </div>
+
+          {/* Module navigation */}
+          {(() => {
+            const currentWeekNum = parseInt(weekNumber || "1");
+            const currentModule = Math.ceil(currentWeekNum / 2);
+            const prevWeekNum = currentWeekNum - 2;
+            const nextWeekNum = currentWeekNum + 2;
+            const hasPrev = prevWeekNum >= 1;
+            const hasNext = allProgress.some((p: any) => p.week?.number === nextWeekNum || p.week?.number === nextWeekNum + 1);
+            const totalModules = patient?.program_variant === "frenectomy" ? 13 : 12;
+
+            return (
+              <div className="flex items-center justify-between mt-3 pt-3 border-t">
+                <div>
+                  {hasPrev && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => navigate(`/review/${patientId}/${prevWeekNum}`)}
+                    >
+                      <ChevronLeft className="mr-1 h-4 w-4" />
+                      Module {Math.ceil(prevWeekNum / 2)}
+                    </Button>
+                  )}
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  Module {currentModule} of {totalModules}
+                </span>
+                <div>
+                  {hasNext && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => navigate(`/review/${patientId}/${nextWeekNum}`)}
+                    >
+                      Module {Math.ceil(nextWeekNum / 2)}
+                      <ChevronRight className="ml-1 h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </header>
 
@@ -410,26 +476,43 @@ const ReviewWeek = () => {
             <Card className="shadow-card">
               <CardHeader>
                 <CardTitle>Patient Messages</CardTitle>
+                <CardDescription>All messages across modules</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3 max-h-64 overflow-y-auto">
+                <div className="space-y-3 max-h-96 overflow-y-auto">
                   {messages.length === 0 ? (
                     <p className="text-sm text-muted-foreground text-center py-4">
                       No messages from patient
                     </p>
                   ) : (
-                    messages.map((msg) => (
-                      <div
-                        key={msg.id}
-                        className={`p-3 rounded-lg ${msg.therapist_id ? "bg-accent" : "bg-primary/10"
-                          }`}
-                      >
-                        <p className="text-sm font-medium mb-1">
-                          {msg.therapist_id ? "You" : patient?.user?.name}
-                        </p>
-                        <p className="text-sm">{msg.body}</p>
-                      </div>
-                    ))
+                    messages.map((msg, idx) => {
+                      const msgWeekNum = msg.week?.number;
+                      const prevWeekNum = idx > 0 ? messages[idx - 1].week?.number : null;
+                      const moduleNum = msgWeekNum ? Math.ceil(msgWeekNum / 2) : null;
+                      const partLabel = msgWeekNum ? (msgWeekNum % 2 !== 0 ? "Part One" : "Part Two") : null;
+                      const showLabel = msgWeekNum !== prevWeekNum && moduleNum;
+
+                      return (
+                        <div key={msg.id}>
+                          {showLabel && (
+                            <p className="text-xs font-semibold text-muted-foreground mt-2 mb-1">
+                              Module {moduleNum} – {partLabel}
+                            </p>
+                          )}
+                          <div
+                            className={`p-3 rounded-lg ${msg.therapist_id ? "bg-accent" : "bg-primary/10"}`}
+                          >
+                            <p className="text-sm font-medium mb-1">
+                              {msg.therapist_id ? "You" : patient?.user?.name}
+                            </p>
+                            <p className="text-sm">{msg.body}</p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {msg.created_at ? new Date(msg.created_at).toLocaleDateString() : ""}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })
                   )}
                 </div>
               </CardContent>
