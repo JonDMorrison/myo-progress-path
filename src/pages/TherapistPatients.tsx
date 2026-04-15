@@ -198,7 +198,7 @@ export default function TherapistPatients() {
                         onClick={(e) => {
                           if ((e.target as HTMLElement).closest('button')) return;
                           const weekNum = patient.current_week_number || 1;
-                          navigate(`/review/${patient.patient_id}/${weekNum}`);
+                          navigate(`/therapist/patient/${patient.patient_id}`);
                         }}
                       >
                         <TableCell>
@@ -242,7 +242,7 @@ export default function TherapistPatients() {
                             size="sm"
                             onClick={() => {
                               const weekNum = patient.current_week_number || 1;
-                              navigate(`/review/${patient.patient_id}/${weekNum}`);
+                              navigate(`/therapist/patient/${patient.patient_id}`);
                             }}
                           >
                             View
@@ -273,7 +273,7 @@ export default function TherapistPatients() {
                 onClick={(e) => {
                   if ((e.target as HTMLElement).closest('button')) return;
                   const weekNum = patient.current_week_number || 1;
-                  navigate(`/review/${patient.patient_id}/${weekNum}`);
+                  navigate(`/therapist/patient/${patient.patient_id}`);
                 }}
               >
                 <CardContent className="p-4 space-y-3">
@@ -304,7 +304,7 @@ export default function TherapistPatients() {
                       size="sm" 
                       onClick={() => {
                         const weekNum = patient.current_week_number || 1;
-                        navigate(`/review/${patient.patient_id}/${weekNum}`);
+                        navigate(`/therapist/patient/${patient.patient_id}`);
                       }}
                       className="h-9"
                     >

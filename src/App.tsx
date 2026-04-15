@@ -19,6 +19,7 @@ import PatientDashboard from "./pages/PatientDashboard";
 import WeekDetail from "./pages/WeekDetail";
 import TherapistDashboard from "./pages/TherapistDashboard";
 import TherapistPatients from "./pages/TherapistPatients";
+import PatientOverview from "./pages/PatientOverview";
 import AdminContent from "./pages/AdminContent";
 import ReviewWeek from "./pages/ReviewWeek";
 import Reports from "./pages/Reports";
@@ -98,6 +99,7 @@ const App = () => {
                 {/* Protected: Staff routes */}
                 <Route path="/therapist" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistDashboard /></ProtectedRoute>} />
                 <Route path="/therapist/patients" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistPatients /></ProtectedRoute>} />
+                <Route path="/therapist/patient/:patientId" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><PatientOverview /></ProtectedRoute>} />
                 <Route path="/therapist/ai-assist" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistAIAssist /></ProtectedRoute>} />
                 <Route path="/review/:patientId/:weekNumber" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><ReviewWeek /></ProtectedRoute>} />
                 <Route path="/reports" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><Reports /></ProtectedRoute>} />
