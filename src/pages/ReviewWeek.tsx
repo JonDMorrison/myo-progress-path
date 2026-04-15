@@ -346,9 +346,9 @@ const ReviewWeek = () => {
       {/* Header */}
       <header className="sticky top-0 z-10 border-b bg-card/95 backdrop-blur shadow-sm">
         <div className="container mx-auto px-4 py-4">
-          <Button variant="ghost" onClick={() => navigate("/therapist")} className="mb-3">
+          <Button variant="ghost" onClick={() => navigate(`/therapist/patient/${patientId}`)} className="mb-3">
             <ArrowLeft className="mr-2" />
-            Back to Dashboard
+            {patient?.user?.name ? `Back to ${patient.user.name}` : "Back to Patient"}
           </Button>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
