@@ -559,9 +559,10 @@ const WeekDetail = () => {
       // Brief delay so the patient sees the toast before navigating
       setTimeout(() => navigate("/patient"), 1500);
     } catch (error: any) {
+      console.error("Module submission failed:", error);
       toast({
-        title: "Error",
-        description: error.message,
+        title: "Submission Failed",
+        description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
     }
