@@ -9,7 +9,7 @@ interface Message {
   body: string;
   therapist_id?: string;
   therapist?: { name: string };
-  sent_by?: 'patient' | 'therapist';
+  sent_by?: 'patient' | 'therapist' | 'system';
   created_at: string;
 }
 
@@ -72,21 +72,28 @@ export function MessagesCard({ messages, onSendMessage }: MessagesCardProps) {
               {recentMessages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`p-3.5 rounded-2xl text-sm transition-all duration-300 ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id))
-                      ? "bg-primary/5 border border-primary/10 rounded-br-none ml-8"
-                      : "bg-slate-50 border border-slate-100/50 rounded-bl-none mr-8 shadow-sm"
-                    }`}
+                  className={`p-3.5 rounded-2xl text-sm transition-all duration-300 ${
+                    msg.sent_by === 'system'
+                      ? "bg-blue-50 border border-blue-200 mx-4"
+                      : (msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id))
+                        ? "bg-primary/5 border border-primary/10 rounded-br-none ml-8"
+                        : "bg-slate-50 border border-slate-100/50 rounded-bl-none mr-8 shadow-sm"
+                  }`}
                 >
                   <div className="flex justify-between items-center mb-1.5">
-                    <span className={`text-[9px] font-black uppercase tracking-widest ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "text-slate-400" : "text-primary"
-                      }`}>
-                      {(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "You" : msg.therapist?.name || "Therapist"}
-                    </span>
+                    {msg.sent_by === 'system' ? (
+                      <span className="text-[9px] font-black uppercase tracking-widest text-blue-500">Notification</span>
+                    ) : (
+                      <span className={`text-[9px] font-black uppercase tracking-widest ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "text-slate-400" : "text-primary"
+                        }`}>
+                        {(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "You" : msg.therapist?.name || "Therapist"}
+                      </span>
+                    )}
                     <span className="text-[8px] font-bold text-slate-400 uppercase">
                       {new Date(msg.created_at).toLocaleDateString([], { month: 'short', day: 'numeric' })}
                     </span>
                   </div>
-                  <p className="text-slate-600 leading-relaxed text-xs font-medium">
+                  <p className={`leading-relaxed text-xs font-medium ${msg.sent_by === 'system' ? 'text-blue-700' : 'text-slate-600'}`}>
                     {msg.body}
                   </p>
                 </div>

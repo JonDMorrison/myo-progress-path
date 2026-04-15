@@ -500,10 +500,14 @@ const ReviewWeek = () => {
                             </p>
                           )}
                           <div
-                            className={`p-3 rounded-lg ${msg.therapist_id ? "bg-accent" : "bg-primary/10"}`}
+                            className={`p-3 rounded-lg ${
+                              msg.sent_by === 'system'
+                                ? "bg-blue-50 border border-blue-200"
+                                : msg.therapist_id ? "bg-accent" : "bg-primary/10"
+                            }`}
                           >
                             <p className="text-sm font-medium mb-1">
-                              {msg.therapist_id ? "You" : patient?.user?.name}
+                              {msg.sent_by === 'system' ? "📹 Notification" : msg.therapist_id ? "You" : patient?.user?.name}
                             </p>
                             <p className="text-sm">{msg.body}</p>
                             <p className="text-xs text-muted-foreground mt-1">

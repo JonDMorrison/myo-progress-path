@@ -90,6 +90,33 @@ export function ExerciseVideoUpload({
     
     if (result.success) {
       toast.success(`${kind === 'first_attempt' ? 'First' : 'Last'} attempt uploaded successfully`);
+
+      // Notify therapist when a first attempt video is uploaded
+      if (kind === 'first_attempt') {
+        try {
+          const { data: pat } = await supabase
+            .from('patients')
+            .select('id, assigned_therapist_id, user:users!user_id(name)')
+            .eq('id', patientId)
+            .single();
+
+          if (pat?.assigned_therapist_id) {
+            const moduleNum = Math.ceil(parseInt(weekId || '1') / 2);
+            const patientName = (pat as any).user?.name || 'Patient';
+            await supabase.from('messages').insert({
+              patient_id: patientId,
+              therapist_id: pat.assigned_therapist_id,
+              week_id: weekId?.startsWith('json-') ? null : weekId,
+              body: `📹 ${patientName} uploaded their first attempt video for ${exerciseTitle}. Review and send feedback when ready.`,
+              sent_by: 'system',
+            });
+          }
+        } catch (e) {
+          // Non-critical — don't block the upload flow
+          console.error('Failed to send first-attempt notification:', e);
+        }
+      }
+
       await loadExistingUploads();
       onUploadComplete?.();
     } else {

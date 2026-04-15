@@ -674,10 +674,11 @@ const TherapistDashboard = () => {
                   // flag which direction this one is so therapists don't
                   // confuse their own replies with a new patient message.
                   const isSent = !!msg.therapist_id && msg.therapist_id === userId;
+                  const isSystem = msg.sent_by === 'system';
                   return (
                     <Card
                       key={msg.id}
-                      className="cursor-pointer hover:bg-slate-50 transition-all"
+                      className={`cursor-pointer transition-all ${isSystem ? 'hover:bg-blue-50/80 border-blue-200 bg-blue-50/50' : 'hover:bg-slate-50'}`}
                       onClick={() => {
                         if (!weekNumber) {
                           toast({
@@ -699,8 +700,8 @@ const TherapistDashboard = () => {
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Badge variant={isSent ? "secondary" : "default"}>
-                              {isSent ? "Sent" : "From patient"}
+                            <Badge variant={isSystem ? "outline" : isSent ? "secondary" : "default"} className={isSystem ? "border-blue-300 text-blue-600" : ""}>
+                              {isSystem ? "📹 Notification" : isSent ? "Sent" : "From patient"}
                             </Badge>
                             <Badge variant="outline">{new Date(msg.created_at).toLocaleDateString()}</Badge>
                           </div>
