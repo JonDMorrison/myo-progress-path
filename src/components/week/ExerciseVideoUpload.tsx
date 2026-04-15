@@ -101,13 +101,25 @@ export function ExerciseVideoUpload({
             .single();
 
           if (pat?.assigned_therapist_id) {
-            const moduleNum = Math.ceil(parseInt(weekId || '1') / 2);
-            const patientName = (pat as any).user?.name || 'Patient';
+            // Look up week number from week UUID to compute module number
+            let moduleNum = 0;
+            const realWeekId = weekId?.startsWith('json-') ? null : weekId;
+            if (realWeekId) {
+              const { data: weekRow } = await supabase
+                .from('weeks')
+                .select('number')
+                .eq('id', realWeekId)
+                .single();
+              moduleNum = weekRow ? Math.ceil(weekRow.number / 2) : 0;
+            }
+
+            const patientName = (pat as any).user?.name || 'Your patient';
+            const moduleLabel = moduleNum > 0 ? ` for Module ${moduleNum}` : '';
             await supabase.from('messages').insert({
               patient_id: patientId,
               therapist_id: pat.assigned_therapist_id,
-              week_id: weekId?.startsWith('json-') ? null : weekId,
-              body: `📹 ${patientName} uploaded their first attempt video for ${exerciseTitle}. Review and send feedback when ready.`,
+              week_id: realWeekId,
+              body: `📹 ${patientName} uploaded their first attempt video${moduleLabel}. Tap to review and send early feedback.`,
               sent_by: 'system',
             });
           }
