@@ -641,62 +641,109 @@ const ReviewWeek = () => {
                 <CardDescription>Approve or request more practice</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="note">Note for Patient (optional for approval, required for needs more)</Label>
-                  {/* AI summary indicator removed - therapist writes all feedback */}
-                  <Textarea
-                    id="note"
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    placeholder="Provide feedback on their progress..."
-                    rows={4}
-                    disabled={submitting}
-                  />
-                </div>
+                {progress?.status === "approved" ? (
+                  <div className="space-y-4">
+                    <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-6 text-center space-y-2">
+                      <p className="text-3xl">✅</p>
+                      <p className="font-bold text-emerald-800 text-lg">Module Approved</p>
+                      <p className="text-sm text-emerald-700">
+                        This module was approved. The patient has been unlocked to continue.
+                      </p>
+                      {progress?.updated_at && (
+                        <p className="text-xs text-emerald-600">
+                          Approved on {new Date(progress.updated_at).toLocaleDateString()}
+                        </p>
+                      )}
+                    </div>
 
-                {/* Reassign button for already reviewed weeks */}
-                {isReassignable && progress?.status !== "submitted" && (
-                  <div className="mb-4 pb-4 border-b">
-                    <Button
-                      variant="secondary"
-                      onClick={handleReassign}
-                      disabled={submitting}
-                      className="w-full"
-                    >
-                      <Undo2 className="mr-2 h-4 w-4" />
-                      Reassign for Practice
-                    </Button>
-                    <p className="text-xs text-muted-foreground mt-2 text-center">
-                      This will unlock the week for the patient to practice again
-                    </p>
+                    {/* Reassign option even after approval */}
+                    {isReassignable && (
+                      <div className="pt-2">
+                        <div className="space-y-2">
+                          <Label htmlFor="note">Reason for reassignment (optional)</Label>
+                          <Textarea
+                            id="note"
+                            value={note}
+                            onChange={(e) => setNote(e.target.value)}
+                            placeholder="Provide a reason for reassigning..."
+                            rows={3}
+                            disabled={submitting}
+                          />
+                        </div>
+                        <Button
+                          variant="secondary"
+                          onClick={handleReassign}
+                          disabled={submitting}
+                          className="w-full mt-3"
+                        >
+                          <Undo2 className="mr-2 h-4 w-4" />
+                          Reassign for Practice
+                        </Button>
+                        <p className="text-xs text-muted-foreground mt-2 text-center">
+                          This will unlock the week for the patient to practice again
+                        </p>
+                      </div>
+                    )}
                   </div>
-                )}
+                ) : (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="note">Note for Patient (optional for approval, required for needs more)</Label>
+                      <Textarea
+                        id="note"
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                        placeholder="Provide feedback on their progress..."
+                        rows={4}
+                        disabled={submitting}
+                      />
+                    </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <Button
-                    variant="success"
-                    onClick={handleApprove}
-                    disabled={submitting || progress?.status !== "submitted"}
-                    className="w-full"
-                  >
-                    <CheckCircle2 className="mr-2" />
-                    Approve
-                  </Button>
-                  <Button
-                    variant="warning"
-                    onClick={handleNeedsMore}
-                    disabled={submitting || progress?.status !== "submitted"}
-                    className="w-full"
-                  >
-                    <AlertCircle className="mr-2" />
-                    Needs More
-                  </Button>
-                </div>
+                    {/* Reassign button for needs_more reviewed weeks */}
+                    {isReassignable && progress?.status !== "submitted" && (
+                      <div className="mb-4 pb-4 border-b">
+                        <Button
+                          variant="secondary"
+                          onClick={handleReassign}
+                          disabled={submitting}
+                          className="w-full"
+                        >
+                          <Undo2 className="mr-2 h-4 w-4" />
+                          Reassign for Practice
+                        </Button>
+                        <p className="text-xs text-muted-foreground mt-2 text-center">
+                          This will unlock the week for the patient to practice again
+                        </p>
+                      </div>
+                    )}
 
-                {progress?.status !== "submitted" && !isReassignable && (
-                  <p className="text-xs text-center text-muted-foreground">
-                    This module has already been reviewed
-                  </p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button
+                        variant="success"
+                        onClick={handleApprove}
+                        disabled={submitting || progress?.status !== "submitted"}
+                        className="w-full"
+                      >
+                        <CheckCircle2 className="mr-2" />
+                        Approve
+                      </Button>
+                      <Button
+                        variant="warning"
+                        onClick={handleNeedsMore}
+                        disabled={submitting || progress?.status !== "submitted"}
+                        className="w-full"
+                      >
+                        <AlertCircle className="mr-2" />
+                        Needs More
+                      </Button>
+                    </div>
+
+                    {progress?.status !== "submitted" && !isReassignable && (
+                      <p className="text-xs text-center text-muted-foreground">
+                        This module has already been reviewed
+                      </p>
+                    )}
+                  </>
                 )}
               </CardContent>
             </Card>
