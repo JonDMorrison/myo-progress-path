@@ -1091,6 +1091,15 @@
         "requires_video": false
       },
       {
+        "name": "Days 4-7: Wound Care and Active Participation",
+        "type": "protocol",
+        "props": [],
+        "description": "Wound care: You can use a very soft toothbrush to gently brush excess granulation tissue off the sutures. Sutures will dissolve on their own within a week.\n\nOptional: A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed prior to exercises to make them more tolerable.\n\nYour active participation is important to the post-operative success of treatment. It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.",
+        "compensations": [],
+        "demo_video_url": "",
+        "requires_video": false
+      },
+      {
         "name": "Gentle Lingual Palatal Suction (Days 4-7)",
         "type": "active",
         "duration": "1 minute",
@@ -1098,7 +1107,7 @@
         "props": [
           "Bite Block or Chopstick"
         ],
-        "description": "Wound care: You can use a very soft toothbrush to gently brush excess granulation tissue off the sutures. Sutures will dissolve on their own within a week.\n\nOptional: A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed prior to exercises to make them more tolerable.\n\nKeep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use gentle suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate. If tongue is overflowing you can slowly open and close teeth together to help tongue squish inside the arch. Using the provided chopsticks to push the tongue inside of the arch can also help.\n\nYour active participation is important to the post-operative success of treatment. It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.",
+        "description": "Keep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use gentle suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate. If tongue is overflowing you can slowly open and close teeth together to help tongue squish inside the arch. Using the provided chopsticks to push the tongue inside of the arch can also help.",
         "compensations": [
           "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation -- use bite block to avoid"
         ],
@@ -1457,7 +1466,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 12,
@@ -1620,7 +1629,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 13,
@@ -3079,7 +3088,7 @@
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
         "props": [],
-        "description": "Practice these exercises for the next 2 weeks. Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -3213,7 +3222,7 @@
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
         "props": [],
-        "description": "Practice these exercises for the next 2 weeks. Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -4948,7 +4957,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5071,7 +5080,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5211,7 +5220,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5352,7 +5361,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5459,7 +5468,7 @@
         "duration": "1-2 minutes",
         "frequency": "2x/day",
         "props": [],
-        "description": "Look back through the active exercises in this program and review one of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review one of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -5491,7 +5500,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5597,7 +5606,7 @@
         "duration": "1-2 minutes",
         "frequency": "2x/day",
         "props": [],
-        "description": "Look back through the active exercises in this program and review one of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review one of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -5629,7 +5638,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5703,7 +5712,7 @@
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
         "props": [],
-        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -5735,7 +5744,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5810,7 +5819,7 @@
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
         "props": [],
-        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -5842,7 +5851,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5917,7 +5926,7 @@
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
         "props": [],
-        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -5959,7 +5968,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -6034,7 +6043,7 @@
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
         "props": [],
-        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -6076,7 +6085,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -6152,7 +6161,7 @@
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
         "props": [],
-        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -6204,7 +6213,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -6285,7 +6294,7 @@
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
         "props": [],
-        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nPractice these exercises for the next 2 modules",
+        "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -6337,7 +6346,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "Same instructions as Module 6 Mouth Taping Overnight.",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }

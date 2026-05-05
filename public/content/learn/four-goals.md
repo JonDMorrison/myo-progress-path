@@ -12,6 +12,10 @@
   - Allergies
 - Those who mouth breath during developmental years, regardless of the cause, will often develop high vaulted and narrow palates (see photo below). This palatal difference reduces the width and height of the nasal cavity and will affect breathing for life.
 
+![Normal vs High-Arched Palate](/images/learn/palate-comparison-new.jpg)
+
+*Photo A (Comparison between normal palate and high arched palate)*
+
 - Some functions of nasal breathing include:
   - Filtration of air
   - Humidifying air (prevents lungs from drying out and becoming inflamed)
@@ -31,8 +35,6 @@
   - Eliminating allergens where possible
   - Practicing breathing exercises provided
   - Seeing an MD, Allergist or ENT if recommended
-
-![Normal vs High-Arched Palate](/images/learn/palate-comparison-new.jpg)
 
 ## 2. Lip Seal (all day and all night)
 
