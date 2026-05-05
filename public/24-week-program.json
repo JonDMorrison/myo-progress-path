@@ -552,7 +552,7 @@
           "Check and prevent muscle bracing."
         ],
         "demo_video_url": "https://player.vimeo.com/video/1143178383",
-        "modified_video_url": "https://player.vimeo.com/video/1143178715"
+        "modified_video_url": "https://player.vimeo.com/video/1143178321"
       },
       {
         "name": "K Sounds (Kuh, Guh, Unk)",
@@ -679,7 +679,7 @@
           "Check and prevent muscle bracing."
         ],
         "demo_video_url": "https://player.vimeo.com/video/1143178383",
-        "modified_video_url": "https://player.vimeo.com/video/1143178715"
+        "modified_video_url": "https://player.vimeo.com/video/1143178321"
       },
       {
         "name": "K Sounds (Kuh, Guh, Unk)",
@@ -1236,7 +1236,7 @@
         "props": [
           "Bite Block or Chopstick"
         ],
-        "description": "See exercise notes above. Okay to use stronger suction again.",
+        "description": "See exercise notes above.\n\n* Okay to use stronger suction again.",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143170960",
         "requires_video": false
@@ -1248,9 +1248,21 @@
         "frequency": "2-3x/day",
         "props": [],
         "description": "See exercise notes above.",
-        "compensations": [],
+        "compensations": [
+          "Watch in mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
+          "Scan for head/neck/facial/body tension and try to ease"
+        ],
         "demo_video_url": "https://player.vimeo.com/video/1143179366",
         "modified_video_url": "https://player.vimeo.com/video/1143178715",
+        "requires_video": false
+      },
+      {
+        "name": "Important: Continuing Beyond Post-Op",
+        "type": "protocol",
+        "props": [],
+        "description": "Important: The post-operative healing period is now complete, but your myofunctional therapy program is not. It is essential to continue with the full program beyond these two weeks. The exercises you have practiced post-frenectomy have been preparing your tongue for the coordination work ahead. Consistency with the remaining modules is what will prevent frenum reattachment and ensure lasting results.",
+        "compensations": [],
+        "demo_video_url": "",
         "requires_video": false
       },
       {
