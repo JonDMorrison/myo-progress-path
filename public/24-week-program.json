@@ -4737,7 +4737,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 12,
@@ -4878,7 +4878,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 50% improvement or 50% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 13,
@@ -4904,21 +4904,6 @@
           "Glass of Water"
         ],
         "description": "We will be advancing the Water Trap exercise from the previous module's exercises for this swallowing exercise. Single Sips is more about mastery of the concepts and doing the exercise quickly with lots of repetition so that it becomes second nature.\n\nStart with small sips/spoonfuls (advancing to larger ones once able) and trap in a perfect bowl against the roof of your mouth. Push tongue against roof of mouth into lingual palatal suction shape for swallowing. Cheeks, lips, and teeth should be in a smile during exercise.\n\nOnce the concept is mastered using a regular glass of water, practice drinking the same way, except from different containers. For example: bottle, can, thermos, straw, mug, etc. This exercise can also be done with a neutral or relaxed face once mastered with a smile",
-        "compensations": [
-          "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
-          "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
-        ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179799"
-      },
-      {
-        "name": "Cracker Chew and Check",
-        "type": "active",
-        "duration": "2 minutes",
-        "frequency": "2x/day",
-        "props": [
-          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, Cheez-Its, rice crackers, or plantain chips)"
-        ],
-        "description": "Chew a cracker for 20-30 chews (this will feel like a lot -- important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles -- avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing -- use the same swallowing technique that has been practiced over the last few modules.",
         "compensations": [
           "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
           "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
@@ -5042,21 +5027,6 @@
           "Glass of Water"
         ],
         "description": "We will be advancing the Water Trap exercise from the previous module's exercises for this swallowing exercise. Single Sips is more about mastery of the concepts and doing the exercise quickly with lots of repetition so that it becomes second nature.\n\nStart with small sips/spoonfuls (advancing to larger ones once able) and trap in a perfect bowl against the roof of your mouth. Push tongue against roof of mouth into lingual palatal suction shape for swallowing. Cheeks, lips, and teeth should be in a smile during exercise.\n\nOnce the concept is mastered using a regular glass of water, practice drinking the same way, except from different containers. For example: bottle, can, thermos, straw, mug, etc. This exercise can also be done with a neutral or relaxed face once mastered with a smile",
-        "compensations": [
-          "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
-          "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
-        ],
-        "demo_video_url": "https://player.vimeo.com/video/1143179799"
-      },
-      {
-        "name": "Cracker Chew and Check",
-        "type": "active",
-        "duration": "2 minutes",
-        "frequency": "2x/day",
-        "props": [
-          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, Cheez-Its, rice crackers, or plantain chips)"
-        ],
-        "description": "Chew a cracker for 20-30 chews (this will feel like a lot -- important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles -- avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing -- use the same swallowing technique that has been practiced over the last few modules.",
         "compensations": [
           "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
           "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
@@ -5295,7 +5265,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 60%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 60+% improvement or 60+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 16,
@@ -5436,7 +5406,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 60%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 60+% improvement or 60+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 17,
@@ -5819,7 +5789,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 75%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 75+% improvement or 75+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 20,
@@ -5926,7 +5896,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 75%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 75+% improvement or 75+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 21,
@@ -6043,7 +6013,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 85%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 85+% improvement or 85+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 22,
@@ -6160,7 +6130,7 @@
     },
     "requires_video_first": true,
     "requires_video_last": true,
-    "progress_benchmark": "Benchmark check: You should expect 85%+ total with tongue posture, nasal breathing and lip seal."
+    "progress_benchmark": "Are you on track with progress here? You should expect 85+% improvement or 85+% total with tongue posture, nasal breathing and lip seal. How is your level of awareness throughout the day?"
   },
   {
     "week": 23,
