@@ -64,12 +64,12 @@
         "type": "breathing_test",
         "frequency": "Once on day 1 only",
         "props": [],
-        "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself \n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself \n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Tongue Tip – One Elastic Hold",
+        "name": "Tongue Tip \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "5 minutes",
         "frequency": "1x/day",
@@ -201,12 +201,12 @@
         "type": "breathing_test",
         "frequency": "Once on day 1 only",
         "props": [],
-        "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself \n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself \n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Tongue Tip – One Elastic Hold",
+        "name": "Tongue Tip \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "5 minutes",
         "frequency": "1x/day",
@@ -341,7 +341,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "5 minutes",
         "frequency": "1x/day",
@@ -466,7 +466,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "5 minutes",
         "frequency": "1x/day",
@@ -593,7 +593,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "10 minutes",
         "frequency": "1x/day",
@@ -720,7 +720,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "10 minutes",
         "frequency": "1x/day",
@@ -866,7 +866,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "15 minutes",
         "frequency": "1x/day",
@@ -1012,7 +1012,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "15 minutes",
         "frequency": "1x/day",
@@ -1085,7 +1085,7 @@
         "name": "Days 1-3: Minimal Activity Protocol",
         "type": "protocol",
         "props": [],
-        "description": "Passive tongue exercises can be started right away: With the mouth comfortably open, gently reach your tongue up to touch the spot and move the tongue left and right to touch the inside of the cheeks.\n\n- Minimal Activity to avoid sutures coming out\n- Try to talk and eat as normally as possible but avoid spicy, crunchy, sharp and acidic foods\n- Soft, cold foods are best\n- Gently lift tongue up and down, left and right\n- Floor of Mouth Massage\n\nPain control: You should expect some mild swelling, pain, and/or discomfort as a normal process of wound healing. Pain is usually controlled with over-the-counter Advil and/or Tylenol. Symptoms usually self-resolve over the course of 1-2 weeks with proper rest and myofunctional therapy.\n\nWound care: It is recommended to lightly rinse with salt water several times a day to reduce the risk of infection. A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed — this is not required but is an option if additional pain control is needed.",
+        "description": "Passive tongue exercises can be started right away: With the mouth comfortably open, gently reach your tongue up to touch the spot and move the tongue left and right to touch the inside of the cheeks.\n\n- Minimal Activity to avoid sutures coming out\n- Try to talk and eat as normally as possible but avoid spicy, crunchy, sharp and acidic foods\n- Soft, cold foods are best\n- Gently lift tongue up and down, left and right\n- Floor of Mouth Massage\n\nPain control: You should expect some mild swelling, pain, and/or discomfort as a normal process of wound healing. Pain is usually controlled with over-the-counter Advil and/or Tylenol. Symptoms usually self-resolve over the course of 1-2 weeks with proper rest and myofunctional therapy.\n\nWound care: It is recommended to lightly rinse with salt water several times a day to reduce the risk of infection. A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed \u2014 this is not required but is an option if additional pain control is needed.",
         "compensations": [],
         "demo_video_url": "",
         "requires_video": false
@@ -1199,7 +1199,7 @@
     "module": 6,
     "title": "Module 6 (Post-Frenectomy)",
     "program_variant": "frenectomy",
-    "introduction": "Follow your post-operative protocol carefully to ensure proper healing and prevent reattachment.\n\nYour next myofunctional therapy session should be scheduled 1 week after release to check wound healing, tongue mobility, and adjust exercises if ready.\n\nBeyond Two Weeks: Resume normal diet and activities and continue with active exercises as directed by your myofunctional therapist. The wound will continue to heal for several months and contraction is normal, but stretching throughout the first 6-8 weeks will avoid permanent contraction. You should continue to self-assess throughout this time — if you feel tension, continue to do stretches.\n\nIf you have concerns during the healing period, you can call or text Dr. Caylor at 778-908-7158",
+    "introduction": "Follow your post-operative protocol carefully to ensure proper healing and prevent reattachment.\n\nYour next myofunctional therapy session should be scheduled 1 week after release to check wound healing, tongue mobility, and adjust exercises if ready.\n\nBeyond Two Weeks: Resume normal diet and activities and continue with active exercises as directed by your myofunctional therapist. The wound will continue to heal for several months and contraction is normal, but stretching throughout the first 6-8 weeks will avoid permanent contraction. You should continue to self-assess throughout this time \u2014 if you feel tension, continue to do stretches.\n\nIf you have concerns during the healing period, you can call or text Dr. Caylor at 778-908-7158",
     "objectives": [
       "Follow all post-operative protocol",
       "Continue with recommended exercises to prevent frenum reattachment",
@@ -1364,7 +1364,7 @@
         ],
         "description": "Keep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use strong suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate.",
         "compensations": [
-          "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation – use bite block to avoid"
+          "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation \u2013 use bite block to avoid"
         ],
         "demo_video_url": "https://player.vimeo.com/video/1143170960",
         "notes": "Alternate each practice session between this exercise and the other two alternating exercises."
@@ -1407,7 +1407,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "20 minutes",
         "frequency": "1x/day",
@@ -1527,7 +1527,7 @@
         ],
         "description": "Keep your lips back in a smile. Open mouth as wide as possible without floor of mouth lifting. Use strong suction to hold the tongue to the roof of your mouth and hold for as long as possible (Start with 10 seconds and work up to 1 minute). Try focusing on lifting the back portion of the tongue to the palate.",
         "compensations": [
-          "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation – use bite block to avoid"
+          "Watch in mirror for facial grimace (chin strain/dimpling), neck engagement, jaw protrusion and jaw lateralization, floor of mouth activation \u2013 use bite block to avoid"
         ],
         "demo_video_url": "https://player.vimeo.com/video/1143170960",
         "notes": "Alternate each practice session between this exercise and the other two alternating exercises."
@@ -1570,7 +1570,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "20 minutes",
         "frequency": "1x/day",
@@ -1706,12 +1706,12 @@
         "name": "BOLT Test (Midway Check In)",
         "type": "breathing_test",
         "props": [],
-        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "25 minutes",
         "frequency": "1x/day",
@@ -1847,12 +1847,12 @@
         "name": "BOLT Test (Midway Check In)",
         "type": "breathing_test",
         "props": [],
-        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "25 minutes",
         "frequency": "1x/day",
@@ -1994,7 +1994,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "30 minutes",
         "frequency": "1x/day",
@@ -2136,7 +2136,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "30 minutes",
         "frequency": "1x/day",
@@ -2278,7 +2278,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "30 minutes",
         "frequency": "1x/day",
@@ -2419,7 +2419,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "30 minutes",
         "frequency": "1x/day",
@@ -2559,7 +2559,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "40 minutes",
         "frequency": "1x/day",
@@ -2700,7 +2700,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "40 minutes",
         "frequency": "1x/day",
@@ -2853,7 +2853,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "50 minutes",
         "frequency": "1x/day",
@@ -3006,7 +3006,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "50 minutes",
         "frequency": "1x/day",
@@ -3130,12 +3130,12 @@
         "name": "BOLT Test (Final Check In)",
         "type": "breathing_test",
         "props": [],
-        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "1 hour",
         "frequency": "1x/day",
@@ -3264,12 +3264,12 @@
         "name": "BOLT Test (Final Check In)",
         "type": "breathing_test",
         "props": [],
-        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "1 hour",
         "frequency": "1x/day",
@@ -3350,7 +3350,7 @@
   {
     "week": 25,
     "module": 14,
-    "title": "Module 14 – Post-Program Review and Maintenance",
+    "title": "Module 14 \u2013 Post-Program Review and Maintenance",
     "program_variant": "frenectomy",
     "introduction": "Congratulations on finishing your Myofunctional Therapy Program!",
     "objectives": [],
@@ -3430,12 +3430,12 @@
         "type": "breathing_test",
         "frequency": "Once on day 1 only",
         "props": [],
-        "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Tongue Tip – One Elastic Hold",
+        "name": "Tongue Tip \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "5 minutes",
         "frequency": "1x/day",
@@ -3562,12 +3562,12 @@
         "type": "breathing_test",
         "frequency": "Once on day 1 only",
         "props": [],
-        "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Tongue Tip – One Elastic Hold",
+        "name": "Tongue Tip \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "5 minutes",
         "frequency": "1x/day",
@@ -3697,7 +3697,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "5 minutes",
         "frequency": "1x/day",
@@ -3822,7 +3822,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "5 minutes",
         "frequency": "1x/day",
@@ -3949,7 +3949,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "10 minutes",
         "frequency": "1x/day",
@@ -4076,7 +4076,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "10 minutes",
         "frequency": "1x/day",
@@ -4191,7 +4191,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "15 minutes",
         "frequency": "1x/day",
@@ -4306,7 +4306,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "15 minutes",
         "frequency": "1x/day",
@@ -4434,7 +4434,7 @@
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "15 minutes",
         "frequency": "1x/day",
@@ -4562,7 +4562,7 @@
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "15 minutes",
         "frequency": "1x/day",
@@ -4687,7 +4687,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "20 minutes",
         "frequency": "1x/day",
@@ -4828,7 +4828,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "20 minutes",
         "frequency": "1x/day",
@@ -4904,7 +4904,7 @@
   {
     "week": 13,
     "module": 7,
-    "title": "Module 6",
+    "title": "Module 7",
     "program_variant": "standard",
     "introduction": "This module advances swallowing to harder foods and introduces cheek lift exercises.",
     "objectives": [
@@ -4948,9 +4948,9 @@
         "type": "active",
         "duration": "2 minutes 2x/day",
         "props": [
-          "Crackers — Goldfish, Ritz, Pretzels, Wheat Thins, and Cheez-Its work well. For healthier or gluten free options: rice crackers (not rice cakes) or plantain chips tend to be a good option."
+          "Crackers \u2014 Goldfish, Ritz, Pretzels, Wheat Thins, and Cheez-Its work well. For healthier or gluten free options: rice crackers (not rice cakes) or plantain chips tend to be a good option."
         ],
-        "description": "Chew a cracker for 20-30 chews (this will feel like a lot — important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles — avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing — use the same swallowing technique that has been practiced over the last few weeks.",
+        "description": "Chew a cracker for 20-30 chews (this will feel like a lot \u2014 important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles \u2014 avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing \u2014 use the same swallowing technique that has been practiced over the last few weeks.",
         "compensations": [
           "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
           "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
@@ -4960,12 +4960,12 @@
         "name": "BOLT Test (Midway Check In)",
         "type": "breathing_test",
         "props": [],
-        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "25 minutes",
         "frequency": "1x/day",
@@ -4982,7 +4982,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5040,7 +5040,7 @@
   {
     "week": 14,
     "module": 7,
-    "title": "Module 6",
+    "title": "Module 7",
     "program_variant": "standard",
     "introduction": "This module advances swallowing to harder foods and introduces cheek lift exercises.",
     "objectives": [
@@ -5084,9 +5084,9 @@
         "type": "active",
         "duration": "2 minutes 2x/day",
         "props": [
-          "Crackers — Goldfish, Ritz, Pretzels, Wheat Thins, and Cheez-Its work well. For healthier or gluten free options: rice crackers (not rice cakes) or plantain chips tend to be a good option."
+          "Crackers \u2014 Goldfish, Ritz, Pretzels, Wheat Thins, and Cheez-Its work well. For healthier or gluten free options: rice crackers (not rice cakes) or plantain chips tend to be a good option."
         ],
-        "description": "Chew a cracker for 20-30 chews (this will feel like a lot — important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles — avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing — use the same swallowing technique that has been practiced over the last few weeks.",
+        "description": "Chew a cracker for 20-30 chews (this will feel like a lot \u2014 important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles \u2014 avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing \u2014 use the same swallowing technique that has been practiced over the last few weeks.",
         "compensations": [
           "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
           "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
@@ -5096,12 +5096,12 @@
         "name": "BOLT Test (Midway Check In)",
         "type": "breathing_test",
         "props": [],
-        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "25 minutes",
         "frequency": "1x/day",
@@ -5118,7 +5118,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5176,7 +5176,7 @@
   {
     "week": 15,
     "module": 8,
-    "title": "Module 7",
+    "title": "Module 8",
     "program_variant": "standard",
     "introduction": "This module refines swallowing with a neutral face and introduces lip seal training.",
     "objectives": [
@@ -5241,7 +5241,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "30 minutes",
         "frequency": "1x/day",
@@ -5258,7 +5258,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5317,7 +5317,7 @@
   {
     "week": 16,
     "module": 8,
-    "title": "Module 7",
+    "title": "Module 8",
     "program_variant": "standard",
     "introduction": "This module refines swallowing with a neutral face and introduces lip seal training.",
     "objectives": [
@@ -5382,7 +5382,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – One Elastic Hold",
+        "name": "Middle of Tongue \u2013 One Elastic Hold",
         "type": "passive",
         "duration": "30 minutes",
         "frequency": "1x/day",
@@ -5399,7 +5399,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5458,7 +5458,7 @@
   {
     "week": 17,
     "module": 9,
-    "title": "Module 8",
+    "title": "Module 9",
     "program_variant": "standard",
     "introduction": "This module transitions swallowing to real meals and adds a second elastic.",
     "objectives": [
@@ -5521,7 +5521,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "30 minutes",
         "frequency": "1x/day",
@@ -5538,7 +5538,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5596,7 +5596,7 @@
   {
     "week": 18,
     "module": 9,
-    "title": "Module 8",
+    "title": "Module 9",
     "program_variant": "standard",
     "introduction": "This module transitions swallowing to real meals and adds a second elastic.",
     "objectives": [
@@ -5659,7 +5659,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "30 minutes",
         "frequency": "1x/day",
@@ -5676,7 +5676,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5734,7 +5734,7 @@
   {
     "week": 19,
     "module": 10,
-    "title": "Module 9",
+    "title": "Module 10",
     "program_variant": "standard",
     "introduction": "This module focuses on self-directed practice and lateral posture work.",
     "objectives": [
@@ -5765,7 +5765,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "40 minutes",
         "frequency": "1x/day",
@@ -5782,7 +5782,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5841,7 +5841,7 @@
   {
     "week": 20,
     "module": 10,
-    "title": "Module 9",
+    "title": "Module 10",
     "program_variant": "standard",
     "introduction": "This module focuses on self-directed practice and lateral posture work.",
     "objectives": [
@@ -5872,7 +5872,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "40 minutes",
         "frequency": "1x/day",
@@ -5889,7 +5889,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -5948,7 +5948,7 @@
   {
     "week": 21,
     "module": 11,
-    "title": "Module 10",
+    "title": "Module 11",
     "program_variant": "standard",
     "introduction": "This module introduces alternating posture exercises and continues self-directed practice.",
     "objectives": [
@@ -5989,7 +5989,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "50 minutes",
         "frequency": "1x/day",
@@ -6006,7 +6006,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -6065,7 +6065,7 @@
   {
     "week": 22,
     "module": 11,
-    "title": "Module 10",
+    "title": "Module 11",
     "program_variant": "standard",
     "introduction": "This module introduces alternating posture exercises and continues self-directed practice.",
     "objectives": [
@@ -6106,7 +6106,7 @@
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "50 minutes",
         "frequency": "1x/day",
@@ -6123,7 +6123,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -6182,7 +6182,7 @@
   {
     "week": 23,
     "module": 12,
-    "title": "Module 11",
+    "title": "Module 12",
     "program_variant": "standard",
     "introduction": "Your final active module. Complete your final BOLT check-in and review exercises you found most challenging.",
     "objectives": [
@@ -6229,12 +6229,12 @@
         "name": "BOLT Test (Final Check In)",
         "type": "breathing_test",
         "props": [],
-        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "1 hour",
         "frequency": "1x/day",
@@ -6251,7 +6251,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -6315,7 +6315,7 @@
   {
     "week": 24,
     "module": 12,
-    "title": "Module 11",
+    "title": "Module 12",
     "program_variant": "standard",
     "introduction": "Your final active module. Complete your final BOLT check-in and review exercises you found most challenging.",
     "objectives": [
@@ -6362,12 +6362,12 @@
         "name": "BOLT Test (Final Check In)",
         "type": "breathing_test",
         "props": [],
-        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n• 40-60 seconds is healthy and ideal\n• 30-39 seconds indicates mild breathing/airway issues\n• 20-29 seconds indicates moderate breathing/airway issues\n• 10-19 seconds indicates unhealthy breathing\n• 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
+        "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
       },
       {
-        "name": "Middle of Tongue – Two Elastic Hold",
+        "name": "Middle of Tongue \u2013 Two Elastic Hold",
         "type": "passive",
         "duration": "1 hour",
         "frequency": "1x/day",
@@ -6384,7 +6384,7 @@
         "props": [
           "Mouth tape (Micropore or Surgical Tape recommended)"
         ],
-        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable – vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
+        "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": "/images/exercises/mouth-taping-horizontal.jpg,/images/exercises/mouth-taping-x.jpg"
       }
@@ -6448,7 +6448,7 @@
   {
     "week": 25,
     "module": 13,
-    "title": "Module 12 – Post-Program Review and Maintenance",
+    "title": "Module 13",
     "program_variant": "standard",
     "introduction": "Congratulations on finishing your Myofunctional Therapy Program!",
     "objectives": [],
