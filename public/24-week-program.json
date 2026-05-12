@@ -63,7 +63,9 @@
         "name": "BOLT Test",
         "type": "breathing_test",
         "frequency": "Once on day 1 only",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself \n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -200,7 +202,9 @@
         "name": "BOLT Test",
         "type": "breathing_test",
         "frequency": "Once on day 1 only",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself \n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -323,7 +327,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Fill your mouth with air. Move air into the right cheek and hold for 5 seconds. Move air into the left cheek and hold for 5 seconds. Move air into the top lip and hold for 5 seconds. Move air into the lower lip and hold for 5 seconds. Repeat for 2 minutes",
         "compensations": [
           "Watch in the mirror for jaw lateralization and jaw protrusion. Keep teeth gently together to help avoid.",
@@ -335,7 +341,9 @@
         "name": "Belly/Diaphragm Breathing",
         "type": "breathing",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "1. Lie on the floor face up with your knees slightly bent.\n2. Place one hand lightly on your stomach and the other hand on your chest.\n3. As you breathe, feel which hand is moving more, then begin to concentrate on breathing using your diaphragm (your belly), and not using your chest. Feel your stomach rise as your lungs fill with air from the bottom.\n4. Let your stomach fall naturally when breathing out by relaxing your diaphragm.\n5. Try placing a small object on your stomach, such as a small book or your cell phone, so that you can see the movement more easily and keep your breathing focused on that area.\n6. Next, try this exercise standing or sitting up. Place your hands in the same position and focus your breathing the same way so that your stomach moves rather than your chest. This may take a bit more concentration.\n7. Practice for 5 minutes at a time. Ideally, it is good to do this exercise first thing in the morning or at night before falling asleep because you are already in bed.\n\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": ""
@@ -448,7 +456,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Fill your mouth with air. Move air into the right cheek and hold for 5 seconds. Move air into the left cheek and hold for 5 seconds. Move air into the top lip and hold for 5 seconds. Move air into the lower lip and hold for 5 seconds. Repeat for 2 minutes",
         "compensations": [
           "Watch in the mirror for jaw lateralization and jaw protrusion. Keep teeth gently together to help avoid.",
@@ -460,7 +470,9 @@
         "name": "Belly/Diaphragm Breathing",
         "type": "breathing",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "1. Lie on the floor face up with your knees slightly bent.\n2. Place one hand lightly on your stomach and the other hand on your chest.\n3. As you breathe, feel which hand is moving more, then begin to concentrate on breathing using your diaphragm (your belly), and not using your chest. Feel your stomach rise as your lungs fill with air from the bottom.\n4. Let your stomach fall naturally when breathing out by relaxing your diaphragm.\n5. Try placing a small object on your stomach, such as a small book or your cell phone, so that you can see the movement more easily and keep your breathing focused on that area.\n6. Next, try this exercise standing or sitting up. Place your hands in the same position and focus your breathing the same way so that your stomach moves rather than your chest. This may take a bit more concentration.\n7. Practice for 5 minutes at a time. Ideally, it is good to do this exercise first thing in the morning or at night before falling asleep because you are already in bed.\n\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": ""
@@ -576,7 +588,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "While maintaining contact with the tongue under the lips, trace circles around the inside of the upper and lower lips. Alternate three times each direction. Keep your lips closed during this exercise.\n\nTracing with larger circles extending into the cheeks can add an extra stretch/challenge. Do smaller circles for patients who have more tongue restriction.",
         "compensations": [
           "Watch in mirror to ensure as little jaw movement as possible - you may hold jaw or chin to minimize at first but try to limit over time",
@@ -587,7 +601,9 @@
       {
         "name": "4-7-8 Breathing Pattern",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Instructions:\n1. Set a timer for 5 minutes and begin.\n2. Inhale counting to 4.\n3. Before exhaling, hold your breath for a count of 7.\n4. Exhale counting to 8.\n5. Repeat for 5 minutes.\n\nTips:\n- Do this anytime of day to help you relax or do it lying in bed to help you fall asleep.\n- Remember to breathe only through your nose.\n- Consider doing the unblocking your nose exercises first\n- Focus on inhaling the air into your belly/diaphragm.\n- When you exhale, you may feel like you have to push out all your air. This is normal and helps promote deep breathing.",
         "compensations": [],
         "demo_video_url": ""
@@ -703,7 +719,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "While maintaining contact with the tongue under the lips, trace circles around the inside of the upper and lower lips. Alternate three times each direction. Keep your lips closed during this exercise.\n\nTracing with larger circles extending into the cheeks can add an extra stretch/challenge. Do smaller circles for patients who have more tongue restriction.",
         "compensations": [
           "Watch in mirror to ensure as little jaw movement as possible - you may hold jaw or chin to minimize at first but try to limit over time",
@@ -714,7 +732,9 @@
       {
         "name": "4-7-8 Breathing Pattern",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Instructions:\n1. Set a timer for 5 minutes and begin.\n2. Inhale counting to 4.\n3. Before exhaling, hold your breath for a count of 7.\n4. Exhale counting to 8.\n5. Repeat for 5 minutes.\n\nTips:\n- Do this anytime of day to help you relax or do it lying in bed to help you fall asleep.\n- Remember to breathe only through your nose.\n- Consider doing the unblocking your nose exercises first\n- Focus on inhaling the air into your belly/diaphragm.\n- When you exhale, you may feel like you have to push out all your air. This is normal and helps promote deep breathing.",
         "compensations": [],
         "demo_video_url": ""
@@ -852,7 +872,9 @@
         "type": "active",
         "duration": "1 minute each side",
         "frequency": "2-3x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Massage muscles along the floor of the mouth to release tension. Be slow and gentle, focusing on 1 area at a time.",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143171555"
@@ -860,7 +882,9 @@
       {
         "name": "Over Breathing Awareness",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "When you stop mouth breathing and learn to bring your breathing volume toward normal, you have better oxygenation of your tissues and organs, including your brain.\n\nTypical characteristics of over-breathing include mouth breathing, upper chest breathing, sighing, noticeable breathing during rest, and taking large breaths before talking\n\nInstructions:\n1. Start to become aware of/monitor habits you have that indicate you are over-breathing. This includes the following:\n- Hearing yourself breathe while you are relaxed\n- Regular sighing and sniffing\n- Taking large breaths before speaking\n- Frequent yawning\n- Upper chest movement while breathing\n\n2. Learn to counteract and limit these behaviors:\n- If you can hear that your breathing is heavy, focus on slowing your breath and feeling the air in your nostrils. Try to quiet yourself.\n- If you notice regular sighing and sniffing, stop yourself in the act. Pause your breathing for 3-5 seconds, then swallow instead.\n- If you take large breaths before speaking, try to prevent the breath, and take a drink of water or swallow instead.\n- If you are yawning frequently, practice stifling the yawn or do it with a closed mouth.\n- If you feel a lot of upper chest movement while breathing, then try to focus on taking slow breaths into your diaphragm, and focus on shifting the movement to that area instead.",
         "compensations": [],
         "demo_video_url": ""
@@ -998,7 +1022,9 @@
         "type": "active",
         "duration": "1 minute each side",
         "frequency": "2-3x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Massage muscles along the floor of the mouth to release tension. Be slow and gentle, focusing on 1 area at a time.",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143171555"
@@ -1006,7 +1032,9 @@
       {
         "name": "Over Breathing Awareness",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "When you stop mouth breathing and learn to bring your breathing volume toward normal, you have better oxygenation of your tissues and organs, including your brain.\n\nTypical characteristics of over-breathing include mouth breathing, upper chest breathing, sighing, noticeable breathing during rest, and taking large breaths before talking\n\nInstructions:\n1. Start to become aware of/monitor habits you have that indicate you are over-breathing. This includes the following:\n- Hearing yourself breathe while you are relaxed\n- Regular sighing and sniffing\n- Taking large breaths before speaking\n- Frequent yawning\n- Upper chest movement while breathing\n\n2. Learn to counteract and limit these behaviors:\n- If you can hear that your breathing is heavy, focus on slowing your breath and feeling the air in your nostrils. Try to quiet yourself.\n- If you notice regular sighing and sniffing, stop yourself in the act. Pause your breathing for 3-5 seconds, then swallow instead.\n- If you take large breaths before speaking, try to prevent the breath, and take a drink of water or swallow instead.\n- If you are yawning frequently, practice stifling the yawn or do it with a closed mouth.\n- If you feel a lot of upper chest movement while breathing, then try to focus on taking slow breaths into your diaphragm, and focus on shifting the movement to that area instead.",
         "compensations": [],
         "demo_video_url": ""
@@ -1084,7 +1112,9 @@
       {
         "name": "Days 1-3: Minimal Activity Protocol",
         "type": "protocol",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Passive tongue exercises can be started right away: With the mouth comfortably open, gently reach your tongue up to touch the spot and move the tongue left and right to touch the inside of the cheeks.\n\n- Minimal Activity to avoid sutures coming out\n- Try to talk and eat as normally as possible but avoid spicy, crunchy, sharp and acidic foods\n- Soft, cold foods are best\n- Gently lift tongue up and down, left and right\n- Floor of Mouth Massage\n\nPain control: You should expect some mild swelling, pain, and/or discomfort as a normal process of wound healing. Pain is usually controlled with over-the-counter Advil and/or Tylenol. Symptoms usually self-resolve over the course of 1-2 weeks with proper rest and myofunctional therapy.\n\nWound care: It is recommended to lightly rinse with salt water several times a day to reduce the risk of infection. A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed \u2014 this is not required but is an option if additional pain control is needed.",
         "compensations": [],
         "demo_video_url": "",
@@ -1093,7 +1123,9 @@
       {
         "name": "Days 4-7: Wound Care and Active Participation",
         "type": "protocol",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Wound care: You can use a very soft toothbrush to gently brush excess granulation tissue off the sutures. Sutures will dissolve on their own within a week.\n\nOptional: A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed prior to exercises to make them more tolerable.\n\nYour active participation is important to the post-operative success of treatment. It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.",
         "compensations": [],
         "demo_video_url": "",
@@ -1119,7 +1151,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2-3x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Try with your mouth open, halfway or closed. Place the tip of the tongue against the spot and trace back along the palate in a straight line and far back as possible. You should feel a stretch in the frenum and floor of your mouth.",
         "compensations": [
           "Watch in mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
@@ -1211,7 +1245,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2-3x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143178528",
@@ -1222,7 +1258,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2-3x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Keeping tongue, jaw, neck and face relaxed, slide thumbs with pads facing upward underneath the tongue on either side of the frenum. Stretch the body of the tongue upward away from the floor of mouth",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143171484",
@@ -1246,7 +1284,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2-3x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "See exercise notes above.",
         "compensations": [
           "Watch in mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
@@ -1259,7 +1299,9 @@
       {
         "name": "Important: Continuing Beyond Post-Op",
         "type": "protocol",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Important: The post-operative healing period is now complete, but your myofunctional therapy program is not. It is essential to continue with the full program beyond these two weeks. The exercises you have practiced post-frenectomy have been preparing your tongue for the coordination work ahead. Consistency with the remaining modules is what will prevent frenum reattachment and ensure lasting results.",
         "compensations": [],
         "demo_video_url": "",
@@ -1337,7 +1379,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Mouth should be open about half way (practice with a smile for 1 minute and relaxed face for 1 minute), the tongue should form a bowl shape by sinking into the floor of the mouth and curling the sides and tip up. The first goal is to successfully make the correct shape with the tongue. Once this is achieved, the second goal is to hold the shape for 10 seconds or longer without compensations.\n\n- Watch in the mirror to avoid lips rounding, neck engagement, jaw lateralization and jaw protrusion. Make sure this can be done with a relaxed/still face as well as with cheeks/lips back in a smile.\n- The tongue may want to rise up high in the mouth while making the bowl shape. If this happens, practice lowering the tongue into the floor of the mouth in a normal shape first. If you struggle rolling the sides, a chopstick can be used to gently press the center of the tongue down, or a band can be placed on the surface of the tongue as a target to \"wrap the edges around\". A small candy or goldfish cracker can be used to make this more fun for kids.\n- This exercise can be difficult to master and you may not be able to accomplish it until you have a lightbulb moment and then it will be easier afterwards. Keep practicing and don't be discouraged!",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143177779"
@@ -1347,7 +1391,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Hold the lips between the teeth for 5 seconds and pop them out with a clear and loud sound.",
         "compensations": [
           "This exercise may cause facial tension/pain for people with TMD. Important to limit tension, neck engagement and jaw protrusion to prevent"
@@ -1374,7 +1420,9 @@
         "type": "active",
         "frequency": "1 minute ALTERNATING",
         "duration": "1 minute",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143178528",
@@ -1401,7 +1449,9 @@
         "name": "Take a 15-Minute Walk: Nasal Breathing Only",
         "type": "breathing",
         "frequency": "4x/week ideally",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "1. Walk for 15 minutes, concentrating on breathing through your nose, ideally using mouth tape.\n2. Keep a casual but steady pace. If you feel winded or lacking oxygen, just slow down. If you need to stop completely to slow your breathing, that is okay too. Just don't allow yourself to breathe through your mouth. If this is easy for you, then you can try speeding up, walking up a hill, or jogging for a short distance.\n\nTips:\n- Avoid talking, laughing, sighing, yawning, sniffing, and any other signs of over breathing that your body may try to get you to do.\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": ""
@@ -1500,7 +1550,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Mouth should be open about half way (practice with a smile for 1 minute and relaxed face for 1 minute), the tongue should form a bowl shape by sinking into the floor of the mouth and curling the sides and tip up. The first goal is to successfully make the correct shape with the tongue. Once this is achieved, the second goal is to hold the shape for 10 seconds or longer without compensations.\n\n- Watch in the mirror to avoid lips rounding, neck engagement, jaw lateralization and jaw protrusion. Make sure this can be done with a relaxed/still face as well as with cheeks/lips back in a smile.\n- The tongue may want to rise up high in the mouth while making the bowl shape. If this happens, practice lowering the tongue into the floor of the mouth in a normal shape first. If you struggle rolling the sides, a chopstick can be used to gently press the center of the tongue down, or a band can be placed on the surface of the tongue as a target to \"wrap the edges around\". A small candy or goldfish cracker can be used to make this more fun for kids.\n- This exercise can be difficult to master and you may not be able to accomplish it until you have a lightbulb moment and then it will be easier afterwards. Keep practicing and don't be discouraged!",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143177779"
@@ -1510,7 +1562,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Hold the lips between the teeth for 5 seconds and pop them out with a clear and loud sound.",
         "compensations": [
           "This exercise may cause facial tension/pain for people with TMD. Important to limit tension, neck engagement and jaw protrusion to prevent"
@@ -1537,7 +1591,9 @@
         "type": "active",
         "frequency": "1 minute ALTERNATING",
         "duration": "1 minute",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143178528",
@@ -1564,7 +1620,9 @@
         "name": "Take a 15-Minute Walk: Nasal Breathing Only",
         "type": "breathing",
         "frequency": "4x/week ideally",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "1. Walk for 15 minutes, concentrating on breathing through your nose, ideally using mouth tape.\n2. Keep a casual but steady pace. If you feel winded or lacking oxygen, just slow down. If you need to stop completely to slow your breathing, that is okay too. Just don't allow yourself to breathe through your mouth. If this is easy for you, then you can try speeding up, walking up a hill, or jogging for a short distance.\n\nTips:\n- Avoid talking, laughing, sighing, yawning, sniffing, and any other signs of over breathing that your body may try to get you to do.\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": ""
@@ -1694,7 +1752,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "The mouth should be open half way. Practice with cheeks back in a smile and relaxed face. Tongue movements should be as precise and slow as possible. The smallest surface on the tip of the tongue should be used to trace the lips (or teeth if lips are too difficult). The goal is to have the tongue trace only the pink part of the lips, and not move onto the surrounding skin of the face.",
         "compensations": [
           "Avoid neck engagement and jaw lateralization during exercise to help with tongue-jaw dissociation",
@@ -1705,7 +1765,9 @@
       {
         "name": "BOLT Test (Midway Check In)",
         "type": "breathing_test",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -1835,7 +1897,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "The mouth should be open half way. Practice with cheeks back in a smile and relaxed face. Tongue movements should be as precise and slow as possible. The smallest surface on the tip of the tongue should be used to trace the lips (or teeth if lips are too difficult). The goal is to have the tongue trace only the pink part of the lips, and not move onto the surrounding skin of the face.",
         "compensations": [
           "Avoid neck engagement and jaw lateralization during exercise to help with tongue-jaw dissociation",
@@ -1846,7 +1910,9 @@
       {
         "name": "BOLT Test (Midway Check In)",
         "type": "breathing_test",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -1988,7 +2054,9 @@
       {
         "name": "Reduced Breathing",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Helps to improve BOLT score\n\nConsider doing the unblocking your nose exercises first\n\nInstructions:\n1. Start this exercise by doing the BOLT Test (see previous module of exercises)\n2. This time, instead of releasing your nose to take your bolt score measurement, extend your breath hold for 5-10 seconds longer. This should create a feeling of air hunger, or the desire to breathe heavily when you release your nose.\n3. Release your nose and start your timer.\n4. Do not allow yourself to gasp in air through your mouth or to take deep breaths. Instead, focus on breathing through your nose for the next 2 minutes at a \"reduced rate\".\n5. This means that rather than inhaling a full breath, you need to inhale less -- about 10% less than you would normally.\n6. For the 2-minute duration, you should feel like you are maintaining a slightly oxygen-deprived state. It should not feel too difficult, just a slight struggle.\n7. Concentrate on breathing slowly, into your belly or diaphragm, and the feeling of the air in your nostrils. Count to 5 as you inhale, then pause for 3 with your lungs filled, and count to 5 as you exhale is a good way to stay focused on your breathing.\n8. When the 2 minutes are up, release your nose, and allow your breathing to return to normal. Do not take deep or gasping breaths, just normal-sized breaths.\n9. Breathe normally for 1 minute and then decrease your breathing to the \"reduced rate\" (10% less) and repeat for 2 more minutes, followed by 1 minute of normal breathing as a recovery.\n10. Repeat this for a total of 3 cycles -- it should take about 10 minutes total including the BOLT Test at the beginning.\n\nTips:\n- If this exercise is too difficult, you are probably reducing your breathing too much.\n- Remember that you only need to do the BOLT test at the beginning of the exercise. It is meant to be done only once, not at the beginning of each cycle.",
         "compensations": [],
         "demo_video_url": ""
@@ -2130,7 +2198,9 @@
       {
         "name": "Reduced Breathing",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Helps to improve BOLT score\n\nConsider doing the unblocking your nose exercises first\n\nInstructions:\n1. Start this exercise by doing the BOLT Test (see previous module of exercises)\n2. This time, instead of releasing your nose to take your bolt score measurement, extend your breath hold for 5-10 seconds longer. This should create a feeling of air hunger, or the desire to breathe heavily when you release your nose.\n3. Release your nose and start your timer.\n4. Do not allow yourself to gasp in air through your mouth or to take deep breaths. Instead, focus on breathing through your nose for the next 2 minutes at a \"reduced rate\".\n5. This means that rather than inhaling a full breath, you need to inhale less -- about 10% less than you would normally.\n6. For the 2-minute duration, you should feel like you are maintaining a slightly oxygen-deprived state. It should not feel too difficult, just a slight struggle.\n7. Concentrate on breathing slowly, into your belly or diaphragm, and the feeling of the air in your nostrils. Count to 5 as you inhale, then pause for 3 with your lungs filled, and count to 5 as you exhale is a good way to stay focused on your breathing.\n8. When the 2 minutes are up, release your nose, and allow your breathing to return to normal. Do not take deep or gasping breaths, just normal-sized breaths.\n9. Breathe normally for 1 minute and then decrease your breathing to the \"reduced rate\" (10% less) and repeat for 2 more minutes, followed by 1 minute of normal breathing as a recovery.\n10. Repeat this for a total of 3 cycles -- it should take about 10 minutes total including the BOLT Test at the beginning.\n\nTips:\n- If this exercise is too difficult, you are probably reducing your breathing too much.\n- Remember that you only need to do the BOLT test at the beginning of the exercise. It is meant to be done only once, not at the beginning of each cycle.",
         "compensations": [],
         "demo_video_url": ""
@@ -2259,7 +2329,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Start with lips pressed together and blow out through mouth to create a horse sound\n\nIf you struggle to achieve lip seal start with pressing/flattening lips between fingers\n\nFor patients with lots of facial tension, it may be helpful to stretch out the cheeks by placing the thumb inside the cheek, fingers on the outside of the cheek, and pushing out to create a stretch",
         "compensations": [
           "Watch in a mirror to avoid facial grimace (rounding the lips or dimpling the chin) when pressing lips together",
@@ -2272,7 +2344,9 @@
         "type": "posture",
         "duration": "1 minute",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand or sit with good posture\n\nRoll your shoulders slowly from front to back. Hold them back as far as possible, hold there for the count of 3\n\nRepeat for 1 minute, using slow rotations of the shoulders",
         "compensations": [],
         "demo_video_url": ""
@@ -2400,7 +2474,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Start with lips pressed together and blow out through mouth to create a horse sound\n\nIf you struggle to achieve lip seal start with pressing/flattening lips between fingers\n\nFor patients with lots of facial tension, it may be helpful to stretch out the cheeks by placing the thumb inside the cheek, fingers on the outside of the cheek, and pushing out to create a stretch",
         "compensations": [
           "Watch in a mirror to avoid facial grimace (rounding the lips or dimpling the chin) when pressing lips together",
@@ -2413,7 +2489,9 @@
         "type": "posture",
         "duration": "1 minute",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand or sit with good posture\n\nRoll your shoulders slowly from front to back. Hold them back as far as possible, hold there for the count of 3\n\nRepeat for 1 minute, using slow rotations of the shoulders",
         "compensations": [],
         "demo_video_url": ""
@@ -2541,7 +2619,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Smile on each side of face -- you may wink or squint one eye closed to help active midface muscles. Watch to make sure the muscles of the cheek and under eye are moving\n\nTo make exercise more difficult you can try lifting your nostril/lip on each side\n\nTroubleshooting: If you struggle to use the midface muscles, start with tapping/brushing the pads of the fingers across the cheeks. This will create sensory input and help stimulate the nerves and muscles.",
         "compensations": [
           "People with weak midface muscles will often smile with their lower face causing neck engagement. The smile line will often be angled downward or straight across. Work on smiling in an \"upward\" direction with the corner of mouth and think about cheeks when smiling"
@@ -2553,7 +2633,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with your back against the wall, with feet shoulder width apart\n\nPlace your left palm on the left side of your head near your temple\n\nGuide your head and tilt your body towards the right until you feel a stretch along the left side of your body, shoulder and neck\n\nTake three to ten breaths, ensuring your mouth is closed and tongue is still on the spot\n\nSwitch sides and repeat for 2 minutes\n\nRoll shoulder slowly from front to back. Hold them back as far as possible, hold there for the count of 3\n\nRepeat for 1 minute, using slow rotations of the shoulders",
         "compensations": [],
         "demo_video_url": ""
@@ -2682,7 +2764,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Smile on each side of face -- you may wink or squint one eye closed to help active midface muscles. Watch to make sure the muscles of the cheek and under eye are moving\n\nTo make exercise more difficult you can try lifting your nostril/lip on each side\n\nTroubleshooting: If you struggle to use the midface muscles, start with tapping/brushing the pads of the fingers across the cheeks. This will create sensory input and help stimulate the nerves and muscles.",
         "compensations": [
           "People with weak midface muscles will often smile with their lower face causing neck engagement. The smile line will often be angled downward or straight across. Work on smiling in an \"upward\" direction with the corner of mouth and think about cheeks when smiling"
@@ -2694,7 +2778,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with your back against the wall, with feet shoulder width apart\n\nPlace your left palm on the left side of your head near your temple\n\nGuide your head and tilt your body towards the right until you feel a stretch along the left side of your body, shoulder and neck\n\nTake three to ten breaths, ensuring your mouth is closed and tongue is still on the spot\n\nSwitch sides and repeat for 2 minutes\n\nRoll shoulder slowly from front to back. Hold them back as far as possible, hold there for the count of 3\n\nRepeat for 1 minute, using slow rotations of the shoulders",
         "compensations": [],
         "demo_video_url": ""
@@ -2837,7 +2923,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day ALTERNATING with Head and Neck Tilts",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with good posture with your back against a wall\n\nHold your arms straight out to the sides at right angles (like a goal post) with your palms facing forward. Your shoulders and elbows should be level\n\nSlide your arms up and down along the wall (only about 3-5 inches), concentrating on proper breathing technique, and keeping your head, body and arms all aligned\n\nThis exercise helps stretch out tight chest muscles",
         "compensations": [],
         "demo_video_url": ""
@@ -2847,7 +2935,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day ALTERNATING with Goal Post Arms",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Start with arms out in Goal Post position\n\nKeeping your arms aligned with the body, move your hands behind your head so that only your middle fingers touch.\n\nTilt your head forward so your chin tucks into your neck. Hold for 5 seconds\n\nSlowly tilt your head back until it drops as far back as it can go. Your fingers may support your neck but should not restrict the range of motion of your head. Hold for 5 seconds\n\nRepeat for 2 minutes while holding your tongue to the spot, keeping your mouth closed and nasal breathing",
         "compensations": [],
         "demo_video_url": ""
@@ -2990,7 +3080,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day ALTERNATING with Head and Neck Tilts",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with good posture with your back against a wall\n\nHold your arms straight out to the sides at right angles (like a goal post) with your palms facing forward. Your shoulders and elbows should be level\n\nSlide your arms up and down along the wall (only about 3-5 inches), concentrating on proper breathing technique, and keeping your head, body and arms all aligned\n\nThis exercise helps stretch out tight chest muscles",
         "compensations": [],
         "demo_video_url": ""
@@ -3000,7 +3092,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day ALTERNATING with Goal Post Arms",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Start with arms out in Goal Post position\n\nKeeping your arms aligned with the body, move your hands behind your head so that only your middle fingers touch.\n\nTilt your head forward so your chin tucks into your neck. Hold for 5 seconds\n\nSlowly tilt your head back until it drops as far back as it can go. Your fingers may support your neck but should not restrict the range of motion of your head. Hold for 5 seconds\n\nRepeat for 2 minutes while holding your tongue to the spot, keeping your mouth closed and nasal breathing",
         "compensations": [],
         "demo_video_url": ""
@@ -3099,7 +3193,9 @@
         "type": "active",
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -3109,7 +3205,9 @@
         "type": "posture",
         "duration": "1 minute",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with your back against the wall, with feet shoulder width apart and good posture\n\nLook straight forward, and without tipping your head or changing your eye level, push the back of your head straight back towards the wall. Hold for 5 seconds\n\nBring head back to resting position for 3 seconds\n\nRepeat for one minute\n\n*Make sure your hair is not in a ponytail, bun or clip - this will further the distance of your head from the wall",
         "compensations": [],
         "demo_video_url": ""
@@ -3129,7 +3227,9 @@
       {
         "name": "BOLT Test (Final Check In)",
         "type": "breathing_test",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -3233,7 +3333,9 @@
         "type": "active",
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -3243,7 +3345,9 @@
         "type": "posture",
         "duration": "1 minute",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with your back against the wall, with feet shoulder width apart and good posture\n\nLook straight forward, and without tipping your head or changing your eye level, push the back of your head straight back towards the wall. Hold for 5 seconds\n\nBring head back to resting position for 3 seconds\n\nRepeat for one minute\n\n*Make sure your hair is not in a ponytail, bun or clip - this will further the distance of your head from the wall",
         "compensations": [],
         "demo_video_url": ""
@@ -3263,7 +3367,9 @@
       {
         "name": "BOLT Test (Final Check In)",
         "type": "breathing_test",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -3429,7 +3535,9 @@
         "name": "BOLT Test",
         "type": "breathing_test",
         "frequency": "Once on day 1 only",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -3561,7 +3669,9 @@
         "name": "BOLT Test",
         "type": "breathing_test",
         "frequency": "Once on day 1 only",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "To be done on day 1, only needs to be done once.\n\nThis test measures breathing health and progress. Use the method of breathing you would have used prior to learning about myofunctional therapy.\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -3679,7 +3789,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Fill your mouth with air. Move air into the right cheek and hold for 5 seconds. Move air into the left cheek and hold for 5 seconds. Move air into the top lip and hold for 5 seconds. Move air into the lower lip and hold for 5 seconds. Repeat for 2 minutes",
         "compensations": [
           "Watch in the mirror for jaw lateralization and jaw protrusion. Keep teeth gently together to help avoid.",
@@ -3691,7 +3803,9 @@
         "name": "Belly/Diaphragm Breathing",
         "type": "breathing",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "1. Lie on the floor face up with your knees slightly bent.\n2. Place one hand lightly on your stomach and the other hand on your chest.\n3. As you breathe, feel which hand is moving more, then begin to concentrate on breathing using your diaphragm (your belly), and not using your chest. Feel your stomach rise as your lungs fill with air from the bottom.\n4. Let your stomach fall naturally when breathing out by relaxing your diaphragm.\n5. Try placing a small object on your stomach, such as a small book or your cell phone, so that you can see the movement more easily and keep your breathing focused on that area.\n6. Next, try this exercise standing or sitting up. Place your hands in the same position and focus your breathing the same way so that your stomach moves rather than your chest. This may take a bit more concentration.\n7. Practice for 5 minutes at a time. Ideally, it is good to do this exercise first thing in the morning or at night before falling asleep because you are already in bed.\n\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": ""
@@ -3804,7 +3918,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Fill your mouth with air. Move air into the right cheek and hold for 5 seconds. Move air into the left cheek and hold for 5 seconds. Move air into the top lip and hold for 5 seconds. Move air into the lower lip and hold for 5 seconds. Repeat for 2 minutes",
         "compensations": [
           "Watch in the mirror for jaw lateralization and jaw protrusion. Keep teeth gently together to help avoid.",
@@ -3816,7 +3932,9 @@
         "name": "Belly/Diaphragm Breathing",
         "type": "breathing",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "1. Lie on the floor face up with your knees slightly bent.\n2. Place one hand lightly on your stomach and the other hand on your chest.\n3. As you breathe, feel which hand is moving more, then begin to concentrate on breathing using your diaphragm (your belly), and not using your chest. Feel your stomach rise as your lungs fill with air from the bottom.\n4. Let your stomach fall naturally when breathing out by relaxing your diaphragm.\n5. Try placing a small object on your stomach, such as a small book or your cell phone, so that you can see the movement more easily and keep your breathing focused on that area.\n6. Next, try this exercise standing or sitting up. Place your hands in the same position and focus your breathing the same way so that your stomach moves rather than your chest. This may take a bit more concentration.\n7. Practice for 5 minutes at a time. Ideally, it is good to do this exercise first thing in the morning or at night before falling asleep because you are already in bed.\n\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": ""
@@ -3932,7 +4050,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "While maintaining contact with the tongue under the lips, trace circles around the inside of the upper and lower lips. Alternate three times each direction. Keep your lips closed during this exercise.\n\nTracing with larger circles extending into the cheeks can add an extra stretch/challenge. Do smaller circles for patients who have more tongue restriction.",
         "compensations": [
           "Watch in mirror to ensure as little jaw movement as possible - you may hold jaw or chin to minimize at first but try to limit over time",
@@ -3943,7 +4063,9 @@
       {
         "name": "4-7-8 Breathing Pattern",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Instructions:\n1. Set a timer for 5 minutes and begin.\n2. Inhale counting to 4.\n3. Before exhaling, hold your breath for a count of 7.\n4. Exhale counting to 8.\n5. Repeat for 5 minutes.\n\nTips:\n- Do this anytime of day to help you relax or do it lying in bed to help you fall asleep.\n- Remember to breathe only through your nose.\n- Consider doing the unblocking your nose exercises first\n- Focus on inhaling the air into your belly/diaphragm.\n- When you exhale, you may feel like you have to push out all your air. This is normal and helps promote deep breathing.",
         "compensations": [],
         "demo_video_url": ""
@@ -4059,7 +4181,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "While maintaining contact with the tongue under the lips, trace circles around the inside of the upper and lower lips. Alternate three times each direction. Keep your lips closed during this exercise.\n\nTracing with larger circles extending into the cheeks can add an extra stretch/challenge. Do smaller circles for patients who have more tongue restriction.",
         "compensations": [
           "Watch in mirror to ensure as little jaw movement as possible - you may hold jaw or chin to minimize at first but try to limit over time",
@@ -4070,7 +4194,9 @@
       {
         "name": "4-7-8 Breathing Pattern",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Instructions:\n1. Set a timer for 5 minutes and begin.\n2. Inhale counting to 4.\n3. Before exhaling, hold your breath for a count of 7.\n4. Exhale counting to 8.\n5. Repeat for 5 minutes.\n\nTips:\n- Do this anytime of day to help you relax or do it lying in bed to help you fall asleep.\n- Remember to breathe only through your nose.\n- Consider doing the unblocking your nose exercises first\n- Focus on inhaling the air into your belly/diaphragm.\n- When you exhale, you may feel like you have to push out all your air. This is normal and helps promote deep breathing.",
         "compensations": [],
         "demo_video_url": ""
@@ -4152,7 +4278,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Mouth should be open about half way (practice with a smile for 1 minute and relaxed face for 1 minute), the tongue should form a bowl shape by sinking into the floor of the mouth and curling the sides and tip up. The first goal is to successfully make the correct shape with the tongue. Once this is achieved, the second goal is to hold the shape for 10 seconds or longer without compensations.\n\n- Watch in the mirror to avoid lips rounding, neck engagement, jaw lateralization and jaw protrusion. Make sure this can be done with a relaxed/still face as well as with cheeks/lips back in a smile.\n- The tongue may want to rise up high in the mouth while making the bowl shape. If this happens, practice lowering the tongue into the floor of the mouth in a normal shape first. If you struggle rolling the sides, a chopstick can be used to gently press the center of the tongue down, or a band can be placed on the surface of the tongue as a target to \"wrap the edges around\". A small candy or goldfish cracker can be used to make this more fun for kids.\n- This exercise can be difficult to master and you may not be able to accomplish it until you have a lightbulb moment and then it will be easier afterwards. Keep practicing and don't be discouraged!",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143177779"
@@ -4162,7 +4290,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Hold the lips between the teeth for 5 seconds and pop them out with a clear and loud sound.",
         "compensations": [
           "This exercise may cause facial tension/pain for people with TMD. Important to limit tension, neck engagement and jaw protrusion to prevent"
@@ -4174,7 +4304,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "The mouth should be open half way. Practice with cheeks back in a smile and relaxed face. Tongue movements should be as precise and slow as possible. The smallest surface on the tip of the tongue should be used to trace the lips (or teeth if lips are too difficult). The goal is to have the tongue trace only the pink part of the lips, and not move onto the surrounding skin of the face.",
         "compensations": [
           "Avoid neck engagement and jaw lateralization during exercise to help with tongue-jaw dissociation",
@@ -4185,7 +4317,9 @@
       {
         "name": "Over Breathing Awareness",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "When you stop mouth breathing and learn to bring your breathing volume toward normal, you have better oxygenation of your tissues and organs, including your brain.\n\nTypical characteristics of over-breathing include mouth breathing, upper chest breathing, sighing, noticeable breathing during rest, and taking large breaths before talking\n\nInstructions:\n1. Start to become aware of/monitor habits you have that indicate you are over-breathing. This includes the following:\n- Hearing yourself breathe while you are relaxed\n- Regular sighing and sniffing\n- Taking large breaths before speaking\n- Frequent yawning\n- Upper chest movement while breathing\n\n2. Learn to counteract and limit these behaviors:\n- If you can hear that your breathing is heavy, focus on slowing your breath and feeling the air in your nostrils. Try to quiet yourself.\n- If you notice regular sighing and sniffing, stop yourself in the act. Pause your breathing for 3-5 seconds, then swallow instead.\n- If you take large breaths before speaking, try to prevent the breath, and take a drink of water or swallow instead.\n- If you are yawning frequently, practice stifling the yawn or do it with a closed mouth.\n- If you feel a lot of upper chest movement while breathing, then try to focus on taking slow breaths into your diaphragm, and focus on shifting the movement to that area instead.",
         "compensations": [],
         "demo_video_url": ""
@@ -4267,7 +4401,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Mouth should be open about half way (practice with a smile for 1 minute and relaxed face for 1 minute), the tongue should form a bowl shape by sinking into the floor of the mouth and curling the sides and tip up. The first goal is to successfully make the correct shape with the tongue. Once this is achieved, the second goal is to hold the shape for 10 seconds or longer without compensations.\n\n- Watch in the mirror to avoid lips rounding, neck engagement, jaw lateralization and jaw protrusion. Make sure this can be done with a relaxed/still face as well as with cheeks/lips back in a smile.\n- The tongue may want to rise up high in the mouth while making the bowl shape. If this happens, practice lowering the tongue into the floor of the mouth in a normal shape first. If you struggle rolling the sides, a chopstick can be used to gently press the center of the tongue down, or a band can be placed on the surface of the tongue as a target to \"wrap the edges around\". A small candy or goldfish cracker can be used to make this more fun for kids.\n- This exercise can be difficult to master and you may not be able to accomplish it until you have a lightbulb moment and then it will be easier afterwards. Keep practicing and don't be discouraged!",
         "compensations": [],
         "demo_video_url": "https://player.vimeo.com/video/1143177779"
@@ -4277,7 +4413,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Hold the lips between the teeth for 5 seconds and pop them out with a clear and loud sound.",
         "compensations": [
           "This exercise may cause facial tension/pain for people with TMD. Important to limit tension, neck engagement and jaw protrusion to prevent"
@@ -4289,7 +4427,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "The mouth should be open half way. Practice with cheeks back in a smile and relaxed face. Tongue movements should be as precise and slow as possible. The smallest surface on the tip of the tongue should be used to trace the lips (or teeth if lips are too difficult). The goal is to have the tongue trace only the pink part of the lips, and not move onto the surrounding skin of the face.",
         "compensations": [
           "Avoid neck engagement and jaw lateralization during exercise to help with tongue-jaw dissociation",
@@ -4300,7 +4440,9 @@
       {
         "name": "Over Breathing Awareness",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "When you stop mouth breathing and learn to bring your breathing volume toward normal, you have better oxygenation of your tissues and organs, including your brain.\n\nTypical characteristics of over-breathing include mouth breathing, upper chest breathing, sighing, noticeable breathing during rest, and taking large breaths before talking\n\nInstructions:\n1. Start to become aware of/monitor habits you have that indicate you are over-breathing. This includes the following:\n- Hearing yourself breathe while you are relaxed\n- Regular sighing and sniffing\n- Taking large breaths before speaking\n- Frequent yawning\n- Upper chest movement while breathing\n\n2. Learn to counteract and limit these behaviors:\n- If you can hear that your breathing is heavy, focus on slowing your breath and feeling the air in your nostrils. Try to quiet yourself.\n- If you notice regular sighing and sniffing, stop yourself in the act. Pause your breathing for 3-5 seconds, then swallow instead.\n- If you take large breaths before speaking, try to prevent the breath, and take a drink of water or swallow instead.\n- If you are yawning frequently, practice stifling the yawn or do it with a closed mouth.\n- If you feel a lot of upper chest movement while breathing, then try to focus on taking slow breaths into your diaphragm, and focus on shifting the movement to that area instead.",
         "compensations": [],
         "demo_video_url": ""
@@ -4669,7 +4811,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Start with lips pressed together and blow out through mouth to create a horse sound\n\nIf you struggle to achieve lip seal start with pressing/flattening lips between fingers\n\nFor patients with lots of facial tension, it may be helpful to stretch out the cheeks by placing the thumb inside the cheek, fingers on the outside of the cheek, and pushing out to create a stretch",
         "compensations": [
           "Watch in a mirror to avoid facial grimace (rounding the lips or dimpling the chin) when pressing lips together",
@@ -4681,7 +4825,9 @@
         "name": "Take a 15-Minute Walk: Nasal Breathing Only",
         "type": "breathing",
         "frequency": "4x/week ideally",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "1. Walk for 15 minutes, concentrating on breathing through your nose, ideally using mouth tape.\n2. Keep a casual but steady pace. If you feel winded or lacking oxygen, just slow down. If you need to stop completely to slow your breathing, that is okay too. Just don't allow yourself to breathe through your mouth. If this is easy for you, then you can try speeding up, walking up a hill, or jogging for a short distance.\n\nTips:\n- Avoid talking, laughing, sighing, yawning, sniffing, and any other signs of over breathing that your body may try to get you to do.\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": ""
@@ -4810,7 +4956,9 @@
         "type": "active",
         "duration": "1 minute",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Start with lips pressed together and blow out through mouth to create a horse sound\n\nIf you struggle to achieve lip seal start with pressing/flattening lips between fingers\n\nFor patients with lots of facial tension, it may be helpful to stretch out the cheeks by placing the thumb inside the cheek, fingers on the outside of the cheek, and pushing out to create a stretch",
         "compensations": [
           "Watch in a mirror to avoid facial grimace (rounding the lips or dimpling the chin) when pressing lips together",
@@ -4822,7 +4970,9 @@
         "name": "Take a 15-Minute Walk: Nasal Breathing Only",
         "type": "breathing",
         "frequency": "4x/week ideally",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "1. Walk for 15 minutes, concentrating on breathing through your nose, ideally using mouth tape.\n2. Keep a casual but steady pace. If you feel winded or lacking oxygen, just slow down. If you need to stop completely to slow your breathing, that is okay too. Just don't allow yourself to breathe through your mouth. If this is easy for you, then you can try speeding up, walking up a hill, or jogging for a short distance.\n\nTips:\n- Avoid talking, laughing, sighing, yawning, sniffing, and any other signs of over breathing that your body may try to get you to do.\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
         "demo_video_url": ""
@@ -4936,7 +5086,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Smile on each side of face -- you may wink or squint one eye closed to help active midface muscles. Watch to make sure the muscles of the cheek and under eye are moving\n\nTo make exercise more difficult you can try lifting your nostril/lip on each side\n\nTroubleshooting: If you struggle to use the midface muscles, start with tapping/brushing the pads of the fingers across the cheeks. This will create sensory input and help stimulate the nerves and muscles.",
         "compensations": [
           "People with weak midface muscles will often smile with their lower face causing neck engagement. The smile line will often be angled downward or straight across. Work on smiling in an \"upward\" direction with the corner of mouth and think about cheeks when smiling"
@@ -4959,7 +5111,9 @@
       {
         "name": "BOLT Test (Midway Check In)",
         "type": "breathing_test",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -5072,7 +5226,9 @@
         "type": "active",
         "duration": "2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Smile on each side of face -- you may wink or squint one eye closed to help active midface muscles. Watch to make sure the muscles of the cheek and under eye are moving\n\nTo make exercise more difficult you can try lifting your nostril/lip on each side\n\nTroubleshooting: If you struggle to use the midface muscles, start with tapping/brushing the pads of the fingers across the cheeks. This will create sensory input and help stimulate the nerves and muscles.",
         "compensations": [
           "People with weak midface muscles will often smile with their lower face causing neck engagement. The smile line will often be angled downward or straight across. Work on smiling in an \"upward\" direction with the corner of mouth and think about cheeks when smiling"
@@ -5095,7 +5251,9 @@
       {
         "name": "BOLT Test (Midway Check In)",
         "type": "breathing_test",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -5235,7 +5393,9 @@
       {
         "name": "Reduced Breathing",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Helps to improve BOLT score\n\nConsider doing the unblocking your nose exercises first\n\nInstructions:\n1. Start this exercise by doing the BOLT Test (see previous module of exercises)\n2. This time, instead of releasing your nose to take your bolt score measurement, extend your breath hold for 5-10 seconds longer. This should create a feeling of air hunger, or the desire to breathe heavily when you release your nose.\n3. Release your nose and start your timer.\n4. Do not allow yourself to gasp in air through your mouth or to take deep breaths. Instead, focus on breathing through your nose for the next 2 minutes at a \"reduced rate\".\n5. This means that rather than inhaling a full breath, you need to inhale less -- about 10% less than you would normally.\n6. For the 2-minute duration, you should feel like you are maintaining a slightly oxygen-deprived state. It should not feel too difficult, just a slight struggle.\n7. Concentrate on breathing slowly, into your belly or diaphragm, and the feeling of the air in your nostrils. Count to 5 as you inhale, then pause for 3 with your lungs filled, and count to 5 as you exhale is a good way to stay focused on your breathing.\n8. When the 2 minutes are up, release your nose, and allow your breathing to return to normal. Do not take deep or gasping breaths, just normal-sized breaths.\n9. Breathe normally for 1 minute and then decrease your breathing to the \"reduced rate\" (10% less) and repeat for 2 more minutes, followed by 1 minute of normal breathing as a recovery.\n10. Repeat this for a total of 3 cycles -- it should take about 10 minutes total including the BOLT Test at the beginning.\n\nTips:\n- If this exercise is too difficult, you are probably reducing your breathing too much.\n- Remember that you only need to do the BOLT test at the beginning of the exercise. It is meant to be done only once, not at the beginning of each cycle.",
         "compensations": [],
         "demo_video_url": ""
@@ -5376,7 +5536,9 @@
       {
         "name": "Reduced Breathing",
         "type": "breathing",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Helps to improve BOLT score\n\nConsider doing the unblocking your nose exercises first\n\nInstructions:\n1. Start this exercise by doing the BOLT Test (see previous module of exercises)\n2. This time, instead of releasing your nose to take your bolt score measurement, extend your breath hold for 5-10 seconds longer. This should create a feeling of air hunger, or the desire to breathe heavily when you release your nose.\n3. Release your nose and start your timer.\n4. Do not allow yourself to gasp in air through your mouth or to take deep breaths. Instead, focus on breathing through your nose for the next 2 minutes at a \"reduced rate\".\n5. This means that rather than inhaling a full breath, you need to inhale less -- about 10% less than you would normally.\n6. For the 2-minute duration, you should feel like you are maintaining a slightly oxygen-deprived state. It should not feel too difficult, just a slight struggle.\n7. Concentrate on breathing slowly, into your belly or diaphragm, and the feeling of the air in your nostrils. Count to 5 as you inhale, then pause for 3 with your lungs filled, and count to 5 as you exhale is a good way to stay focused on your breathing.\n8. When the 2 minutes are up, release your nose, and allow your breathing to return to normal. Do not take deep or gasping breaths, just normal-sized breaths.\n9. Breathe normally for 1 minute and then decrease your breathing to the \"reduced rate\" (10% less) and repeat for 2 more minutes, followed by 1 minute of normal breathing as a recovery.\n10. Repeat this for a total of 3 cycles -- it should take about 10 minutes total including the BOLT Test at the beginning.\n\nTips:\n- If this exercise is too difficult, you are probably reducing your breathing too much.\n- Remember that you only need to do the BOLT test at the beginning of the exercise. It is meant to be done only once, not at the beginning of each cycle.",
         "compensations": [],
         "demo_video_url": ""
@@ -5505,7 +5667,9 @@
         "type": "active",
         "duration": "1-2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review one of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -5515,7 +5679,9 @@
         "type": "posture",
         "duration": "1 minute",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand or sit with good posture\n\nRoll your shoulders slowly from front to back. Hold them back as far as possible, hold there for the count of 3\n\nRepeat for 1 minute, using slow rotations of the shoulders",
         "compensations": [],
         "demo_video_url": ""
@@ -5643,7 +5809,9 @@
         "type": "active",
         "duration": "1-2 minutes",
         "frequency": "2x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review one of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -5653,7 +5821,9 @@
         "type": "posture",
         "duration": "1 minute",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand or sit with good posture\n\nRoll your shoulders slowly from front to back. Hold them back as far as possible, hold there for the count of 3\n\nRepeat for 1 minute, using slow rotations of the shoulders",
         "compensations": [],
         "demo_video_url": ""
@@ -5749,7 +5919,9 @@
         "type": "active",
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -5759,7 +5931,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with your back against the wall, with feet shoulder width apart\n\nPlace your left palm on the left side of your head near your temple\n\nGuide your head and tilt your body towards the right until you feel a stretch along the left side of your body, shoulder and neck\n\nTake three to ten breaths, ensuring your mouth is closed and tongue is still on the spot\n\nSwitch sides and repeat for 2 minutes\n\nRoll shoulder slowly from front to back. Hold them back as far as possible, hold there for the count of 3\n\nRepeat for 1 minute, using slow rotations of the shoulders",
         "compensations": [],
         "demo_video_url": ""
@@ -5856,7 +6030,9 @@
         "type": "active",
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -5866,7 +6042,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with your back against the wall, with feet shoulder width apart\n\nPlace your left palm on the left side of your head near your temple\n\nGuide your head and tilt your body towards the right until you feel a stretch along the left side of your body, shoulder and neck\n\nTake three to ten breaths, ensuring your mouth is closed and tongue is still on the spot\n\nSwitch sides and repeat for 2 minutes\n\nRoll shoulder slowly from front to back. Hold them back as far as possible, hold there for the count of 3\n\nRepeat for 1 minute, using slow rotations of the shoulders",
         "compensations": [],
         "demo_video_url": ""
@@ -5963,7 +6141,9 @@
         "type": "active",
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -5973,7 +6153,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day ALTERNATING with Head and Neck Tilts",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with good posture with your back against a wall\n\nHold your arms straight out to the sides at right angles (like a goal post) with your palms facing forward. Your shoulders and elbows should be level\n\nSlide your arms up and down along the wall (only about 3-5 inches), concentrating on proper breathing technique, and keeping your head, body and arms all aligned\n\nThis exercise helps stretch out tight chest muscles",
         "compensations": [],
         "demo_video_url": ""
@@ -5983,7 +6165,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day ALTERNATING with Goal Post Arms",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Start with arms out in Goal Post position\n\nKeeping your arms aligned with the body, move your hands behind your head so that only your middle fingers touch.\n\nTilt your head forward so your chin tucks into your neck. Hold for 5 seconds\n\nSlowly tilt your head back until it drops as far back as it can go. Your fingers may support your neck but should not restrict the range of motion of your head. Hold for 5 seconds\n\nRepeat for 2 minutes while holding your tongue to the spot, keeping your mouth closed and nasal breathing",
         "compensations": [],
         "demo_video_url": ""
@@ -6080,7 +6264,9 @@
         "type": "active",
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -6090,7 +6276,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day ALTERNATING with Head and Neck Tilts",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with good posture with your back against a wall\n\nHold your arms straight out to the sides at right angles (like a goal post) with your palms facing forward. Your shoulders and elbows should be level\n\nSlide your arms up and down along the wall (only about 3-5 inches), concentrating on proper breathing technique, and keeping your head, body and arms all aligned\n\nThis exercise helps stretch out tight chest muscles",
         "compensations": [],
         "demo_video_url": ""
@@ -6100,7 +6288,9 @@
         "type": "posture",
         "duration": "2 minutes",
         "frequency": "1x/day ALTERNATING with Goal Post Arms",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Start with arms out in Goal Post position\n\nKeeping your arms aligned with the body, move your hands behind your head so that only your middle fingers touch.\n\nTilt your head forward so your chin tucks into your neck. Hold for 5 seconds\n\nSlowly tilt your head back until it drops as far back as it can go. Your fingers may support your neck but should not restrict the range of motion of your head. Hold for 5 seconds\n\nRepeat for 2 minutes while holding your tongue to the spot, keeping your mouth closed and nasal breathing",
         "compensations": [],
         "demo_video_url": ""
@@ -6198,7 +6388,9 @@
         "type": "active",
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -6208,7 +6400,9 @@
         "type": "posture",
         "duration": "1 minute",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with your back against the wall, with feet shoulder width apart and good posture\n\nLook straight forward, and without tipping your head or changing your eye level, push the back of your head straight back towards the wall. Hold for 5 seconds\n\nBring head back to resting position for 3 seconds\n\nRepeat for one minute\n\n*Make sure your hair is not in a ponytail, bun or clip - this will further the distance of your head from the wall",
         "compensations": [],
         "demo_video_url": ""
@@ -6228,7 +6422,9 @@
       {
         "name": "BOLT Test (Final Check In)",
         "type": "breathing_test",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
@@ -6331,7 +6527,9 @@
         "type": "active",
         "duration": "1-2 minutes each",
         "frequency": "2x/day for each exercise",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n\nContinue practicing these exercises independently.",
         "compensations": [],
         "demo_video_url": ""
@@ -6341,7 +6539,9 @@
         "type": "posture",
         "duration": "1 minute",
         "frequency": "1x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "With the tongue on the spot and mouth closed, stand with your back against the wall, with feet shoulder width apart and good posture\n\nLook straight forward, and without tipping your head or changing your eye level, push the back of your head straight back towards the wall. Hold for 5 seconds\n\nBring head back to resting position for 3 seconds\n\nRepeat for one minute\n\n*Make sure your hair is not in a ponytail, bun or clip - this will further the distance of your head from the wall",
         "compensations": [],
         "demo_video_url": ""
@@ -6361,7 +6561,9 @@
       {
         "name": "BOLT Test (Final Check In)",
         "type": "breathing_test",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "This test measures breathing health and progress.\n\nGood for adults with sleep apnea, snoring, chronic fatigue/tiredness, and brain fog.\n\nConsider doing the unblocking your nose exercises first\n\nScale of what is considered healthy (higher score means organs/tissues are receiving adequate oxygen):\n\u2022 40-60 seconds is healthy and ideal\n\u2022 30-39 seconds indicates mild breathing/airway issues\n\u2022 20-29 seconds indicates moderate breathing/airway issues\n\u2022 10-19 seconds indicates unhealthy breathing\n\u2022 0-9 seconds is very unhealthy breathing and severe airway issues\n\nInstructions:\n1. Take a small, silent breath in and a small, silent breath out.\n2. Hold your nose with your fingers to prevent air from entering your lungs while timing yourself with a stopwatch\n3. At the first sign of \"air hunger\", you will also feel the first involuntary movements of your breathing muscles. Your stomach may jerk, or the area around your neck may contract.\n4. Release your nose and stop the timer at these first signs of \"air hunger\". This will tell you your initial score.\n\nTips:\n- When you release your nose, your inhalation should remain calm. If you are breathing heavily or taking deep breaths, then you waited too long and the score is not correct. Keep in mind that this is not a breath-holding test.",
         "compensations": [],
         "demo_video_url": ""
