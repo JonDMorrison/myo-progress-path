@@ -9,6 +9,8 @@ import { formatDistanceToNow } from "date-fns";
 import { TherapistLayout } from "@/components/layout/TherapistLayout";
 import { isFrenectomyVariant } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import SendNoteDialog from "@/components/therapist/SendNoteDialog";
+import { useToast } from "@/hooks/use-toast";
 
 export default function PatientOverview() {
   const { patientId } = useParams();
@@ -20,6 +22,8 @@ export default function PatientOverview() {
   const [messages, setMessages] = useState<any[]>([]);
   const [messageCount, setMessageCount] = useState(0);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [replyOpen, setReplyOpen] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (patientId) loadData();
@@ -120,6 +124,28 @@ export default function PatientOverview() {
 
   const scrollTo = (id: string) => {
     setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+  };
+
+  const handleSendReply = async (note: string) => {
+    if (!patientId) return;
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast({ title: "Not signed in", description: "Please sign in again.", variant: "destructive" });
+      return;
+    }
+    const { error } = await supabase.from("messages").insert({
+      patient_id: patientId,
+      week_id: null,
+      therapist_id: user.id,
+      body: note,
+      sent_by: "therapist",
+    });
+    if (error) {
+      toast({ title: "Failed to send", description: error.message, variant: "destructive" });
+      throw error;
+    }
+    toast({ title: "Message sent", description: `Message sent to ${patient?.user?.name || "patient"}.` });
+    loadData();
   };
 
   const filteredModules = statusFilter
@@ -348,15 +374,20 @@ export default function PatientOverview() {
                 <MessageSquare className="h-5 w-5" />
                 Recent Messages
               </CardTitle>
-              {messageCount > 5 && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => navigate(`/review/${patientId}/${modules.find(m => m.status === "submitted")?.evenWeek || 2}`)}
-                >
-                  View all ({messageCount})
+              <div className="flex items-center gap-2">
+                <Button size="sm" onClick={() => setReplyOpen(true)}>
+                  Reply
                 </Button>
-              )}
+                {messageCount > 5 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigate(`/review/${patientId}/${modules.find(m => m.status === "submitted")?.evenWeek || 2}`)}
+                  >
+                    View all ({messageCount})
+                  </Button>
+                )}
+              </div>
             </div>
           </CardHeader>
           <CardContent>
@@ -392,6 +423,14 @@ export default function PatientOverview() {
           </CardContent>
         </Card>
       </div>
+
+      <SendNoteDialog
+        open={replyOpen}
+        onOpenChange={setReplyOpen}
+        patientName={patient.user?.name || "patient"}
+        weekNumber={null}
+        onSend={handleSendReply}
+      />
     </TherapistLayout>
   );
 }
