@@ -14,7 +14,7 @@
 
 ![Normal vs High-Arched Palate](/images/learn/palate-comparison-new.jpg)
 
-*Photo A (Comparison between normal palate and high arched palate)*
+*(Comparison between normal palate and high arched palate)*
 
 - Some functions of nasal breathing include:
   - Filtration of air
