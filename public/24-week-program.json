@@ -1320,7 +1320,6 @@
       },
       {
         "id": "m5-floor-mouth-massage-days8-14",
-        "title": "Floor of Mouth Massage",
         "type": "active",
         "duration": "1 minute each side",
         "frequency": "2-3x/day",
@@ -1329,8 +1328,8 @@
         ],
         "description": "Massage muscles along the floor of the mouth to release tension. Be slow and gentle, focusing on 1 area at a time.",
         "compensations": [],
-        "video_url": null,
-        "modified_video_url": null
+        "name": "Floor of Mouth Massage",
+        "demo_video_url": null
       }
     ],
     "checklist": [
