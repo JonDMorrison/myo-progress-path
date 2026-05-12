@@ -21,24 +21,10 @@ export const PathwayStep = ({ onPathwayChange, initialPathway }: PathwayStepProp
   }, []);
 
   const loadExistingPathway = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
-
-      const { data: patient } = await supabase
-        .from('patients')
-        .select('program_variant')
-        .eq('user_id', session.user.id)
-        .single();
-
-      if (patient?.program_variant && patient.program_variant !== 'standard') {
-        setResolvedVariant(patient.program_variant);
-        setSaved(true);
-        onPathwayChange?.(patient.program_variant);
-      }
-    } catch (error) {
-      console.error('Error loading pathway:', error);
-    }
+    // Intentionally do nothing. The patient must re-enter their access code
+    // every onboarding session — we never trust a DB-side default to satisfy
+    // the pathway requirement, because the DB default ('frenectomy') would
+    // let a patient skip code entry and silently land on the video pathway.
   };
 
   const handleCodeChange = (value: string) => {
@@ -61,7 +47,12 @@ export const PathwayStep = ({ onPathwayChange, initialPathway }: PathwayStepProp
     const variant = ACCESS_CODE_MAP[code];
 
     if (!variant) {
-      setError("Invalid access code. Please check your code and try again.");
+      setError(
+        code.length === 0
+          ? "Please enter a valid access code to continue."
+          : "Invalid access code. Please check your code and try again."
+      );
+      onPathwayChange?.("");
       return;
     }
 

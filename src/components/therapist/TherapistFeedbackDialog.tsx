@@ -247,9 +247,15 @@ const TherapistFeedbackDialog = ({
       onSuccess?.();
     } catch (error: any) {
       console.error("Feedback error:", error);
+      const supabaseDetail = [error?.code, error?.details, error?.hint]
+        .filter(Boolean)
+        .join(" — ");
+      const description = supabaseDetail
+        ? `${error.message || "Failed to send feedback"} (${supabaseDetail})`
+        : error.message || "Failed to send feedback";
       toast({
-        title: "Error",
-        description: error.message || "Failed to send feedback",
+        title: "Error sending feedback",
+        description,
         variant: "destructive",
       });
     } finally {

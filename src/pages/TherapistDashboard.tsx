@@ -58,13 +58,15 @@ const TherapistDashboard = () => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [batchApproving, setBatchApproving] = useState(false);
 
-  // Send note dialog state
+  // Send note dialog state. weekId/weekNumber are nullable so the therapist
+  // can reply to general (non-module) messages — week_id is a nullable
+  // column on `messages` and not every patient note is tied to a module.
   const [noteDialog, setNoteDialog] = useState<{
     open: boolean;
     patientId: string;
     patientName: string;
-    weekNumber: number;
-    weekId: string;
+    weekNumber: number | null;
+    weekId: string | null;
   } | null>(null);
 
   // Review panel state
@@ -494,14 +496,16 @@ const TherapistDashboard = () => {
     if (!noteDialog || !userId) return;
     const { error } = await supabase.from("messages").insert({
       patient_id: noteDialog.patientId,
-      week_id: noteDialog.weekId,
+      week_id: noteDialog.weekId ?? null,
       therapist_id: userId,
       body: note,
       sent_by: 'therapist',
     });
     if (error) throw error;
-    const moduleNum = Math.ceil(noteDialog.weekNumber / 2);
-    toast({ title: "Note Sent", description: `Note sent to patient for Module ${moduleNum}` });
+    const description = noteDialog.weekNumber
+      ? `Note sent to patient for Module ${Math.ceil(noteDialog.weekNumber / 2)}`
+      : "Note sent to patient";
+    toast({ title: "Note Sent", description });
   };
 
   const handleOpenReviewPanel = (progressId: string, patientId: string, weekNumber: number, weekId: string) => {

@@ -16,7 +16,7 @@ interface SendNoteDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   patientName: string;
-  weekNumber: number;
+  weekNumber: number | null;
   onSend: (note: string) => Promise<void>;
 }
 
@@ -49,7 +49,9 @@ const SendNoteDialog = ({
         <DialogHeader>
           <DialogTitle>Send Note</DialogTitle>
           <DialogDescription>
-            Send a note to {patientName} for Module {Math.ceil(weekNumber / 2)}
+            {weekNumber
+              ? `Send a note to ${patientName} for Module ${Math.ceil(weekNumber / 2)}`
+              : `Send a note to ${patientName}`}
           </DialogDescription>
         </DialogHeader>
         

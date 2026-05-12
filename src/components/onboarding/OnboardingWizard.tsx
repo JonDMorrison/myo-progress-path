@@ -16,7 +16,9 @@ import { VideoGuideStep } from "./steps/VideoGuideStep";
 import { GoalsStep } from "./steps/GoalsStep";
 import { ConsentStep } from "./steps/ConsentStep";
 import { ReadyStep } from "./steps/ReadyStep";
-import { requiresVideo } from "@/lib/constants";
+import { ACCESS_CODE_MAP, requiresVideo } from "@/lib/constants";
+
+const VALID_VARIANTS = new Set(Object.values(ACCESS_CODE_MAP));
 
 const allSteps = [
   { id: 'welcome', component: WelcomeStep, title: 'Welcome' },
@@ -144,11 +146,11 @@ export const OnboardingWizard = () => {
   const handleNext = async () => {
     const currentStep = steps[currentStepIndex];
 
-    // Validate pathway step
-    if (currentStep.id === 'pathway' && !selectedPathway) {
+    // Validate pathway step: must be a variant produced by a real access code
+    if (currentStep.id === 'pathway' && (!selectedPathway || !VALID_VARIANTS.has(selectedPathway))) {
       toast({
-        title: "Selection required",
-        description: "Please select your treatment pathway to continue",
+        title: "Access code required",
+        description: "Please enter a valid access code to continue.",
         variant: "destructive",
       });
       return;
