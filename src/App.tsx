@@ -29,9 +29,6 @@ import ResetPassword from "./pages/ResetPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import SeedSuperAdmins from "./pages/SeedSuperAdmins";
 import SeedProgram from "./pages/admin/SeedProgram";
-import UpdateWeeks1And2 from "./pages/admin/UpdateWeeks1And2";
-import UpdateWeeks3And4 from "./pages/admin/UpdateWeeks3And4";
-import UpdateWeeks5And6 from "./pages/admin/UpdateWeeks5And6";
 import MediaAudit from "./pages/admin/MediaAudit";
 import ExerciseContentEditor from "./pages/admin/ExerciseContentEditor";
 import WeekSettingsEditor from "./pages/admin/WeekSettingsEditor";
@@ -107,9 +104,6 @@ const App = () => {
                 {/* Protected: Admin routes */}
                 <Route path="/admin/content" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><AdminContent /></ProtectedRoute>} />
                 <Route path="/admin/seed-program" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><SeedProgram /></ProtectedRoute>} />
-                <Route path="/admin/update-weeks-1-2" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><UpdateWeeks1And2 /></ProtectedRoute>} />
-                <Route path="/admin/update-weeks-3-4" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><UpdateWeeks3And4 /></ProtectedRoute>} />
-                <Route path="/admin/update-weeks-5-6" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><UpdateWeeks5And6 /></ProtectedRoute>} />
                 <Route path="/admin/media-audit" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><MediaAudit /></ProtectedRoute>} />
                 <Route path="/admin/exercise-editor" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><ExerciseContentEditor /></ProtectedRoute>} />
                 <Route path="/admin/week-settings" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><WeekSettingsEditor /></ProtectedRoute>} />
