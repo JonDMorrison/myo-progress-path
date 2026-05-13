@@ -17,7 +17,7 @@
 //   - playwright.config.ts baseURL points at https://myocoach.ca by
 //     default; override via PLAYWRIGHT_BASE_URL=... if testing staging.
 
-import { test, expect, Locator } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { existsSync } from "node:fs";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -38,6 +38,10 @@ test.use({ storageState: AUTH_STATE_PATH });
 // → submit. Serial mode preserves the side effects (uploaded videos,
 // checklist state) across tests.
 test.describe.serial("Option B — full Module 1 flow (frenectomy test patient)", () => {
+  // Upload tests walk 3+ accordion items and wait up to 60s per upload
+  // for Supabase Storage; default 30s test timeout is too short.
+  test.setTimeout(240_000);
+
   test.beforeAll(() => {
     if (!existsSync(AUTH_STATE_PATH)) {
       throw new Error(
@@ -95,21 +99,11 @@ test.describe.serial("Option B — full Module 1 flow (frenectomy test patient)"
     await page.goto("/week/1");
     await waitForPageLoad(page);
 
-    const firstInputs = page.locator('input[data-testid="upload-first-attempt"]');
-    const count = await firstInputs.count();
-    expect(count, "Module 1 should expose at least one first-attempt upload input").toBeGreaterThan(0);
+    const uploaded = await uploadToEveryActiveExercise(page, "first_attempt");
+    expect(uploaded, "expected at least one first-attempt upload").toBeGreaterThan(0);
 
-    // Upload to every active exercise's first-attempt slot, sequentially
-    // so we never race two concurrent uploads inside the same exercise's
-    // ExerciseVideoUpload component (which disables both inputs while one
-    // upload is in flight).
-    for (let i = 0; i < count; i++) {
-      const input = firstInputs.nth(i);
-      await input.setInputFiles(VIDEO_FIXTURE_PATH);
-      await waitForUploadCompletion(page, "first_attempt", i);
-    }
-
-    // Checklist item flips to complete.
+    // Checklist item flips to complete (it depends on uploads existing for
+    // EVERY active exercise across both partner weeks).
     const firstChecklist = page.locator('[data-testid="checklist-first-attempt"]').first();
     await expect(firstChecklist).toHaveAttribute("data-complete", "true", { timeout: 30_000 });
 
@@ -145,15 +139,8 @@ test.describe.serial("Option B — full Module 1 flow (frenectomy test patient)"
     await page.goto("/week/1");
     await waitForPageLoad(page);
 
-    const lastInputs = page.locator('input[data-testid="upload-last-attempt"]');
-    const count = await lastInputs.count();
-    expect(count, "Module 1 should expose at least one last-attempt upload input").toBeGreaterThan(0);
-
-    for (let i = 0; i < count; i++) {
-      const input = lastInputs.nth(i);
-      await input.setInputFiles(VIDEO_FIXTURE_PATH);
-      await waitForUploadCompletion(page, "last_attempt", i);
-    }
+    const uploaded = await uploadToEveryActiveExercise(page, "last_attempt");
+    expect(uploaded, "expected at least one last-attempt upload").toBeGreaterThan(0);
 
     const lastChecklist = page.locator('[data-testid="checklist-last-attempt"]').first();
     await expect(lastChecklist).toHaveAttribute("data-complete", "true", { timeout: 30_000 });
@@ -194,20 +181,79 @@ test.describe.serial("Option B — full Module 1 flow (frenectomy test patient)"
 // ─── helpers (file-scoped) ────────────────────────────────────────────
 
 /**
- * Wait for an upload at a specific exercise card to flip from
- * "Uploading…" → "Uploaded". The ExerciseVideoUpload component replaces
- * its upload button content once handleFileSelect's resolve completes.
- * Generous timeout because production Supabase Storage signed-URL
- * generation can take a few seconds on cold-path uploads.
+ * Walk the exercise accordion (Radix Accordion type="single" collapsible)
+ * and upload the fixture video to every visible upload slot of the given
+ * kind. Each ExerciseVideoUpload is mounted lazily — its <input> only
+ * exists in the DOM while its accordion item is open. type="single" also
+ * means opening item N+1 closes item N, but the upload persists in the
+ * DB, so sequential opening + uploading works.
+ *
+ * Returns the number of successful uploads (== number of active exercises
+ * encountered).
  */
-async function waitForUploadCompletion(
+async function uploadToEveryActiveExercise(
   page: import("@playwright/test").Page,
-  kind: "first_attempt" | "last_attempt",
-  exerciseIndex: number
-): Promise<void> {
-  const labelTestId = kind === "first_attempt" ? "upload-first-attempt-label" : "upload-last-attempt-label";
-  const card: Locator = page.locator(`[data-testid="${labelTestId}"]`).nth(exerciseIndex);
-  // The "Uploaded" text replaces the upload prompt inside the same
-  // <label>. Wait for the label to render the success copy.
-  await expect(card).toContainText(/Uploaded/i, { timeout: 60_000 });
+  kind: "first_attempt" | "last_attempt"
+): Promise<number> {
+  const inputTestId = kind === "first_attempt" ? "upload-first-attempt" : "upload-last-attempt";
+  const labelTestId = `${inputTestId}-label`;
+
+  // Constrain to triggers inside the exercise Accordion (marker added in
+  // WeekExercisesList.tsx via data-testid="exercises-accordion" on the
+  // <Accordion>). Without this constraint we'd also match the
+  // FrenectomyConsultTask / LearnHubReviewTask / Privacy Manager
+  // disclosure buttons elsewhere on /week/1 — clicking those scrolls the
+  // page and the subsequent click collides with overlay layers.
+  const triggers = page.locator('[data-testid="exercises-accordion"] button[aria-expanded]');
+  const triggerCount = await triggers.count();
+  if (triggerCount === 0) {
+    throw new Error(
+      "No exercise accordion triggers found on /week/1. The exercises " +
+        "section may not have mounted — verify the patient state " +
+        "(program_variant, requires_video) and that exercises load from JSON."
+    );
+  }
+
+  let uploaded = 0;
+  for (let i = 0; i < triggerCount; i++) {
+    const trigger = triggers.nth(i);
+    // Use scrollIntoView before clicking to dodge sticky-header overlay
+    // collisions; force the click as a last resort for stubborn cases.
+    await trigger.scrollIntoViewIfNeeded();
+    const expanded = await trigger.getAttribute("aria-expanded");
+    if (expanded === "false") {
+      try {
+        await trigger.click({ timeout: 5_000 });
+      } catch {
+        await trigger.click({ force: true, timeout: 5_000 });
+      }
+      // Brief mount wait — Radix animates the AccordionContent in.
+      await page.waitForTimeout(300);
+    }
+
+    // After opening, see whether THIS item has a visible upload input of
+    // the requested kind. Only active exercises render ExerciseVideoUpload.
+    const visibleInput = page
+      .locator(`input[data-testid="${inputTestId}"]`)
+      .filter({ visible: true });
+
+    if ((await visibleInput.count()) === 0) {
+      // Not an active exercise (or already uploaded — input replaced by
+      // the post-upload UI). Move on.
+      continue;
+    }
+
+    await visibleInput.first().setInputFiles(VIDEO_FIXTURE_PATH);
+
+    // Wait for this exercise's upload label to switch to "Uploaded".
+    // The visible label is the one inside the currently-open accordion.
+    const completedLabel = page
+      .locator(`[data-testid="${labelTestId}"]`)
+      .filter({ visible: true });
+    await expect(completedLabel).toContainText(/Uploaded/i, { timeout: 60_000 });
+
+    uploaded++;
+  }
+
+  return uploaded;
 }

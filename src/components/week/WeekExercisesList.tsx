@@ -254,7 +254,7 @@ export function WeekExercisesList({
       )}
 
       {/* Render normal exercises in accordion */}
-      <Accordion type="single" collapsible className="w-full space-y-2" data-scroll-lock="true">
+      <Accordion type="single" collapsible className="w-full space-y-2" data-testid="exercises-accordion" data-scroll-lock="true">
       {exercises.filter(e => !isClinicianReviewPlaceholder(e.title)).map((exercise, index) => {
         const mediaBadge = getMediaStatusBadge(exercise.media_status);
         const hasMedia = exercise.demo_video_url || exercise.modified_video_url;
