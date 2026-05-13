@@ -231,25 +231,30 @@ async function uploadToEveryActiveExercise(
       await page.waitForTimeout(300);
     }
 
-    // After opening, see whether THIS item has a visible upload input of
-    // the requested kind. Only active exercises render ExerciseVideoUpload.
-    const visibleInput = page
-      .locator(`input[data-testid="${inputTestId}"]`)
-      .filter({ visible: true });
+    // After opening, see whether THIS item has an upload input of the
+    // requested kind. The input is intentionally className="hidden"
+    // (display:none) because the user clicks the wrapping <label>, not
+    // the input — but setInputFiles works on hidden inputs. So we scope
+    // by Radix's data-state="open" on the AccordionItem ancestor:
+    // type="single" guarantees at most one item is open at a time, so
+    // this selector resolves to 0 or 1 matches.
+    const openInput = page.locator(
+      `[data-state="open"] input[data-testid="${inputTestId}"]`
+    );
 
-    if ((await visibleInput.count()) === 0) {
+    if ((await openInput.count()) === 0) {
       // Not an active exercise (or already uploaded — input replaced by
       // the post-upload UI). Move on.
       continue;
     }
 
-    await visibleInput.first().setInputFiles(VIDEO_FIXTURE_PATH);
+    await openInput.first().setInputFiles(VIDEO_FIXTURE_PATH);
 
     // Wait for this exercise's upload label to switch to "Uploaded".
-    // The visible label is the one inside the currently-open accordion.
-    const completedLabel = page
-      .locator(`[data-testid="${labelTestId}"]`)
-      .filter({ visible: true });
+    // Scope to the open accordion item to disambiguate from sibling cards.
+    const completedLabel = page.locator(
+      `[data-state="open"] [data-testid="${labelTestId}"]`
+    );
     await expect(completedLabel).toContainText(/Uploaded/i, { timeout: 60_000 });
 
     uploaded++;
