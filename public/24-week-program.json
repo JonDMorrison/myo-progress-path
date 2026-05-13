@@ -1164,7 +1164,9 @@
         "type": "active",
         "duration": "2 min",
         "frequency": "2-3x/day",
-        "props": [],
+        "props": [
+          "None"
+        ],
         "description": "Try with your mouth open, halfway or closed. Place the tip of the tongue against the spot and trace back along the palate in a straight line and far back as possible. You should feel a stretch in the frenum and floor of your mouth.",
         "compensations": [
           "Watch in mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
@@ -3210,7 +3212,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -3350,7 +3352,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -5684,7 +5686,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review one of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -5826,7 +5828,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review one of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -5936,7 +5938,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -6047,7 +6049,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -6158,7 +6160,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -6281,7 +6283,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -6405,7 +6407,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
@@ -6544,7 +6546,7 @@
         "props": [
           "None"
         ],
-        "description": "Practice these exercises for the next 2 weeks.",
+        "description": "- Look back through the active exercises in this program and review 3 of the exercises that you struggled with the most previously\n- Practice these exercises for the next 2 weeks",
         "compensations": [],
         "demo_video_url": ""
       },
