@@ -51,6 +51,8 @@ export function SubmitButton({
           <Button
             onClick={onComplete}
             disabled={!canSubmit || loading}
+            data-testid="submit-week-button"
+            data-can-submit={canSubmit ? "true" : "false"}
             className={cn(
               "h-20 px-12 rounded-[2rem] text-xl font-black tracking-tighter transition-all duration-500 min-w-[280px] shadow-2xl relative overflow-hidden group",
               canSubmit

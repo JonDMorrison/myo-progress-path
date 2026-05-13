@@ -178,11 +178,12 @@ export function ExerciseVideoUpload({
             {hasFirstAttempt && <CheckCircle2 className="h-4 w-4 text-success" />}
           </div>
           
-          <label className="cursor-pointer">
+          <label className="cursor-pointer" data-testid="upload-first-attempt-label">
             <input
               type="file"
               accept="video/mp4,video/quicktime"
               className="hidden"
+              data-testid="upload-first-attempt"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) handleFileSelect('first_attempt', file);
@@ -242,11 +243,12 @@ export function ExerciseVideoUpload({
             {hasLastAttempt && <CheckCircle2 className="h-4 w-4 text-success" />}
           </div>
           
-          <label className="cursor-pointer">
+          <label className="cursor-pointer" data-testid="upload-last-attempt-label">
             <input
               type="file"
               accept="video/mp4,video/quicktime"
               className="hidden"
+              data-testid="upload-last-attempt"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) handleFileSelect('last_attempt', file);

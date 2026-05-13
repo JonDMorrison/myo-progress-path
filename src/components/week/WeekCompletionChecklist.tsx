@@ -61,7 +61,7 @@ export function WeekCompletionChecklist({
   const isFrenectomyModule1 = (weekNumber === 1 || weekNumber === 2) && isFrenectomyVariant(programVariant);
 
   // Build requirements array (video uploads are now per-exercise, not week-level)
-  const requirements: Array<{ label: string; complete: boolean; required: boolean; icon: string }> = [];
+  const requirements: Array<{ label: string; complete: boolean; required: boolean; icon: string; testId?: string }> = [];
 
   // Learn Hub review — Week 1 only, every pathway. Must appear first because
   // calc_week_progress (the DB function that gates submission) requires
@@ -97,7 +97,8 @@ export function WeekCompletionChecklist({
         label: 'First attempt videos submitted',
         complete: hasFirstForAll,
         required: true,
-        icon: "🎥"
+        icon: "🎥",
+        testId: "checklist-first-attempt",
       });
     }
     if (week.requires_video_last) {
@@ -105,7 +106,8 @@ export function WeekCompletionChecklist({
         label: 'Last attempt videos submitted',
         complete: hasLastForAll,
         required: true,
-        icon: "🎬"
+        icon: "🎬",
+        testId: "checklist-last-attempt",
       });
     }
   }
@@ -157,6 +159,8 @@ export function WeekCompletionChecklist({
         {requiredItems.map((req, index) => (
           <div
             key={index}
+            data-testid={req.testId}
+            data-complete={req.complete ? "true" : "false"}
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-2xl border transition-all duration-300",
               req.complete
@@ -196,7 +200,12 @@ export function WeekCompletionChecklist({
       <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
         <ul className="space-y-2 sm:space-y-3">
           {requiredItems.map((req, index) => (
-            <li key={index} className="flex items-center gap-2">
+            <li
+              key={index}
+              data-testid={req.testId}
+              data-complete={req.complete ? "true" : "false"}
+              className="flex items-center gap-2"
+            >
               {req.complete ? (
                 <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-success flex-shrink-0" />
               ) : (
