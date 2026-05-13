@@ -107,11 +107,13 @@ test.describe.serial("Option B — full Module 1 flow (frenectomy test patient)"
     const firstChecklist = page.locator('[data-testid="checklist-first-attempt"]').first();
     await expect(firstChecklist).toHaveAttribute("data-complete", "true", { timeout: 30_000 });
 
-    // Last-attempt item still not complete.
-    const lastChecklist = page.locator('[data-testid="checklist-last-attempt"]').first();
-    await expect(lastChecklist).toHaveAttribute("data-complete", "false");
+    // (We deliberately do NOT assert "last-attempt is still red" here —
+    // that would require the MCP reset to DELETE FROM uploads between
+    // runs, and leftover state would otherwise flake this test without
+    // signaling anything Option-B-specific.)
 
-    // Submit button still disabled — both video items must be green.
+    // Submit button still disabled — at minimum, biometrics + exercises
+    // are still red, so this should hold regardless of upload history.
     const submit = page.locator('[data-testid="submit-week-button"]');
     if (await submit.count() > 0) {
       await expect(submit).toBeDisabled();
@@ -132,8 +134,11 @@ test.describe.serial("Option B — full Module 1 flow (frenectomy test patient)"
     await expect(firstChecklist).toHaveAttribute("data-complete", "true", { timeout: 30_000 });
   });
 
-  // ─── 5. Last-attempt uploads + Submit enabled ───────────────────────
-  test("5. uploading last-attempt videos ticks the second item and enables Submit", async ({
+  // ─── 5. Last-attempt uploads ────────────────────────────────────────
+  // NOTE: Submit-enabled is asserted in test 6 after the rest of the
+  // checklist is satisfied. Videos alone don't enable Submit — BOLT,
+  // nasal %, tongue %, and all exercise sessions also have to be green.
+  test("5. uploading last-attempt videos ticks the second checklist item", async ({
     page,
   }) => {
     await page.goto("/week/1");
@@ -144,28 +149,32 @@ test.describe.serial("Option B — full Module 1 flow (frenectomy test patient)"
 
     const lastChecklist = page.locator('[data-testid="checklist-last-attempt"]').first();
     await expect(lastChecklist).toHaveAttribute("data-complete", "true", { timeout: 30_000 });
-
-    const submit = page.locator('[data-testid="submit-week-button"]');
-    await expect(submit).toBeEnabled({ timeout: 15_000 });
   });
 
   // ─── 6. Submit produces a success state ─────────────────────────────
   // Cascade verification (both week 1 + week 2 progress rows reach
   // 'submitted') is intentionally NOT asserted here — Jon's agent reads
   // patient_week_progress via Supabase MCP after the run. This test only
-  // proves the UI completes the submit cycle.
-  test("6. clicking Submit transitions out of the open state", async ({ page }) => {
+  // proves the UI completes the submit cycle, including the
+  // not-Option-B-specific preconditions: filling biometrics and marking
+  // every exercise done. Without those, Submit stays disabled regardless
+  // of how many videos are uploaded.
+  test("6. completing biometrics + exercises + clicking Submit reaches success state", async ({
+    page,
+  }) => {
     await page.goto("/week/1");
     await waitForPageLoad(page);
 
-    const submit = page.locator('[data-testid="submit-week-button"]');
-    await expect(submit).toBeEnabled();
+    await fillBiometrics(page);
+    await markEveryExerciseDone(page);
 
+    const submit = page.locator('[data-testid="submit-week-button"]');
+    await expect(submit).toBeEnabled({ timeout: 15_000 });
     await submit.click();
 
-    // WeekDetail.handleSubmitForReview shows one of two toasts depending on
-    // requires_video, then navigates away after ~1.5s. Either signal is
-    // sufficient evidence the submit completed.
+    // WeekDetail.handleSubmitForReview shows one of two toasts depending
+    // on requires_video, then navigates away after ~1.5s. Either signal
+    // is sufficient evidence the submit completed.
     const toastVisible = page.getByText(/Submitted for review|Module complete/i);
     const navigatedAway = page.waitForURL((url) => !url.pathname.startsWith("/week/1"), {
       timeout: 10_000,
@@ -179,6 +188,55 @@ test.describe.serial("Option B — full Module 1 flow (frenectomy test patient)"
 });
 
 // ─── helpers (file-scoped) ────────────────────────────────────────────
+
+/**
+ * Fill the Your Vitals form's three required inputs (BOLT, nasal %,
+ * tongue %). WeekProgressForm auto-saves on change via debounce; a short
+ * wait after the third input lets the save flight settle before the
+ * spec moves on.
+ */
+async function fillBiometrics(page: import("@playwright/test").Page): Promise<void> {
+  await page.locator("#bolt-score").fill("30");
+  await page.locator("#nasal-pct").fill("80");
+  await page.locator("#tongue-pct").fill("70");
+  // The progress form debounces saves. Wait long enough for the
+  // exercise_completions / vitals updates to flush AND for the
+  // checklist sidebar to re-render with the new values.
+  await page.waitForTimeout(2_000);
+}
+
+/**
+ * Walk every exercise in the accordion (active, breathing, passive) and
+ * click its inline "Mark Done" button so the WeekCompletionChecklist's
+ * Exercise sessions item flips green. With completion_target=1 per
+ * exercise, a single click per exercise satisfies the requirement.
+ */
+async function markEveryExerciseDone(page: import("@playwright/test").Page): Promise<void> {
+  const triggers = page.locator('[data-testid="exercises-accordion"] button[aria-expanded]');
+  const triggerCount = await triggers.count();
+  for (let i = 0; i < triggerCount; i++) {
+    const trigger = triggers.nth(i);
+    await trigger.scrollIntoViewIfNeeded();
+    const expanded = await trigger.getAttribute("aria-expanded");
+    if (expanded === "false") {
+      try {
+        await trigger.click({ timeout: 5_000 });
+      } catch {
+        await trigger.click({ force: true, timeout: 5_000 });
+      }
+      await page.waitForTimeout(300);
+    }
+
+    // The Mark Done button only renders when the exercise is not yet
+    // complete. If it's already complete (count >= target), skip.
+    const markDone = page.locator('[data-state="open"] button', { hasText: /^Mark Done$/i });
+    if ((await markDone.count()) > 0) {
+      await markDone.first().click();
+      // Give the optimistic update + checklist re-render a moment.
+      await page.waitForTimeout(500);
+    }
+  }
+}
 
 /**
  * Walk the exercise accordion (Radix Accordion type="single" collapsible)
