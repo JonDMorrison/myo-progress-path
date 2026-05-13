@@ -19,7 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getUserProgress, isWeekAccessible } from "@/lib/userProgress";
 import { grantBadgeWithToast } from "@/lib/gamification";
-import { getProgramTitle } from "@/lib/constants";
+import { getProgramTitle, patientRequiresVideo } from "@/lib/constants";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { MobileContainer } from "@/components/layout/MobileContainer";
 import { PatientHeader } from "@/components/layout/PatientHeader";
@@ -439,7 +439,7 @@ const PatientDashboard = () => {
                 </div>
 
                 <div className="lg:col-span-5 space-y-6">
-                  {patient?.requires_video !== false && (
+                  {patientRequiresVideo(patient) && (
                     <div id="messages-card">
                       <div className="mb-4 flex items-center justify-between px-1">
                         <div className="flex items-center gap-3">

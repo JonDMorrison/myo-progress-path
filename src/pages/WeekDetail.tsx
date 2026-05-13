@@ -45,7 +45,7 @@ import {
   getModulePartnerWeekIds,
   getPartnerWeekNumber,
 } from "@/lib/moduleUtils";
-import { isFrenectomyVariant, requiresVideo, getProgramTitle } from "@/lib/constants";
+import { isFrenectomyVariant, requiresVideo, getProgramTitle, patientRequiresVideo } from "@/lib/constants";
 import { approveWeek } from "@/lib/reviewActions";
 
 const WeekDetail = () => {
@@ -590,8 +590,10 @@ const WeekDetail = () => {
 
       // Auto-approve if the patient does not require video review.
       // This skips the "waiting for therapist" state entirely and unlocks
-      // the next module immediately.
-      if (patient.requires_video === false) {
+      // the next module immediately. patientRequiresVideo() handles the
+      // (variant + column) combination so non_frenectomy with NULL
+      // requires_video falls back to the variant default of false.
+      if (!patientRequiresVideo(patient)) {
         const wn = parseInt(weekNumber || "1");
         const approveResult = await approveWeek(progress.id, patient.id, wn, "");
         if (approveResult.success) {
@@ -867,7 +869,7 @@ const WeekDetail = () => {
                           existingCompletions={progress?.exercise_completions || {}}
                           onUpdate={handleProgressUpdate}
                           readOnly={isReadOnly}
-                          showVideoUpload={requiresVideo(patient?.program_variant) && patient?.requires_video !== false}
+                          showVideoUpload={patientRequiresVideo(patient)}
                         />
                       )}
                     </div>
@@ -950,7 +952,7 @@ const WeekDetail = () => {
                     exercises={exercises}
                     weekNumber={parseInt(weekNumber || "0")}
                     programVariant={patient?.program_variant}
-                    requiresVideoUpload={requiresVideo(patient?.program_variant) && patient?.requires_video !== false}
+                    requiresVideoUpload={patientRequiresVideo(patient)}
                     layout="sidebar"
                   />
                 </div>
@@ -964,7 +966,7 @@ const WeekDetail = () => {
                   </div>
                 )}
 
-                {patient?.program_variant !== 'non_frenectomy' && (
+                {patientRequiresVideo(patient) && (
                   <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-400">
                     <div className="rounded-[2.5rem] overflow-hidden shadow-xl ring-1 ring-slate-100 bg-white">
                       <WeekMessagesPanel

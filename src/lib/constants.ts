@@ -32,6 +32,19 @@ export function requiresVideo(variant: string | null | undefined): boolean {
 }
 
 /**
+ * Returns true if THIS patient requires video. The patient's requires_video
+ * column is an explicit override; otherwise the variant string decides.
+ */
+export function patientRequiresVideo(
+  patient: { program_variant?: string | null; requires_video?: boolean | null } | null | undefined
+): boolean {
+  if (!patient) return true; // default to true for safety
+  if (patient.requires_video === false) return false;
+  if (patient.requires_video === true) return true;
+  return requiresVideo(patient.program_variant);
+}
+
+/**
  * Normalise the variant into the base program type for DB lookup
  * e.g. 'frenectomy_video' → 'frenectomy'
  */

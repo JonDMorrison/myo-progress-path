@@ -685,11 +685,10 @@ const TherapistDashboard = () => {
                       className={`cursor-pointer transition-all ${isSystem ? 'hover:bg-blue-50/80 border-blue-200 bg-blue-50/50' : 'hover:bg-slate-50'}`}
                       onClick={() => {
                         if (!weekNumber) {
-                          toast({
-                            title: "Cannot open review",
-                            description: "This message has no associated week.",
-                            variant: "destructive",
-                          });
+                          // No week context (e.g. a general patient-initiated
+                          // message). Route to the patient overview where
+                          // the Reply button can send a fresh message.
+                          navigate(`/therapist/patient/${msg.patient?.id}`);
                           return;
                         }
                         navigate(`/review/${msg.patient?.id}/${weekNumber}`);

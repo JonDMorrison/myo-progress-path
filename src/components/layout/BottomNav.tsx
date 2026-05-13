@@ -4,6 +4,7 @@ import { Home, TrendingUp, MessageSquare, User, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { patientRequiresVideo } from "@/lib/constants";
 
 interface NavItem {
   href: string;
@@ -20,25 +21,40 @@ const navItems: NavItem[] = [
   { href: "/patient/account", label: "Account", icon: User },
 ];
 
+type PatientGate = {
+  requires_video: boolean | null;
+  program_variant: string | null;
+};
+
 export function BottomNav() {
   const location = useLocation();
   const { user: authUser } = useAuth();
-  const [requiresVideo, setRequiresVideo] = useState<boolean | null>(null);
+  // Hold both fields so patientRequiresVideo() can fall back to the variant
+  // when the requires_video column is NULL (current state for
+  // non_frenectomy patients without an explicit override).
+  const [patientGate, setPatientGate] = useState<PatientGate | null>(null);
 
   useEffect(() => {
     if (!authUser?.id) {
-      setRequiresVideo(null);
+      setPatientGate(null);
       return;
     }
     let cancelled = false;
     (async () => {
       const { data } = await supabase
         .from("patients")
-        .select("requires_video")
+        .select("requires_video, program_variant")
         .eq("user_id", authUser.id)
         .maybeSingle();
       if (!cancelled) {
-        setRequiresVideo(data?.requires_video ?? null);
+        setPatientGate(
+          data
+            ? {
+                requires_video: (data.requires_video as boolean | null) ?? null,
+                program_variant: (data.program_variant as string | null) ?? null,
+              }
+            : null
+        );
       }
     })();
     return () => {
@@ -47,7 +63,7 @@ export function BottomNav() {
   }, [authUser?.id]);
 
   const visibleItems = navItems.filter(
-    (item) => item.href !== "/patient/messages" || requiresVideo !== false
+    (item) => item.href !== "/patient/messages" || patientRequiresVideo(patientGate)
   );
   const gridColsClass = visibleItems.length === 5 ? "grid-cols-5" : "grid-cols-4";
 
