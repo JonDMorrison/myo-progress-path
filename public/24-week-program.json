@@ -3483,7 +3483,7 @@
     },
     "requires_video_first": false,
     "requires_video_last": false,
-    "post_program_text": "Congratulations on finishing your 24 week Myofunctional Therapy Program! By completing this program you should notice improvements in your mouth breathing, tongue posture, lip seal, and swallowing. You may also experience less facial/TMD pain and headaches, less clenching and grinding, improved sleep quality, improved sleep apnea scores, better digestion and reduced allergy symptoms. Look back and review how far you have come by reviewing your first and last BOLT scores and weekly progress charts.\n\nMoving forward you should no longer need to continue practicing exercises as long as you continue to accomplish each of the four goals. You will want to ensure you are nasal breathing and have the correct tongue posture 95+% of the time. While eating make sure you continue to chew with your mouth closed, avoid overly large bites, and chew thoroughly using the teeth while avoiding mashing or sucking on food with the tongue. It is also important that the tongue is on the spot when swallowing and not pushing forward into the teeth (tongue thrust). Facial grimace should be avoided and muscles should always be relaxed while swallowing. The same rules apply when drinking with the addition of ensuring you are swallowing quietly."
+    "post_program_text": "Congratulations on finishing your 24 week Myofunctional Therapy Program! By completing this program you should notice improvements in your mouth breathing, tongue posture, lip seal, and swallowing. You may also experience less facial/TMJ pain and headaches, less clenching and grinding, improved sleep quality, improved sleep apnea scores, better digestion and reduced allergy symptoms. Look back and review how far you have come by reviewing your first and last BOLT scores and weekly progress charts.\n\nMoving forward you should no longer need to continue practicing exercises as long as you continue to accomplish each of the four goals. You will want to ensure you are nasal breathing and have the correct tongue posture 95+% of the time. While eating make sure you continue to chew with your mouth closed, avoid overly large bites, and chew thoroughly using the teeth while avoiding mashing or sucking on food with the tongue. It is also important that the tongue is on the spot when swallowing and not pushing forward into the teeth (tongue thrust). Facial grimace should be avoided and muscles should always be relaxed while swallowing. The same rules apply when drinking with the addition of ensuring you are swallowing quietly."
   },
   {
     "week": 1,
@@ -5096,6 +5096,19 @@
         "demo_video_url": "https://player.vimeo.com/video/1143179799"
       },
       {
+        "name": "Cracker Chew and Check",
+        "type": "active",
+        "duration": "2 minutes 2x/day",
+        "props": [
+          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, or Cheez-Its; or rice crackers/plantain chips for gluten-free)"
+        ],
+        "description": "Chew a cracker for 20-30 chews (this will feel like a lot \u2014 important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles \u2014 avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing \u2014 use the same swallowing technique that has been practiced over the last few weeks.",
+        "compensations": [
+          "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
+          "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
+        ]
+      },
+      {
         "name": "Cheek Lifts",
         "type": "active",
         "duration": "2 minutes",
@@ -5108,19 +5121,6 @@
           "People with weak midface muscles will often smile with their lower face causing neck engagement. The smile line will often be angled downward or straight across. Work on smiling in an \"upward\" direction with the corner of mouth and think about cheeks when smiling"
         ],
         "demo_video_url": "https://player.vimeo.com/video/1142856378"
-      },
-      {
-        "name": "Cracker Chew and Check",
-        "type": "active",
-        "duration": "2 minutes 2x/day",
-        "props": [
-          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, or Cheez-Its; or rice crackers/plantain chips for gluten-free)"
-        ],
-        "description": "Chew a cracker for 20-30 chews (this will feel like a lot \u2014 important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles \u2014 avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing \u2014 use the same swallowing technique that has been practiced over the last few weeks.",
-        "compensations": [
-          "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
-          "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
-        ]
       },
       {
         "name": "BOLT Test (Midway Check In)",
@@ -5236,6 +5236,19 @@
         "demo_video_url": "https://player.vimeo.com/video/1143179799"
       },
       {
+        "name": "Cracker Chew and Check",
+        "type": "active",
+        "duration": "2 minutes 2x/day",
+        "props": [
+          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, or Cheez-Its; or rice crackers/plantain chips for gluten-free)"
+        ],
+        "description": "Chew a cracker for 20-30 chews (this will feel like a lot \u2014 important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles \u2014 avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing \u2014 use the same swallowing technique that has been practiced over the last few weeks.",
+        "compensations": [
+          "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
+          "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
+        ]
+      },
+      {
         "name": "Cheek Lifts",
         "type": "active",
         "duration": "2 minutes",
@@ -5248,19 +5261,6 @@
           "People with weak midface muscles will often smile with their lower face causing neck engagement. The smile line will often be angled downward or straight across. Work on smiling in an \"upward\" direction with the corner of mouth and think about cheeks when smiling"
         ],
         "demo_video_url": "https://player.vimeo.com/video/1142856378"
-      },
-      {
-        "name": "Cracker Chew and Check",
-        "type": "active",
-        "duration": "2 minutes 2x/day",
-        "props": [
-          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, or Cheez-Its; or rice crackers/plantain chips for gluten-free)"
-        ],
-        "description": "Chew a cracker for 20-30 chews (this will feel like a lot \u2014 important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles \u2014 avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing \u2014 use the same swallowing technique that has been practiced over the last few weeks.",
-        "compensations": [
-          "Watch in the mirror, focusing on eliminating facial grimace (chin dimpling and lips pursing) neck engagement or head bob during swallow.",
-          "Tongue Thrust (Pushing tongue into the teeth to swallow, tongue should push against the palate)"
-        ]
       },
       {
         "name": "BOLT Test (Midway Check In)",
