@@ -61,7 +61,20 @@ export function WeekCompletionChecklist({
   const isFrenectomyModule1 = (weekNumber === 1 || weekNumber === 2) && isFrenectomyVariant(programVariant);
 
   // Build requirements array (video uploads are now per-exercise, not week-level)
-  const requirements = [];
+  const requirements: Array<{ label: string; complete: boolean; required: boolean; icon: string }> = [];
+
+  // Learn Hub review — Week 1 only, every pathway. Must appear first because
+  // calc_week_progress (the DB function that gates submission) requires
+  // learn_hub_reviewed = true for week 1; without surfacing it the patient
+  // sees a green checklist but Submit stays disabled.
+  if (weekNumber === 1) {
+    requirements.push({
+      label: 'Learning Hub topics reviewed',
+      complete: progress?.learn_hub_reviewed === true,
+      required: true,
+      icon: "📚"
+    });
+  }
 
   // Video submission items — only for pathways that require video AND patient has video enabled
   const videoRequired = requiresVideoUpload !== undefined ? requiresVideoUpload : requiresVideo(programVariant);

@@ -681,6 +681,21 @@ const WeekDetail = () => {
               {/* Left Column: Actions & Exercises (8 Cols) */}
               <div className="lg:col-span-8 space-y-12">
 
+                {/* Learn Hub prompt — Week 1 only, shown until patient marks the
+                    Learning Hub task complete. Required by calc_week_progress
+                    so without this the patient cannot submit Module 1. */}
+                {parseInt(weekNumber || "0") === 1 && progress?.learn_hub_reviewed !== true && (
+                  <div className="rounded-2xl bg-blue-50 border border-blue-200 p-4 flex items-center justify-between">
+                    <div>
+                      <p className="font-bold text-blue-900 text-sm">📚 Review the Learning Hub first</p>
+                      <p className="text-xs text-blue-700 mt-0.5">Required before you can submit Module 1</p>
+                    </div>
+                    <Button variant="outline" size="sm" onClick={() => navigate('/learn')}>
+                      Go to Learn Hub
+                    </Button>
+                  </div>
+                )}
+
                 {/* Preparation Logic (Frenectomy reminders etc) */}
                 {isFrenectomyVariant(new URLSearchParams(window.location.search).get('variant') || patient?.program_variant) && (
                   <div className="space-y-6">
