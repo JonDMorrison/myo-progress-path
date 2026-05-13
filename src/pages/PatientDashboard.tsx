@@ -435,23 +435,25 @@ const PatientDashboard = () => {
                 </div>
 
                 <div className="lg:col-span-5 space-y-6">
-                  <div id="messages-card">
-                    <div className="mb-4 flex items-center justify-between px-1">
-                      <div className="flex items-center gap-3">
-                        <span className="w-1.5 h-1.5 rounded-full bg-secondary-foreground" />
-                        <h2 className="text-lg font-bold text-slate-800 tracking-tight italic">Messages & Feedback</h2>
+                  {patient?.requires_video !== false && (
+                    <div id="messages-card">
+                      <div className="mb-4 flex items-center justify-between px-1">
+                        <div className="flex items-center gap-3">
+                          <span className="w-1.5 h-1.5 rounded-full bg-secondary-foreground" />
+                          <h2 className="text-lg font-bold text-slate-800 tracking-tight italic">Messages & Feedback</h2>
+                        </div>
+                        {messages.filter(m => m.therapist_id).length > 0 && (
+                          <Badge variant="secondary" className="bg-primary/10 text-primary animate-pulse border-none text-[10px] font-bold uppercase tracking-widest">
+                            New Feedback
+                          </Badge>
+                        )}
                       </div>
-                      {messages.filter(m => m.therapist_id).length > 0 && (
-                        <Badge variant="secondary" className="bg-primary/10 text-primary animate-pulse border-none text-[10px] font-bold uppercase tracking-widest">
-                          New Feedback
-                        </Badge>
-                      )}
+                      <MessagesCard
+                        messages={messages}
+                        onSendMessage={handleSendMessage}
+                      />
                     </div>
-                    <MessagesCard
-                      messages={messages}
-                      onSendMessage={handleSendMessage}
-                    />
-                  </div>
+                  )}
 
                   {/* Gamification Sidebar Segment */}
                   {patient && (
