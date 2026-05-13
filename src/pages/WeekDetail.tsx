@@ -43,6 +43,7 @@ import {
   isCollapsedEvenWeek,
   isModuleAnchorWeek,
   getModulePartnerWeekIds,
+  getPartnerWeekNumber,
 } from "@/lib/moduleUtils";
 import { isFrenectomyVariant, requiresVideo, getProgramTitle } from "@/lib/constants";
 import { approveWeek } from "@/lib/reviewActions";
@@ -292,6 +293,37 @@ const WeekDetail = () => {
           }
           if (weekEntry.progress_benchmark) {
             setProgressBenchmark(weekEntry.progress_benchmark);
+          }
+        }
+
+        // Option B: the anchor week now owns both first-attempt and
+        // last-attempt video requirements (the patient does both from one
+        // page across two visits). Historically the DB split this — Week N
+        // had requires_video_first=true, Week N+1 had requires_video_last=
+        // true. Without merging, the anchor checklist only shows whichever
+        // half lived on the odd week, and Submit stays disabled because
+        // the missing item never goes green.
+        //
+        // Fix at the data layer rather than via a DB migration: look up
+        // the partner even-week row and OR its flags into the anchor.
+        // Single-week modules (post-op 9/10 frenectomy, week 25) return
+        // null partner and skip the merge.
+        const partnerNum = getPartnerWeekNumber(weekData.number, variant);
+        if (partnerNum && partnerNum !== weekData.number) {
+          const { data: partnerRow } = await supabase
+            .from("weeks")
+            .select("requires_video_first, requires_video_last, requires_bolt, programs!inner(title)")
+            .eq("number", partnerNum)
+            .eq("programs.title", programTitle)
+            .maybeSingle();
+
+          if (partnerRow) {
+            setWeek(prev => prev ? {
+              ...prev,
+              requires_video_first: prev.requires_video_first || partnerRow.requires_video_first,
+              requires_video_last: prev.requires_video_last || partnerRow.requires_video_last,
+              requires_bolt: prev.requires_bolt || partnerRow.requires_bolt,
+            } : prev);
           }
         }
       } catch (error) {
