@@ -60,6 +60,7 @@ const SendNoteDialog = ({
             <Label htmlFor="note">Message</Label>
             <Textarea
               id="note"
+              data-testid="feedback-textarea"
               placeholder="Type your note here..."
               value={note}
               onChange={(e) => setNote(e.target.value)}
@@ -67,12 +68,17 @@ const SendNoteDialog = ({
             />
           </div>
         </div>
-        
+
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={handleSend} disabled={!note.trim() || sending}>
+          <Button
+            onClick={handleSend}
+            disabled={!note.trim() || sending}
+            data-testid="feedback-send"
+            data-sending={sending ? "true" : "false"}
+          >
             {sending && <Loader className="h-4 w-4 animate-spin mr-2" />}
             Send Note
           </Button>

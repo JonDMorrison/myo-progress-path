@@ -12,6 +12,8 @@ import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import { getProgramTitle } from "@/lib/constants";
 import { getVideoUrl } from "@/lib/storage";
+import SendNoteDialog from "@/components/therapist/SendNoteDialog";
+import { MessageSquare } from "lucide-react";
 
 // AI feedback has been disabled - therapist feedback only
 
@@ -27,6 +29,7 @@ const ReviewWeek = () => {
   const [progress, setProgress] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [note, setNote] = useState("");
+  const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false);
 
   const [uploads, setUploads] = useState<any[]>([]);
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
@@ -270,6 +273,33 @@ const ReviewWeek = () => {
 
   const isReassignable = progress?.status === "approved" || progress?.status === "submitted";
 
+  // Send a free-form feedback message tied to this week. Used by the
+  // "Send Feedback" button in the page header — available regardless of
+  // the patient's submission status, so Sam can drop a quick note after
+  // viewing first-attempt videos before the patient submits.
+  const handleSendFeedback = async (note: string) => {
+    if (!patient?.id || !week?.id) return;
+    const { data: { user } } = await supabase.auth.getUser();
+    const { error } = await supabase.from("messages").insert({
+      patient_id: patient.id,
+      week_id: week.id,
+      therapist_id: user?.id ?? null,
+      body: note,
+      sent_by: "therapist",
+    });
+    if (error) {
+      toast({ title: "Failed to send", description: error.message, variant: "destructive" });
+      throw error;
+    }
+    toast({ title: "Feedback sent", description: `Message sent to ${patient.user?.name || "patient"}.` });
+    // Refresh the on-page messages list.
+    const { data: refreshed } = await supabase
+      .from("messages")
+      .select("*, week:weeks(number)")
+      .eq("patient_id", patient.id)
+      .order("created_at", { ascending: true });
+    setMessages(refreshed || []);
+  };
 
   const handlePlayVideo = async (uploadId: string, fileUrl: string) => {
     setLoadingVideo(uploadId);
@@ -313,7 +343,7 @@ const ReviewWeek = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" data-testid="review-page-root">
       {/* Header */}
       <header className="sticky top-0 z-10 border-b bg-card/95 backdrop-blur shadow-sm">
         <div className="container mx-auto px-4 py-4">
@@ -339,6 +369,20 @@ const ReviewWeek = () => {
                 <p className="text-sm text-muted-foreground">{patient?.user?.email}</p>
               </div>
             </div>
+            {/* Send Feedback button — always available (Option B: Sam can
+                message the patient at any point in the module, not just
+                after submission). Sits alongside the patient header so
+                it's reachable without scrolling. */}
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setFeedbackDialogOpen(true)}
+              data-testid="open-feedback-dialog"
+              className="hidden sm:inline-flex"
+            >
+              <MessageSquare className="mr-2 h-4 w-4" />
+              Send Feedback
+            </Button>
             <div className="text-right">
               <div className="flex items-center gap-2 mb-1">
                 <Calendar className="w-4 h-4 text-muted-foreground" />
@@ -574,7 +618,7 @@ const ReviewWeek = () => {
                     return (
                       <div className="space-y-4">
                         {firstAttempts.length > 0 && (
-                          <div>
+                          <div data-testid="video-section-first-attempt">
                             <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">
                               First Attempt ({firstAttempts.length} video{firstAttempts.length > 1 ? 's' : ''})
                             </p>
@@ -584,7 +628,7 @@ const ReviewWeek = () => {
                           </div>
                         )}
                         {lastAttempts.length > 0 && (
-                          <div className="mt-4">
+                          <div className="mt-4" data-testid="video-section-last-attempt">
                             <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">
                               Last Attempt ({lastAttempts.length} video{lastAttempts.length > 1 ? 's' : ''})
                             </p>
@@ -716,6 +760,19 @@ const ReviewWeek = () => {
           </div>
         </div>
       </main>
+
+      {/* Always-available feedback dialog for therapists. Sends a regular
+          message via the messages table; doesn't gate on submission
+          status the way Approve / Needs More do. */}
+      {patient?.id && (
+        <SendNoteDialog
+          open={feedbackDialogOpen}
+          onOpenChange={setFeedbackDialogOpen}
+          patientName={patient.user?.name || "patient"}
+          weekNumber={parseInt(weekNumber || "1")}
+          onSend={handleSendFeedback}
+        />
+      )}
     </div>
   );
 };
