@@ -34,19 +34,46 @@ export function LearnHubReviewTask({
   const handleToggle = async (checked: boolean) => {
     setSaving(true);
     try {
-      const { error } = await supabase
+      // When the Supabase weeks lookup fails, WeekDetail passes a synthetic
+      // `json-week-N` id. Updating patient_week_progress with that id matches
+      // zero rows silently — the patient sees a success toast but the value
+      // never persists, and calc_week_progress keeps blocking submission.
+      // Resolve to the real UUID before writing.
+      let realWeekId = weekId;
+      if (!weekId || weekId.startsWith('json-')) {
+        const weekNum = parseInt((weekId || '').replace('json-week-', ''));
+        if (!Number.isNaN(weekNum)) {
+          const { data: weekData } = await supabase
+            .from('weeks')
+            .select('id')
+            .eq('number', weekNum)
+            .limit(1)
+            .maybeSingle();
+          if (weekData?.id) realWeekId = weekData.id;
+        }
+      }
+
+      // .select() so we get the affected rows back and can verify the update
+      // actually hit something — otherwise zero-row updates look successful.
+      const { data: updatedRows, error } = await supabase
         .from('patient_week_progress')
         .update({ learn_hub_reviewed: checked })
         .eq('patient_id', patientId)
-        .eq('week_id', weekId);
+        .eq('week_id', realWeekId)
+        .select('id');
 
       if (error) throw error;
+      if (!updatedRows || updatedRows.length === 0) {
+        throw new Error(
+          "Couldn't find a progress row to update. Please refresh the page and try again."
+        );
+      }
 
       setCompleted(checked);
       toast({
         title: checked ? "Task completed" : "Task unmarked",
-        description: checked 
-          ? "Great! You've confirmed reviewing the Learning Hub." 
+        description: checked
+          ? "Great! You've confirmed reviewing the Learning Hub."
           : "Task has been unmarked.",
       });
       onUpdate?.();
@@ -54,7 +81,7 @@ export function LearnHubReviewTask({
       console.error('Error updating learn hub task:', error);
       toast({
         title: "Error",
-        description: "Failed to save. Please try again.",
+        description: error?.message || "Failed to save. Please try again.",
         variant: "destructive",
       });
     } finally {
