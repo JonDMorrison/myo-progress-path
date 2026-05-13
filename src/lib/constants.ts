@@ -18,7 +18,7 @@ export const ACCESS_CODE_MAP: Record<string, string> = {
  */
 export function isFrenectomyVariant(variant: string | null | undefined): boolean {
   const v = variant || 'frenectomy';
-  return v === 'frenectomy' || v === 'frenectomy_video' || v === 'standard';
+  return v === 'frenectomy' || v === 'frenectomy_video';
 }
 
 /**
