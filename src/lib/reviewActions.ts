@@ -1,6 +1,32 @@
 import { supabase } from "@/integrations/supabase/client";
 import { getProgramTitle } from "./constants";
 
+/**
+ * Returns true if approving `weekNumber` should cascade approval to the
+ * partner odd week (weekNumber - 1). Biweekly modules pair an odd and
+ * even week; the patient submits both at once but historically only the
+ * even row was flipped to 'approved', leaving the odd row stuck at
+ * 'submitted' and undercounting `userProgress.completedWeeks`.
+ *
+ * Single-week modules — week 25 (post-program review, both variants)
+ * and weeks 9/10 in the frenectomy variants (separate post-op modules)
+ * — must NOT cascade. Note: 'standard' weeks 9 and 10 ARE paired (one
+ * Module 5), so they cascade normally. We deliberately do NOT use
+ * isFrenectomyVariant() here because that helper incorrectly includes
+ * 'standard'; cascade behaviour follows the JSON module pairing, not
+ * the constants helper.
+ */
+export function shouldCascadeApproval(weekNumber: number, programVariant: string | null | undefined): boolean {
+  if (weekNumber % 2 !== 0) return false;
+  if (weekNumber === 25) return false;
+  const isFrenectomyOnly =
+    programVariant === "frenectomy" || programVariant === "frenectomy_video";
+  if (isFrenectomyOnly && (weekNumber === 9 || weekNumber === 10)) {
+    return false;
+  }
+  return true;
+}
+
 export async function approveWeek(
   progressId: string,
   patientId: string,
@@ -8,30 +34,74 @@ export async function approveWeek(
   note?: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // Get week data
-    const { data: progressData } = await supabase
-      .from("patient_week_progress")
-      .select("week_id")
-      .eq("id", progressId)
-      .single();
+    // Get progress row plus the patient's program_variant in parallel so we
+    // can decide whether to cascade the approval to the partner odd week.
+    const [progressResult, patientResult] = await Promise.all([
+      supabase
+        .from("patient_week_progress")
+        .select("week_id, week:weeks!inner(number, program_id)")
+        .eq("id", progressId)
+        .single(),
+      supabase
+        .from("patients")
+        .select("program_variant")
+        .eq("id", patientId)
+        .single(),
+    ]);
+
+    const progressData = progressResult.data;
+    const patientVariant = patientResult.data?.program_variant ?? "frenectomy";
 
     if (!progressData) {
       throw new Error("Progress not found");
     }
 
-    // AI generated notes are no longer sent automatically. 
+    // AI generated notes are no longer sent automatically.
     // Therapist provides feedback via a note if desired.
     let isAiGenerated = false;
 
-    // Update current week to approved
-    const { error: updateError } = await supabase
-      .from("patient_week_progress")
-      .update({
-        status: "approved",
-      })
-      .eq("id", progressId);
+    if (shouldCascadeApproval(currentWeekNumber, patientVariant)) {
+      // Biweekly module — cascade approval to the partner odd week so
+      // userProgress.completedWeeks stops undercounting. Use a single
+      // .update() scoped by .in("week_id", [...]) for atomicity.
+      const oddWeek = currentWeekNumber - 1;
+      const programId = (progressData as any).week?.program_id;
 
-    if (updateError) throw updateError;
+      const { data: partnerWeeks, error: partnerLookupError } = await supabase
+        .from("weeks")
+        .select("id")
+        .in("number", [oddWeek, currentWeekNumber])
+        .eq("program_id", programId);
+
+      if (partnerLookupError) throw partnerLookupError;
+
+      const partnerWeekIds = (partnerWeeks ?? []).map((w: any) => w.id);
+      if (partnerWeekIds.length === 0) {
+        // Defensive: if the partner lookup somehow returns nothing, fall
+        // back to the single-row update so we don't drop the approval.
+        const { error: fallbackError } = await supabase
+          .from("patient_week_progress")
+          .update({ status: "approved" })
+          .eq("id", progressId);
+        if (fallbackError) throw fallbackError;
+      } else {
+        const { error: cascadeError } = await supabase
+          .from("patient_week_progress")
+          .update({ status: "approved" })
+          .eq("patient_id", patientId)
+          .in("week_id", partnerWeekIds);
+        if (cascadeError) throw cascadeError;
+      }
+    } else {
+      // Single-week module (post-program review, frenectomy post-op):
+      // approve only this row.
+      const { error: updateError } = await supabase
+        .from("patient_week_progress")
+        .update({ status: "approved" })
+        .eq("id", progressId);
+
+      if (updateError) throw updateError;
+    }
 
     // Save therapist note if provided
     if (note && note.trim().length > 0) {
@@ -95,18 +165,11 @@ export async function approveWeek(
         },
       });
     } else {
-      // Auto-unlock next week (only if not the final week)
+      // Auto-unlock next week (only if not the final week).
+      // Reuse the program variant already fetched at the top of the function
+      // instead of issuing a second patients query.
       const nextWeekNumber = currentWeekNumber + 1;
-
-      // Get patient's program variant to filter weeks correctly
-      const { data: patientData } = await supabase
-        .from("patients")
-        .select("program_variant")
-        .eq("id", patientId)
-        .single();
-
-      const variant = patientData?.program_variant || 'frenectomy';
-      const programTitle = getProgramTitle(variant);
+      const programTitle = getProgramTitle(patientVariant);
 
       // Get next week for the patient's program.
       // Use maybeSingle() so a missing row doesn't throw — we surface it
