@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar, Lock } from "lucide-react";
-import { getModuleInfo } from "@/lib/moduleUtils";
+import { getModuleInfo, getModuleAnchorWeek } from "@/lib/moduleUtils";
 
 import { Section } from "@/components/ui/Section";
 import { TimelineCard } from "@/components/dashboard/TimelineCard";
@@ -268,7 +268,11 @@ const PatientDashboard = () => {
       }
     }
 
-    navigate(`/week/${weekNumber}`);
+    // Option B: always navigate to the anchor (odd) week of the module so
+    // patients never land on a collapsed even-week page that would just
+    // bounce them with a redirect.
+    const anchor = getModuleAnchorWeek(weekNumber, patient.program_variant || "frenectomy");
+    navigate(`/week/${anchor}`);
   };
 
   if (loading) {

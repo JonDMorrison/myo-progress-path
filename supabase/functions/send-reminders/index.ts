@@ -54,10 +54,12 @@ Deno.serve(async (req) => {
       const week = Array.isArray(currentWeek.week) ? currentWeek.week[0] : currentWeek.week;
       if (!week) continue;
 
-      // Calculate module label
+      // Calculate module label (Option B: module-only).
       const moduleNum = Math.ceil(week.number / 2);
-      const partLabel = week.number % 2 !== 0 ? 'Part One' : 'Part Two';
-      const moduleLabel = `Module ${moduleNum} ${partLabel}`;
+      const moduleLabel = `Module ${moduleNum}`;
+      // Patient-facing link points at the anchor (odd) week so reminders
+      // never deep-link to a now-collapsed even week.
+      const anchorWeekNumber = week.number % 2 === 0 ? week.number - 1 : week.number;
 
       // Send email reminder
       const { error: emailError } = await supabase.functions.invoke('send-email', {
@@ -68,7 +70,7 @@ Deno.serve(async (req) => {
             <h2>Hi ${user.name},</h2>
             <p>This is a friendly reminder to complete your exercises for <strong>${moduleLabel}</strong>.</p>
             <p>Consistency is key to seeing results in your myofunctional therapy journey!</p>
-            <p><a href="${supabaseUrl.replace('supabase.co', 'lovable.app')}/week/${week.number}" style="display: inline-block; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; margin-top: 20px;">Continue Your Exercises</a></p>
+            <p><a href="${supabaseUrl.replace('supabase.co', 'lovable.app')}/week/${anchorWeekNumber}" style="display: inline-block; padding: 12px 24px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; margin-top: 20px;">Continue Your Exercises</a></p>
             <p>Keep up the great work!</p>
             <p>- The Montrose Myo Team</p>
           `,

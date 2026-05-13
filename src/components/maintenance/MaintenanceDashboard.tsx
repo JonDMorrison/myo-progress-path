@@ -63,13 +63,13 @@ export function MaintenanceDashboard({ patientId, clinicId, userName }: Maintena
 
       if (assignmentsData) {
         const formattedAssignments = assignmentsData.map((a: any) => {
+          // Option B: patient-facing label is module-only.
           const moduleNum = Math.ceil(a.weeks.number / 2);
-          const partLabel = a.weeks.number % 2 !== 0 ? 'Part One' : 'Part Two';
           return {
             id: a.id,
             week_id: a.week_id,
             week_number: a.weeks.number,
-            week_title: a.weeks.title || `Module ${moduleNum} ${partLabel}`,
+            week_title: a.weeks.title || `Module ${moduleNum}`,
             due_date: a.due_date,
             status: a.status,
             notes: a.notes,

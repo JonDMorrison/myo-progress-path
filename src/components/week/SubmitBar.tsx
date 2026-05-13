@@ -43,7 +43,7 @@ export function SubmitButton({
             )}>
               {canSubmit
                 ? "Excellent progress! Your biweekly session data is complete and ready for your therapist's clinical review."
-                : "Complete all exercises in Part Two, then record your biometrics (BOLT score, nasal breathing %, tongue on spot %) to submit this module for review."
+                : "Complete all exercises, upload both first and last attempt videos, then record your biometrics (BOLT score, nasal breathing %, tongue on spot %) to submit this module for review."
               }
             </p>
           </div>

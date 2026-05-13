@@ -74,12 +74,22 @@ export function MaintenanceAssignmentDialog({
 
       if (error) throw error;
 
+      // Option B: maintenance assignments are module-level. Filter to odd weeks
+      // (the anchor week of each module), so Sam sees one entry per module
+      // rather than two. Week 25 (post-program review) is the only odd
+      // single-week module; frenectomy weeks 9/10 are each anchors too.
       setWeeks(
-        data?.map((w: any) => ({
-          id: w.id,
-          number: w.number,
-          title: w.title || `Module ${Math.ceil(w.number / 2)} ${w.number % 2 !== 0 ? 'Part One' : 'Part Two'}`,
-        })) || []
+        (data || [])
+          .filter((w: any) =>
+            w.number % 2 === 1 ||
+            // Keep frenectomy post-op week 10 as its own module entry too.
+            (programVariant !== "non_frenectomy" && w.number === 10)
+          )
+          .map((w: any) => ({
+            id: w.id,
+            number: w.number,
+            title: w.title || `Module ${Math.ceil(w.number / 2)}`,
+          }))
       );
     } catch (error) {
       console.error("Error loading weeks:", error);
@@ -114,11 +124,10 @@ export function MaintenanceAssignmentDialog({
 
       if (error) throw error;
 
-      // Create notification for patient
+      // Create notification for patient (Option B: module-only label).
       const selectedWeek = weeks.find(w => w.id === selectedWeekId);
       const moduleNum = selectedWeek ? Math.ceil(selectedWeek.number / 2) : 0;
-      const partLabel = selectedWeek ? (selectedWeek.number % 2 !== 0 ? 'Part One' : 'Part Two') : '';
-      const moduleLabel = `Module ${moduleNum} ${partLabel}`;
+      const moduleLabel = `Module ${moduleNum}`;
       
       await supabase.from("notifications").insert({
         patient_id: patientId,
@@ -175,7 +184,7 @@ export function MaintenanceAssignmentDialog({
               <SelectContent>
                 {weeks.map((week) => (
                   <SelectItem key={week.id} value={week.id}>
-                    Module {Math.ceil(week.number / 2)} {week.number % 2 !== 0 ? 'Part One' : 'Part Two'}: {week.title}
+                    Module {Math.ceil(week.number / 2)}: {week.title}
                   </SelectItem>
                 ))}
               </SelectContent>

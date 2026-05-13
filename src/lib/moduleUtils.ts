@@ -1,4 +1,5 @@
 import { isFrenectomyVariant } from "./constants";
+import { supabase } from "@/integrations/supabase/client";
 
 /**
  * Module-based grouping utilities
@@ -304,4 +305,105 @@ export function cleanWeekTitle(title: string | null): string {
 export function isLastWeekOfModule(weekNumber: number, programVariant: string): boolean {
   const info = getModuleInfo(weekNumber, programVariant);
   return weekNumber === info.weekRange[1];
+}
+
+// ─── OPTION B: SINGLE-PAGE MODULE ANCHORING ────────────────────────
+//
+// Under Option B, patients only ever visit the "anchor" week of a module.
+// For biweekly modules that's the odd week. For single-week modules
+// (frenectomy post-op 9/10, week 25) it's the week itself.
+//
+// Uses direct variant string comparison rather than isFrenectomyVariant()
+// because the latter incorrectly groups 'standard' with frenectomy — for
+// our purposes only the actual frenectomy variants have single-week
+// post-op modules.
+
+function isFrenectomyOnly(programVariant: string | null | undefined): boolean {
+  return programVariant === "frenectomy" || programVariant === "frenectomy_video";
+}
+
+/**
+ * Returns the anchor (odd) week number for a given week. Single-week
+ * modules return themselves.
+ */
+export function getModuleAnchorWeek(weekNumber: number, programVariant: string): number {
+  if (weekNumber === 25) return 25;
+  if (isFrenectomyOnly(programVariant) && (weekNumber === 9 || weekNumber === 10)) {
+    return weekNumber;
+  }
+  return weekNumber % 2 === 1 ? weekNumber : weekNumber - 1;
+}
+
+/**
+ * Returns true when the given week is a patient-visible "anchor" page.
+ * Biweekly modules: anchor = odd week.
+ * Single-week modules (frenectomy post-op, week 25): anchor = the week itself.
+ */
+export function isModuleAnchorWeek(weekNumber: number, programVariant: string): boolean {
+  if (weekNumber === 25) return true;
+  if (isFrenectomyOnly(programVariant) && (weekNumber === 9 || weekNumber === 10)) {
+    return true;
+  }
+  return weekNumber % 2 === 1;
+}
+
+/**
+ * Returns true when a patient on this week should be redirected to the
+ * anchor week. Therapists/admins see every week (read-only preview), so
+ * callers must check role before applying the redirect.
+ */
+export function isCollapsedEvenWeek(weekNumber: number, programVariant: string): boolean {
+  if (weekNumber === 25) return false;
+  if (isFrenectomyOnly(programVariant) && (weekNumber === 9 || weekNumber === 10)) {
+    return false;
+  }
+  return weekNumber % 2 === 0;
+}
+
+/**
+ * Returns the partner week number (even week) for an odd biweekly anchor,
+ * or null for single-week modules.
+ */
+export function getPartnerWeekNumber(weekNumber: number, programVariant: string): number | null {
+  if (weekNumber === 25) return null;
+  if (isFrenectomyOnly(programVariant) && (weekNumber === 9 || weekNumber === 10)) {
+    return null;
+  }
+  if (weekNumber % 2 === 1) return weekNumber + 1;
+  return weekNumber - 1;
+}
+
+/**
+ * Look up the UUID(s) of both partner weeks for a module so callers can
+ * scope an `uploads`/`messages` query with `.in("week_id", ids)`.
+ *
+ * - For biweekly modules: returns [oddWeekId, evenWeekId] (both rows).
+ * - For single-week modules: returns [weekId] only.
+ *
+ * If the supabase lookup fails or returns no rows, returns an empty array
+ * so callers fall back to their own defensive handling.
+ *
+ * Option B note: this is the read-side glue that lets uploads written
+ * under the legacy even-week id remain visible on the new collapsed
+ * anchor page. Without this, any patient mid-program with last-attempt
+ * uploads under their even-week id would silently lose visibility of
+ * those rows after Option B ships.
+ */
+export async function getModulePartnerWeekIds(
+  weekNumber: number,
+  programVariant: string,
+  programTitle: string
+): Promise<string[]> {
+  const anchor = getModuleAnchorWeek(weekNumber, programVariant);
+  const partner = getPartnerWeekNumber(anchor, programVariant);
+  const weekNumbers = partner == null ? [anchor] : [anchor, partner];
+
+  const { data, error } = await supabase
+    .from("weeks")
+    .select("id, programs!inner(title)")
+    .in("number", weekNumbers)
+    .eq("programs.title", programTitle);
+
+  if (error || !data) return [];
+  return data.map((w: any) => w.id);
 }

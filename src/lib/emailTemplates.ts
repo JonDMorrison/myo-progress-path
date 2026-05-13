@@ -1,10 +1,10 @@
 const APP_BASE_URL = import.meta.env.VITE_APP_BASE_URL || window.location.origin;
 
-// Helper to get module-based labels from week number
+// Helper to get module-based labels from week number.
+// Option B: patient-facing emails refer to the module only, no Part 1/2.
 function getModuleLabel(weekNumber: number): string {
   const moduleNum = Math.ceil(weekNumber / 2);
-  const partLabel = weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
-  return `Module ${moduleNum} ${partLabel}`;
+  return `Module ${moduleNum}`;
 }
 
 export function submittedWeekEmail(
@@ -43,7 +43,12 @@ export function approvedWeekEmail(
 ): { subject: string; html: string; text: string } {
   const loginUrl = `${APP_BASE_URL}/auth`;
   const moduleLabel = getModuleLabel(weekNumber);
-  const nextModuleLabel = getModuleLabel(weekNumber + 1);
+  // Option B: approvals can fire from either the odd anchor week or the
+  // legacy even week. Compute the next module from module number directly
+  // so we don't accidentally produce "Module N" for both fields when
+  // weekNumber is the odd half of the current module.
+  const currentModuleNum = Math.ceil(weekNumber / 2);
+  const nextModuleLabel = `Module ${currentModuleNum + 1}`;
   
   return {
     subject: `${moduleLabel} Approved! 🎉`,

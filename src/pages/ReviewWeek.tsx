@@ -451,14 +451,18 @@ const ReviewWeek = () => {
                       const msgWeekNum = msg.week?.number;
                       const prevWeekNum = idx > 0 ? messages[idx - 1].week?.number : null;
                       const moduleNum = msgWeekNum ? Math.ceil(msgWeekNum / 2) : null;
-                      const partLabel = msgWeekNum ? (msgWeekNum % 2 !== 0 ? "Part One" : "Part Two") : null;
-                      const showLabel = msgWeekNum !== prevWeekNum && moduleNum;
+                      // Option B: group by module, not by Part. Two consecutive
+                      // messages from the odd and even week of the same module
+                      // share a header. The header switches only when the
+                      // module number changes.
+                      const prevModuleNum = prevWeekNum ? Math.ceil(prevWeekNum / 2) : null;
+                      const showLabel = moduleNum && moduleNum !== prevModuleNum;
 
                       return (
                         <div key={msg.id}>
                           {showLabel && (
                             <p className="text-xs font-semibold text-muted-foreground mt-2 mb-1">
-                              Module {moduleNum} – {partLabel}
+                              Module {moduleNum}
                             </p>
                           )}
                           <div

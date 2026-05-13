@@ -219,9 +219,8 @@ const TherapistFeedbackDialog = ({
       const getContextLabel = () => {
         if (exerciseTitle) return `for "${exerciseTitle}"`;
         if (weekNumber) {
-          const moduleNum = Math.ceil(weekNumber / 2);
-          const partLabel = weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
-          return `for Module ${moduleNum} ${partLabel}`;
+          // Option B: module-only label (no Part 1/2).
+          return `for Module ${Math.ceil(weekNumber / 2)}`;
         }
         return '';
       };
@@ -279,10 +278,10 @@ const TherapistFeedbackDialog = ({
     }
   };
 
-  const context = exerciseTitle 
-    ? `for "${exerciseTitle}"` 
-    : weekNumber 
-      ? `for Module ${Math.ceil(weekNumber / 2)} ${weekNumber % 2 !== 0 ? 'Part One' : 'Part Two'}` 
+  const context = exerciseTitle
+    ? `for "${exerciseTitle}"`
+    : weekNumber
+      ? `for Module ${Math.ceil(weekNumber / 2)}`
       : "";
 
   return (

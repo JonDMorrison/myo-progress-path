@@ -292,7 +292,7 @@ export default function PatientOverview() {
                     mod.status === "locked" && "opacity-50"
                   )}
                   onClick={() => {
-                    if (isClickable) navigate(`/review/${patientId}/${weekNum}`);
+                    if (isClickable) navigate(`/review/${patientId}/${mod.oddWeek}`);
                   }}
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -349,7 +349,7 @@ export default function PatientOverview() {
                       className="shrink-0 ml-2"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/review/${patientId}/${weekNum}`);
+                        navigate(`/review/${patientId}/${mod.oddWeek}`);
                       }}
                     >
                       Review
@@ -382,7 +382,7 @@ export default function PatientOverview() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => navigate(`/review/${patientId}/${modules.find(m => m.status === "submitted")?.evenWeek || 2}`)}
+                    onClick={() => navigate(`/review/${patientId}/${modules.find(m => m.status === "submitted")?.oddWeek || 1}`)}
                   >
                     View all ({messageCount})
                   </Button>

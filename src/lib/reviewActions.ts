@@ -115,11 +115,11 @@ export async function approveWeek(
       });
     }
 
-    // Create notification for patient
+    // Create notification for patient. Option B: drop Part One/Two suffix
+    // — patients only see one page per module.
     const moduleNum = Math.ceil(currentWeekNumber / 2);
-    const partLabel = currentWeekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
-    const moduleLabel = `Module ${moduleNum} ${partLabel}`;
-    
+    const moduleLabel = `Module ${moduleNum}`;
+
     await supabase.from("notifications").insert({
       patient_id: patientId,
       body: `Congratulations! ${moduleLabel} has been approved.${note ? " Your therapist left some feedback." : ""}`,
@@ -267,11 +267,10 @@ export async function requestMorePractice(
       sent_by: 'therapist',
     });
 
-    // Create notification for patient
+    // Create notification for patient (Option B: module-only label).
     const moduleNum = Math.ceil(weekNumber / 2);
-    const partLabel = weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
-    const moduleLabel = `Module ${moduleNum} ${partLabel}`;
-    
+    const moduleLabel = `Module ${moduleNum}`;
+
     await supabase.from("notifications").insert({
       patient_id: patientId,
       body: `Your therapist has requested more practice for ${moduleLabel}. Check your dashboard for details.`,
@@ -333,10 +332,9 @@ export async function reassignWeek(
 
     if (updateError) throw updateError;
 
-    // Calculate module label
+    // Calculate module label (Option B: module-only).
     const moduleNum = Math.ceil(weekNumber / 2);
-    const partLabel = weekNumber % 2 !== 0 ? 'Part One' : 'Part Two';
-    const moduleLabel = `Module ${moduleNum} ${partLabel}`;
+    const moduleLabel = `Module ${moduleNum}`;
 
     // Save therapist message if reason provided
     if (reason && reason.trim().length > 0) {

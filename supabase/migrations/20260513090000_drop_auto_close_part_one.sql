@@ -1,0 +1,32 @@
+-- Drop the trigger_auto_close_part_one trigger and its underlying
+-- auto_close_part_one() function.
+--
+-- Background (from out-of-band Supabase MCP audit, 2026-05-13):
+--   - Trigger: AFTER UPDATE on patient_week_progress, fires per row,
+--     calls auto_close_part_one().
+--   - Function: when an even-week row transitions to 'approved' from a
+--     non-approved status, looks up the partner odd week in the same
+--     program and UPDATEs its status to 'approved' WHERE status = 'open'.
+--
+-- Why it's dead:
+--   - The status='open' filter never matches in practice. Patients move
+--     the odd row to 'submitted' on first-attempt upload, before Sam
+--     ever approves the even week. The trigger silently no-ops every
+--     time.
+--   - The cascade now lives in application code (src/lib/reviewActions.ts
+--     approveWeek, shipped in commit 861e22d). That implementation
+--     updates BOTH partner rows in a single supabase call regardless of
+--     the odd row's prior status, which is what the original trigger
+--     should have done.
+--   - Option B (this batch) collapses Part 1/Part 2 into a single
+--     module page, making the trigger's even-week-approval semantics
+--     meaningless: the patient submits once at the end of the module
+--     and Sam approves once.
+--
+-- The trigger and function exist on production but are not tracked in
+-- this migrations folder (created out-of-band before the migrations
+-- workflow was disciplined). IF NOT EXISTS / IF EXISTS guards make this
+-- migration idempotent.
+
+DROP TRIGGER IF EXISTS trigger_auto_close_part_one ON public.patient_week_progress;
+DROP FUNCTION IF EXISTS public.auto_close_part_one();

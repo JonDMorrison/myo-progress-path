@@ -92,10 +92,10 @@ serve(async (req) => {
     const csvRows = [headers.join(',')];
 
     for (const patient of patients || []) {
-      // Calculate module label from week number
+      // Calculate module label from week number (Option B: module-only).
       const weekNum = patient.current_week_number;
-      const moduleLabel = weekNum 
-        ? `Module ${Math.ceil(weekNum / 2)} ${weekNum % 2 !== 0 ? 'Part One' : 'Part Two'}`
+      const moduleLabel = weekNum
+        ? `Module ${Math.ceil(weekNum / 2)}`
         : '';
       
       const row = [

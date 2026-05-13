@@ -36,7 +36,14 @@ import { PostOpProtocolCard } from "@/components/week/PostOpProtocolCard";
 import TherapistFeedbackList from "@/components/week/TherapistFeedbackList";
 import { PreviousWeeksReview } from "@/components/week/PreviousWeeksReview";
 import { PrivacyManager } from "@/components/week/PrivacyManager";
-import { FRENECTOMY_POST_OP_WEEKS, isLastWeekOfModule, getModuleInfo } from "@/lib/moduleUtils";
+import {
+  FRENECTOMY_POST_OP_WEEKS,
+  isLastWeekOfModule,
+  getModuleInfo,
+  isCollapsedEvenWeek,
+  isModuleAnchorWeek,
+  getModulePartnerWeekIds,
+} from "@/lib/moduleUtils";
 import { isFrenectomyVariant, requiresVideo, getProgramTitle } from "@/lib/constants";
 import { approveWeek } from "@/lib/reviewActions";
 
@@ -62,26 +69,20 @@ const WeekDetail = () => {
 
   useEffect(() => {
     if (canSubmitState && !loading) {
-      const isLast = isLastWeekOfModule(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy');
+      // Option B: every patient-visible page is its own module anchor.
+      // When the checklist goes green, the module is ready to submit —
+      // no separate "Part One done, now go to Part Two" intermediate state.
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#22c55e', '#3b82f6', '#f59e0b']
+      });
 
-      if (isLast) {
-        confetti({
-          particleCount: 150,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#22c55e', '#3b82f6', '#f59e0b']
-        });
-
-        toast({
-          title: "Module Complete! 🎉",
-          description: "You've met all module requirements. Ready to submit for review!",
-        });
-      } else {
-        toast({
-          title: "Part One Complete!",
-          description: "You've finished Part One. Complete Part Two to submit this module.",
-        });
-      }
+      toast({
+        title: "Module Complete! 🎉",
+        description: "You've met all module requirements. Ready to submit for review!",
+      });
     }
   }, [canSubmitState, loading, weekNumber]);
 
@@ -134,6 +135,19 @@ const WeekDetail = () => {
 
       const searchParams = new URLSearchParams(window.location.search);
       const variantOverride = searchParams.get('variant');
+
+      // Option B redirect: collapsed even weeks (the old "Part Two" pages)
+      // are no longer patient-visible. Send patients back to the anchor odd
+      // week. Therapists keep direct access because they preview the
+      // even-week JSON via the URL.
+      const parsedWeek = parseInt(weekNumber || "1");
+      const variantForRedirect =
+        variantOverride || patientData?.program_variant || "frenectomy";
+      const isPatientRole = authRole === "patient" || (!isTherapist && !isSuperAdmin && patientData);
+      if (isPatientRole && isCollapsedEvenWeek(parsedWeek, variantForRedirect)) {
+        navigate(`/week/${parsedWeek - 1}`, { replace: true });
+        return;
+      }
 
       // Check access and read-only state
       if (isTherapist || isSuperAdmin) {
@@ -330,12 +344,25 @@ const WeekDetail = () => {
 
         setMessages(messagesData || []);
 
-        // Get uploads
+        // Get uploads. Option B: scope across BOTH partner weeks of the
+        // module so the collapsed anchor page can see legacy uploads
+        // written under the even-week id by patients who started before
+        // the cutover. Without this, the "Last attempt videos submitted"
+        // checklist item would silently stay red for in-flight patients.
+        const partnerIdsForUploads = await getModulePartnerWeekIds(
+          weekData.number,
+          variant,
+          programTitle
+        );
+        const uploadWeekIds = partnerIdsForUploads.length > 0
+          ? partnerIdsForUploads
+          : [weekData.id];
+
         const { data: uploadsData } = await supabase
           .from("uploads")
           .select("*")
           .eq("patient_id", patientData.id)
-          .eq("week_id", weekData.id)
+          .in("week_id", uploadWeekIds)
           .order("created_at", { ascending: false });
 
         setUploads(uploadsData || []);
@@ -573,12 +600,23 @@ const WeekDetail = () => {
   const handleVideoUploadComplete = async () => {
     if (!patient || !week) return;
 
-    // Refresh uploads list
+    // Refresh uploads list — scope across both partner weeks of the module
+    // (Option B). Same reasoning as the load path: legacy uploads under
+    // even-week ids must remain visible.
+    const programTitle = getProgramTitle(patient?.program_variant || "frenectomy");
+    const partnerIdsForUploads = await getModulePartnerWeekIds(
+      week.number,
+      patient?.program_variant || "frenectomy",
+      programTitle
+    );
+    const uploadWeekIds =
+      partnerIdsForUploads.length > 0 ? partnerIdsForUploads : [week.id];
+
     const { data: uploadsData } = await supabase
       .from("uploads")
       .select("*")
       .eq("patient_id", patient.id)
-      .eq("week_id", week.id)
+      .in("week_id", uploadWeekIds)
       .order("created_at", { ascending: false });
 
     setUploads(uploadsData || []);
@@ -750,26 +788,8 @@ const WeekDetail = () => {
                 </div>
 
                 {/* Video uploads are now per-exercise within the exercises list */}
-
-                {/* Part Two orientation banner — shown when patient first arrives at the second week of a module */}
-                {(() => {
-                  const wn = parseInt(weekNumber || "1");
-                  const isPartTwo = wn % 2 === 0;
-                  const noCompletions = !progress?.exercise_completions || Object.keys(progress.exercise_completions).length === 0;
-                  const isOpen = progress?.status === "open";
-                  if (isPartTwo && noCompletions && isOpen && !isReadOnly) {
-                    const moduleNum = getModuleInfo(wn, patient?.program_variant || 'frenectomy').moduleNumber;
-                    return (
-                      <div className="rounded-2xl bg-blue-50 border border-blue-100 p-4 mb-6">
-                        <p className="text-sm font-semibold text-blue-800">You've reached Part Two of Module {moduleNum}</p>
-                        <p className="text-sm text-blue-600 mt-1">
-                          Complete all exercises below, record your biometrics, then submit the module for your therapist to review.
-                        </p>
-                      </div>
-                    );
-                  }
-                  return null;
-                })()}
+                {/* Option B: the "Part Two orientation" banner was removed —
+                    patients no longer navigate between two pages per module. */}
 
                 {/* Exercise Progress & List */}
                 <div className="space-y-10 pt-6">
@@ -874,47 +894,17 @@ const WeekDetail = () => {
                   </div>
                 )}
 
-                {/* Big Global Submit Bar - Only shown on last week of module */}
+                {/* Big Global Submit Bar — Option B: every patient-visible
+                    page is its own module anchor, so the submit button shows
+                    on every anchor week (odd biweekly weeks, post-op single
+                    weeks, and week 25). The "Start Part Two" interim CTA
+                    was removed. */}
                 {!isReadOnly && progress && (progress.status === "open" || progress.status === "needs_more") && (
-                  isLastWeekOfModule(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy') ? (
-                    <SubmitButton
-                      onComplete={handleSubmitForReview}
-                      canSubmit={canSubmitState}
-                      loading={false}
-                    />
-                  ) : (
-                    <div className="mt-8 p-8 bg-white border border-slate-100 rounded-[2.5rem] shadow-premium text-center space-y-6">
-                      <div className="space-y-2">
-                        <p className="text-slate-800 text-lg font-bold">
-                          {canSubmitState ? "Part One Complete! 🌟" : "Module Progress"}
-                        </p>
-                        <p className="text-slate-500 text-sm font-medium">
-                          {canSubmitState
-                            ? "You've finished everything for Part One. Now let's head to Part Two to complete the module."
-                            : `Complete all tasks for both parts to submit Module ${getModuleInfo(parseInt(weekNumber || "1"), patient?.program_variant || 'frenectomy').moduleNumber}.`
-                          }
-                        </p>
-                      </div>
-
-                      {canSubmitState ? (
-                        <>
-                          <Button
-                            onClick={() => navigate(`/week/${parseInt(weekNumber || "1") + 1}`)}
-                            className="w-full sm:w-auto px-10 h-14 rounded-2xl bg-primary hover:bg-primary-dark font-black text-white shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 text-lg"
-                          >
-                            Start Part Two →
-                          </Button>
-                          <p className="text-xs text-slate-400 font-medium">
-                            Complete Part Two exercises to submit this module for your therapist's review
-                          </p>
-                        </>
-                      ) : (
-                        <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">
-                          Submission available at the end of Part Two
-                        </p>
-                      )}
-                    </div>
-                  )
+                  <SubmitButton
+                    onComplete={handleSubmitForReview}
+                    canSubmit={canSubmitState}
+                    loading={false}
+                  />
                 )}
               </div>
 
