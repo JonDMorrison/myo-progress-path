@@ -183,7 +183,10 @@ export function PostOpSectionedContent({
   if (weekNumber === 10) {
     return (
       <div className="space-y-6">
-        {/* Post-Op Week 10 Header */}
+        {/* Post-Op Week 10 Header — includes Vedder bottom-of-form note
+            so the Beyond Two Weeks + Dr. Caylor copy lives inside the
+            yellow Days 8-14 card rather than duplicating in the page-
+            level introduction. */}
         <Card className="border-warning/30 bg-warning/5">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
@@ -194,6 +197,17 @@ export function PostOpSectionedContent({
               {WEEK_10_INFO.description}
             </CardDescription>
           </CardHeader>
+          <CardContent className="space-y-3 text-sm leading-relaxed">
+            <p>
+              <strong>Beyond Two Weeks:</strong> Resume normal diet and activities and continue with active exercises as directed by your myofunctional therapist. The wound will continue to heal for several months and contraction is normal, but stretching throughout the first 6-8 weeks will avoid permanent contraction. You should continue to self-assess throughout this time — if you feel tension, continue to do stretches.
+            </p>
+            <p>
+              Your next myofunctional therapy session should be scheduled 1 week after release to check wound healing, tongue mobility, and adjust exercises if ready.
+            </p>
+            <p>
+              If you have concerns during the healing period, you can call or text Dr. Caylor at <a href="tel:7789087158" className="font-medium underline">778-908-7158</a>.
+            </p>
+          </CardContent>
         </Card>
 
         {/* Regular exercises list for Week 10 */}
