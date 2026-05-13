@@ -227,16 +227,26 @@ const TherapistFeedbackDialog = ({
       };
       const context = getContextLabel();
 
-      await supabase.from("notifications").insert({
+      const { error: notifyError } = await supabase.from("notifications").insert({
         patient_id: patientId,
         body: `Your therapist has sent you feedback ${context}. Check your module for details.`,
         read: false,
       });
-
-      toast({
-        title: "Feedback Sent",
-        description: `Feedback sent to ${patientName}`,
-      });
+      // The feedback record already saved successfully — a notification
+      // failure shouldn't block the success toast, but we need to surface it
+      // so silent notification failures don't go unnoticed in production.
+      if (notifyError) {
+        console.warn("Notification insert failed after feedback saved:", notifyError);
+        toast({
+          title: "Feedback Sent (notification failed)",
+          description: `Feedback saved for ${patientName}, but the patient notification could not be created: ${notifyError.message}`,
+        });
+      } else {
+        toast({
+          title: "Feedback Sent",
+          description: `Feedback sent to ${patientName}`,
+        });
+      }
 
       // Reset form
       setFeedbackText("");
@@ -247,12 +257,18 @@ const TherapistFeedbackDialog = ({
       onSuccess?.();
     } catch (error: any) {
       console.error("Feedback error:", error);
+      const isRlsRejection =
+        error?.code === "42501" ||
+        /row-level security|violates row-level/i.test(error?.message || "");
       const supabaseDetail = [error?.code, error?.details, error?.hint]
         .filter(Boolean)
         .join(" — ");
-      const description = supabaseDetail
-        ? `${error.message || "Failed to send feedback"} (${supabaseDetail})`
-        : error.message || "Failed to send feedback";
+      const baseMessage = error?.message || "Failed to send feedback";
+      const description = isRlsRejection
+        ? `Permission denied by database (RLS). You may not be assigned to this patient. ${supabaseDetail ? `(${supabaseDetail})` : ""}`.trim()
+        : supabaseDetail
+        ? `${baseMessage} (${supabaseDetail})`
+        : baseMessage;
       toast({
         title: "Error sending feedback",
         description,
