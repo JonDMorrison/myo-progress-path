@@ -5,7 +5,7 @@
 - Do not run SeedProgram, syncProgramData, or any seeding scripts — they wipe Vimeo URLs and overwrite exercise data
 - Supabase weeks and exercises tables are empty — all program data comes from public/24-week-program.json only
 - Vimeo video URLs live directly in public/24-week-program.json — do not look for them in Supabase
-- Deploy via Lovable publish only — git push does not deploy. Lovable must be manually synced from GitHub and published
+- Deploy to production by merging to main — Vercel auto-deploys on every push to main. Branch protection blocks direct pushes; all changes must go through a feature branch + PR + merge
 - Read only first, report findings, confirm with Jon, then make changes — never restructure without understanding the full data flow
 
 ## Architecture
@@ -24,8 +24,7 @@
 ## Stack
 - Vite + React + TypeScript
 - Supabase (auth + uploads + patient progress only — program data is JSON)
-- Lovable (visual editor + deployment)
-- Vercel (hosting, auto-deploys from Lovable publish)
+- Vercel (hosting + deployment — auto-deploys on push to main)
 
 ## Pathways
 - program_variant: 'frenectomy' | 'standard' | 'non_frenectomy'
