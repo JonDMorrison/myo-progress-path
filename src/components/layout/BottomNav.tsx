@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Home, TrendingUp, MessageSquare, User, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface NavItem {
   href: string;
@@ -19,17 +22,45 @@ const navItems: NavItem[] = [
 
 export function BottomNav() {
   const location = useLocation();
-  
+  const { user: authUser } = useAuth();
+  const [requiresVideo, setRequiresVideo] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (!authUser?.id) {
+      setRequiresVideo(null);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("patients")
+        .select("requires_video")
+        .eq("user_id", authUser.id)
+        .maybeSingle();
+      if (!cancelled) {
+        setRequiresVideo(data?.requires_video ?? null);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [authUser?.id]);
+
+  const visibleItems = navItems.filter(
+    (item) => item.href !== "/patient/messages" || requiresVideo !== false
+  );
+  const gridColsClass = visibleItems.length === 5 ? "grid-cols-5" : "grid-cols-4";
+
   return (
-    <nav 
+    <nav
       className="fixed bottom-0 inset-x-0 z-40 border-t bg-card/95 backdrop-blur-sm safe-bottom md:hidden"
       aria-label="Mobile navigation"
     >
-      <ul className="grid grid-cols-5 text-center">
-        {navItems.map((item) => {
+      <ul className={cn("grid text-center", gridColsClass)}>
+        {visibleItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname === item.href;
-          
+
           return (
             <li key={item.href}>
               <NavLink

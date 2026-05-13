@@ -45,6 +45,11 @@ const PatientMessages = () => {
       if (!patientData) throw new Error("Patient not found");
       setPatient(patientData);
 
+      if (patientData.requires_video === false) {
+        navigate("/patient", { replace: true });
+        return;
+      }
+
       const { data: messagesData } = await supabase
         .from("messages")
         .select("*")
