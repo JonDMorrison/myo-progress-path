@@ -1151,9 +1151,7 @@
         "type": "active",
         "duration": "2 min",
         "frequency": "2-3x/day",
-        "props": [
-          "None"
-        ],
+        "props": [],
         "description": "Try with your mouth open, halfway or closed. Place the tip of the tongue against the spot and trace back along the palate in a straight line and far back as possible. You should feel a stretch in the frenum and floor of your mouth.",
         "compensations": [
           "Watch in mirror for jaw lateralization and jaw protrusion. Use bite block to avoid",
@@ -1180,7 +1178,7 @@
         "name": "Mouth Taping (Daytime)",
         "type": "breathing",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n4. Find a 1 hour quiet activity you can do to let the time pass (during screen time, reading, in the car, cooking etc).\n\n- If you cannot find a full hour to use the tape, just do it for as long as you can. You can always come back to add more time later. Remember that a continuous hour is better than a split-up hour if you can do it.\n\nTips:\n- You may not be able to do a full hour. I recommend starting with 5 or 10 minutes and adding more time depending on how well you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first\n- Start applying mouth tape over night once comfortable with longer periods of time. This will be added as a second passive exercise in future modules.",
         "compensations": [],
@@ -1246,7 +1244,7 @@
         "duration": "1 minute",
         "frequency": "2-3x/day",
         "props": [
-          "None"
+          "Gloves or Gauze (optional)"
         ],
         "description": "Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.",
         "compensations": [],
@@ -1259,7 +1257,7 @@
         "duration": "1 minute",
         "frequency": "2-3x/day",
         "props": [
-          "None"
+          "Gloves or Gauze (optional)"
         ],
         "description": "Keeping tongue, jaw, neck and face relaxed, slide thumbs with pads facing upward underneath the tongue on either side of the frenum. Stretch the body of the tongue upward away from the floor of mouth",
         "compensations": [],
@@ -1287,7 +1285,7 @@
         "duration": "2 min",
         "frequency": "2-3x/day",
         "props": [
-          "None"
+          "Bite Block"
         ],
         "description": "Try with your mouth open, halfway or closed. Place the tip of the tongue against the spot and trace back along the palate in a straight line and far back as possible. You should feel a stretch in the frenum and floor of your mouth.",
         "compensations": [
@@ -1302,7 +1300,7 @@
         "name": "Mouth Taping (Daytime)",
         "type": "breathing",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n4. Find a 1 hour quiet activity you can do to let the time pass (during screen time, reading, in the car, cooking etc).\n\n- If you cannot find a full hour to use the tape, just do it for as long as you can. You can always come back to add more time later. Remember that a continuous hour is better than a split-up hour if you can do it.\n\nTips:\n- You may not be able to do a full hour. I recommend starting with 5 or 10 minutes and adding more time depending on how well you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first\n- Start applying mouth tape over night once comfortable with longer periods of time. This will be added as a second passive exercise in future modules.",
         "compensations": [],
@@ -1424,7 +1422,7 @@
         "frequency": "1 minute ALTERNATING",
         "duration": "1 minute",
         "props": [
-          "None"
+          "Gloves or Gauze (optional)"
         ],
         "description": "Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.",
         "compensations": [],
@@ -1475,7 +1473,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -1595,7 +1593,7 @@
         "frequency": "1 minute ALTERNATING",
         "duration": "1 minute",
         "props": [
-          "None"
+          "Gloves or Gauze (optional)"
         ],
         "description": "Pull the tongue straight out of the mouth. Avoid tensing tongue, jaw, neck and face.",
         "compensations": [],
@@ -1646,7 +1644,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -1791,7 +1789,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -1936,7 +1934,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -2016,7 +2014,7 @@
         "frequency": "2x/day",
         "props": [
           "Glass of Water",
-          "Soft Food (Yogurt, Pudding, or Apple Sauce)"
+          "Soft Food (yogurt, pudding or apple sauce)"
         ],
         "description": "We will be advancing perfect bowl/smile swallow/lingual palatal suction exercises from previous modules for this swallowing exercise. Start with small sips/spoonfuls (advancing to larger ones once able) and trap in a perfect bowl against the roof of your mouth. Push tongue against roof of mouth into lingual palatal suction shape for swallowing. Cheeks, lips, and teeth should be in a smile during exercise.\n\nIf struggling with exercise practice Lingual Palatal Suction, Perfect Bowl or Smile Swallows from previous modules first",
         "compensations": [
@@ -2080,7 +2078,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -2160,7 +2158,7 @@
         "frequency": "2x/day",
         "props": [
           "Glass of Water",
-          "Soft Food (Yogurt, Pudding, or Apple Sauce)"
+          "Soft Food (yogurt, pudding or apple sauce)"
         ],
         "description": "We will be advancing perfect bowl/smile swallow/lingual palatal suction exercises from previous modules for this swallowing exercise. Start with small sips/spoonfuls (advancing to larger ones once able) and trap in a perfect bowl against the roof of your mouth. Push tongue against roof of mouth into lingual palatal suction shape for swallowing. Cheeks, lips, and teeth should be in a smile during exercise.\n\nIf struggling with exercise practice Lingual Palatal Suction, Perfect Bowl or Smile Swallows from previous modules first",
         "compensations": [
@@ -2224,7 +2222,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -2318,7 +2316,7 @@
         "duration": "2 minutes",
         "frequency": "2x/day",
         "props": [
-          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, Cheez-Its, rice crackers, or plantain chips)"
+          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, or Cheez-Its; or rice crackers/plantain chips for gluten-free)"
         ],
         "description": "Chew a cracker for 20-30 chews (this will feel like a lot -- important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles -- avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing -- use the same swallowing technique that has been practiced over the last few modules.",
         "compensations": [
@@ -2370,7 +2368,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -2463,7 +2461,7 @@
         "duration": "2 minutes",
         "frequency": "2x/day",
         "props": [
-          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, Cheez-Its, rice crackers, or plantain chips)"
+          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, or Cheez-Its; or rice crackers/plantain chips for gluten-free)"
         ],
         "description": "Chew a cracker for 20-30 chews (this will feel like a lot -- important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles -- avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing -- use the same swallowing technique that has been practiced over the last few modules.",
         "compensations": [
@@ -2515,7 +2513,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -2607,7 +2605,7 @@
         "name": "20 Foods",
         "type": "active",
         "props": [
-          "20 different foods between sessions, 5 bites of each (crunchy or harder foods ideally)"
+          "20 different foods (crunchy or harder ideally)"
         ],
         "description": "This exercise is a progression of the Cracker Chew and Check, but this time different foods are used. Take a regular sized bite of the food, chew thoroughly - at least 20 times. When the food is soft enough to swallow, form a bolus (small rounded mass of chewed food/saliva), then swallow the food with the teeth together, lips/cheeks back, and tongue on the Spot. A second, \"clean-up swallow\" should be done to collect the remaining bits of food within the mouth.\n\nUsed for developing coordination of tongue and oral muscles to achieve functional chewing and swallowing. Gain awareness of chewing thoroughly, using the teeth to chew and not the tongue to suck on food while eating, and manipulation and control of food within the oral cavity.",
         "compensations": [
@@ -2659,7 +2657,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -2752,7 +2750,7 @@
         "name": "20 Foods",
         "type": "active",
         "props": [
-          "20 different foods between sessions, 5 bites of each (crunchy or harder foods ideally)"
+          "20 different foods (crunchy or harder ideally)"
         ],
         "description": "This exercise is a progression of the Cracker Chew and Check, but this time different foods are used. Take a regular sized bite of the food, chew thoroughly - at least 20 times. When the food is soft enough to swallow, form a bolus (small rounded mass of chewed food/saliva), then swallow the food with the teeth together, lips/cheeks back, and tongue on the Spot. A second, \"clean-up swallow\" should be done to collect the remaining bits of food within the mouth.\n\nUsed for developing coordination of tongue and oral muscles to achieve functional chewing and swallowing. Gain awareness of chewing thoroughly, using the teeth to chew and not the tongue to suck on food while eating, and manipulation and control of food within the oral cavity.",
         "compensations": [
@@ -2804,7 +2802,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -2913,7 +2911,7 @@
         "duration": "2 minutes",
         "frequency": "2x/day",
         "props": [
-          "Latex tubes (from kit)"
+          "Latex Tubes"
         ],
         "description": "Tubes are placed under the lips and the lips must create a seal around the tubes. Once the tubes are removed it should feel very easy to make a lip seal",
         "compensations": [
@@ -2961,7 +2959,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -3070,7 +3068,7 @@
         "duration": "2 minutes",
         "frequency": "2x/day",
         "props": [
-          "Latex tubes (from kit)"
+          "Latex Tubes"
         ],
         "description": "Tubes are placed under the lips and the lips must create a seal around the tubes. Once the tubes are removed it should feel very easy to make a lip seal",
         "compensations": [
@@ -3118,7 +3116,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -3253,7 +3251,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -3393,7 +3391,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -4572,7 +4570,7 @@
         "name": "Mouth Taping (Daytime)",
         "type": "breathing",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n4. Find a 1 hour quiet activity you can do to let the time pass (during screen time, reading, in the car, cooking etc).\n\n- If you cannot find a full hour to use the tape, just do it for as long as you can. You can always come back to add more time later. Remember that a continuous hour is better than a split-up hour if you can do it.\n\nTips:\n- You may not be able to do a full hour. I recommend starting with 5 or 10 minutes and adding more time depending on how well you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first\n- Start applying mouth tape over night once comfortable with longer periods of time. This will be added as a second passive exercise in future modules.",
         "compensations": [],
@@ -4700,7 +4698,7 @@
         "name": "Mouth Taping (Daytime)",
         "type": "breathing",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n4. Find a 1 hour quiet activity you can do to let the time pass (during screen time, reading, in the car, cooking etc).\n\n- If you cannot find a full hour to use the tape, just do it for as long as you can. You can always come back to add more time later. Remember that a continuous hour is better than a split-up hour if you can do it.\n\nTips:\n- You may not be able to do a full hour. I recommend starting with 5 or 10 minutes and adding more time depending on how well you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first\n- Start applying mouth tape over night once comfortable with longer periods of time. This will be added as a second passive exercise in future modules.",
         "compensations": [],
@@ -4786,7 +4784,7 @@
         "frequency": "2x/day",
         "props": [
           "Glass of Water",
-          "Soft Food (Yogurt, Pudding, or Apple Sauce)"
+          "Soft Food (yogurt, pudding or apple sauce)"
         ],
         "description": "We will be advancing perfect bowl/smile swallow/lingual palatal suction exercises from previous modules for this swallowing exercise. Start with small sips/spoonfuls (advancing to larger ones once able) and trap in a perfect bowl against the roof of your mouth. Push tongue against roof of mouth into lingual palatal suction shape for swallowing. Cheeks, lips, and teeth should be in a smile during exercise.\n\nIf struggling with exercise practice Lingual Palatal Suction, Perfect Bowl or Smile Swallows from previous modules first",
         "compensations": [
@@ -4851,7 +4849,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -4931,7 +4929,7 @@
         "frequency": "2x/day",
         "props": [
           "Glass of Water",
-          "Soft Food (Yogurt, Pudding, or Apple Sauce)"
+          "Soft Food (yogurt, pudding or apple sauce)"
         ],
         "description": "We will be advancing perfect bowl/smile swallow/lingual palatal suction exercises from previous modules for this swallowing exercise. Start with small sips/spoonfuls (advancing to larger ones once able) and trap in a perfect bowl against the roof of your mouth. Push tongue against roof of mouth into lingual palatal suction shape for swallowing. Cheeks, lips, and teeth should be in a smile during exercise.\n\nIf struggling with exercise practice Lingual Palatal Suction, Perfect Bowl or Smile Swallows from previous modules first",
         "compensations": [
@@ -4996,7 +4994,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable -- vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -5103,7 +5101,7 @@
         "type": "active",
         "duration": "2 minutes 2x/day",
         "props": [
-          "Crackers \u2014 Goldfish, Ritz, Pretzels, Wheat Thins, and Cheez-Its work well. For healthier or gluten free options: rice crackers (not rice cakes) or plantain chips tend to be a good option."
+          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, or Cheez-Its; or rice crackers/plantain chips for gluten-free)"
         ],
         "description": "Chew a cracker for 20-30 chews (this will feel like a lot \u2014 important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles \u2014 avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing \u2014 use the same swallowing technique that has been practiced over the last few weeks.",
         "compensations": [
@@ -5137,7 +5135,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -5243,7 +5241,7 @@
         "type": "active",
         "duration": "2 minutes 2x/day",
         "props": [
-          "Crackers \u2014 Goldfish, Ritz, Pretzels, Wheat Thins, and Cheez-Its work well. For healthier or gluten free options: rice crackers (not rice cakes) or plantain chips tend to be a good option."
+          "Crackers (Goldfish, Ritz, Pretzels, Wheat Thins, or Cheez-Its; or rice crackers/plantain chips for gluten-free)"
         ],
         "description": "Chew a cracker for 20-30 chews (this will feel like a lot \u2014 important to chew more than what you are comfortable with, in order to start chewing food more thoroughly in general). Have an awareness on how you are chewing and activate chewing muscles \u2014 avoid sucking on the cracker or mashing it with tongue which activates the lips and cheek muscles. Form a bolus (ball-like mixture of food/saliva) before swallowing \u2014 use the same swallowing technique that has been practiced over the last few weeks.",
         "compensations": [
@@ -5277,7 +5275,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -5369,7 +5367,7 @@
         "name": "20 Foods",
         "type": "active",
         "props": [
-          "20 different foods between sessions, 5 bites of each (crunchy or harder foods ideally)"
+          "20 different foods (crunchy or harder ideally)"
         ],
         "description": "This exercise is a progression of the Cracker Chew and Check, but this time different foods are used. Take a regular sized bite of the food, chew thoroughly - at least 20 times. When the food is soft enough to swallow, form a bolus (small rounded mass of chewed food/saliva), then swallow the food with the teeth together, lips/cheeks back, and tongue on the Spot. A second, \"clean-up swallow\" should be done to collect the remaining bits of food within the mouth.\n\nUsed for developing coordination of tongue and oral muscles to achieve functional chewing and swallowing. Gain awareness of chewing thoroughly, using the teeth to chew and not the tongue to suck on food while eating, and manipulation and control of food within the oral cavity.",
         "compensations": [
@@ -5385,7 +5383,7 @@
         "duration": "2 minutes",
         "frequency": "2x/day",
         "props": [
-          "Latex tubes (from kit)"
+          "Latex Tubes"
         ],
         "description": "Tubes are placed under the lips and the lips must create a seal around the tubes. Once the tubes are removed it should feel very easy to make a lip seal",
         "compensations": [
@@ -5419,7 +5417,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -5512,7 +5510,7 @@
         "name": "20 Foods",
         "type": "active",
         "props": [
-          "20 different foods between sessions, 5 bites of each (crunchy or harder foods ideally)"
+          "20 different foods (crunchy or harder ideally)"
         ],
         "description": "This exercise is a progression of the Cracker Chew and Check, but this time different foods are used. Take a regular sized bite of the food, chew thoroughly - at least 20 times. When the food is soft enough to swallow, form a bolus (small rounded mass of chewed food/saliva), then swallow the food with the teeth together, lips/cheeks back, and tongue on the Spot. A second, \"clean-up swallow\" should be done to collect the remaining bits of food within the mouth.\n\nUsed for developing coordination of tongue and oral muscles to achieve functional chewing and swallowing. Gain awareness of chewing thoroughly, using the teeth to chew and not the tongue to suck on food while eating, and manipulation and control of food within the oral cavity.",
         "compensations": [
@@ -5528,7 +5526,7 @@
         "duration": "2 minutes",
         "frequency": "2x/day",
         "props": [
-          "Latex tubes (from kit)"
+          "Latex Tubes"
         ],
         "description": "Tubes are placed under the lips and the lips must create a seal around the tubes. Once the tubes are removed it should feel very easy to make a lip seal",
         "compensations": [
@@ -5562,7 +5560,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -5705,7 +5703,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -5847,7 +5845,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -5957,7 +5955,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -6068,7 +6066,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -6191,7 +6189,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -6314,7 +6312,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -6448,7 +6446,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
@@ -6587,7 +6585,7 @@
         "name": "Mouth Taping Overnight",
         "type": "passive",
         "props": [
-          "Mouth tape (Micropore or Surgical Tape recommended)"
+          "Mouth Tape"
         ],
         "description": "1. Make sure you have tape that will stick and not irritate your skin (A starting amount is included in kit, but more should be purchased, consider using Micropore or Surgical Tape as they are breathable)\n2. Use lip balm or Chapstick if your lips are dry, before applying the tape.\n3. Place the tape however you are most comfortable \u2013 vertically, horizontally, or in an X pattern. I recommend sealing off the air unless you are uncomfortable with this feeling.\n\nTips:\n- You may not be able to do a full night yet. Continue adding more time during the day until you do.\n- A referral may be needed to address nasal breathing if you cannot complete this exercise\n- If you feel claustrophobic while doing this exercise, practice the Belly Breathing Exercise to help relax yourself and adjust your breathing, before applying the tape\n- Consider doing the unblocking your nose exercises first",
         "compensations": [],
