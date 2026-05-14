@@ -63,7 +63,7 @@ export const WEEK_10_INFO = {
   label: 'Days 8–14',
   shortLabel: 'D8-14',
   dayRange: '8-14',
-  description: 'Resume full exercise routine with Tongue Stretch, Forklift Stretch, and begin Mouth Taping.',
+  description: 'Continue gentle exercises and stretches. The tissue continues healing for several months.',
 };
 
 // Calculate total navigation items based on pathway

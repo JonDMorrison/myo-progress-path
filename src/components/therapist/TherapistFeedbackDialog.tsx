@@ -197,9 +197,7 @@ const TherapistFeedbackDialog = ({
           therapist_id: user.id,
           patient_id: patientId,
           week_id: weekId || null,
-          progress_id: progressId || null,
-          exercise_id: exerciseId || null,
-          feedback_text: combinedFeedback || null,
+          feedback: combinedFeedback || null,
           video_url: videoPath || null,
           photo_url: photoPath || null,
         });

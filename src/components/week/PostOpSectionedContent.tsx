@@ -199,10 +199,13 @@ export function PostOpSectionedContent({
           </CardHeader>
           <CardContent className="space-y-3 text-sm leading-relaxed">
             <p>
-              <strong>Beyond Two Weeks:</strong> Resume normal diet and activities and continue with active exercises as directed by your myofunctional therapist. The wound will continue to heal for several months and contraction is normal, but stretching throughout the first 6-8 weeks will avoid permanent contraction. You should continue to self-assess throughout this time — if you feel tension, continue to do stretches.
+              <strong>Your active participation is important to the post-operative healing process</strong>, particularly the active myofunctional exercises. The tissue will continue to contract during these next several weeks, so consistent exercise prevents permanent contraction.
             </p>
             <p>
-              Your next myofunctional therapy session should be scheduled 1 week after release to check wound healing, tongue mobility, and adjust exercises if ready.
+              <strong>Beyond One Week:</strong> Resume normal diet and activities and continue with active exercises as directed by your myofunctional therapist. The wound will continue to heal for several months and contraction is normal, but stretching throughout the first 6-8 weeks will avoid permanent contraction. Continue to self-assess — if you feel tension, continue to do stretches.
+            </p>
+            <p>
+              Your post-op session should be scheduled 1 week after release to check wound healing and tongue mobility.
             </p>
             <p>
               If you have concerns during the healing period, you can call or text Dr. Caylor at <a href="tel:7789087158" className="font-medium underline">778-908-7158</a>.

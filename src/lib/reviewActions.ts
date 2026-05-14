@@ -17,7 +17,6 @@ import { getProgramTitle } from "./constants";
  * the constants helper.
  */
 export function shouldCascadeApproval(weekNumber: number, programVariant: string | null | undefined): boolean {
-  if (weekNumber % 2 !== 0) return false;
   if (weekNumber === 25) return false;
   const isFrenectomyOnly =
     programVariant === "frenectomy" || programVariant === "frenectomy_video";
@@ -64,13 +63,13 @@ export async function approveWeek(
       // Biweekly module — cascade approval to the partner odd week so
       // userProgress.completedWeeks stops undercounting. Use a single
       // .update() scoped by .in("week_id", [...]) for atomicity.
-      const oddWeek = currentWeekNumber - 1;
+      const partnerWeek = currentWeekNumber % 2 === 0 ? currentWeekNumber - 1 : currentWeekNumber + 1;
       const programId = (progressData as any).week?.program_id;
 
       const { data: partnerWeeks, error: partnerLookupError } = await supabase
         .from("weeks")
         .select("id")
-        .in("number", [oddWeek, currentWeekNumber])
+        .in("number", [currentWeekNumber, partnerWeek])
         .eq("program_id", programId);
 
       if (partnerLookupError) throw partnerLookupError;

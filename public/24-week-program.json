@@ -1121,7 +1121,7 @@
         "requires_video": false
       },
       {
-        "name": "Floor of Mouth Massage",
+        "name": "Floor of Mouth Massage (Days 1-3)",
         "type": "active",
         "duration": "1 minute each side",
         "frequency": "2-3x/day",
@@ -1130,7 +1130,7 @@
         ],
         "description": "Massage muscles along the floor of the mouth to release tension. Be slow and gentle, focusing on 1 area at a time.",
         "compensations": [],
-        "demo_video_url": null,
+        "demo_video_url": "https://player.vimeo.com/video/1143171555",
         "requires_video": false
       },
       {
@@ -1139,7 +1139,7 @@
         "props": [
           "None"
         ],
-        "description": "Wound care: You can use a very soft toothbrush to gently brush excess granulation tissue off the sutures. Sutures will dissolve on their own within a week.\n\nOptional: A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed prior to exercises to make them more tolerable.\n\nYour active participation is important to the post-operative success of treatment. It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.",
+        "description": "Wound care: You can use a very soft toothbrush to gently brush excess granulation tissue off the sutures. Sutures will dissolve on their own within a week.\n\nOptional: A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed prior to exercises to make them more tolerable.\n\nYour active participation is important to the post-operative success of treatment. It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.\n\nThe tissue will begin to contract during this time, so this is when active myofunctional exercises become the most important.",
         "compensations": [],
         "demo_video_url": "",
         "requires_video": false
@@ -1334,7 +1334,7 @@
         "description": "Massage muscles along the floor of the mouth to release tension. Be slow and gentle, focusing on 1 area at a time.",
         "compensations": [],
         "name": "Floor of Mouth Massage",
-        "demo_video_url": null
+        "demo_video_url": "https://player.vimeo.com/video/1143171555"
       }
     ],
     "checklist": [
