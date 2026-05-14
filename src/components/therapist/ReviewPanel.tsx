@@ -106,6 +106,8 @@ const ReviewPanel = ({
   const [showNoteField, setShowNoteField] = useState(false);
   const [exercisesExpanded, setExercisesExpanded] = useState(false);
   const [messagesExpanded, setMessagesExpanded] = useState(false);
+  const [replyText, setReplyText] = useState("");
+  const [sendingReply, setSendingReply] = useState(false);
   const [reviewingBy, setReviewingBy] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [weekMetrics, setWeekMetrics] = useState<any>(null);
@@ -390,6 +392,36 @@ const ReviewPanel = ({
     }
   };
 
+  const handleSendReply = async () => {
+    if (!replyText.trim()) return;
+    setSendingReply(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      const { error } = await supabase.from("messages").insert({
+        patient_id: patientId,
+        week_id: weekId,
+        therapist_id: user.id,
+        body: replyText.trim(),
+        sent_by: "therapist",
+      });
+      if (error) throw error;
+      setReplyText("");
+      const { data: messagesData } = await supabase
+        .from("messages")
+        .select("*")
+        .eq("patient_id", patientId)
+        .eq("week_id", weekId)
+        .order("created_at", { ascending: true });
+      setMessages(messagesData || []);
+      toast({ title: "Reply sent" });
+    } catch (error: any) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setSendingReply(false);
+    }
+  };
+
   const isReassignable = weekStatus === "approved" || weekStatus === "submitted";
 
   const isLocked = reviewingBy !== null;
@@ -505,23 +537,44 @@ const ReviewPanel = ({
                       {messagesExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                     </Button>
                   </CollapsibleTrigger>
-                  <CollapsibleContent className="px-4 py-3 space-y-2 border border-t-0 rounded-b-lg -mt-1 max-h-40 overflow-y-auto">
-                    {messages.length === 0 ? (
-                      <p className="text-sm text-muted-foreground text-center py-2">No messages</p>
-                    ) : (
-                      messages.map((msg) => (
-                        <div
-                          key={msg.id}
-                          className={`p-2 rounded text-sm ${msg.therapist_id ? "bg-accent" : "bg-primary/10"
-                            }`}
-                        >
-                          <p className="text-xs font-medium mb-1">
-                            {msg.therapist_id ? "Therapist" : "Patient"}
-                          </p>
-                          <p>{msg.body}</p>
-                        </div>
-                      ))
-                    )}
+                  <CollapsibleContent className="px-4 py-3 space-y-2 border border-t-0 rounded-b-lg -mt-1">
+                    <div className="space-y-2 max-h-40 overflow-y-auto">
+                      {messages.length === 0 ? (
+                        <p className="text-sm text-muted-foreground text-center py-2">No messages</p>
+                      ) : (
+                        messages.map((msg) => (
+                          <div
+                            key={msg.id}
+                            className={`p-2 rounded text-sm ${msg.therapist_id ? "bg-accent" : "bg-primary/10"
+                              }`}
+                          >
+                            <p className="text-xs font-medium mb-1">
+                              {msg.therapist_id ? "Therapist" : "Patient"}
+                            </p>
+                            <p>{msg.body}</p>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                    <div className="pt-2 mt-2 border-t space-y-2">
+                      <Textarea
+                        value={replyText}
+                        onChange={(e) => setReplyText(e.target.value)}
+                        placeholder="Type a reply..."
+                        rows={2}
+                        className="resize-none"
+                        disabled={sendingReply}
+                      />
+                      <Button
+                        size="sm"
+                        onClick={handleSendReply}
+                        disabled={!replyText.trim() || sendingReply}
+                        className="w-full"
+                      >
+                        <Send className="h-4 w-4 mr-2" />
+                        {sendingReply ? "Sending..." : "Send Reply"}
+                      </Button>
+                    </div>
                   </CollapsibleContent>
                 </Collapsible>
 

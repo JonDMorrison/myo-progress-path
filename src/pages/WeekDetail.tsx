@@ -132,10 +132,16 @@ const WeekDetail = () => {
         throw new Error("No patient profile found for this account.");
       }
 
-      setPatient(patientData || { id: 'dummy', program_variant: 'frenectomy', user: { name: 'Therapist Preview' } });
-
       const searchParams = new URLSearchParams(window.location.search);
       const variantOverride = searchParams.get('variant');
+
+      setPatient(
+        patientData || {
+          id: 'dummy',
+          program_variant: variantOverride || 'frenectomy',
+          user: { name: 'Therapist Preview' },
+        }
+      );
 
       // Option B redirect: collapsed even weeks (the old "Part Two" pages)
       // are no longer patient-visible. Send patients back to the anchor odd

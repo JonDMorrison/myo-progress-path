@@ -181,10 +181,61 @@ const TherapistDashboard = () => {
 
       if (error) throw error;
 
+      // Surface 'open' progress rows that have first-attempt uploads — under
+      // Option B these are patients who uploaded first-attempt videos but
+      // haven't hit Submit yet. Without this they're invisible to the therapist.
+      const { data: firstAttemptUploadRefs } = await supabase
+        .from("uploads")
+        .select("patient_id, week_id")
+        .eq("kind", "first_attempt");
+
+      const pairs = new Set<string>();
+      (firstAttemptUploadRefs || []).forEach((u: any) =>
+        pairs.add(`${u.patient_id}|${u.week_id}`)
+      );
+
+      let firstAttemptOpenRows: any[] = [];
+      if (pairs.size > 0) {
+        const patientIdsForFirst = Array.from(
+          new Set((firstAttemptUploadRefs || []).map((u: any) => u.patient_id))
+        );
+        const weekIdsForFirst = Array.from(
+          new Set((firstAttemptUploadRefs || []).map((u: any) => u.week_id))
+        );
+
+        const { data: openRowsData } = await supabase
+          .from("patient_week_progress")
+          .select(`
+            id,
+            patient_id,
+            week_id,
+            status,
+            completed_at,
+            patient:patients!inner(
+              id,
+              program_variant,
+              assigned_therapist_id,
+              user:users!patients_user_id_fkey(name, email)
+            ),
+            week:weeks(number, title)
+          `)
+          .eq("status", "open")
+          .in("patient_id", patientIdsForFirst)
+          .in("week_id", weekIdsForFirst);
+
+        firstAttemptOpenRows = (openRowsData || [])
+          .filter((row: any) => pairs.has(`${row.patient_id}|${row.week_id}`))
+          .map((row: any) => ({ ...row, firstAttemptOnly: true }));
+      }
+
+      // Merge first-attempt-only rows in alongside the submitted/approved
+      // set before applying the therapist-assignment filter.
+      const mergedData = [...(progressData || []), ...firstAttemptOpenRows];
+
       // Show submissions from patients assigned to this therapist AND unassigned patients.
       // Unassigned patients would otherwise fall through the cracks — show them to everyone
       // so submissions are never silently invisible. They appear with an "Unassigned" badge.
-      let filteredData = (progressData || []).filter((r: any) => {
+      let filteredData = mergedData.filter((r: any) => {
         const assigned = r.patient?.assigned_therapist_id;
         return !assigned || assigned === user.id || authIsAdmin || authIsSuperAdmin;
       });
