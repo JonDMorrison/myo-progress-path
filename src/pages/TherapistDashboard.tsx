@@ -421,7 +421,7 @@ const TherapistDashboard = () => {
 
     switch (activeTab) {
       case "needs-review":
-        items = reviews.filter(r => r.status === "submitted" || r.status === "needs_more");
+        items = reviews.filter(r => r.status === "submitted" || r.status === "needs_more" || r.firstAttemptOnly);
         break;
       case "approved":
         items = reviews.filter(r => r.status === "approved");
