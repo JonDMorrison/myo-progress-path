@@ -449,7 +449,7 @@ const TherapistDashboard = () => {
   }, [reviews, activeTab, activeFilter]);
 
   const triageCounts = useMemo(() => {
-    const needsReview = reviews.filter(r => r.status === "submitted" || r.status === "needs_more");
+    const needsReview = reviews.filter(r => r.status === "submitted" || r.status === "needs_more" || r.firstAttemptOnly);
     return {
       red: needsReview.filter(r => getTriageLevel(r) === "red").length,
       yellow: needsReview.filter(r => getTriageLevel(r) === "yellow").length,
@@ -583,7 +583,7 @@ const TherapistDashboard = () => {
     </div>
   );
 
-  const needsReviewCount = reviews.filter(r => r.status === "submitted" || r.status === "needs_more").length;
+  const needsReviewCount = reviews.filter(r => r.status === "submitted" || r.status === "needs_more" || r.firstAttemptOnly).length;
 
   const layoutTitle = activeTab === "curriculum" ? "Curriculum" : "Inbox";
   const layoutDescription = activeTab === "curriculum" 
@@ -674,6 +674,7 @@ const TherapistDashboard = () => {
                     videoCount={review.uploads.length}
                     messageCount={review.messages.length}
                     isUnassigned={!review.patient.assigned_therapist_id}
+                    firstAttemptOnly={review.firstAttemptOnly}
                     onReview={handleOpenReviewPanel}
                     onApprove={handleQuickApprove}
                     onSendNote={handleOpenNoteDialog}

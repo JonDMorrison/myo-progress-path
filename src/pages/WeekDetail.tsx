@@ -552,15 +552,20 @@ const WeekDetail = () => {
         .lte("number", moduleInfo.weekRange[1]);
 
       const weekIds = moduleWeeks?.map(w => w.id) || [week.id];
+      const submittedAt = new Date().toISOString();
 
+      // RACE FIX: upsert progress rows for every module week so partner
+      // rows that haven't been visited yet still get flipped. Without this,
+      // the .in().update() below misses rows that don't exist yet.
+      const upsertRows = weekIds.map(wid => ({
+        patient_id: patient.id,
+        week_id: wid,
+        status: "submitted" as const,
+        completed_at: submittedAt,
+      }));
       const { error } = await supabase
         .from("patient_week_progress")
-        .update({
-          status: "submitted",
-          completed_at: new Date().toISOString(),
-        })
-        .in("week_id", weekIds)
-        .eq("patient_id", patient.id);
+        .upsert(upsertRows, { onConflict: "patient_id,week_id" });
 
       if (error) throw error;
 
@@ -612,8 +617,8 @@ const WeekDetail = () => {
           // normal waiting flow so the therapist can approve manually.
           console.warn("Auto-approve failed after submit:", approveResult.error);
           toast({
-            title: "Submitted for review!",
-            description: "Your therapist will review your progress soon.",
+            title: "Module complete!",
+            description: "Loading your next module...",
           });
         }
       } else {
@@ -758,21 +763,6 @@ const WeekDetail = () => {
 
               {/* Left Column: Actions & Exercises (8 Cols) */}
               <div className="lg:col-span-8 space-y-12">
-
-                {/* Learn Hub prompt — Week 1 only, shown until patient marks the
-                    Learning Hub task complete. Required by calc_week_progress
-                    so without this the patient cannot submit Module 1. */}
-                {parseInt(weekNumber || "0") === 1 && progress?.learn_hub_reviewed !== true && (
-                  <div className="rounded-2xl bg-blue-50 border border-blue-200 p-4 flex items-center justify-between">
-                    <div>
-                      <p className="font-bold text-blue-900 text-sm">📚 Review the Learning Hub first</p>
-                      <p className="text-xs text-blue-700 mt-0.5">Required before you can submit Module 1</p>
-                    </div>
-                    <Button variant="outline" size="sm" onClick={() => navigate('/learn')}>
-                      Go to Learn Hub
-                    </Button>
-                  </div>
-                )}
 
                 {/* Preparation Logic (Frenectomy reminders etc) */}
                 {isFrenectomyVariant(new URLSearchParams(window.location.search).get('variant') || patient?.program_variant) && (

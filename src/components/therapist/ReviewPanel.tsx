@@ -30,6 +30,7 @@ import VideoPlayer from "./VideoPlayer";
 // AIReviewSummary removed - AI feedback disabled, therapist provides all feedback
 import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
 import { ExerciseVideoToggle } from "./ExerciseVideoToggle";
+import { format } from "date-fns";
 
 interface ReviewPanelProps {
   open: boolean;
@@ -548,9 +549,14 @@ const ReviewPanel = ({
                             className={`p-2 rounded text-sm ${msg.therapist_id ? "bg-accent" : "bg-primary/10"
                               }`}
                           >
-                            <p className="text-xs font-medium mb-1">
-                              {msg.therapist_id ? "Therapist" : "Patient"}
-                            </p>
+                            <div className="flex items-center justify-between mb-1">
+                              <p className="text-xs font-medium">
+                                {msg.therapist_id ? "Therapist" : "Patient"}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {format(new Date(msg.created_at), "MMM d, h:mm a")}
+                              </p>
+                            </div>
                             <p>{msg.body}</p>
                           </div>
                         ))

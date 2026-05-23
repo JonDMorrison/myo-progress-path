@@ -26,6 +26,7 @@ interface ReviewCardProps {
   videoCount: number;
   messageCount: number;
   isUnassigned?: boolean;
+  firstAttemptOnly?: boolean;
   uploads?: { ai_feedback?: any; ai_feedback_status?: string | null }[]; // Kept for API compatibility
   onReview?: (progressId: string, patientId: string, weekNumber: number, weekId: string) => void;
   onApprove?: (progressId: string) => void;
@@ -52,6 +53,7 @@ const ReviewCard = ({
   videoCount,
   messageCount,
   isUnassigned,
+  firstAttemptOnly,
   uploads = [],
   onReview,
   onApprove,
@@ -135,6 +137,13 @@ const ReviewCard = ({
               {status === 'needs_more' && (
                 <Badge variant="outline" className="text-xs bg-warning/10 text-warning border-warning/20">
                   Needs More
+                </Badge>
+              )}
+
+              {/* First-attempt-only badge — patient uploaded a first attempt but hasn't submitted the module yet */}
+              {firstAttemptOnly && (
+                <Badge variant="outline" className="text-xs border-blue-300 text-blue-700">
+                  First-attempt uploaded
                 </Badge>
               )}
               
