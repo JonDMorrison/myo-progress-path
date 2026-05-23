@@ -1313,18 +1313,6 @@
         "requires_video": false
       },
       {
-        "type": "active",
-        "duration": "1 minute each side",
-        "frequency": "2-3x/day",
-        "props": [
-          "Gloves or Gauze may be helpful"
-        ],
-        "description": "Massage muscles along the floor of the mouth to release tension. Be slow and gentle, focusing on 1 area at a time.",
-        "compensations": [],
-        "name": "Floor of Mouth Massage",
-        "demo_video_url": "https://player.vimeo.com/video/1143171555"
-      },
-      {
         "name": "Mouth Taping (Daytime)",
         "type": "breathing",
         "props": [

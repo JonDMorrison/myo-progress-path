@@ -214,6 +214,26 @@ const TherapistFeedbackDialog = ({
         throw uploadOrInsertError;
       }
 
+      // Mirror into messages so it appears in the patient's chat thread.
+      // Without this the feedback only shows on the WeekDetail TherapistFeedbackList,
+      // not in the messages list patients actually read.
+      try {
+        const mediaSuffix = [
+          videoPath ? "[video attached]" : null,
+          photoPath ? "[photo attached]" : null,
+        ].filter(Boolean).join(" ");
+        const messageBody = [combinedFeedback, mediaSuffix].filter(Boolean).join("\n\n");
+        await supabase.from("messages").insert({
+          patient_id: patientId,
+          therapist_id: user.id,
+          week_id: weekId || null,
+          body: messageBody || "(rich feedback)",
+          sent_by: "therapist",
+        });
+      } catch (msgError) {
+        console.warn("Mirror message insert failed:", msgError);
+      }
+
       const getContextLabel = () => {
         if (exerciseTitle) return `for "${exerciseTitle}"`;
         if (weekNumber) {

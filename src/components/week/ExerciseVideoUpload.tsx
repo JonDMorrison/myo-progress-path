@@ -80,7 +80,7 @@ export function ExerciseVideoUpload({
 
     // Warn on large files
     const sizeMB = (file.size / (1024 * 1024)).toFixed(0);
-    if (file.size > 20 * 1024 * 1024) {
+    if (file.size > 100 * 1024 * 1024) {
       toast(`Large file (${sizeMB}MB) — upload may take a minute`, { icon: '⚠️' });
     }
 

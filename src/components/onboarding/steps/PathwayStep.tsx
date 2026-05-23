@@ -66,7 +66,10 @@ export const PathwayStep = ({ onPathwayChange, initialPathway }: PathwayStepProp
 
       const { error: updateError } = await supabase
         .from('patients')
-        .update({ program_variant: getBaseVariant(variant) as any })
+        .update({
+          program_variant: getBaseVariant(variant) as any,
+          requires_video: requiresVideo(variant),
+        })
         .eq('user_id', session.user.id);
       if (updateError) {
         console.error('Failed to save pathway:', updateError);
