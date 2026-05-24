@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { PatientAccessGate } from "@/components/PatientAccessGate";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import HowItWorks from "./pages/HowItWorks";
@@ -52,6 +53,8 @@ import SetupMFA from "./pages/SetupMFA";
 
 const queryClient = new QueryClient();
 
+const patientGate = (node: React.ReactNode) => <PatientAccessGate>{node}</PatientAccessGate>;
+
 const App = () => {
   return (
     <HelmetProvider>
@@ -62,7 +65,6 @@ const App = () => {
           <BrowserRouter>
             <AuthProvider>
               <Routes>
-                {/* Public routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/how-it-works" element={<HowItWorks />} />
@@ -78,22 +80,19 @@ const App = () => {
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/update-password" element={<UpdatePassword />} />
 
-                {/* Protected: Any authenticated user */}
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/onboarding" element={<ProtectedRoute><OnboardingWizard /></ProtectedRoute>} />
                 <Route path="/week-0" element={<ProtectedRoute><Week0 /></ProtectedRoute>} />
                 <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
                 <Route path="/setup-mfa" element={<ProtectedRoute><SetupMFA /></ProtectedRoute>} />
 
-                {/* Protected: Patient routes */}
-                <Route path="/patient" element={<ProtectedRoute requiredRoles={["patient"]}><PatientDashboard /></ProtectedRoute>} />
-                <Route path="/patient/progress" element={<ProtectedRoute requiredRoles={["patient"]}><PatientProgress /></ProtectedRoute>} />
-                <Route path="/patient/messages" element={<ProtectedRoute requiredRoles={["patient"]}><PatientMessages /></ProtectedRoute>} />
-                <Route path="/patient/account" element={<ProtectedRoute requiredRoles={["patient"]}><PatientAccount /></ProtectedRoute>} />
-                <Route path="/week/:weekNumber" element={<ProtectedRoute requiredRoles={["patient", "therapist", "admin", "super_admin"]}><WeekDetail /></ProtectedRoute>} />
-                <Route path="/protocol/:slug" element={<ProtectedRoute requiredRoles={["patient", "therapist", "admin", "super_admin"]}><ProtocolDetail /></ProtectedRoute>} />
+                <Route path="/patient" element={<ProtectedRoute requiredRoles={["patient"]}>{patientGate(<PatientDashboard />)}</ProtectedRoute>} />
+                <Route path="/patient/progress" element={<ProtectedRoute requiredRoles={["patient"]}>{patientGate(<PatientProgress />)}</ProtectedRoute>} />
+                <Route path="/patient/messages" element={<ProtectedRoute requiredRoles={["patient"]}>{patientGate(<PatientMessages />)}</ProtectedRoute>} />
+                <Route path="/patient/account" element={<ProtectedRoute requiredRoles={["patient"]}>{patientGate(<PatientAccount />)}</ProtectedRoute>} />
+                <Route path="/week/:weekNumber" element={<ProtectedRoute requiredRoles={["patient", "therapist", "admin", "super_admin"]}>{patientGate(<WeekDetail />)}</ProtectedRoute>} />
+                <Route path="/protocol/:slug" element={<ProtectedRoute requiredRoles={["patient", "therapist", "admin", "super_admin"]}>{patientGate(<ProtocolDetail />)}</ProtectedRoute>} />
 
-                {/* Protected: Staff routes */}
                 <Route path="/therapist" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistDashboard /></ProtectedRoute>} />
                 <Route path="/therapist/patients" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistPatients /></ProtectedRoute>} />
                 <Route path="/therapist/patient/:patientId" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><PatientOverview /></ProtectedRoute>} />
@@ -101,21 +100,18 @@ const App = () => {
                 <Route path="/review/:patientId/:weekNumber" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><ReviewWeek /></ProtectedRoute>} />
                 <Route path="/reports" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><Reports /></ProtectedRoute>} />
 
-                {/* Protected: Admin routes */}
                 <Route path="/admin/content" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><AdminContent /></ProtectedRoute>} />
                 <Route path="/admin/seed-program" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><SeedProgram /></ProtectedRoute>} />
                 <Route path="/admin/media-audit" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><MediaAudit /></ProtectedRoute>} />
                 <Route path="/admin/exercise-editor" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><ExerciseContentEditor /></ProtectedRoute>} />
                 <Route path="/admin/week-settings" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><WeekSettingsEditor /></ProtectedRoute>} />
 
-                {/* Protected: Super admin routes */}
                 <Route path="/seed-super-admins" element={<ProtectedRoute requiredRoles={["super_admin"]}><SeedSuperAdmins /></ProtectedRoute>} />
                 <Route path="/admin/master" element={<ProtectedRoute requiredRoles={["super_admin"]}><MasterAdmin /></ProtectedRoute>} />
                 <Route path="/admin/super-admins" element={<ProtectedRoute requiredRoles={["super_admin"]}><SuperAdminManagement /></ProtectedRoute>} />
                 <Route path="/admin/delete-patients" element={<ProtectedRoute requiredRoles={["super_admin"]}><PatientDeleteTool /></ProtectedRoute>} />
                 <Route path="/admin/testing-feedback" element={<ProtectedRoute requiredRoles={["super_admin"]}><TestingFeedback /></ProtectedRoute>} />
 
-                {/* Catch-all */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </AuthProvider>
