@@ -5,29 +5,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import {
-  CheckCircle,
-  AlertTriangle,
-  XCircle,
-  ChevronDown,
-  ChevronUp,
-  Loader,
-  Lock,
-  MessageSquare,
-  Sparkles,
-  // RefreshCw removed - AI analysis disabled
-  Send,
-  Undo2,
-  Award,
-  Wrench
-} from "lucide-react";
+import { CheckCircle, AlertTriangle, XCircle, ChevronDown, ChevronUp, Loader, Lock, MessageSquare, Sparkles, Send, Undo2, Award, Wrench } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import { moveToMaintenance } from "@/lib/maintenanceActions";
 import { getProgramTitle } from "@/lib/constants";
 import VideoPlayer from "./VideoPlayer";
-// AIReviewSummary removed - AI feedback disabled, therapist provides all feedback
 import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
 import { ExerciseVideoToggle } from "./ExerciseVideoToggle";
 import { format } from "date-fns";
@@ -49,6 +33,9 @@ interface Upload {
   file_url: string;
   kind: string;
   created_at: string;
+  exercise_id?: string | null;
+  exercise_key?: string | null;
+  exerciseTitle?: string | null;
 }
 
 interface Exercise {
@@ -65,14 +52,12 @@ interface Message {
   created_at: string;
 }
 
-// One-click note templates
 const NOTE_TEMPLATES = [
   { label: "Great work", text: "Great work. Keep going!" },
   { label: "Slow down", text: "Slow down and reduce tension." },
   { label: "Watch jaw", text: "Watch jaw compensation." },
 ];
 
-// Completion note template for final module
 const COMPLETION_NOTE_TEMPLATE = `Congratulations on completing your myofunctional therapy program! 
 
 You've made remarkable progress in developing healthy breathing and tongue posture habits. Here are my observations:
@@ -87,17 +72,7 @@ You've made remarkable progress in developing healthy breathing and tongue postu
 
 I'm proud of your dedication and commitment to this journey. Your new habits will serve you well for life!`;
 
-const ReviewPanel = ({
-  open,
-  onOpenChange,
-  progressId,
-  patientId,
-  patientName,
-  weekNumber,
-  weekId,
-  weekStatus,
-  onComplete,
-}: ReviewPanelProps) => {
+const ReviewPanel = ({ open, onOpenChange, progressId, patientId, patientName, weekNumber, weekId, weekStatus, onComplete }: ReviewPanelProps) => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [uploads, setUploads] = useState<Upload[]>([]);
@@ -113,7 +88,6 @@ const ReviewPanel = ({
   const [isAdmin, setIsAdmin] = useState(false);
   const [weekMetrics, setWeekMetrics] = useState<any>(null);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
-
   const { toast } = useToast();
 
   useEffect(() => {
@@ -134,23 +108,12 @@ const ReviewPanel = ({
   const loadPanelData = async () => {
     setLoading(true);
     try {
-      // Check user role
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        const { data: userData } = await supabase
-          .from("users")
-          .select("role")
-          .eq("id", user.id)
-          .single();
+        const { data: userData } = await supabase.from("users").select("role").eq("id", user.id).single();
         setIsAdmin(userData?.role === "admin" || userData?.role === "super_admin");
       }
 
-      // Load uploads from BOTH weeks of the module so Sam sees all videos.
-      // Patients may upload to Part One, Part Two, or both — we don't want
-      // any of them to be invisible just because the therapist clicked the
-      // other week's card.
-      // Filter by the patient's program variant so maybeSingle returns
-      // exactly one row (each week number exists once per program).
       const { data: patientData } = await supabase
         .from("patients")
         .select("program_variant")
@@ -170,33 +133,56 @@ const ReviewPanel = ({
 
       const { data: uploadsData } = await supabase
         .from("uploads")
-        .select("id, file_url, kind, created_at")
+        .select("id, file_url, kind, created_at, exercise_id, exercise_key")
         .eq("patient_id", patientId)
         .in("week_id", weekIdsToQuery)
         .order("kind", { ascending: true });
 
-      setUploads(uploadsData || []);
-
-      // Load exercises with video_required field
       const { data: exercisesData } = await supabase
         .from("exercises")
         .select("id, title, instructions, video_required")
-        .eq("week_id", weekId)
+        .in("week_id", weekIdsToQuery)
         .order("title");
 
-      setExercises(exercisesData || []);
+      const exerciseRows = (exercisesData || []) as Exercise[];
+      setExercises(exerciseRows);
 
-      // Load messages
+      const exerciseTitleMap = new Map<string, string>();
+      exerciseRows.forEach(ex => exerciseTitleMap.set(ex.id, ex.title));
+
+      try {
+        const response = await fetch('/24-week-program.json');
+        const programData = await response.json();
+        const jsonVariant = patientData?.program_variant === 'frenectomy' ? 'frenectomy' : 'standard';
+        const weekNumbers = [weekNumber, partnerNum].filter(n => n > 0);
+        programData
+          .filter((entry: any) => weekNumbers.includes(entry.week) && entry.program_variant === jsonVariant)
+          .forEach((entry: any) => {
+            (entry.exercises || []).forEach((ex: any, index: number) => {
+              exerciseTitleMap.set(`json-${entry.week}-${index}`, ex.name);
+            });
+          });
+      } catch (jsonError) {
+        console.warn("ReviewPanel: could not resolve JSON exercise titles", jsonError);
+      }
+
+      const uploadsWithTitles = (uploadsData || []).map((upload: any) => ({
+        ...upload,
+        exerciseTitle:
+          (upload.exercise_id && exerciseTitleMap.get(upload.exercise_id)) ||
+          (upload.exercise_key && exerciseTitleMap.get(upload.exercise_key)) ||
+          null,
+      }));
+      setUploads(uploadsWithTitles);
+
       const { data: messagesData } = await supabase
         .from("messages")
         .select("id, body, therapist_id, created_at")
         .eq("patient_id", patientId)
         .eq("week_id", weekId)
         .order("created_at", { ascending: true });
-
       setMessages(messagesData || []);
 
-      // Load week metrics and check concurrent reviewer
       const { data: progressData } = await supabase
         .from("patient_week_progress")
         .select("bolt_score, nasal_breathing_pct, tongue_on_spot_pct, ai_summary, reviewing_by, reviewing_since")
@@ -205,18 +191,11 @@ const ReviewPanel = ({
 
       setWeekMetrics(progressData);
 
-      // Check if someone else is reviewing (with 30-min timeout)
       if (progressData?.reviewing_by && progressData.reviewing_by !== user?.id) {
         const reviewingSince = progressData.reviewing_since ? new Date(progressData.reviewing_since) : null;
         const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
-
-        // Only consider locked if review started within 30 minutes
         if (reviewingSince && reviewingSince > thirtyMinutesAgo) {
-          const { data: reviewerData } = await supabase
-            .from("users")
-            .select("name")
-            .eq("id", progressData.reviewing_by)
-            .single();
+          const { data: reviewerData } = await supabase.from("users").select("name").eq("id", progressData.reviewing_by).single();
           setReviewingBy(reviewerData?.name || "Another therapist");
         }
       }
@@ -230,68 +209,33 @@ const ReviewPanel = ({
   const markAsReviewing = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
-
-    await supabase
-      .from("patient_week_progress")
-      .update({
-        reviewing_by: user.id,
-        reviewing_since: new Date().toISOString()
-      })
-      .eq("id", progressId);
+    await supabase.from("patient_week_progress").update({ reviewing_by: user.id, reviewing_since: new Date().toISOString() }).eq("id", progressId);
   };
 
   const clearReviewing = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
-
-    // Only clear if this user owns the lock
-    await supabase
-      .from("patient_week_progress")
-      .update({ reviewing_by: null, reviewing_since: null })
-      .eq("id", progressId)
-      .eq("reviewing_by", user.id);
+    await supabase.from("patient_week_progress").update({ reviewing_by: null, reviewing_since: null }).eq("id", progressId).eq("reviewing_by", user.id);
   };
 
   const handleApprove = async (withNote: boolean) => {
     if (withNote && !note.trim()) {
-      toast({
-        title: "Note Required",
-        description: "Please add a note before approving with note.",
-        variant: "destructive",
-      });
+      toast({ title: "Note Required", description: "Please add a note before approving with note.", variant: "destructive" });
       return;
     }
-
     setSubmitting(true);
     try {
-      const result = await approveWeek(
-        progressId,
-        patientId,
-        weekNumber,
-        withNote ? note : ""
-      );
-
+      const result = await approveWeek(progressId, patientId, weekNumber, withNote ? note : "");
       if (result.success) {
         const moduleNum = Math.ceil(weekNumber / 2);
-        toast({
-          title: "Module Approved",
-          description: `Module ${moduleNum} approved for ${patientName}`,
-        });
+        toast({ title: "Module Approved", description: `Module ${moduleNum} approved for ${patientName}` });
         onComplete("approved");
         onOpenChange(false);
       } else {
-        toast({
-          title: "Error",
-          description: result.error || "Failed to approve week.",
-          variant: "destructive",
-        });
+        toast({ title: "Error", description: result.error || "Failed to approve week.", variant: "destructive" });
       }
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -299,57 +243,30 @@ const ReviewPanel = ({
 
   const handleNeedsCorrection = async () => {
     if (!note.trim()) {
-      toast({
-        title: "Note Required",
-        description: "Please provide feedback for the patient.",
-        variant: "destructive",
-      });
+      toast({ title: "Note Required", description: "Please provide feedback for the patient.", variant: "destructive" });
       return;
     }
-
     setSubmitting(true);
     try {
-      const result = await requestMorePractice(
-        progressId,
-        patientId,
-        weekNumber,
-        note
-      );
-
+      const result = await requestMorePractice(progressId, patientId, weekNumber, note);
       if (result.success) {
-        toast({
-          title: "Feedback Sent",
-          description: "Patient has been notified to practice more.",
-        });
+        toast({ title: "Feedback Sent", description: "Patient has been notified to practice more." });
         onComplete("needs_more");
         onOpenChange(false);
       } else {
-        toast({
-          title: "Error",
-          description: result.error || "Failed to send feedback.",
-          variant: "destructive",
-        });
+        toast({ title: "Error", description: result.error || "Failed to send feedback.", variant: "destructive" });
       }
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
   };
 
-  // AI draft and AI analysis removed - therapist provides all feedback
-
   const handleTakeover = async () => {
     setReviewingBy(null);
     await markAsReviewing();
-    toast({
-      title: "Review Takeover",
-      description: "You are now reviewing this submission.",
-    });
+    toast({ title: "Review Takeover", description: "You are now reviewing this submission." });
   };
 
   const applyTemplate = (text: string) => {
@@ -360,34 +277,17 @@ const ReviewPanel = ({
   const handleReassign = async () => {
     setSubmitting(true);
     try {
-      const result = await reassignWeek(
-        progressId,
-        patientId,
-        weekNumber,
-        note.trim() || undefined
-      );
-
+      const result = await reassignWeek(progressId, patientId, weekNumber, note.trim() || undefined);
       if (result.success) {
         const moduleNum = Math.ceil(weekNumber / 2);
-        toast({
-          title: "Module Reassigned",
-          description: `Module ${moduleNum} has been unlocked for ${patientName} to practice again.`,
-        });
+        toast({ title: "Module Reassigned", description: `Module ${moduleNum} has been unlocked for ${patientName} to practice again.` });
         onComplete("reassigned");
         onOpenChange(false);
       } else {
-        toast({
-          title: "Error",
-          description: result.error || "Failed to reassign week.",
-          variant: "destructive",
-        });
+        toast({ title: "Error", description: result.error || "Failed to reassign week.", variant: "destructive" });
       }
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -399,21 +299,10 @@ const ReviewPanel = ({
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
-      const { error } = await supabase.from("messages").insert({
-        patient_id: patientId,
-        week_id: weekId,
-        therapist_id: user.id,
-        body: replyText.trim(),
-        sent_by: "therapist",
-      });
+      const { error } = await supabase.from("messages").insert({ patient_id: patientId, week_id: weekId, therapist_id: user.id, body: replyText.trim(), sent_by: "therapist" });
       if (error) throw error;
       setReplyText("");
-      const { data: messagesData } = await supabase
-        .from("messages")
-        .select("*")
-        .eq("patient_id", patientId)
-        .eq("week_id", weekId)
-        .order("created_at", { ascending: true });
+      const { data: messagesData } = await supabase.from("messages").select("*").eq("patient_id", patientId).eq("week_id", weekId).order("created_at", { ascending: true });
       setMessages(messagesData || []);
       toast({ title: "Reply sent" });
     } catch (error: any) {
@@ -424,7 +313,6 @@ const ReviewPanel = ({
   };
 
   const isReassignable = weekStatus === "approved" || weekStatus === "submitted";
-
   const isLocked = reviewingBy !== null;
 
   return (
@@ -434,397 +322,130 @@ const ReviewPanel = ({
           <SheetTitle className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span>{patientName} · Module {Math.ceil(weekNumber / 2)}</span>
-              {weekNumber >= 24 && (
-                <Badge className="bg-success/10 text-success border-success/20">
-                  Final Module
-                </Badge>
-              )}
+              {weekNumber >= 24 && <Badge className="bg-success/10 text-success border-success/20">Final Module</Badge>}
             </div>
-            {isLocked && (
-              <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
-                <Lock className="h-3 w-3 mr-1" />
-                In review
-              </Badge>
-            )}
+            {isLocked && <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20"><Lock className="h-3 w-3 mr-1" />In review</Badge>}
           </SheetTitle>
         </SheetHeader>
 
         {loading ? (
-          <div className="flex-1 flex items-center justify-center">
-            <Loader className="h-8 w-8 animate-spin text-primary" />
-          </div>
+          <div className="flex-1 flex items-center justify-center"><Loader className="h-8 w-8 animate-spin text-primary" /></div>
         ) : isLocked ? (
           <div className="flex-1 flex flex-col items-center justify-center px-6 gap-4">
             <Lock className="h-12 w-12 text-muted-foreground" />
-            <p className="text-center text-muted-foreground">
-              This submission is being reviewed by <strong>{reviewingBy}</strong>
-            </p>
-            {isAdmin && (
-              <Button variant="outline" onClick={handleTakeover}>
-                Request Takeover
-              </Button>
-            )}
+            <p className="text-center text-muted-foreground">This submission is being reviewed by <strong>{reviewingBy}</strong></p>
+            {isAdmin && <Button variant="outline" onClick={handleTakeover}>Request Takeover</Button>}
           </div>
         ) : (
           <>
             <ScrollArea className="flex-1 px-6">
               <div className="py-4 space-y-4">
-                {/* Video Player */}
                 <VideoPlayer uploads={uploads} />
 
-                {/* AI Analysis Status and AI Review Summary */}
                 {weekMetrics?.ai_summary && (
                   <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 space-y-3">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Sparkles className="h-4 w-4 text-primary" />
-                        <h4 className="font-bold text-slate-900 uppercase tracking-tight text-xs">AI Recommended Feedback</h4>
-                      </div>
+                      <div className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /><h4 className="font-bold text-slate-900 uppercase tracking-tight text-xs">AI Recommended Feedback</h4></div>
                       <Badge className="bg-primary/10 text-primary border-none text-[10px] font-black uppercase">Suggestion</Badge>
                     </div>
-                    <div className="bg-white/80 p-3 rounded-lg border border-primary/10 italic text-sm text-slate-600 leading-relaxed shadow-sm">
-                      "{weekMetrics.ai_summary}"
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full bg-white hover:bg-primary/5 border-primary/20 text-primary font-bold text-xs"
-                      onClick={() => applyTemplate(weekMetrics.ai_summary)}
-                    >
-                      <Sparkles className="h-3 w-3 mr-2" />
-                      USE THIS SUGGESTION
+                    <div className="bg-white/80 p-3 rounded-lg border border-primary/10 italic text-sm text-slate-600 leading-relaxed shadow-sm">"{weekMetrics.ai_summary}"</div>
+                    <Button variant="outline" size="sm" className="w-full bg-white hover:bg-primary/5 border-primary/20 text-primary font-bold text-xs" onClick={() => applyTemplate(weekMetrics.ai_summary)}>
+                      <Sparkles className="h-3 w-3 mr-2" />USE THIS SUGGESTION
                     </Button>
                   </div>
                 )}
 
-                {/* Exercise Instructions & Video Settings (collapsed) */}
                 {exercises.length > 0 && (
                   <Collapsible open={exercisesExpanded} onOpenChange={setExercisesExpanded}>
-                    <CollapsibleTrigger asChild>
-                      <Button variant="ghost" className="w-full justify-between px-4 py-3 h-auto border rounded-lg">
-                        <span className="font-medium">Exercise Settings ({exercises.length})</span>
-                        {exercisesExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                      </Button>
-                    </CollapsibleTrigger>
+                    <CollapsibleTrigger asChild><Button variant="ghost" className="w-full justify-between px-4 py-3 h-auto border rounded-lg"><span className="font-medium">Exercise Settings ({exercises.length})</span>{exercisesExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}</Button></CollapsibleTrigger>
                     <CollapsibleContent className="px-4 py-3 space-y-3 border border-t-0 rounded-b-lg -mt-1">
                       {exercises.map((ex) => (
                         <div key={ex.id} className="flex items-start justify-between gap-3 py-2 border-b last:border-0">
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">{ex.title}</p>
-                            {ex.instructions && (
-                              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{ex.instructions}</p>
-                            )}
-                          </div>
-                          <ExerciseVideoToggle
-                            exerciseId={ex.id}
-                            exerciseTitle={ex.title}
-                            videoRequired={ex.video_required ?? false}
-                            onUpdate={loadPanelData}
-                          />
+                          <div className="flex-1"><p className="text-sm font-medium">{ex.title}</p>{ex.instructions && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{ex.instructions}</p>}</div>
+                          <ExerciseVideoToggle exerciseId={ex.id} exerciseTitle={ex.title} videoRequired={ex.video_required ?? false} onUpdate={loadPanelData} />
                         </div>
                       ))}
                     </CollapsibleContent>
                   </Collapsible>
                 )}
 
-                {/* Messages Panel */}
                 <Collapsible open={messagesExpanded} onOpenChange={setMessagesExpanded}>
-                  <CollapsibleTrigger asChild>
-                    <Button variant="ghost" className="w-full justify-between px-4 py-3 h-auto border rounded-lg">
-                      <div className="flex items-center gap-2">
-                        <MessageSquare className="h-4 w-4" />
-                        <span className="font-medium">Messages ({messages.length})</span>
-                      </div>
-                      {messagesExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-                    </Button>
-                  </CollapsibleTrigger>
+                  <CollapsibleTrigger asChild><Button variant="ghost" className="w-full justify-between px-4 py-3 h-auto border rounded-lg"><div className="flex items-center gap-2"><MessageSquare className="h-4 w-4" /><span className="font-medium">Messages ({messages.length})</span></div>{messagesExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}</Button></CollapsibleTrigger>
                   <CollapsibleContent className="px-4 py-3 space-y-2 border border-t-0 rounded-b-lg -mt-1">
                     <div className="space-y-2 max-h-40 overflow-y-auto">
-                      {messages.length === 0 ? (
-                        <p className="text-sm text-muted-foreground text-center py-2">No messages</p>
-                      ) : (
-                        messages.map((msg) => (
-                          <div
-                            key={msg.id}
-                            className={`p-2 rounded text-sm ${msg.therapist_id ? "bg-accent" : "bg-primary/10"
-                              }`}
-                          >
-                            <div className="flex items-center justify-between mb-1">
-                              <p className="text-xs font-medium">
-                                {msg.therapist_id ? "Therapist" : "Patient"}
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                {format(new Date(msg.created_at), "MMM d, h:mm a")}
-                              </p>
-                            </div>
-                            <p>{msg.body}</p>
-                          </div>
-                        ))
-                      )}
+                      {messages.length === 0 ? <p className="text-sm text-muted-foreground text-center py-2">No messages</p> : messages.map((msg) => (
+                        <div key={msg.id} className={`p-2 rounded text-sm ${msg.therapist_id ? "bg-accent" : "bg-primary/10"}`}>
+                          <div className="flex items-center justify-between mb-1"><p className="text-xs font-medium">{msg.therapist_id ? "Therapist" : "Patient"}</p><p className="text-xs text-muted-foreground">{format(new Date(msg.created_at), "MMM d, h:mm a")}</p></div>
+                          <p>{msg.body}</p>
+                        </div>
+                      ))}
                     </div>
                     <div className="pt-2 mt-2 border-t space-y-2">
-                      <Textarea
-                        value={replyText}
-                        onChange={(e) => setReplyText(e.target.value)}
-                        placeholder="Type a reply..."
-                        rows={2}
-                        className="resize-none"
-                        disabled={sendingReply}
-                      />
-                      <Button
-                        size="sm"
-                        onClick={handleSendReply}
-                        disabled={!replyText.trim() || sendingReply}
-                        className="w-full"
-                      >
-                        <Send className="h-4 w-4 mr-2" />
-                        {sendingReply ? "Sending..." : "Send Reply"}
-                      </Button>
+                      <Textarea value={replyText} onChange={(e) => setReplyText(e.target.value)} placeholder="Type a reply..." rows={2} className="resize-none" disabled={sendingReply} />
+                      <Button size="sm" onClick={handleSendReply} disabled={!replyText.trim() || sendingReply} className="w-full"><Send className="h-4 w-4 mr-2" />{sendingReply ? "Sending..." : "Send Reply"}</Button>
                     </div>
                   </CollapsibleContent>
                 </Collapsible>
 
-                {/* Rich Feedback Button */}
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                  onClick={() => setShowFeedbackDialog(true)}
-                >
-                  <Send className="h-4 w-4 mr-2" />
-                  Send Rich Feedback (Video/Photo/Text)
-                </Button>
+                <Button variant="outline" className="w-full justify-start" onClick={() => setShowFeedbackDialog(true)}><Send className="h-4 w-4 mr-2" />Send Rich Feedback (Video/Photo/Text)</Button>
 
-                {/* Final Module Special Completion Note Section */}
                 {weekNumber >= 24 && (
                   <div className="bg-success/5 border border-success/20 rounded-lg p-4 space-y-3">
-                    <div className="flex items-center gap-2">
-                      <Award className="h-5 w-5 text-success" />
-                      <h4 className="font-semibold text-success">Program Completion Note</h4>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      This is the final module! Write a personalized completion note emphasizing
-                      habit awareness, long-term carryover, and self-monitoring skills.
-                    </p>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => applyTemplate(COMPLETION_NOTE_TEMPLATE)}
-                      className="w-full border-success/30 hover:bg-success/10"
-                    >
-                      <Sparkles className="h-4 w-4 mr-2 text-success" />
-                      Use Completion Template
-                    </Button>
+                    <div className="flex items-center gap-2"><Award className="h-5 w-5 text-success" /><h4 className="font-semibold text-success">Program Completion Note</h4></div>
+                    <p className="text-sm text-muted-foreground">This is the final module! Write a personalized completion note emphasizing habit awareness, long-term carryover, and self-monitoring skills.</p>
+                    <Button variant="outline" size="sm" onClick={() => applyTemplate(COMPLETION_NOTE_TEMPLATE)} className="w-full border-success/30 hover:bg-success/10"><Sparkles className="h-4 w-4 mr-2 text-success" />Use Completion Template</Button>
                   </div>
                 )}
 
-                {/* Quick Templates (hidden for final module to emphasize completion note) */}
                 {weekNumber < 24 && (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Quick notes</label>
-                    <div className="flex flex-wrap gap-2">
-                      {NOTE_TEMPLATES.map((tpl) => (
-                        <Button
-                          key={tpl.label}
-                          variant="outline"
-                          size="sm"
-                          onClick={() => applyTemplate(tpl.text)}
-                          className="h-7 text-xs"
-                        >
-                          {tpl.label}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
+                  <div className="space-y-2"><label className="text-sm font-medium text-muted-foreground">Quick notes</label><div className="flex flex-wrap gap-2">{NOTE_TEMPLATES.map((tpl) => <Button key={tpl.label} variant="outline" size="sm" onClick={() => applyTemplate(tpl.text)} className="h-7 text-xs">{tpl.label}</Button>)}</div></div>
                 )}
 
-                {/* Note Input (only when needed) */}
-                {showNoteField && (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Note for patient</label>
-                    <Textarea
-                      placeholder="Add feedback or instructions..."
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                      rows={3}
-                      autoFocus
-                    />
-                  </div>
-                )}
+                {showNoteField && <div className="space-y-2"><label className="text-sm font-medium">Note for patient</label><Textarea placeholder="Add feedback or instructions..." value={note} onChange={(e) => setNote(e.target.value)} rows={3} autoFocus /></div>}
               </div>
             </ScrollArea>
 
-            {/* Fixed Action Bar - Mobile optimized */}
             <div className="border-t px-4 sm:px-6 py-3 sm:py-4 bg-card">
-              {/* Reassign button for completed weeks */}
               {isReassignable && (
                 <div className="mb-3 pb-3 border-b">
-                  <Button
-                    variant="secondary"
-                    className="w-full h-10 sm:h-9"
-                    onClick={() => {
-                      if (!showNoteField) {
-                        setShowNoteField(true);
-                        setNote("");
-                        return;
-                      }
-                      handleReassign();
-                    }}
-                    disabled={submitting}
-                  >
-                    {submitting ? (
-                      <Loader className="h-4 w-4 animate-spin mr-2" />
-                    ) : (
-                      <Undo2 className="h-4 w-4 mr-2" />
-                    )}
-                    <span className="truncate">
-                      {showNoteField ? "Confirm Reassign for Practice" : "Reassign for Practice"}
-                    </span>
-                  </Button>
-                  {showNoteField && (
-                    <p className="text-xs text-muted-foreground mt-2 text-center">
-                      This will unlock the module for the patient to practice again
-                    </p>
-                  )}
+                  <Button variant="secondary" className="w-full h-10 sm:h-9" onClick={() => { if (!showNoteField) { setShowNoteField(true); setNote(""); return; } handleReassign(); }} disabled={submitting}>{submitting ? <Loader className="h-4 w-4 animate-spin mr-2" /> : <Undo2 className="h-4 w-4 mr-2" />}<span className="truncate">{showNoteField ? "Confirm Reassign for Practice" : "Reassign for Practice"}</span></Button>
+                  {showNoteField && <p className="text-xs text-muted-foreground mt-2 text-center">This will unlock the module for the patient to practice again</p>}
                 </div>
               )}
 
-              {/* Final Module Maintenance Mode Option */}
               {weekNumber >= 24 && (
                 <div className="flex flex-col gap-2 mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
-                  <p className="text-sm font-medium text-primary flex items-center gap-2">
-                    <Award className="h-4 w-4" />
-                    Program Completion Options
-                  </p>
+                  <p className="text-sm font-medium text-primary flex items-center gap-2"><Award className="h-4 w-4" />Program Completion Options</p>
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <Button
-                      className="flex-1 h-10 sm:h-9"
-                      onClick={() => handleApprove(note.trim() ? true : false)}
-                      disabled={submitting}
-                    >
-                      {submitting ? (
-                        <Loader className="h-4 w-4 animate-spin mr-2" />
-                      ) : (
-                        <CheckCircle className="h-4 w-4 mr-2" />
-                      )}
-                      Complete Program
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="flex-1 h-10 sm:h-9 border-primary/50 text-primary hover:bg-primary/10"
-                      onClick={async () => {
-                        setSubmitting(true);
-                        try {
-                          // First approve final module
-                          const approveResult = await approveWeek(
-                            progressId,
-                            patientId,
-                            weekNumber,
-                            note.trim() ? note : ""
-                          );
-
-                          if (!approveResult.success) {
-                            throw new Error(approveResult.error);
-                          }
-
-                          // Then move to maintenance
-                          const maintenanceResult = await moveToMaintenance(patientId);
-
-                          if (maintenanceResult.success) {
-                            toast({
-                              title: "Moved to Maintenance Mode",
-                              description: `${patientName} has been moved to maintenance mode for ongoing therapist-directed practice.`,
-                            });
-                            onComplete("approved");
-                            onOpenChange(false);
-                          } else {
-                            throw new Error(maintenanceResult.error);
-                          }
-                        } catch (error: any) {
-                          toast({
-                            title: "Error",
-                            description: error.message,
-                            variant: "destructive",
-                          });
-                        } finally {
-                          setSubmitting(false);
-                        }
-                      }}
-                      disabled={submitting}
-                    >
-                      <Wrench className="h-4 w-4 mr-2" />
-                      Move to Maintenance
-                    </Button>
+                    <Button className="flex-1 h-10 sm:h-9" onClick={() => handleApprove(note.trim() ? true : false)} disabled={submitting}>{submitting ? <Loader className="h-4 w-4 animate-spin mr-2" /> : <CheckCircle className="h-4 w-4 mr-2" />}Complete Program</Button>
+                    <Button variant="outline" className="flex-1 h-10 sm:h-9 border-primary/50 text-primary hover:bg-primary/10" onClick={async () => {
+                      setSubmitting(true);
+                      try {
+                        const approveResult = await approveWeek(progressId, patientId, weekNumber, note.trim() ? note : "");
+                        if (!approveResult.success) throw new Error(approveResult.error);
+                        const maintenanceResult = await moveToMaintenance(patientId);
+                        if (maintenanceResult.success) { toast({ title: "Moved to Maintenance Mode", description: `${patientName} has been moved to maintenance mode for ongoing therapist-directed practice.` }); onComplete("approved"); onOpenChange(false); }
+                        else throw new Error(maintenanceResult.error);
+                      } catch (error: any) { toast({ title: "Error", description: error.message, variant: "destructive" }); }
+                      finally { setSubmitting(false); }
+                    }} disabled={submitting}><Wrench className="h-4 w-4 mr-2" />Move to Maintenance</Button>
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    <strong>Complete Program:</strong> Marks patient as completed. <br />
-                    <strong>Maintenance Mode:</strong> Keeps patient active for biweekly check-ins and therapist-assigned practice.
-                  </p>
+                  <p className="text-xs text-muted-foreground"><strong>Complete Program:</strong> Marks patient as completed. <br /><strong>Maintenance Mode:</strong> Keeps patient active for biweekly check-ins and therapist-assigned practice.</p>
                 </div>
               )}
 
               {weekNumber < 24 && (
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <Button
-                    className="flex-1 h-10 sm:h-9"
-                    onClick={() => handleApprove(false)}
-                    disabled={submitting}
-                  >
-                    {submitting ? (
-                      <Loader className="h-4 w-4 animate-spin mr-2" />
-                    ) : (
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                    )}
-                    Approve
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    className="flex-1 h-10 sm:h-9"
-                    onClick={() => {
-                      if (!showNoteField) {
-                        setShowNoteField(true);
-                        return;
-                      }
-                      handleApprove(true);
-                    }}
-                    disabled={submitting || (showNoteField && !note.trim())}
-                  >
-                    <AlertTriangle className="h-4 w-4 mr-2" />
-                    <span className="truncate">{showNoteField && note.trim() ? "Approve + Note" : "Add Note"}</span>
-                  </Button>
-
-                  <Button
-                    variant="destructive"
-                    className="flex-1 h-10 sm:h-9"
-                    onClick={() => {
-                      if (!showNoteField) {
-                        setShowNoteField(true);
-                        return;
-                      }
-                      handleNeedsCorrection();
-                    }}
-                    disabled={submitting || (showNoteField && !note.trim())}
-                  >
-                    <XCircle className="h-4 w-4 mr-2" />
-                    <span className="truncate">Needs Correction</span>
-                  </Button>
+                  <Button className="flex-1 h-10 sm:h-9" onClick={() => handleApprove(false)} disabled={submitting}>{submitting ? <Loader className="h-4 w-4 animate-spin mr-2" /> : <CheckCircle className="h-4 w-4 mr-2" />}Approve</Button>
+                  <Button variant="outline" className="flex-1 h-10 sm:h-9" onClick={() => { if (!showNoteField) { setShowNoteField(true); return; } handleApprove(true); }} disabled={submitting || (showNoteField && !note.trim())}><AlertTriangle className="h-4 w-4 mr-2" /><span className="truncate">{showNoteField && note.trim() ? "Approve + Note" : "Add Note"}</span></Button>
+                  <Button variant="destructive" className="flex-1 h-10 sm:h-9" onClick={() => { if (!showNoteField) { setShowNoteField(true); return; } handleNeedsCorrection(); }} disabled={submitting || (showNoteField && !note.trim())}><XCircle className="h-4 w-4 mr-2" /><span className="truncate">Needs Correction</span></Button>
                 </div>
               )}
             </div>
           </>
         )}
 
-        {/* Therapist Feedback Dialog */}
-        <TherapistFeedbackDialog
-          open={showFeedbackDialog}
-          onOpenChange={setShowFeedbackDialog}
-          patientId={patientId}
-          patientName={patientName}
-          weekId={weekId}
-          weekNumber={weekNumber}
-          progressId={progressId}
-          onSuccess={loadPanelData}
-        />
+        <TherapistFeedbackDialog open={showFeedbackDialog} onOpenChange={setShowFeedbackDialog} patientId={patientId} patientName={patientName} weekId={weekId} weekNumber={weekNumber} progressId={progressId} onSuccess={loadPanelData} />
       </SheetContent>
     </Sheet>
   );
