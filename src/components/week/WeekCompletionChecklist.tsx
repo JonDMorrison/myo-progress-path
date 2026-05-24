@@ -25,7 +25,6 @@ export function WeekCompletionChecklist({
   requiresVideoUpload,
   layout = 'sidebar'
 }: WeekCompletionChecklistProps) {
-  // Handle null week or progress (therapist preview mode)
   if (!week) return null;
   if (!progress) {
     return (
@@ -40,33 +39,26 @@ export function WeekCompletionChecklist({
     );
   }
 
-  // Calculate exercise completion based on specific targets
   const exerciseCompletions = progress?.exercise_completions || {};
   const exerciseStatus = exercises.map(ex => {
     const count = exerciseCompletions[ex.id] || 0;
-    const target = ex.completion_target || 1; // Default to 1 if not specified
-    return {
-      id: ex.id,
-      complete: count >= target,
-      count,
-      target
-    };
+    const target = ex.completion_target || 1;
+    return { id: ex.id, complete: count >= target, count, target };
   });
 
   const completedSessions = exerciseStatus.reduce((acc, s) => acc + s.count, 0);
   const totalSessionsTarget = exerciseStatus.reduce((acc, s) => acc + s.target, 0);
   const allExercisesComplete = totalSessionsTarget > 0 && completedSessions >= totalSessionsTarget;
 
-  // Check if frenectomy consult is required (Module 1, frenectomy pathway only)
-  const isFrenectomyModule1 = (weekNumber === 1 || weekNumber === 2) && isFrenectomyVariant(programVariant);
+  const isFrenectomy = isFrenectomyVariant(programVariant);
+  const isFrenectomyModule1 = (weekNumber === 1 || weekNumber === 2) && isFrenectomy;
+  const isPostOpConsultWeek = isFrenectomy && (weekNumber === 9 || weekNumber === 10);
+  const postOpConsultLabel = weekNumber === 10
+    ? 'Post-op consultation has been completed to check wound healing and tongue mobility'
+    : 'Post-op consultation has been booked for 1 week after frenectomy to check wound healing and tongue mobility';
 
-  // Build requirements array (video uploads are now per-exercise, not week-level)
   const requirements: Array<{ label: string; complete: boolean; required: boolean; icon: string; testId?: string }> = [];
 
-  // Learn Hub review — Week 1 only, every pathway. Must appear first because
-  // calc_week_progress (the DB function that gates submission) requires
-  // learn_hub_reviewed = true for week 1; without surfacing it the patient
-  // sees a green checklist but Submit stays disabled.
   if (weekNumber === 1) {
     requirements.push({
       label: 'Learning Hub topics reviewed',
@@ -76,10 +68,8 @@ export function WeekCompletionChecklist({
     });
   }
 
-  // Video submission items — only for pathways that require video AND patient has video enabled
   const videoRequired = requiresVideoUpload !== undefined ? requiresVideoUpload : requiresVideo(programVariant);
   if (videoRequired) {
-    // Check that ALL active exercises have uploads, not just any one
     const activeExercises = exercises.filter(ex => ex.type === 'active' && ex.id);
     const uploadsList = uploads || [];
 
@@ -93,93 +83,36 @@ export function WeekCompletionChecklist({
     );
 
     if (week.requires_video_first) {
-      requirements.push({
-        label: 'First attempt videos submitted',
-        complete: hasFirstForAll,
-        required: true,
-        icon: "🎥",
-        testId: "checklist-first-attempt",
-      });
+      requirements.push({ label: 'First attempt videos submitted', complete: hasFirstForAll, required: true, icon: "🎥", testId: "checklist-first-attempt" });
     }
     if (week.requires_video_last) {
-      requirements.push({
-        label: 'Last attempt videos submitted',
-        complete: hasLastForAll,
-        required: true,
-        icon: "🎬",
-        testId: "checklist-last-attempt",
-      });
+      requirements.push({ label: 'Last attempt videos submitted', complete: hasLastForAll, required: true, icon: "🎬", testId: "checklist-last-attempt" });
     }
   }
 
-  // Add remaining requirements
   requirements.push(
-    {
-      label: 'BOLT Test done',
-      complete: week.requires_bolt && !!progress.bolt_score,
-      required: week.requires_bolt,
-      icon: "📊"
-    },
-    {
-      label: 'Nasal Breathing chart completed',
-      complete: progress.nasal_breathing_pct !== null && progress.nasal_breathing_pct !== undefined,
-      required: true,
-      icon: "💨"
-    },
-    {
-      label: 'Tongue on Spot chart completed',
-      complete: progress.tongue_on_spot_pct !== null && progress.tongue_on_spot_pct !== undefined,
-      required: true,
-      icon: "👅"
-    },
-    {
-      label: `Exercise sessions (${completedSessions}/${totalSessionsTarget})`,
-      complete: allExercisesComplete,
-      required: totalSessionsTarget > 0,
-      icon: "🏃"
-    },
-    {
-      label: 'Frenectomy consultation with Dr Laura Caylor',
-      complete: progress?.frenectomy_consult_booked === true,
-      required: isFrenectomyModule1,
-      icon: "📅"
-    }
+    { label: 'BOLT Test done', complete: week.requires_bolt && !!progress.bolt_score, required: week.requires_bolt, icon: "📊" },
+    { label: 'Nasal Breathing chart completed', complete: progress.nasal_breathing_pct !== null && progress.nasal_breathing_pct !== undefined, required: true, icon: "💨" },
+    { label: 'Tongue on Spot chart completed', complete: progress.tongue_on_spot_pct !== null && progress.tongue_on_spot_pct !== undefined, required: true, icon: "👅" },
+    { label: `Exercise sessions (${completedSessions}/${totalSessionsTarget})`, complete: allExercisesComplete, required: totalSessionsTarget > 0, icon: "🏃" },
+    { label: isPostOpConsultWeek ? postOpConsultLabel : 'Frenectomy consultation with specialist', complete: progress?.frenectomy_consult_booked === true, required: isFrenectomyModule1 || isPostOpConsultWeek, icon: "📅" }
   );
 
   const requiredItems = requirements.filter(r => r.required);
   const completedCount = requiredItems.filter(r => r.complete).length;
   const requiredCount = requiredItems.length;
-  const percentComplete = requiredCount > 0
-    ? Math.round((completedCount / requiredCount) * 100)
-    : 0;
+  const percentComplete = requiredCount > 0 ? Math.round((completedCount / requiredCount) * 100) : 0;
 
   if (layout === 'horizontal') {
     return (
       <div className="flex flex-wrap items-center gap-2">
         {requiredItems.map((req, index) => (
-          <div
-            key={index}
-            data-testid={req.testId}
-            data-complete={req.complete ? "true" : "false"}
-            className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-2xl border transition-all duration-300",
-              req.complete
-                ? "bg-emerald-500/20 shadow-lg shadow-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                : "bg-white/5 border-white/10 text-white/60"
-            )}
-          >
+          <div key={index} data-testid={req.testId} data-complete={req.complete ? "true" : "false"} className={cn("flex items-center gap-2 px-4 py-2 rounded-2xl border transition-all duration-300", req.complete ? "bg-emerald-500/20 shadow-lg shadow-emerald-500/10 border-emerald-500/30 text-emerald-400" : "bg-white/5 border-white/10 text-white/60")}>
             <span className="text-lg">{req.icon}</span>
-            <span className="text-[10px] font-black uppercase tracking-widest hidden sm:inline">
-              {req.label}
-            </span>
-            {req.complete ? (
-              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-            ) : (
-              <div className="h-4 w-4 rounded-full border-2 border-white/20" />
-            )}
+            <span className="text-[10px] font-black uppercase tracking-widest hidden sm:inline">{req.label}</span>
+            {req.complete ? <CheckCircle2 className="h-4 w-4 text-emerald-400" /> : <div className="h-4 w-4 rounded-full border-2 border-white/20" />}
           </div>
         ))}
-        {/* Overall Indicator */}
         <div className="ml-2 pl-4 border-l border-white/10 flex flex-col items-center">
           <span className="text-xl font-black italic text-primary-light leading-none">{percentComplete}%</span>
           <span className="text-[8px] font-bold text-slate-500 uppercase tracking-tighter">Done</span>
@@ -193,30 +126,14 @@ export function WeekCompletionChecklist({
       <CardHeader className="p-4 sm:p-6">
         <CardTitle className="text-base sm:text-lg">Completion</CardTitle>
         <Progress value={percentComplete} className="mt-2" />
-        <p className="text-xs sm:text-sm text-muted-foreground mt-2">
-          {completedCount} of {requiredCount} completed
-        </p>
+        <p className="text-xs sm:text-sm text-muted-foreground mt-2">{completedCount} of {requiredCount} completed</p>
       </CardHeader>
       <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
         <ul className="space-y-2 sm:space-y-3">
           {requiredItems.map((req, index) => (
-            <li
-              key={index}
-              data-testid={req.testId}
-              data-complete={req.complete ? "true" : "false"}
-              className="flex items-center gap-2"
-            >
-              {req.complete ? (
-                <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-success flex-shrink-0" />
-              ) : (
-                <Circle className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground flex-shrink-0" />
-              )}
-              <span className={cn(
-                "text-xs sm:text-sm",
-                req.complete && "line-through text-muted-foreground"
-              )}>
-                {req.label}
-              </span>
+            <li key={index} data-testid={req.testId} data-complete={req.complete ? "true" : "false"} className="flex items-center gap-2">
+              {req.complete ? <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-success flex-shrink-0" /> : <Circle className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground flex-shrink-0" />}
+              <span className={cn("text-xs sm:text-sm", req.complete && "line-through text-muted-foreground")}>{req.label}</span>
             </li>
           ))}
         </ul>
