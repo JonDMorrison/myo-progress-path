@@ -54,40 +54,23 @@ export function WeekCompletionChecklist({
   const isFrenectomyModule1 = (weekNumber === 1 || weekNumber === 2) && isFrenectomy;
   const isPostOpConsultWeek = isFrenectomy && (weekNumber === 9 || weekNumber === 10);
   const postOpConsultLabel = weekNumber === 10
-    ? 'Post-op consultation has been completed to check wound healing and tongue mobility'
-    : 'Post-op consultation has been booked for 1 week after frenectomy to check wound healing and tongue mobility';
+    ? 'Post-Op Consultation with Dr Laura Caylor has been completed to check wound healing and tongue mobility'
+    : 'Post-Op Consultation with Dr Laura Caylor has been booked for 1 week after frenectomy to check wound healing and tongue mobility';
 
   const requirements: Array<{ label: string; complete: boolean; required: boolean; icon: string; testId?: string }> = [];
 
   if (weekNumber === 1) {
-    requirements.push({
-      label: 'Learning Hub topics reviewed',
-      complete: progress?.learn_hub_reviewed === true,
-      required: true,
-      icon: "📚"
-    });
+    requirements.push({ label: 'Learning Hub topics reviewed', complete: progress?.learn_hub_reviewed === true, required: true, icon: "📚" });
   }
 
   const videoRequired = requiresVideoUpload !== undefined ? requiresVideoUpload : requiresVideo(programVariant);
   if (videoRequired) {
     const activeExercises = exercises.filter(ex => ex.type === 'active' && ex.id);
     const uploadsList = uploads || [];
-
-    const hasFirstForAll = activeExercises.length > 0 && activeExercises.every(ex =>
-      uploadsList.some(u => u.kind === 'first_attempt' &&
-        (u.exercise_key === ex.id || u.exercise_id === ex.id))
-    );
-    const hasLastForAll = activeExercises.length > 0 && activeExercises.every(ex =>
-      uploadsList.some(u => u.kind === 'last_attempt' &&
-        (u.exercise_key === ex.id || u.exercise_id === ex.id))
-    );
-
-    if (week.requires_video_first) {
-      requirements.push({ label: 'First attempt videos submitted', complete: hasFirstForAll, required: true, icon: "🎥", testId: "checklist-first-attempt" });
-    }
-    if (week.requires_video_last) {
-      requirements.push({ label: 'Last attempt videos submitted', complete: hasLastForAll, required: true, icon: "🎬", testId: "checklist-last-attempt" });
-    }
+    const hasFirstForAll = activeExercises.length > 0 && activeExercises.every(ex => uploadsList.some(u => u.kind === 'first_attempt' && (u.exercise_key === ex.id || u.exercise_id === ex.id)));
+    const hasLastForAll = activeExercises.length > 0 && activeExercises.every(ex => uploadsList.some(u => u.kind === 'last_attempt' && (u.exercise_key === ex.id || u.exercise_id === ex.id)));
+    if (week.requires_video_first) requirements.push({ label: 'First attempt videos submitted', complete: hasFirstForAll, required: true, icon: "🎥", testId: "checklist-first-attempt" });
+    if (week.requires_video_last) requirements.push({ label: 'Last attempt videos submitted', complete: hasLastForAll, required: true, icon: "🎬", testId: "checklist-last-attempt" });
   }
 
   requirements.push(
@@ -95,7 +78,7 @@ export function WeekCompletionChecklist({
     { label: 'Nasal Breathing chart completed', complete: progress.nasal_breathing_pct !== null && progress.nasal_breathing_pct !== undefined, required: true, icon: "💨" },
     { label: 'Tongue on Spot chart completed', complete: progress.tongue_on_spot_pct !== null && progress.tongue_on_spot_pct !== undefined, required: true, icon: "👅" },
     { label: `Exercise sessions (${completedSessions}/${totalSessionsTarget})`, complete: allExercisesComplete, required: totalSessionsTarget > 0, icon: "🏃" },
-    { label: isPostOpConsultWeek ? postOpConsultLabel : 'Frenectomy consultation with specialist', complete: progress?.frenectomy_consult_booked === true, required: isFrenectomyModule1 || isPostOpConsultWeek, icon: "📅" }
+    { label: isPostOpConsultWeek ? postOpConsultLabel : 'Frenectomy consultation with Dr Laura Caylor', complete: progress?.frenectomy_consult_booked === true, required: isFrenectomyModule1 || isPostOpConsultWeek, icon: "📅" }
   );
 
   const requiredItems = requirements.filter(r => r.required);
