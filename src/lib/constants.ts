@@ -27,7 +27,8 @@ export function isFrenectomyVariant(variant: string | null | undefined): boolean
  */
 export function requiresVideo(variant: string | null | undefined): boolean {
   const v = variant || 'frenectomy';
-  if (v === 'non_frenectomy' || v === 'non_frenectomy_video') return false;
+  if (v === 'frenectomy_video' || v === 'non_frenectomy_video') return true;
+  if (v === 'non_frenectomy') return false;
   return true;
 }
 
