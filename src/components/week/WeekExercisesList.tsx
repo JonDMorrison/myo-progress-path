@@ -10,6 +10,7 @@ import { ResponsiveVideo } from "./ResponsiveVideo";
 import { ExerciseVideoUpload } from "./ExerciseVideoUpload";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from "react-markdown";
+
 interface WeekExercisesListProps {
   exercises: any[];
   patientId: string;
@@ -42,8 +43,17 @@ const getMediaStatusBadge = (mediaStatus: string | null) => {
     case 'pending':
       return { icon: "⏳", text: "Media Pending", variant: "outline" as const };
     default:
-      return null; // has_video or null - no badge needed
+      return null;
   }
+};
+
+const normalizeProps = (props: unknown): string => {
+  if (Array.isArray(props)) {
+    const cleaned = props.map(String).map(p => p.trim()).filter(Boolean);
+    return cleaned.length > 0 ? cleaned.join(', ') : 'None';
+  }
+  if (typeof props === 'string' && props.trim().length > 0) return props.trim();
+  return 'None';
 };
 
 const isImageUrl = (url: string | null | undefined): boolean => {
@@ -52,19 +62,16 @@ const isImageUrl = (url: string | null | undefined): boolean => {
   return imageExtensions.some(ext => url.toLowerCase().endsWith(ext));
 };
 
-// Check if demo_video_url contains multiple images (comma-separated)
 const hasMultipleImages = (url: string | null | undefined): boolean => {
   if (!url) return false;
   return url.includes(',') && url.split(',').every(u => isImageUrl(u.trim()));
 };
 
-// Check if exercise is an elastic hold type that should show "The Spot" reference
 const isElasticHoldExercise = (title: string): boolean => {
   const lowerTitle = title.toLowerCase();
   return lowerTitle.includes('elastic') && lowerTitle.includes('hold');
 };
 
-// Check if exercise is a clinician review placeholder
 const isClinicianReviewPlaceholder = (title: string): boolean => {
   return title === 'Clinician Review Required';
 };
@@ -90,9 +97,7 @@ export function WeekExercisesList({
     const currentCount = completions[exerciseId] || 0;
     if (currentCount >= target) return;
 
-    // Complete in one click
     const updatedCompletions = { ...completions, [exerciseId]: target };
-    
     setCompletions(updatedCompletions);
 
     const { error } = await supabase
@@ -110,45 +115,33 @@ export function WeekExercisesList({
   };
 
   if (exercises.length === 0) {
-    return (
-      <div className="text-center py-8 text-muted-foreground">
-        No exercises for this module
-      </div>
-    );
+    return <div className="text-center py-8 text-muted-foreground">No exercises for this module</div>;
   }
 
   const hasActiveExercises = exercises.some(e => e.type === 'active');
   const hasClinicianReviewPlaceholder = exercises.some(e => isClinicianReviewPlaceholder(e.title));
 
-  // Render a special card for clinician review placeholders
-  const renderClinicianReviewCard = (exercise: any) => {
-    return (
-      <Card key={exercise.id} className="border-warning bg-warning/5">
-        <CardHeader className="pb-2">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-warning" />
-            <CardTitle className="text-base font-semibold text-warning">
-              {exercise.title}
-            </CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-2">
-          <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
-            <ReactMarkdown>{exercise.instructions}</ReactMarkdown>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
+  const renderClinicianReviewCard = (exercise: any) => (
+    <Card key={exercise.id} className="border-warning bg-warning/5">
+      <CardHeader className="pb-2">
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="h-5 w-5 text-warning" />
+          <CardTitle className="text-base font-semibold text-warning">{exercise.title}</CardTitle>
+        </div>
+      </CardHeader>
+      <CardContent className="pt-2">
+        <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+          <ReactMarkdown>{exercise.instructions}</ReactMarkdown>
+        </div>
+      </CardContent>
+    </Card>
+  );
 
-  // Render media section with tabbed videos when modified_video_url exists
   const renderMedia = (exercise: any) => {
     const hasImage = isImageUrl(exercise.demo_video_url);
     const hasMultiImages = hasMultipleImages(exercise.demo_video_url);
     const hasModifiedVideo = exercise.modified_video_url && !isImageUrl(exercise.modified_video_url);
-    const showSpotReference = isElasticHoldExercise(exercise.title);
 
-    // If we have both regular and modified videos, show tabbed interface
     if (!hasImage && !hasMultiImages && exercise.demo_video_url && hasModifiedVideo) {
       return (
         <div className="space-y-4">
@@ -158,25 +151,16 @@ export function WeekExercisesList({
               <TabsTrigger value="modified">Modified (with bite block)</TabsTrigger>
             </TabsList>
             <TabsContent value="regular" className="mt-3">
-              <ResponsiveVideo 
-                src={exercise.demo_video_url} 
-                title={`${exercise.title} demonstration`}
-                portrait={true}
-              />
+              <ResponsiveVideo src={exercise.demo_video_url} title={`${exercise.title} demonstration`} portrait={true} />
             </TabsContent>
             <TabsContent value="modified" className="mt-3">
-              <ResponsiveVideo 
-                src={exercise.modified_video_url} 
-                title={`${exercise.title} modified demonstration`}
-                portrait={true}
-              />
+              <ResponsiveVideo src={exercise.modified_video_url} title={`${exercise.title} modified demonstration`} portrait={true} />
             </TabsContent>
           </Tabs>
         </div>
       );
     }
 
-    // If we have multiple images (comma-separated), show side-by-side gallery
     if (hasMultiImages) {
       const imageUrls = exercise.demo_video_url.split(',').map((url: string) => url.trim());
       return (
@@ -184,11 +168,7 @@ export function WeekExercisesList({
           <div className="grid grid-cols-2 gap-3">
             {imageUrls.map((url: string, idx: number) => (
               <div key={idx} className="rounded-lg overflow-hidden border">
-                <img 
-                  src={url} 
-                  alt={`${exercise.title} demonstration ${idx + 1}`}
-                  className="w-full object-contain"
-                />
+                <img src={url} alt={`${exercise.title} demonstration ${idx + 1}`} className="w-full object-contain" />
               </div>
             ))}
           </div>
@@ -196,44 +176,38 @@ export function WeekExercisesList({
       );
     }
 
-    // If it's a single image (e.g., elastic hold photo)
     if (hasImage) {
       return (
         <div className="space-y-4">
           <div className="rounded-lg overflow-hidden">
-            <img 
-              src={exercise.demo_video_url} 
-              alt={`${exercise.title} demonstration`}
-              className="w-full object-contain"
-            />
+            <img src={exercise.demo_video_url} alt={`${exercise.title} demonstration`} className="w-full object-contain" />
           </div>
         </div>
       );
     }
 
-    // Regular video without modified version
     if (exercise.demo_video_url) {
-      return (
-        <ResponsiveVideo 
-          src={exercise.demo_video_url} 
-          title={`${exercise.title} demonstration`}
-          portrait={true}
-        />
-      );
+      return <ResponsiveVideo src={exercise.demo_video_url} title={`${exercise.title} demonstration`} portrait={true} />;
     }
 
     return null;
   };
 
+  const renderPropsBlock = (exercise: any) => (
+    <div>
+      <h5 className="font-medium mb-2">Props Needed</h5>
+      <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+        <ReactMarkdown>{normalizeProps(exercise.props)}</ReactMarkdown>
+      </div>
+    </div>
+  );
+
   return (
     <div className="space-y-4">
-      {/* Clinician Review Banner - non-dismissable */}
       {hasClinicianReviewPlaceholder && (
         <Alert className="border-warning bg-warning/10">
           <AlertTriangle className="h-4 w-4 text-warning" />
-          <AlertDescription className="text-warning font-medium">
-            Awaiting clinician confirmation.
-          </AlertDescription>
+          <AlertDescription className="text-warning font-medium">Awaiting clinician confirmation.</AlertDescription>
         </Alert>
       )}
 
@@ -241,66 +215,75 @@ export function WeekExercisesList({
         <Alert className="border-primary/20 bg-primary/5">
           <AlertDescription className="flex items-center gap-2">
             <span className="text-lg">🪞</span>
-            <span>
-              <strong>Active exercises (🏃) require a mirror</strong> to ensure proper form and minimize compensations.
-            </span>
+            <span><strong>Active exercises (🏃) require a mirror</strong> to ensure proper form and minimize compensations.</span>
           </AlertDescription>
         </Alert>
       )}
 
-      {/* Render clinician review placeholders as special cards */}
-      {exercises.filter(e => isClinicianReviewPlaceholder(e.title)).map(exercise => 
-        renderClinicianReviewCard(exercise)
-      )}
+      {exercises.filter(e => isClinicianReviewPlaceholder(e.title)).map(exercise => renderClinicianReviewCard(exercise))}
 
-      {/* Render normal exercises in accordion */}
       <Accordion type="single" collapsible className="w-full space-y-2" data-testid="exercises-accordion" data-scroll-lock="true">
-      {exercises.filter(e => !isClinicianReviewPlaceholder(e.title)).map((exercise, index) => {
-        const mediaBadge = getMediaStatusBadge(exercise.media_status);
-        const hasMedia = exercise.demo_video_url || exercise.modified_video_url;
-        const target = Math.max(1, exercise.completion_target || 0);
-        const currentCount = completions[exercise.id] || 0;
-        const isComplete = currentCount >= target;
-        const isActiveExercise = exercise.type === 'active';
-        
-        return (
-          <AccordionItem
-            key={exercise.id}
-            value={`exercise-${index}`}
-            className={`border rounded-lg px-4 ${isComplete ? 'border-success bg-success/5' : ''}`}
-          >
-            <AccordionTrigger className="hover:no-underline">
-              <div className="flex items-center gap-3 text-left flex-1">
-                <span className="text-2xl">{getExerciseIcon(exercise.type)}</span>
-                <div className="flex-1">
-                  <h4 className="font-semibold flex items-center gap-2">
-                    {exercise.title}
-                    {isComplete && <CheckCircle2 className="h-4 w-4 text-success" />}
-                  </h4>
-                  <div className="flex items-center gap-2 mt-1 flex-wrap">
-                    <Badge variant="secondary" className="text-xs">
-                      {exercise.type}
-                    </Badge>
-                    {exercise.frequency && (
-                      <span className="text-xs text-muted-foreground">
-                        {exercise.frequency}
-                      </span>
-                    )}
-                    {mediaBadge && (
-                      <Badge variant={mediaBadge.variant} className="text-xs">
-                        {mediaBadge.icon} {mediaBadge.text}
-                      </Badge>
-                    )}
+        {exercises.filter(e => !isClinicianReviewPlaceholder(e.title)).map((exercise, index) => {
+          const mediaBadge = getMediaStatusBadge(exercise.media_status);
+          const hasMedia = exercise.demo_video_url || exercise.modified_video_url;
+          const target = Math.max(1, exercise.completion_target || 0);
+          const currentCount = completions[exercise.id] || 0;
+          const isComplete = currentCount >= target;
+
+          return (
+            <AccordionItem key={exercise.id} value={`exercise-${index}`} className={`border rounded-lg px-4 ${isComplete ? 'border-success bg-success/5' : ''}`}>
+              <AccordionTrigger className="hover:no-underline">
+                <div className="flex items-center gap-3 text-left flex-1">
+                  <span className="text-2xl">{getExerciseIcon(exercise.type)}</span>
+                  <div className="flex-1">
+                    <h4 className="font-semibold flex items-center gap-2">
+                      {exercise.title}
+                      {isComplete && <CheckCircle2 className="h-4 w-4 text-success" />}
+                    </h4>
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      <Badge variant="secondary" className="text-xs">{exercise.type}</Badge>
+                      {exercise.frequency && <span className="text-xs text-muted-foreground">{exercise.frequency}</span>}
+                      {mediaBadge && <Badge variant={mediaBadge.variant} className="text-xs">{mediaBadge.icon} {mediaBadge.text}</Badge>}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pt-4">
-              {hasMedia ? (
-                /* 50/50 Grid Layout for exercises with media */
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Left: Text Content */}
-                  <div className="space-y-4 order-2 md:order-1">
+              </AccordionTrigger>
+              <AccordionContent className="pt-4">
+                {hasMedia ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4 order-2 md:order-1">
+                      {exercise.instructions && (
+                        <div>
+                          <h5 className="font-medium mb-2">Instructions</h5>
+                          <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground prose-p:my-1">
+                            <ReactMarkdown>{exercise.instructions}</ReactMarkdown>
+                          </div>
+                        </div>
+                      )}
+
+                      {renderPropsBlock(exercise)}
+
+                      {exercise.duration && (
+                        <div>
+                          <h5 className="font-medium mb-2">Duration</h5>
+                          <p className="text-sm text-muted-foreground">{exercise.duration}</p>
+                        </div>
+                      )}
+
+                      {exercise.compensations && (
+                        <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
+                          <h5 className="font-medium text-warning mb-2">Watch Out For</h5>
+                          <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
+                            <ReactMarkdown>{exercise.compensations}</ReactMarkdown>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="order-1 md:order-2">{renderMedia(exercise)}</div>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
                     {exercise.instructions && (
                       <div>
                         <h5 className="font-medium mb-2">Instructions</h5>
@@ -310,14 +293,7 @@ export function WeekExercisesList({
                       </div>
                     )}
 
-                    {exercise.props && (
-                      <div>
-                        <h5 className="font-medium mb-2">Props Needed</h5>
-                        <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
-                          <ReactMarkdown>{exercise.props}</ReactMarkdown>
-                        </div>
-                      </div>
-                    )}
+                    {renderPropsBlock(exercise)}
 
                     {exercise.duration && (
                       <div>
@@ -335,93 +311,26 @@ export function WeekExercisesList({
                       </div>
                     )}
                   </div>
-
-                  {/* Right: Media */}
-                  <div className="order-1 md:order-2">
-                    {renderMedia(exercise)}
-                  </div>
-                </div>
-              ) : (
-                /* Stacked layout for exercises without media */
-                <div className="space-y-4">
-                  {exercise.instructions && (
-                    <div>
-                      <h5 className="font-medium mb-2">Instructions</h5>
-                      <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground prose-p:my-1">
-                        <ReactMarkdown>{exercise.instructions}</ReactMarkdown>
-                      </div>
-                    </div>
-                  )}
-
-                  {exercise.props && (
-                    <div>
-                      <h5 className="font-medium mb-2">Props Needed</h5>
-                      <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
-                        <ReactMarkdown>{exercise.props}</ReactMarkdown>
-                      </div>
-                    </div>
-                  )}
-
-                  {exercise.duration && (
-                    <div>
-                      <h5 className="font-medium mb-2">Duration</h5>
-                      <p className="text-sm text-muted-foreground">{exercise.duration}</p>
-                    </div>
-                  )}
-
-                  {exercise.compensations && (
-                    <div className="bg-warning/10 border border-warning/20 rounded-lg p-3">
-                      <h5 className="font-medium text-warning mb-2">Watch Out For</h5>
-                      <div className="text-sm text-muted-foreground prose prose-sm max-w-none prose-strong:font-semibold prose-strong:text-foreground">
-                        <ReactMarkdown>{exercise.compensations}</ReactMarkdown>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Per-Exercise Video Upload — hidden for non-video pathways */}
-              {showVideoUpload && exercise.type === 'active' && patientId && weekId && (
-                <ExerciseVideoUpload
-                  patientId={patientId}
-                  weekId={weekId}
-                  exerciseId={exercise.id}
-                  exerciseTitle={exercise.title}
-                  onUploadComplete={onUpdate}
-                />
-              )}
-
-              {/* Mark Done Button - inline */}
-              <div className="mt-6 pt-4 border-t flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">
-                  {currentCount} of {target} completed
-                </span>
-                {readOnly ? (
-                  <Badge variant={isComplete ? "default" : "secondary"} className={isComplete ? "bg-success" : ""}>
-                    {isComplete ? "Completed" : "Not completed"}
-                  </Badge>
-                ) : (
-                  <Button
-                    size="sm"
-                    onClick={() => handleMarkDone(exercise.id, target)}
-                    disabled={isComplete}
-                    variant={isComplete ? "outline" : "default"}
-                  >
-                    {isComplete ? (
-                      <span className="flex items-center gap-1">
-                        <CheckCircle2 className="h-4 w-4" />
-                        Completed
-                      </span>
-                    ) : (
-                      "Mark Done"
-                    )}
-                  </Button>
                 )}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        );
-      })}
+
+                {showVideoUpload && exercise.type === 'active' && patientId && weekId && (
+                  <ExerciseVideoUpload patientId={patientId} weekId={weekId} exerciseId={exercise.id} exerciseTitle={exercise.title} onUploadComplete={onUpdate} />
+                )}
+
+                <div className="mt-6 pt-4 border-t flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">{currentCount} of {target} completed</span>
+                  {readOnly ? (
+                    <Badge variant={isComplete ? "default" : "secondary"} className={isComplete ? "bg-success" : ""}>{isComplete ? "Completed" : "Not completed"}</Badge>
+                  ) : (
+                    <Button size="sm" onClick={() => handleMarkDone(exercise.id, target)} disabled={isComplete} variant={isComplete ? "outline" : "default"}>
+                      {isComplete ? <span className="flex items-center gap-1"><CheckCircle2 className="h-4 w-4" />Completed</span> : "Mark Done"}
+                    </Button>
+                  )}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })}
       </Accordion>
     </div>
   );

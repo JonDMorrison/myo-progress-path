@@ -34,7 +34,7 @@ export function SubmitButton({
                 "text-2xl font-black tracking-tighter italic",
                 canSubmit ? "text-white" : "text-slate-400"
               )}>
-                {canSubmit ? "READY FOR SHIPMENT" : "TASKS REMAINING"}
+                {canSubmit ? "READY TO COMPLETE" : "TASKS REMAINING"}
               </h3>
             </div>
             <p className={cn(
@@ -42,8 +42,8 @@ export function SubmitButton({
               canSubmit ? "text-slate-400" : "text-slate-400"
             )}>
               {canSubmit
-                ? "Excellent progress! Your biweekly session data is complete and ready for your therapist's clinical review."
-                : "Complete all exercises, upload both first and last attempt videos, then record your biometrics (BOLT score, nasal breathing %, tongue on spot %) to submit this module for review."
+                ? "Excellent progress! Your module data is complete. Finish this module to continue."
+                : "Complete all required exercises, videos when required, and biometrics to finish this module."
               }
             </p>
           </div>
@@ -60,7 +60,6 @@ export function SubmitButton({
                 : "bg-slate-200 text-slate-400"
             )}
           >
-            {/* Glossy Overlay for Ready State */}
             {canSubmit && (
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             )}
@@ -69,11 +68,11 @@ export function SubmitButton({
               {loading ? (
                 <div className="flex items-center gap-2">
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>SYNCINGContent...</span>
+                  <span>SYNCING...</span>
                 </div>
               ) : (
                 <>
-                  <span>{canSubmit ? "SUBMIT FOR REVIEW" : "LOCKED"}</span>
+                  <span>{canSubmit ? "COMPLETE MODULE" : "LOCKED"}</span>
                   <ChevronRight className={cn("w-6 h-6 transition-transform group-hover:translate-x-1", !canSubmit && "opacity-20")} />
                 </>
               )}
