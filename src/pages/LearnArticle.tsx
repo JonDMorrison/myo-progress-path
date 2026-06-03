@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StickyTOC } from "@/components/learn/StickyTOC";
 import { loadArticle } from "@/lib/learn";
+import { getImageCitation } from "@/lib/imageCitations";
 import { ArrowLeft, BookOpen, Clock, Lock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
@@ -248,31 +249,47 @@ export default function LearnArticle() {
                       const className = props.className || '';
                       const src = props.src || '';
                       const alt = props.alt || '';
-                      
+                      const citation = getImageCitation(src);
+
+                      const citationLink = citation ? (
+                        <a
+                          href={citation.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block text-xs text-muted-foreground hover:underline mt-2"
+                        >
+                          {citation.label}
+                        </a>
+                      ) : null;
+
                       // Full width for comparison or important diagrams
-                      const shouldBeFullWidth = alt.toLowerCase().includes('comparison') || 
+                      const shouldBeFullWidth = alt.toLowerCase().includes('comparison') ||
                                                alt.toLowerCase().includes('normal vs') ||
                                                className.includes('full-width');
 
                       if (className.includes('myokit-image') || src.includes('myokit') || shouldBeFullWidth) {
                         return (
-                          <div className="my-8 flex justify-center">
-                            <img 
-                              {...props} 
+                          <span className="my-8 flex flex-col items-center">
+                            <img
+                              {...props}
                               className={cn(
                                 "rounded-xl shadow-xl max-w-full h-auto",
                                 shouldBeFullWidth ? "w-full md:w-[85%]" : ""
                               )}
                             />
-                          </div>
+                            {citationLink}
+                          </span>
                         );
                       }
-                      
+
                       return (
-                        <img 
-                          {...props} 
-                          className="float-right w-full sm:w-[45%] md:w-[35%] lg:w-[30%] ml-0 sm:ml-6 mb-4 sm:mb-6 mt-1 rounded-lg shadow-md clear-right max-sm:float-none"
-                        />
+                        <span className="float-right block w-full sm:w-[45%] md:w-[35%] lg:w-[30%] ml-0 sm:ml-6 mb-4 sm:mb-6 mt-1 clear-right max-sm:float-none">
+                          <img
+                            {...props}
+                            className="rounded-lg shadow-md w-full h-auto block"
+                          />
+                          {citationLink}
+                        </span>
                       );
                     },
                     // Style Vimeo embeds responsively
