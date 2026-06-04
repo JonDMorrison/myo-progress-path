@@ -27,6 +27,7 @@ interface ReviewCardProps {
   messageCount: number;
   isUnassigned?: boolean;
   firstAttemptOnly?: boolean;
+  firstAttemptExerciseTitles?: string[];
   uploads?: { ai_feedback?: any; ai_feedback_status?: string | null }[]; // Kept for API compatibility
   onReview?: (progressId: string, patientId: string, weekNumber: number, weekId: string) => void;
   onApprove?: (progressId: string) => void;
@@ -54,6 +55,7 @@ const ReviewCard = ({
   messageCount,
   isUnassigned,
   firstAttemptOnly,
+  firstAttemptExerciseTitles,
   uploads = [],
   onReview,
   onApprove,
@@ -146,12 +148,20 @@ const ReviewCard = ({
                   First-attempt uploaded
                 </Badge>
               )}
-              
+
               {/* Waiting time */}
               <span className="text-xs text-muted-foreground">
                 Submitted {waitingTime}
               </span>
             </div>
+
+            {firstAttemptOnly && firstAttemptExerciseTitles && firstAttemptExerciseTitles.length > 0 && (
+              <ul className="mb-3 -mt-1 text-xs text-muted-foreground space-y-0.5">
+                {firstAttemptExerciseTitles.map((title) => (
+                  <li key={title}>First attempt — {title}</li>
+                ))}
+              </ul>
+            )}
             
             {/* Icons row - muted indicators */}
             <div className="flex items-center gap-4 text-muted-foreground">

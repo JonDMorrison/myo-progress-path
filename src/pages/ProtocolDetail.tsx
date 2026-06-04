@@ -85,7 +85,9 @@ const ProtocolDetail = () => {
 
   const isFrenectomyOverview = slug === 'frenectomy';
   const isPreOp = slug === 'pre-op-protocol' || slug === 'pre-op';
-  const protocol = isPreOp ? PRE_OP_PROTOCOL : POST_OP_PROTOCOL;
+  const protocol = isFrenectomyOverview
+    ? { title: "Frenectomy Procedure", author: "Dr. Laura Caylor", clinic: "Vedder Dental Clinic" }
+    : isPreOp ? PRE_OP_PROTOCOL : POST_OP_PROTOCOL;
 
   const { user: authUser } = useAuth();
 
@@ -147,7 +149,30 @@ const ProtocolDetail = () => {
       <main className="container mx-auto px-3 sm:px-6 py-4 sm:py-8 max-w-4xl">
         <MobileContainer>
           <div className="space-y-6">
-            {isPreOp ? (
+            {isFrenectomyOverview ? (
+              /* Brief overview only — full post-op protocol lives in Modules 5 & 6 */
+              <Section delay={0}>
+                <Card className="rounded-xl border shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Stethoscope className="h-5 w-5 text-primary" />
+                      About this step
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-sm leading-relaxed">
+                    <p>
+                      This marker on your timeline represents your frenectomy procedure with Dr. Laura Caylor at Vedder Dental Clinic.
+                    </p>
+                    <p>
+                      Your post-operative exercises, wound care, pain control, and recovery timeline (Days 1-3, Days 4-7, and beyond) are part of your program in <strong>Module 5</strong> and <strong>Module 6</strong>. Open those modules from your dashboard when you reach them.
+                    </p>
+                    <p className="text-muted-foreground">
+                      If you have questions or concerns during the healing period, you can call or text Dr. Caylor at <a href="tel:7789087158" className="font-medium underline">778-908-7158</a>.
+                    </p>
+                  </CardContent>
+                </Card>
+              </Section>
+            ) : isPreOp ? (
               /* Pre-Operative Protocol Content */
               <>
                 <Section delay={0}>

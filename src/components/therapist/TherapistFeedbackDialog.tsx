@@ -161,11 +161,19 @@ const TherapistFeedbackDialog = ({
           uploadedPaths.push(photoPath);
         }
 
+        const mediaMarkers = [
+          videoPath ? "[video attached]" : null,
+          photoPath ? "[photo attached]" : null,
+        ].filter(Boolean).join(" ");
+        const feedbackForRow = [combinedFeedback, mediaMarkers]
+          .filter(Boolean)
+          .join("\n\n") || "(media attached)";
+
         const { error: insertError } = await supabase.from("therapist_feedback").insert({
           therapist_id: user.id,
           patient_id: patientId,
           week_id: weekId || null,
-          feedback: combinedFeedback || null,
+          feedback: feedbackForRow,
           video_url: videoPath || null,
           photo_url: photoPath || null,
         });
