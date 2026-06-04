@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import { getProgramTitle } from "@/lib/constants";
 import { getVideoUrl } from "@/lib/storage";
+import { buildExerciseTitleMap, resolveExerciseTitle } from "@/lib/exerciseTitles";
 import SendNoteDialog from "@/components/therapist/SendNoteDialog";
 import { MessageSquare } from "lucide-react";
 
@@ -126,12 +127,21 @@ const ReviewWeek = () => {
 
       const { data: uploadsData } = await supabase
         .from("uploads")
-        .select("id, file_url, kind, created_at, exercise_key")
+        .select("id, file_url, kind, created_at, exercise_id, exercise_key")
         .eq("patient_id", patientId)
         .in("week_id", weekIdsToQuery)
         .order("created_at", { ascending: true });
 
-      setUploads(uploadsData || []);
+      const titleMap = await buildExerciseTitleMap({
+        weekIds: weekIdsToQuery,
+        weekNumbers: [parseInt(weekNumber || '1'), partnerNum].filter((n) => n > 0),
+        programVariant: patientData?.program_variant,
+      });
+      const uploadsWithTitles = (uploadsData || []).map((u: any) => ({
+        ...u,
+        exerciseTitle: resolveExerciseTitle(u, titleMap),
+      }));
+      setUploads(uploadsWithTitles);
 
       // AI summary is NOT set as default note anymore - therapist must choose or write their own
       /*
@@ -583,7 +593,9 @@ const ReviewWeek = () => {
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="font-medium text-sm">{label}</p>
+                              <p className="font-medium text-sm">
+                                {upload.exerciseTitle ? `${label} — ${upload.exerciseTitle}` : label}
+                              </p>
                               <p className="text-xs text-muted-foreground">
                                 {new Date(upload.created_at).toLocaleDateString()}
                               </p>

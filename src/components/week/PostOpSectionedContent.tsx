@@ -77,12 +77,23 @@ export function PostOpSectionedContent({
 
   if (weekNumber === 9) {
     // Module 5 — Days 1-3 + Days 4-7
+    // Filter out the legacy protocol-tab entries — the protocol copy now lives
+    // in the blue/green cards below, so the duplicate accordion items must
+    // not render even though they remain in the program JSON for backward
+    // index-stability of historical exercise_completions / exercise_key data.
+    const HIDDEN_M5_PROTOCOL_NAMES = new Set([
+      "Days 1-3: Minimal Activity Protocol",
+      "Days 4-7: Wound Care and Active Participation",
+    ]);
+    const visibleExercises = exercises.filter(
+      (e) => !HIDDEN_M5_PROTOCOL_NAMES.has((e.name || e.title || "").trim())
+    );
     // Filter exercises by name suffix for clean grouping
-    const days1to3Exercises = exercises.filter(e =>
+    const days1to3Exercises = visibleExercises.filter(e =>
       (e.name || e.title || "").includes("(Days 1-3)") ||
       (e.name || e.title || "") === "Floor of Mouth Massage (Days 1-3)"
     );
-    const days4to7Exercises = exercises.filter(e => !days1to3Exercises.includes(e));
+    const days4to7Exercises = visibleExercises.filter(e => !days1to3Exercises.includes(e));
 
     return (
       <div className="space-y-6">

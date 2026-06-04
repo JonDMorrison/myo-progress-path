@@ -16,6 +16,7 @@ import ReviewPanel from "@/components/therapist/ReviewPanel";
 import { approveWeek } from "@/lib/reviewActions";
 import { calculateTriageLevel, type TriageLevel } from "@/lib/triageUtils";
 import { getModuleInfo, cleanWeekTitle } from "@/lib/moduleUtils";
+import { buildExerciseTitleMap, resolveExerciseTitle } from "@/lib/exerciseTitles";
 
 interface ReviewItem {
   id: string;
@@ -186,13 +187,20 @@ const TherapistDashboard = () => {
       // haven't hit Submit yet. Without this they're invisible to the therapist.
       const { data: firstAttemptUploadRefs } = await supabase
         .from("uploads")
-        .select("patient_id, week_id")
+        .select("patient_id, week_id, exercise_id, exercise_key")
         .eq("kind", "first_attempt");
 
       const pairs = new Set<string>();
-      (firstAttemptUploadRefs || []).forEach((u: any) =>
-        pairs.add(`${u.patient_id}|${u.week_id}`)
-      );
+      const firstAttemptUploadsByPair = new Map<string, Array<{ exercise_id: string | null; exercise_key: string | null }>>();
+      (firstAttemptUploadRefs || []).forEach((u: any) => {
+        const key = `${u.patient_id}|${u.week_id}`;
+        pairs.add(key);
+        if (!firstAttemptUploadsByPair.has(key)) firstAttemptUploadsByPair.set(key, []);
+        firstAttemptUploadsByPair.get(key)!.push({
+          exercise_id: u.exercise_id ?? null,
+          exercise_key: u.exercise_key ?? null,
+        });
+      });
 
       let firstAttemptOpenRows: any[] = [];
       if (pairs.size > 0) {
@@ -332,14 +340,49 @@ const TherapistDashboard = () => {
         });
       }
 
+      // Resolve exercise titles for first-attempt-only rows so the Needs Review
+      // card can display "First attempt — Exercise Name" beside each pending submission.
+      const firstAttemptRows = (filteredData || []).filter((r: any) => r.firstAttemptOnly);
+      const firstAttemptTitlesByPair = new Map<string, string[]>();
+      if (firstAttemptRows.length > 0) {
+        const variantSet = new Set<string>(
+          firstAttemptRows.map((r: any) => r.patient?.program_variant).filter(Boolean)
+        );
+        for (const variant of variantSet) {
+          const rowsForVariant = firstAttemptRows.filter((r: any) => r.patient?.program_variant === variant);
+          const weekIdsForVariant = Array.from(new Set(rowsForVariant.map((r: any) => r.week_id))).filter(Boolean) as string[];
+          const weekNumbersForVariant = Array.from(new Set(rowsForVariant.map((r: any) => r.week?.number))).filter((n: any) => typeof n === 'number') as number[];
+          if (weekIdsForVariant.length === 0) continue;
+          const variantTitleMap = await buildExerciseTitleMap({
+            weekIds: weekIdsForVariant,
+            weekNumbers: weekNumbersForVariant,
+            programVariant: variant,
+          });
+          rowsForVariant.forEach((r: any) => {
+            const pair = `${r.patient_id}|${r.week_id}`;
+            const uploads = firstAttemptUploadsByPair.get(pair) || [];
+            const titles = Array.from(new Set(
+              uploads
+                .map((u) => resolveExerciseTitle(u, variantTitleMap))
+                .filter((t): t is string => Boolean(t))
+            ));
+            firstAttemptTitlesByPair.set(pair, titles);
+          });
+        }
+      }
+
       // Enrich data without N+1 queries
       const enrichedData = (filteredData || []).map((review: any) => {
         const key = `${review.patient_id}_${review.week_id}`;
+        const pair = `${review.patient_id}|${review.week_id}`;
         return {
           ...review,
           uploads: uploadsMap.get(key) || [],
           messages: messagesMap.get(key) || [],
           consecutiveNeedsMore: needsMoreCount[review.patient_id] || 0,
+          firstAttemptExerciseTitles: review.firstAttemptOnly
+            ? (firstAttemptTitlesByPair.get(pair) || [])
+            : [],
         };
       });
 
@@ -675,6 +718,7 @@ const TherapistDashboard = () => {
                     messageCount={review.messages.length}
                     isUnassigned={!review.patient.assigned_therapist_id}
                     firstAttemptOnly={review.firstAttemptOnly}
+                    firstAttemptExerciseTitles={review.firstAttemptExerciseTitles}
                     onReview={handleOpenReviewPanel}
                     onApprove={handleQuickApprove}
                     onSendNote={handleOpenNoteDialog}
