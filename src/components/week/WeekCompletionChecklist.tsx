@@ -54,8 +54,8 @@ export function WeekCompletionChecklist({
   const isFrenectomyModule1 = (weekNumber === 1 || weekNumber === 2) && isFrenectomy;
   const isPostOpConsultWeek = isFrenectomy && (weekNumber === 9 || weekNumber === 10);
   const postOpConsultLabel = weekNumber === 10
-    ? 'Post-Op Consultation with Dr Laura Caylor has been completed to check wound healing and tongue mobility'
-    : 'Post-Op Consultation with Dr Laura Caylor has been booked for 1 week after frenectomy to check wound healing and tongue mobility';
+    ? 'Post-Op Consultation completed'
+    : 'Post-Op Consultation booked';
 
   const requirements: Array<{ label: string; complete: boolean; required: boolean; icon: string; testId?: string }> = [];
 

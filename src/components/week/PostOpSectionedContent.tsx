@@ -56,7 +56,7 @@ export function PostOpSectionedContent({
     setSaving(true);
     setConsultChecked(checked);
     try {
-      await supabase
+      const { error } = await supabase
         .from("patient_week_progress")
         .upsert(
           {
@@ -66,6 +66,8 @@ export function PostOpSectionedContent({
           },
           { onConflict: "patient_id,week_id" }
         );
+
+      if (error) throw error;
       onUpdate?.();
     } catch (e) {
       console.error("Failed to save consult checkbox:", e);
@@ -118,11 +120,19 @@ export function PostOpSectionedContent({
               <div className="flex items-center gap-3">
                 <Checkbox
                   id="consult-booked"
+                  data-testid="consult-booked-checkbox"
                   checked={consultChecked}
                   onCheckedChange={(v) => handleConsultToggle(!!v)}
                   disabled={readOnly || saving}
                 />
-                <label htmlFor="consult-booked" className="text-sm font-medium leading-tight cursor-pointer">
+                <label
+                  htmlFor="consult-booked"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (!readOnly && !saving) handleConsultToggle(!consultChecked);
+                  }}
+                  className="text-sm font-medium leading-tight cursor-pointer"
+                >
                   Post-Op Consultation with Dr Laura Caylor has been booked for 1 week after frenectomy to check wound healing and tongue mobility
                 </label>
               </div>
@@ -300,11 +310,19 @@ export function PostOpSectionedContent({
             <div className="flex-1 flex items-center gap-3">
               <Checkbox
                 id="consult-completed"
+                data-testid="consult-completed-checkbox"
                 checked={consultChecked}
                 onCheckedChange={(v) => handleConsultToggle(!!v)}
                 disabled={readOnly || saving}
               />
-              <label htmlFor="consult-completed" className="text-sm font-medium leading-tight cursor-pointer">
+              <label
+                htmlFor="consult-completed"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!readOnly && !saving) handleConsultToggle(!consultChecked);
+                }}
+                className="text-sm font-medium leading-tight cursor-pointer"
+              >
                 Post-Op Consultation with Dr Laura Caylor has been completed to check wound healing and tongue mobility
               </label>
             </div>
