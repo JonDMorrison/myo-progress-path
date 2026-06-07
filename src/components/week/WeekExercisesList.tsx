@@ -9,6 +9,7 @@ import { CheckCircle2, AlertTriangle } from "lucide-react";
 import { ResponsiveVideo } from "./ResponsiveVideo";
 import { ExerciseVideoUpload } from "./ExerciseVideoUpload";
 import { supabase } from "@/integrations/supabase/client";
+import { getImageCitation } from "@/lib/imageCitations";
 import ReactMarkdown from "react-markdown";
 
 interface WeekExercisesListProps {
@@ -141,6 +142,23 @@ export function WeekExercisesList({
     const hasImage = isImageUrl(exercise.demo_video_url);
     const hasMultiImages = hasMultipleImages(exercise.demo_video_url);
     const hasModifiedVideo = exercise.modified_video_url && !isImageUrl(exercise.modified_video_url);
+    const showCitations = isElasticHoldExercise(exercise.title || exercise.name || "");
+
+    const renderCitation = (src: string) => {
+      if (!showCitations) return null;
+      const citation = getImageCitation(src);
+      if (!citation) return null;
+      return (
+        <a
+          href={citation.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground"
+        >
+          Image source
+        </a>
+      );
+    };
 
     if (!hasImage && !hasMultiImages && exercise.demo_video_url && hasModifiedVideo) {
       return (
@@ -167,8 +185,11 @@ export function WeekExercisesList({
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             {imageUrls.map((url: string, idx: number) => (
-              <div key={idx} className="rounded-lg overflow-hidden border">
-                <img src={url} alt={`${exercise.title} demonstration ${idx + 1}`} className="w-full object-contain" />
+              <div key={idx} className="flex flex-col gap-1">
+                <div className="rounded-lg overflow-hidden border">
+                  <img src={url} alt={`${exercise.title} demonstration ${idx + 1}`} className="w-full object-contain" />
+                </div>
+                {renderCitation(url)}
               </div>
             ))}
           </div>
@@ -179,8 +200,11 @@ export function WeekExercisesList({
     if (hasImage) {
       return (
         <div className="space-y-4">
-          <div className="rounded-lg overflow-hidden">
-            <img src={exercise.demo_video_url} alt={`${exercise.title} demonstration`} className="w-full object-contain" />
+          <div className="flex flex-col gap-1">
+            <div className="rounded-lg overflow-hidden">
+              <img src={exercise.demo_video_url} alt={`${exercise.title} demonstration`} className="w-full object-contain" />
+            </div>
+            {renderCitation(exercise.demo_video_url)}
           </div>
         </div>
       );
