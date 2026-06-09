@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,13 +10,15 @@ interface WeekMessagesPanelProps {
   newMessage: string;
   onMessageChange: (value: string) => void;
   onSendMessage: () => void;
+  canSend?: boolean;
 }
 
-export function WeekMessagesPanel({ 
-  messages, 
-  newMessage, 
-  onMessageChange, 
-  onSendMessage 
+export function WeekMessagesPanel({
+  messages,
+  newMessage,
+  onMessageChange,
+  onSendMessage,
+  canSend = true,
 }: WeekMessagesPanelProps) {
   return (
     <Card className="rounded-2xl border shadow-sm">
@@ -51,7 +52,7 @@ export function WeekMessagesPanel({
                       {format(new Date(message.created_at), 'MMM d, h:mm a')}
                     </span>
                   </div>
-                  <p className="text-sm">{message.body}</p>
+                  <p className="text-sm whitespace-pre-line">{message.body}</p>
                 </div>
               </div>
             ))
@@ -59,22 +60,24 @@ export function WeekMessagesPanel({
         </div>
 
         {/* New Message Form */}
-        <div className="space-y-2">
-          <Textarea
-            value={newMessage}
-            onChange={(e) => onMessageChange(e.target.value)}
-            placeholder="Ask your therapist a question..."
-            rows={3}
-          />
-          <Button
-            onClick={onSendMessage}
-            disabled={!newMessage.trim()}
-            className="w-full"
-          >
-            <Send className="mr-2 h-4 w-4" />
-            Send Message
-          </Button>
-        </div>
+        {canSend && (
+          <div className="space-y-2">
+            <Textarea
+              value={newMessage}
+              onChange={(e) => onMessageChange(e.target.value)}
+              placeholder="Ask your therapist a question..."
+              rows={3}
+            />
+            <Button
+              onClick={onSendMessage}
+              disabled={!newMessage.trim()}
+              className="w-full"
+            >
+              <Send className="mr-2 h-4 w-4" />
+              Send Message
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
