@@ -26,6 +26,10 @@ const CITATIONS: Record<string, ImageCitation> = {
     label: "Image source",
     href: "https://www.ualberta.ca/en/airway-research/media-library/constriction-no-xbite.jpg",
   },
+  "/images/learn/compensations/floor-of-mouth.jpg": {
+    label: "Image source",
+    href: "https://www.instagram.com/p/CrtGu__PM6u/",
+  },
   "/images/exercises/elastic-on-tongue-tip.png": {
     label: "Image source",
     href: "https://www.bearcreekfamilydentistry.com/blog/2019/03/06/dentist-in-far-north-dallas-human-tongue/",

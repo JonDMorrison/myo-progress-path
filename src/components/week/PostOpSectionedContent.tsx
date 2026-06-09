@@ -52,7 +52,7 @@ export function PostOpSectionedContent({
   }, [patientId, weekId, readOnly]);
 
   const handleConsultToggle = async (checked: boolean) => {
-    if (readOnly) return;
+    if (readOnly || saving) return;
     setSaving(true);
     setConsultChecked(checked);
     try {
@@ -75,6 +75,53 @@ export function PostOpSectionedContent({
     } finally {
       setSaving(false);
     }
+  };
+
+  const renderConsultTask = (mode: "booked" | "completed") => {
+    const label = mode === "booked"
+      ? "Post-Op Consultation with Dr Laura Caylor has been booked for 1 week after frenectomy to check wound healing and tongue mobility"
+      : "Post-Op Consultation with Dr Laura Caylor has been completed to check wound healing and tongue mobility";
+    const checkboxId = mode === "booked" ? "consult-booked" : "consult-completed";
+    const testId = mode === "booked" ? "consult-booked-checkbox" : "consult-completed-checkbox";
+    const disabled = readOnly || saving;
+
+    return (
+      <Card
+        className={`border-primary/30 bg-primary/5 transition-colors ${disabled ? "opacity-80" : "cursor-pointer hover:bg-primary/10"}`}
+        role={disabled ? undefined : "button"}
+        tabIndex={disabled ? undefined : 0}
+        aria-pressed={consultChecked}
+        onClick={() => {
+          if (!disabled) handleConsultToggle(!consultChecked);
+        }}
+        onKeyDown={(event) => {
+          if (disabled) return;
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            handleConsultToggle(!consultChecked);
+          }
+        }}
+      >
+        <CardContent className="p-4 flex items-start gap-3">
+          <ClipboardCheck className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <div className="flex items-center gap-3">
+              <Checkbox
+                id={checkboxId}
+                data-testid={testId}
+                checked={consultChecked}
+                onClick={(event) => event.stopPropagation()}
+                onCheckedChange={(v) => handleConsultToggle(!!v)}
+                disabled={disabled}
+              />
+              <label htmlFor={checkboxId} className="text-sm font-medium leading-tight cursor-pointer">
+                {label}
+              </label>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
   };
 
   if (weekNumber === 9) {
@@ -113,32 +160,7 @@ export function PostOpSectionedContent({
         </Card>
 
         {/* Required Task: Caylor consultation booked */}
-        <Card className="border-primary/30 bg-primary/5">
-          <CardContent className="p-4 flex items-start gap-3">
-            <ClipboardCheck className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <div className="flex items-center gap-3">
-                <Checkbox
-                  id="consult-booked"
-                  data-testid="consult-booked-checkbox"
-                  checked={consultChecked}
-                  onCheckedChange={(v) => handleConsultToggle(!!v)}
-                  disabled={readOnly || saving}
-                />
-                <label
-                  htmlFor="consult-booked"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (!readOnly && !saving) handleConsultToggle(!consultChecked);
-                  }}
-                  className="text-sm font-medium leading-tight cursor-pointer"
-                >
-                  Post-Op Consultation with Dr Laura Caylor has been booked for 1 week after frenectomy to check wound healing and tongue mobility
-                </label>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {renderConsultTask("booked")}
 
         <Accordion type="multiple" defaultValue={["days-1-3", "days-4-7"]} className="space-y-4">
           {/* Recovery Phase 1: Days 1-3 */}
@@ -278,7 +300,13 @@ export function PostOpSectionedContent({
             </div>
             <CardDescription>{WEEK_10_INFO.description}</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm leading-relaxed">
+        </Card>
+
+        {/* Required Task: Caylor consultation completed */}
+        {renderConsultTask("completed")}
+
+        <Card className="border-warning/30 bg-warning/5">
+          <CardContent className="space-y-4 text-sm leading-relaxed p-5">
             <div>
               <p className="font-semibold mb-1">Beyond One Week:</p>
               <ul className="list-disc list-inside space-y-1">
@@ -300,32 +328,6 @@ export function PostOpSectionedContent({
             <p>
               If you have concerns during the healing period, you can call or text Dr. Caylor at <a href="tel:7789087158" className="font-medium underline">778-908-7158</a>.
             </p>
-          </CardContent>
-        </Card>
-
-        {/* Required Task: Caylor consultation completed */}
-        <Card className="border-primary/30 bg-primary/5">
-          <CardContent className="p-4 flex items-start gap-3">
-            <ClipboardCheck className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-            <div className="flex-1 flex items-center gap-3">
-              <Checkbox
-                id="consult-completed"
-                data-testid="consult-completed-checkbox"
-                checked={consultChecked}
-                onCheckedChange={(v) => handleConsultToggle(!!v)}
-                disabled={readOnly || saving}
-              />
-              <label
-                htmlFor="consult-completed"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (!readOnly && !saving) handleConsultToggle(!consultChecked);
-                }}
-                className="text-sm font-medium leading-tight cursor-pointer"
-              >
-                Post-Op Consultation with Dr Laura Caylor has been completed to check wound healing and tongue mobility
-              </label>
-            </div>
           </CardContent>
         </Card>
 
