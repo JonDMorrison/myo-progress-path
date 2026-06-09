@@ -962,7 +962,7 @@ const WeekDetail = () => {
                   </div>
                 )}
 
-                {patientRequiresVideo(patient) && (
+                {(patientRequiresVideo(patient) || messages.length > 0) && (
                   <div className="animate-in fade-in slide-in-from-right-4 duration-700 delay-400">
                     <div className="rounded-[2.5rem] overflow-hidden shadow-xl ring-1 ring-slate-100 bg-white">
                       <WeekMessagesPanel
@@ -970,6 +970,7 @@ const WeekDetail = () => {
                         newMessage={newMessage}
                         onMessageChange={setNewMessage}
                         onSendMessage={handleSendMessage}
+                        canSend={patientRequiresVideo(patient)}
                       />
                     </div>
                   </div>
