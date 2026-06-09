@@ -12,6 +12,8 @@ interface WeekFormData {
 interface UseWeekFormOptions {
   readOnly?: boolean;
   onSaveComplete?: () => void;
+  patientId?: string;
+  weekId?: string;
 }
 
 export function useWeekForm(
@@ -20,8 +22,13 @@ export function useWeekForm(
   options: UseWeekFormOptions | boolean = false
 ) {
   // Handle legacy boolean parameter for backwards compatibility
-  const { readOnly = false, onSaveComplete } = typeof options === 'boolean'
-    ? { readOnly: options, onSaveComplete: undefined }
+  const {
+    readOnly = false,
+    onSaveComplete,
+    patientId,
+    weekId,
+  } = typeof options === 'boolean'
+    ? { readOnly: options, onSaveComplete: undefined, patientId: undefined, weekId: undefined }
     : options;
 
   const [formData, setFormData] = useState<WeekFormData>(initialData);
@@ -32,16 +39,35 @@ export function useWeekForm(
   const debouncedSave = useDebouncedCallback(async (data: WeekFormData) => {
     if (readOnly) return;
 
+    const payload = {
+      bolt_score: data.boltScore ? parseInt(data.boltScore) : null,
+      nasal_breathing_pct: data.nasalPct ? parseInt(data.nasalPct) : null,
+      tongue_on_spot_pct: data.tonguePct ? parseInt(data.tonguePct) : null,
+    };
+
     setIsSaving(true);
     try {
-      const { error } = await supabase
-        .from('patient_week_progress')
-        .update({
-          bolt_score: data.boltScore ? parseInt(data.boltScore) : null,
-          nasal_breathing_pct: data.nasalPct ? parseInt(data.nasalPct) : null,
-          tongue_on_spot_pct: data.tonguePct ? parseInt(data.tonguePct) : null,
-        })
-        .eq('id', progressId);
+      let error = null;
+
+      if (patientId && weekId) {
+        const result = await supabase
+          .from('patient_week_progress')
+          .upsert(
+            {
+              patient_id: patientId,
+              week_id: weekId,
+              ...payload,
+            },
+            { onConflict: 'patient_id,week_id' }
+          );
+        error = result.error;
+      } else {
+        const result = await supabase
+          .from('patient_week_progress')
+          .update(payload)
+          .eq('id', progressId);
+        error = result.error;
+      }
 
       if (error) throw error;
 
