@@ -89,10 +89,12 @@ export function useWeekForm(
   const updateField = useCallback((field: keyof WeekFormData, value: string) => {
     if (readOnly) return;
 
-    const newData = { ...formData, [field]: value };
-    setFormData(newData);
-    debouncedSave(newData);
-  }, [formData, debouncedSave, readOnly]);
+    setFormData((previousData) => {
+      const newData = { ...previousData, [field]: value };
+      debouncedSave(newData);
+      return newData;
+    });
+  }, [debouncedSave, readOnly]);
 
   // Load draft from localStorage on mount
   useEffect(() => {
