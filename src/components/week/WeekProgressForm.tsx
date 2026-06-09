@@ -35,7 +35,12 @@ export function WeekProgressForm({ progress, week, readOnly = false, onUpdate }:
       nasalPct: progress.nasal_breathing_pct?.toString() || '',
       tonguePct: progress.tongue_on_spot_pct?.toString() || ''
     },
-    { readOnly, onSaveComplete: onUpdate }
+    {
+      readOnly,
+      onSaveComplete: onUpdate,
+      patientId: progress.patient_id,
+      weekId: progress.week_id || week?.id,
+    }
   );
 
   return (
