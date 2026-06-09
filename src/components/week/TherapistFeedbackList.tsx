@@ -3,10 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Video, Image, Check, Loader, ExternalLink } from "lucide-react";
+import { MessageSquare, Video, Image, Check, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { useToast } from "@/hooks/use-toast";
 
 interface TherapistFeedback {
   id: string;
@@ -23,13 +22,37 @@ interface TherapistFeedback {
   } | null;
 }
 
-// Map DB columns (feedback) to UI columns (feedback_text, etc.)
-function mapFeedbackRow(row: any): TherapistFeedback {
+const FEEDBACK_BUCKET = "therapist-feedback";
+
+async function resolveFeedbackMediaUrl(value: string | null): Promise<string | null> {
+  if (!value) return null;
+  if (/^https?:\/\//i.test(value)) return value;
+
+  const { data, error } = await supabase.storage
+    .from(FEEDBACK_BUCKET)
+    .createSignedUrl(value, 60 * 60);
+
+  if (error) {
+    console.error("Failed to resolve feedback media URL:", error);
+    return null;
+  }
+
+  return data?.signedUrl || null;
+}
+
+// Map DB columns (feedback) to UI columns (feedback_text, etc.) and convert
+// private Supabase Storage paths into signed URLs the patient can actually open.
+async function mapFeedbackRow(row: any): Promise<TherapistFeedback> {
+  const [videoUrl, photoUrl] = await Promise.all([
+    resolveFeedbackMediaUrl(row.video_url || null),
+    resolveFeedbackMediaUrl(row.photo_url || null),
+  ]);
+
   return {
     id: row.id,
     feedback_text: row.feedback || row.feedback_text || null,
-    video_url: row.video_url || null,
-    photo_url: row.photo_url || null,
+    video_url: videoUrl,
+    photo_url: photoUrl,
     created_at: row.created_at,
     read_at: row.read_at || null,
     therapist: row.therapist || null,
@@ -45,8 +68,6 @@ interface TherapistFeedbackListProps {
 const TherapistFeedbackList = ({ patientId, weekId }: TherapistFeedbackListProps) => {
   const [feedback, setFeedback] = useState<TherapistFeedback[]>([]);
   const [loading, setLoading] = useState(true);
-  const [openingKey, setOpeningKey] = useState<string | null>(null);
-  const { toast } = useToast();
 
   useEffect(() => {
     loadFeedback();
@@ -89,7 +110,7 @@ const TherapistFeedbackList = ({ patientId, weekId }: TherapistFeedbackListProps
       const { data, error } = await query;
 
       if (error) throw error;
-      setFeedback((data || []).map(mapFeedbackRow));
+      setFeedback(await Promise.all((data || []).map(mapFeedbackRow)));
 
       // Mark unread feedback as read (read_at may not exist in schema)
       try {
@@ -181,7 +202,7 @@ const TherapistFeedbackList = ({ patientId, weekId }: TherapistFeedbackListProps
                 )}
 
                 {item.feedback_text && (
-                  <p className="text-sm mb-3">{item.feedback_text}</p>
+                  <p className="text-sm mb-3 whitespace-pre-line">{item.feedback_text}</p>
                 )}
 
                 {/* Media attachments */}
