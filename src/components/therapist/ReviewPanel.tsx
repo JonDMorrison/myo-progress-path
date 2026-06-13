@@ -15,6 +15,7 @@ import VideoPlayer from "./VideoPlayer";
 import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
 import { ExerciseVideoToggle } from "./ExerciseVideoToggle";
 import { format } from "date-fns";
+import { canMessagePatient } from "@/lib/messaging";
 
 interface ReviewPanelProps {
   open: boolean;
@@ -297,6 +298,14 @@ const ReviewPanel = ({ open, onOpenChange, progressId, patientId, patientName, w
     if (!replyText.trim()) return;
     setSendingReply(true);
     try {
+      if (!(await canMessagePatient(patientId))) {
+        toast({
+          title: "Messaging disabled for this patient",
+          description: "This patient is on the no-feedback pathway and won't see messages.",
+          variant: "destructive",
+        });
+        return;
+      }
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
       const { error } = await supabase.from("messages").insert({ patient_id: patientId, week_id: weekId, therapist_id: user.id, body: replyText.trim(), sent_by: "therapist" });

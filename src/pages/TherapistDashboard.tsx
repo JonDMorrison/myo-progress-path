@@ -17,6 +17,7 @@ import { approveWeek } from "@/lib/reviewActions";
 import { calculateTriageLevel, type TriageLevel } from "@/lib/triageUtils";
 import { getModuleInfo, cleanWeekTitle } from "@/lib/moduleUtils";
 import { buildExerciseTitleMap, resolveExerciseTitle } from "@/lib/exerciseTitles";
+import { canMessagePatient } from "@/lib/messaging";
 
 interface ReviewItem {
   id: string;
@@ -588,6 +589,14 @@ const TherapistDashboard = () => {
 
   const handleSendNote = async (note: string) => {
     if (!noteDialog || !userId) return;
+    if (!(await canMessagePatient(noteDialog.patientId))) {
+      toast({
+        title: "Messaging disabled for this patient",
+        description: "This patient is on the no-feedback pathway and won't see messages.",
+        variant: "destructive",
+      });
+      return;
+    }
     const { error } = await supabase.from("messages").insert({
       patient_id: noteDialog.patientId,
       week_id: noteDialog.weekId ?? null,
