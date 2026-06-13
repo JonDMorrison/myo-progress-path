@@ -179,7 +179,7 @@ export default function TherapistPatients() {
                     <TableHead>Current Module</TableHead>
                     <TableHead>Module Status</TableHead>
                     <TableHead>Last Activity</TableHead>
-                    <TableHead>Adherence (14d)</TableHead>
+                    <TableHead>Pathway</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -228,13 +228,9 @@ export default function TherapistPatients() {
                           )}
                         </TableCell>
                         <TableCell>
-                          {patient.adherence_14d !== null ? (
-                            <span className="font-medium">
-                              {Math.round(patient.adherence_14d)}%
-                            </span>
-                          ) : (
-                            <span className="text-muted-foreground">—</span>
-                          )}
+                          <span className="text-sm">
+                            {patient.program_variant === 'frenectomy' ? 'Frenectomy' : 'Non-Surgical'}
+                          </span>
                         </TableCell>
                         <TableCell>
                           <Button
@@ -293,9 +289,9 @@ export default function TherapistPatients() {
                         ? formatDistanceToNow(new Date(patient.last_activity), { addSuffix: true })
                         : 'Never active'}
                     </span>
-                    {patient.adherence_14d !== null && (
-                      <span className="font-medium">{Math.round(patient.adherence_14d)}%</span>
-                    )}
+                    <span className="font-medium">
+                      {patient.program_variant === 'frenectomy' ? 'Frenectomy' : 'Non-Surgical'}
+                    </span>
                   </div>
                   
                   <div className="flex items-center justify-between gap-2">
