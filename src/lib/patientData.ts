@@ -145,11 +145,12 @@ export async function deletePatientData(patientId: string, reason: string) {
 
     if (patientError) throw patientError;
 
-    // Anonymize patient record
+    // Anonymize patient record. Note: we don't touch `status` here — that
+    // column was dropped from the prod `patients` schema and writing to it
+    // caused a 42703 error.
     const { error: updatePatientError } = await supabase
       .from('patients')
       .update({
-        status: 'completed',
         consent_signature: 'REDACTED',
         consent_payload: null
       })

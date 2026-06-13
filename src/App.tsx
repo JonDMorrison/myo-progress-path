@@ -24,8 +24,6 @@ import AccessRequests from "./pages/AccessRequests";
 import PatientOverview from "./pages/PatientOverview";
 import AdminContent from "./pages/AdminContent";
 import ReviewWeek from "./pages/ReviewWeek";
-import Reports from "./pages/Reports";
-import TherapistAIAssist from "./pages/TherapistAIAssist";
 import MasterAdmin from "./pages/MasterAdmin";
 import ResetPassword from "./pages/ResetPassword";
 import UpdatePassword from "./pages/UpdatePassword";
@@ -93,9 +91,7 @@ const App = () => (
               <Route path="/therapist/patients" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistPatients /></ProtectedRoute>} />
               <Route path="/therapist/requests" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><AccessRequests /></ProtectedRoute>} />
               <Route path="/therapist/patient/:patientId" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><PatientOverview /></ProtectedRoute>} />
-              <Route path="/therapist/ai-assist" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><TherapistAIAssist /></ProtectedRoute>} />
               <Route path="/review/:patientId/:weekNumber" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><ReviewWeek /></ProtectedRoute>} />
-              <Route path="/reports" element={<ProtectedRoute requiredRoles={["therapist", "admin", "super_admin"]}><Reports /></ProtectedRoute>} />
               <Route path="/admin/content" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><AdminContent /></ProtectedRoute>} />
               <Route path="/admin/seed-program" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><SeedProgram /></ProtectedRoute>} />
               <Route path="/admin/media-audit" element={<ProtectedRoute requiredRoles={["admin", "super_admin"]}><MediaAudit /></ProtectedRoute>} />

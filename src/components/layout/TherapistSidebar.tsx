@@ -2,8 +2,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Inbox,
   Users,
-  BarChart3,
-  Sparkles,
   LogOut,
   Shield,
   BookOpen,
@@ -31,8 +29,6 @@ const navItems = {
     { title: "Inbox", url: "/therapist", icon: Inbox },
     { title: "Patients", url: "/therapist/patients", icon: Users },
     { title: "Curriculum", url: "/therapist#curriculum", icon: BookOpen },
-    { title: "Reports", url: "/reports", icon: BarChart3 },
-    { title: "AI Assistant", url: "/therapist/ai-assist", icon: Sparkles },
   ],
   resources: [
     { title: "Learn Hub", url: "/learn", icon: BookOpen },
