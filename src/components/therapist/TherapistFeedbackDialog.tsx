@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader, Video, Image, X, Upload, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { canMessagePatient } from "@/lib/messaging";
 
 const FEEDBACK_OPTIONS = {
   positive: [
@@ -127,6 +128,15 @@ const TherapistFeedbackDialog = ({
       toast({
         title: "Feedback required",
         description: "Please select feedback options, add text, video, or photo.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!(await canMessagePatient(patientId))) {
+      toast({
+        title: "Feedback disabled for this patient",
+        description: "This patient is on the no-feedback pathway and won't see therapist feedback.",
         variant: "destructive",
       });
       return;

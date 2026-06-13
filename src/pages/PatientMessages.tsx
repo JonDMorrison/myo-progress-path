@@ -10,6 +10,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { PatientHeader } from "@/components/layout/PatientHeader";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { format } from "date-fns";
 
 const PatientMessages = () => {
   const [messages, setMessages] = useState<any[]>([]);
@@ -145,7 +146,7 @@ const PatientMessages = () => {
                     <p className="text-sm leading-relaxed">{msg.body}</p>
                     <p className={`text-[9px] mt-2 ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "text-white/50" : "text-slate-400"
                       }`}>
-                      {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {format(new Date(msg.created_at), "MMM d, h:mm a")}
                     </p>
                   </div>
                 </div>

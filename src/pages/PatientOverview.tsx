@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, CheckCircle2, Clock, MessageSquare, Video, ChevronRight, Lock } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { TherapistLayout } from "@/components/layout/TherapistLayout";
-import { isFrenectomyVariant } from "@/lib/constants";
+import { isFrenectomyVariant, patientRequiresVideo } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import SendNoteDialog from "@/components/therapist/SendNoteDialog";
 import { useToast } from "@/hooks/use-toast";
@@ -128,6 +128,14 @@ export default function PatientOverview() {
 
   const handleSendReply = async (note: string) => {
     if (!patientId) return;
+    if (!patientRequiresVideo(patient)) {
+      toast({
+        title: "Messaging disabled for this patient",
+        description: "This patient is on the no-feedback pathway and won't see messages.",
+        variant: "destructive",
+      });
+      return;
+    }
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       toast({ title: "Not signed in", description: "Please sign in again.", variant: "destructive" });
