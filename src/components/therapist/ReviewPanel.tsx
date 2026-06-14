@@ -10,7 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { approveWeek, requestMorePractice, reassignWeek } from "@/lib/reviewActions";
 import { moveToMaintenance } from "@/lib/maintenanceActions";
-import { getProgramTitle } from "@/lib/constants";
+import { getProgramTitle, patientRequiresVideo } from "@/lib/constants";
 import VideoPlayer from "./VideoPlayer";
 import TherapistFeedbackDialog from "./TherapistFeedbackDialog";
 import { ExerciseVideoToggle } from "./ExerciseVideoToggle";
@@ -85,6 +85,7 @@ const ReviewPanel = ({ open, onOpenChange, progressId, patientId, patientName, w
   const [messagesExpanded, setMessagesExpanded] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [sendingReply, setSendingReply] = useState(false);
+  const [patientCanMessage, setPatientCanMessage] = useState(true);
   const [reviewingBy, setReviewingBy] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [weekMetrics, setWeekMetrics] = useState<any>(null);
@@ -117,9 +118,10 @@ const ReviewPanel = ({ open, onOpenChange, progressId, patientId, patientName, w
 
       const { data: patientData } = await supabase
         .from("patients")
-        .select("program_variant")
+        .select("program_variant, requires_video")
         .eq("id", patientId)
         .single();
+      setPatientCanMessage(patientRequiresVideo(patientData as any));
 
       const programTitle = getProgramTitle(patientData?.program_variant || 'frenectomy');
       const partnerNum = weekNumber % 2 === 1 ? weekNumber + 1 : weekNumber - 1;
@@ -300,8 +302,8 @@ const ReviewPanel = ({ open, onOpenChange, progressId, patientId, patientName, w
     try {
       if (!(await canMessagePatient(patientId))) {
         toast({
-          title: "Messaging disabled for this patient",
-          description: "This patient is on the no-feedback pathway and won't see messages.",
+          title: "Self-guided plan",
+          description: "This patient is on a self-guided plan and does not receive therapist messages.",
           variant: "destructive",
         });
         return;
@@ -390,13 +392,23 @@ const ReviewPanel = ({ open, onOpenChange, progressId, patientId, patientName, w
                       ))}
                     </div>
                     <div className="pt-2 mt-2 border-t space-y-2">
-                      <Textarea value={replyText} onChange={(e) => setReplyText(e.target.value)} placeholder="Type a reply..." rows={2} className="resize-none" disabled={sendingReply} />
-                      <Button size="sm" onClick={handleSendReply} disabled={!replyText.trim() || sendingReply} className="w-full"><Send className="h-4 w-4 mr-2" />{sendingReply ? "Sending..." : "Send Reply"}</Button>
+                      {patientCanMessage ? (
+                        <>
+                          <Textarea value={replyText} onChange={(e) => setReplyText(e.target.value)} placeholder="Type a reply..." rows={2} className="resize-none" disabled={sendingReply} />
+                          <Button size="sm" onClick={handleSendReply} disabled={!replyText.trim() || sendingReply} className="w-full"><Send className="h-4 w-4 mr-2" />{sendingReply ? "Sending..." : "Send Reply"}</Button>
+                        </>
+                      ) : (
+                        <p className="text-xs text-muted-foreground italic text-center">
+                          Self-guided plan — no messaging
+                        </p>
+                      )}
                     </div>
                   </CollapsibleContent>
                 </Collapsible>
 
-                <Button variant="outline" className="w-full justify-start" onClick={() => setShowFeedbackDialog(true)}><Send className="h-4 w-4 mr-2" />Send Rich Feedback (Video/Photo/Text)</Button>
+                {patientCanMessage && (
+                  <Button variant="outline" className="w-full justify-start" onClick={() => setShowFeedbackDialog(true)}><Send className="h-4 w-4 mr-2" />Send Rich Feedback (Video/Photo/Text)</Button>
+                )}
 
                 {weekNumber >= 24 && (
                   <div className="bg-success/5 border border-success/20 rounded-lg p-4 space-y-3">

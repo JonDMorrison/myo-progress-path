@@ -28,6 +28,7 @@ interface ReviewCardProps {
   isUnassigned?: boolean;
   firstAttemptOnly?: boolean;
   firstAttemptExerciseTitles?: string[];
+  requiresVideo?: boolean;
   uploads?: { ai_feedback?: any; ai_feedback_status?: string | null }[]; // Kept for API compatibility
   onReview?: (progressId: string, patientId: string, weekNumber: number, weekId: string) => void;
   onApprove?: (progressId: string) => void;
@@ -56,6 +57,7 @@ const ReviewCard = ({
   isUnassigned,
   firstAttemptOnly,
   firstAttemptExerciseTitles,
+  requiresVideo = true,
   uploads = [],
   onReview,
   onApprove,
@@ -205,14 +207,20 @@ const ReviewCard = ({
               Approve
             </Button>
             
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => onSendNote?.(patientId, weekNumber)}
-            >
-              <MessageSquare className="h-3 w-3 mr-1" />
-              Note
-            </Button>
+            {requiresVideo ? (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => onSendNote?.(patientId, weekNumber)}
+              >
+                <MessageSquare className="h-3 w-3 mr-1" />
+                Note
+              </Button>
+            ) : (
+              <span className="text-xs text-muted-foreground italic px-2 text-center" title="This patient is on a self-guided plan and does not receive therapist messages.">
+                Self-guided
+              </span>
+            )}
           </div>
         </div>
       </CardContent>

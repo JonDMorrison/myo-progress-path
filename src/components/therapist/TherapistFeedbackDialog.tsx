@@ -135,8 +135,8 @@ const TherapistFeedbackDialog = ({
 
     if (!(await canMessagePatient(patientId))) {
       toast({
-        title: "Feedback disabled for this patient",
-        description: "This patient is on the no-feedback pathway and won't see therapist feedback.",
+        title: "Self-guided plan",
+        description: "This patient is on a self-guided plan and does not receive therapist feedback.",
         variant: "destructive",
       });
       return;
