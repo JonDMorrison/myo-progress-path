@@ -171,13 +171,11 @@ const TherapistFeedbackDialog = ({
           uploadedPaths.push(photoPath);
         }
 
-        const mediaMarkers = [
-          videoPath ? "[video attached]" : null,
-          photoPath ? "[photo attached]" : null,
-        ].filter(Boolean).join(" ");
-        const feedbackForRow = [combinedFeedback, mediaMarkers]
-          .filter(Boolean)
-          .join("\n\n") || "(media attached)";
+        // The feedback row carries the text the therapist typed; the
+        // attached video/photo are rendered separately by TherapistFeedbackList
+        // from video_url / photo_url. No need to bake "[video attached]"
+        // into the prose — that read as raw template text to patients.
+        const feedbackForRow = combinedFeedback || "(media attached)";
 
         const { error: insertError } = await supabase.from("therapist_feedback").insert({
           therapist_id: user.id,
@@ -200,15 +198,18 @@ const TherapistFeedbackDialog = ({
         throw uploadOrInsertError;
       }
 
-      const mediaSuffix = [videoPath ? "[video attached]" : null, photoPath ? "[photo attached]" : null]
-        .filter(Boolean)
-        .join(" ");
-      const messageBody = [combinedFeedback, mediaSuffix].filter(Boolean).join("\n\n");
+      // Mirrored message that shows up in the patient's chat thread. The
+      // attached video/photo is rendered in the WeekDetail feedback panel,
+      // not in the chat row, so we don't surface "[video attached]" style
+      // markers in the body — they read as raw template text to the patient.
+      const hasMedia = !!(videoPath || photoPath);
+      const messageBody = combinedFeedback
+        || (hasMedia ? "📎 Therapist sent you new feedback — open this module to view." : "(rich feedback)");
       const { error: messageInsertError } = await supabase.from("messages").insert({
         patient_id: patientId,
         therapist_id: user.id,
         week_id: weekId || null,
-        body: messageBody || "(rich feedback)",
+        body: messageBody,
         sent_by: "therapist",
       });
       if (messageInsertError) throw messageInsertError;
