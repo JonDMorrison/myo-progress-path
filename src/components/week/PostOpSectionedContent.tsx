@@ -37,7 +37,7 @@ export function PostOpSectionedContent({
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (!patientId || !weekId || readOnly) return;
+    if (!patientId || !weekId) return;
     let cancelled = false;
     (async () => {
       const { data } = await supabase
@@ -49,7 +49,7 @@ export function PostOpSectionedContent({
       if (!cancelled && data) setConsultChecked(!!(data as any).frenectomy_consult_booked);
     })();
     return () => { cancelled = true; };
-  }, [patientId, weekId, readOnly]);
+  }, [patientId, weekId]);
 
   const handleConsultToggle = async (checked: boolean) => {
     if (readOnly || saving) return;
@@ -125,11 +125,6 @@ export function PostOpSectionedContent({
   };
 
   if (weekNumber === 9) {
-    // Module 5 — Days 1-3 + Days 4-7
-    // Filter out the legacy protocol-tab entries — the protocol copy now lives
-    // in the blue/green cards below, so the duplicate accordion items must
-    // not render even though they remain in the program JSON for backward
-    // index-stability of historical exercise_completions / exercise_key data.
     const HIDDEN_M5_PROTOCOL_NAMES = new Set([
       "Days 1-3: Minimal Activity Protocol",
       "Days 4-7: Wound Care and Active Participation",
@@ -137,7 +132,6 @@ export function PostOpSectionedContent({
     const visibleExercises = exercises.filter(
       (e) => !HIDDEN_M5_PROTOCOL_NAMES.has((e.name || e.title || "").trim())
     );
-    // Filter exercises by name suffix for clean grouping
     const days1to3Exercises = visibleExercises.filter(e =>
       (e.name || e.title || "").includes("(Days 1-3)") ||
       (e.name || e.title || "") === "Floor of Mouth Massage (Days 1-3)"
@@ -146,7 +140,6 @@ export function PostOpSectionedContent({
 
     return (
       <div className="space-y-6">
-        {/* Header */}
         <Card className="border-warning/30 bg-warning/5">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
@@ -159,11 +152,9 @@ export function PostOpSectionedContent({
           </CardHeader>
         </Card>
 
-        {/* Required Task: Caylor consultation booked */}
         {renderConsultTask("booked")}
 
         <Accordion type="multiple" defaultValue={["days-1-3", "days-4-7"]} className="space-y-4">
-          {/* Recovery Phase 1: Days 1-3 */}
           <AccordionItem value="days-1-3" className="border rounded-xl overflow-hidden">
             <AccordionTrigger className="px-4 py-3 bg-muted/30 hover:bg-muted/50 hover:no-underline">
               <div className="flex items-center gap-3 text-left">
@@ -176,7 +167,6 @@ export function PostOpSectionedContent({
             </AccordionTrigger>
             <AccordionContent className="px-4 py-4">
               <div className="space-y-4">
-                {/* Days 1-3 protocol — now lives in the dark blue card itself */}
                 <Card className="border-blue-300 bg-blue-50 dark:bg-blue-950/30 dark:border-blue-700">
                   <CardContent className="p-5 space-y-4 text-sm leading-relaxed">
                     <div>
@@ -211,16 +201,8 @@ export function PostOpSectionedContent({
                   </CardContent>
                 </Card>
 
-                {/* Floor of Mouth Massage (Days 1-3) — nested inside Phase 1 */}
                 {days1to3Exercises.length > 0 ? (
-                  <WeekExercisesList
-                    exercises={days1to3Exercises}
-                    patientId={patientId}
-                    weekId={weekId}
-                    existingCompletions={existingCompletions}
-                    onUpdate={onUpdate}
-                    readOnly={readOnly}
-                  />
+                  <WeekExercisesList exercises={days1to3Exercises} patientId={patientId} weekId={weekId} existingCompletions={existingCompletions} onUpdate={onUpdate} readOnly={readOnly} />
                 ) : (
                   <div className="text-center py-6 text-muted-foreground border rounded-lg bg-muted/10">
                     <Activity className="h-8 w-8 mx-auto mb-2 opacity-50" />
@@ -232,7 +214,6 @@ export function PostOpSectionedContent({
             </AccordionContent>
           </AccordionItem>
 
-          {/* Recovery Phase 2: Days 4-7 */}
           <AccordionItem value="days-4-7" className="border rounded-xl overflow-hidden">
             <AccordionTrigger className="px-4 py-3 bg-muted/30 hover:bg-muted/50 hover:no-underline">
               <div className="flex items-center gap-3 text-left">
@@ -245,34 +226,17 @@ export function PostOpSectionedContent({
             </AccordionTrigger>
             <AccordionContent className="px-4 py-4">
               <div className="space-y-4">
-                {/* Days 4-7 protocol now lives in the green card itself */}
                 <Card className="border-green-300 bg-green-50 dark:bg-green-950/30 dark:border-green-700">
                   <CardContent className="p-5 space-y-3 text-sm leading-relaxed text-green-900 dark:text-green-100">
-                    <p>
-                      <strong>Wound care:</strong> You can use a very soft toothbrush to gently brush excess granulation tissue off the sutures. Sutures will dissolve on their own within a week.
-                    </p>
-                    <p>
-                      <strong>Optional:</strong> A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed prior to exercises to make them more tolerable.
-                    </p>
-                    <p>
-                      <strong>Your active participation is important to the post-operative success of treatment.</strong> It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.
-                    </p>
-                    <p>
-                      The tissue will begin to contract during this time, so this is when active myofunctional exercises become the most important.
-                    </p>
+                    <p><strong>Wound care:</strong> You can use a very soft toothbrush to gently brush excess granulation tissue off the sutures. Sutures will dissolve on their own within a week.</p>
+                    <p><strong>Optional:</strong> A little bit of extra strength Orajel can be applied on the wound and covered with gauze as needed prior to exercises to make them more tolerable.</p>
+                    <p><strong>Your active participation is important to the post-operative success of treatment.</strong> It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.</p>
+                    <p>The tissue will begin to contract during this time, so this is when active myofunctional exercises become the most important.</p>
                   </CardContent>
                 </Card>
 
-                {/* Days 4-7 exercises */}
                 {days4to7Exercises.length > 0 ? (
-                  <WeekExercisesList
-                    exercises={days4to7Exercises}
-                    patientId={patientId}
-                    weekId={weekId}
-                    existingCompletions={existingCompletions}
-                    onUpdate={onUpdate}
-                    readOnly={readOnly}
-                  />
+                  <WeekExercisesList exercises={days4to7Exercises} patientId={patientId} weekId={weekId} existingCompletions={existingCompletions} onUpdate={onUpdate} readOnly={readOnly} />
                 ) : (
                   <div className="text-center py-6 text-muted-foreground border rounded-lg bg-muted/10">
                     <Activity className="h-8 w-8 mx-auto mb-2 opacity-50" />
@@ -289,7 +253,6 @@ export function PostOpSectionedContent({
   }
 
   if (weekNumber === 10) {
-    // Module 6 — Days 8-14 + Beyond One/Two Weeks
     return (
       <div className="space-y-6">
         <Card className="border-warning/30 bg-warning/5">
@@ -302,7 +265,6 @@ export function PostOpSectionedContent({
           </CardHeader>
         </Card>
 
-        {/* Required Task: Caylor consultation completed */}
         {renderConsultTask("completed")}
 
         <Card className="border-warning/30 bg-warning/5">
@@ -322,35 +284,17 @@ export function PostOpSectionedContent({
                 <li>Continue to self-assess throughout this time — if you feel tension, continue to do stretches.</li>
               </ul>
             </div>
-            <p>
-              <strong>Your active participation is important to the post-operative success of treatment.</strong> It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.
-            </p>
-            <p>
-              If you have concerns during the healing period, you can call or text Dr. Caylor at <a href="tel:7789087158" className="font-medium underline">778-908-7158</a>.
-            </p>
+            <p><strong>Your active participation is important to the post-operative success of treatment.</strong> It is normal to experience discomfort while doing exercises during the post-operative period. Do not let this discourage you from doing them properly. We encourage you to push through the discomfort, but not to the point of frank pain.</p>
+            <p>If you have concerns during the healing period, you can call or text Dr. Caylor at <a href="tel:7789087158" className="font-medium underline">778-908-7158</a>.</p>
           </CardContent>
         </Card>
 
-        <WeekExercisesList
-          exercises={exercises}
-          patientId={patientId}
-          weekId={weekId}
-          existingCompletions={existingCompletions}
-          onUpdate={onUpdate}
-          readOnly={readOnly}
-        />
+        <WeekExercisesList exercises={exercises} patientId={patientId} weekId={weekId} existingCompletions={existingCompletions} onUpdate={onUpdate} readOnly={readOnly} />
       </div>
     );
   }
 
   return (
-    <WeekExercisesList
-      exercises={exercises}
-      patientId={patientId}
-      weekId={weekId}
-      existingCompletions={existingCompletions}
-      onUpdate={onUpdate}
-      readOnly={readOnly}
-    />
+    <WeekExercisesList exercises={exercises} patientId={patientId} weekId={weekId} existingCompletions={existingCompletions} onUpdate={onUpdate} readOnly={readOnly} />
   );
 }
