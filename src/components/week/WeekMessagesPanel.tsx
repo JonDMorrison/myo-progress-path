@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Send } from "lucide-react";
 import { format } from "date-fns";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { FeedbackMediaButtons, cleanFeedbackBody } from "@/lib/feedbackMedia";
 
 interface WeekMessagesPanelProps {
   messages: any[];
@@ -26,7 +27,6 @@ export function WeekMessagesPanel({
         <CardTitle className="text-lg">Messages</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Messages Thread */}
         <div className="space-y-3 max-h-[400px] overflow-y-auto">
           {messages.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-8">
@@ -34,32 +34,29 @@ export function WeekMessagesPanel({
             </p>
           ) : (
             messages.map((message) => (
-              <div
-                key={message.id}
-                className="flex gap-3 p-3 bg-muted rounded-lg"
-              >
+              <div key={message.id} className="flex gap-3 p-3 bg-muted rounded-lg">
                 <Avatar className="h-8 w-8">
                   <AvatarFallback>
                     {message.therapist?.name?.charAt(0) || 'T'}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex-1 space-y-1">
-                  <div className="flex items-center justify-between">
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-center justify-between gap-3">
                     <span className="text-sm font-medium">
-                      {message.therapist?.name || 'Therapist'}
+                      {message.therapist?.name || (message.sent_by === 'patient' ? 'You' : 'Therapist')}
                     </span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">
                       {format(new Date(message.created_at), 'MMM d, h:mm a')}
                     </span>
                   </div>
-                  <p className="text-sm whitespace-pre-line">{message.body}</p>
+                  <p className="text-sm whitespace-pre-line">{cleanFeedbackBody(message.body)}</p>
+                  <FeedbackMediaButtons videoUrl={message.video_url} photoUrl={message.photo_url} />
                 </div>
               </div>
             ))
           )}
         </div>
 
-        {/* New Message Form */}
         {canSend && (
           <div className="space-y-2">
             <Textarea
@@ -68,11 +65,7 @@ export function WeekMessagesPanel({
               placeholder="Ask your therapist a question..."
               rows={3}
             />
-            <Button
-              onClick={onSendMessage}
-              disabled={!newMessage.trim()}
-              className="w-full"
-            >
+            <Button onClick={onSendMessage} disabled={!newMessage.trim()} className="w-full">
               <Send className="mr-2 h-4 w-4" />
               Send Message
             </Button>
