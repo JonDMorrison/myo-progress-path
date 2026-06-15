@@ -17,27 +17,9 @@ import { useToast } from "@/hooks/use-toast";
 import { canMessagePatient } from "@/lib/messaging";
 
 const FEEDBACK_OPTIONS = {
-  positive: [
-    "Great form! Keep it up.",
-    "Excellent tongue positioning.",
-    "Good breathing technique.",
-    "Nice improvement from last week!",
-    "Well done with the exercises.",
-  ],
-  corrective: [
-    "Try to relax your jaw more.",
-    "Focus on keeping lips sealed.",
-    "Watch your tongue placement.",
-    "Slow down the movement.",
-    "Practice in front of a mirror.",
-  ],
-  instructional: [
-    "Review the demo video again.",
-    "Try this exercise twice daily.",
-    "Take a short break if you feel strain.",
-    "Focus on nasal breathing.",
-    "Keep your posture upright.",
-  ],
+  positive: ["Great form! Keep it up.", "Excellent tongue positioning.", "Good breathing technique.", "Nice improvement from last week!", "Well done with the exercises."],
+  corrective: ["Try to relax your jaw more.", "Focus on keeping lips sealed.", "Watch your tongue placement.", "Slow down the movement.", "Practice in front of a mirror."],
+  instructional: ["Review the demo video again.", "Try this exercise twice daily.", "Take a short break if you feel strain.", "Focus on nasal breathing.", "Keep your posture upright."],
 };
 
 interface TherapistFeedbackDialogProps {
@@ -53,18 +35,7 @@ interface TherapistFeedbackDialogProps {
   onSuccess?: () => void;
 }
 
-const TherapistFeedbackDialog = ({
-  open,
-  onOpenChange,
-  patientId,
-  patientName,
-  weekId,
-  weekNumber,
-  exerciseId,
-  exerciseTitle,
-  progressId,
-  onSuccess,
-}: TherapistFeedbackDialogProps) => {
+const TherapistFeedbackDialog = ({ open, onOpenChange, patientId, patientName, weekId, weekNumber, exerciseTitle, onSuccess }: TherapistFeedbackDialogProps) => {
   const [feedbackText, setFeedbackText] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [videoFile, setVideoFile] = useState<File | null>(null);
@@ -75,33 +46,27 @@ const TherapistFeedbackDialog = ({
   const { toast } = useToast();
 
   const toggleOption = (option: string) => {
-    setSelectedOptions((prev) =>
-      prev.includes(option)
-        ? prev.filter((o) => o !== option)
-        : [...prev, option]
-    );
+    setSelectedOptions((prev) => prev.includes(option) ? prev.filter((o) => o !== option) : [...prev, option]);
   };
 
   const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 500 * 1024 * 1024) {
-        toast({ title: "File too large", description: "Video must be under 500MB", variant: "destructive" });
-        return;
-      }
-      setVideoFile(file);
+    if (!file) return;
+    if (file.size > 500 * 1024 * 1024) {
+      toast({ title: "File too large", description: "Video must be under 500MB", variant: "destructive" });
+      return;
     }
+    setVideoFile(file);
   };
 
   const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        toast({ title: "File too large", description: "Photo must be under 10MB", variant: "destructive" });
-        return;
-      }
-      setPhotoFile(file);
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+      toast({ title: "File too large", description: "Photo must be under 10MB", variant: "destructive" });
+      return;
     }
+    setPhotoFile(file);
   };
 
   const uploadFile = async (file: File, type: "video" | "photo", folderId: string): Promise<string> => {
@@ -125,20 +90,12 @@ const TherapistFeedbackDialog = ({
     const combinedFeedback = [...selectedOptions, feedbackText.trim()].filter(Boolean).join("\n\n");
 
     if (!combinedFeedback && !videoFile && !photoFile) {
-      toast({
-        title: "Feedback required",
-        description: "Please select feedback options, add text, video, or photo.",
-        variant: "destructive",
-      });
+      toast({ title: "Feedback required", description: "Please select feedback options, add text, video, or photo.", variant: "destructive" });
       return;
     }
 
     if (!(await canMessagePatient(patientId))) {
-      toast({
-        title: "Feedback disabled for this patient",
-        description: "This patient is on the no-feedback pathway and won't see therapist feedback.",
-        variant: "destructive",
-      });
+      toast({ title: "Feedback disabled for this patient", description: "This patient is on the no-feedback pathway and won't see therapist feedback.", variant: "destructive" });
       return;
     }
 
@@ -171,24 +128,34 @@ const TherapistFeedbackDialog = ({
           uploadedPaths.push(photoPath);
         }
 
-        const mediaMarkers = [
-          videoPath ? "[video attached]" : null,
-          photoPath ? "[photo attached]" : null,
-        ].filter(Boolean).join(" ");
-        const feedbackForRow = [combinedFeedback, mediaMarkers]
-          .filter(Boolean)
-          .join("\n\n") || "(media attached)";
-
-        const { error: insertError } = await supabase.from("therapist_feedback").insert({
-          therapist_id: user.id,
-          patient_id: patientId,
-          week_id: weekId || null,
-          feedback: feedbackForRow,
-          video_url: videoPath || null,
-          photo_url: photoPath || null,
-        });
+        const feedbackForRow = combinedFeedback || "Rich feedback";
+        const { data: feedbackRow, error: insertError } = await supabase
+          .from("therapist_feedback")
+          .insert({
+            therapist_id: user.id,
+            patient_id: patientId,
+            week_id: weekId || null,
+            feedback: feedbackForRow,
+            video_url: videoPath || null,
+            photo_url: photoPath || null,
+          })
+          .select("id")
+          .single();
 
         if (insertError) throw insertError;
+
+        const messageBody = combinedFeedback || "Rich feedback";
+        const { error: messageInsertError } = await supabase.from("messages").insert({
+          patient_id: patientId,
+          therapist_id: user.id,
+          week_id: weekId || null,
+          body: messageBody,
+          sent_by: "therapist",
+          video_url: videoPath || null,
+          photo_url: photoPath || null,
+          therapist_feedback_id: feedbackRow?.id || null,
+        } as any);
+        if (messageInsertError) throw messageInsertError;
       } catch (uploadOrInsertError) {
         if (uploadedPaths.length > 0) {
           try {
@@ -199,19 +166,6 @@ const TherapistFeedbackDialog = ({
         }
         throw uploadOrInsertError;
       }
-
-      const mediaSuffix = [videoPath ? "[video attached]" : null, photoPath ? "[photo attached]" : null]
-        .filter(Boolean)
-        .join(" ");
-      const messageBody = [combinedFeedback, mediaSuffix].filter(Boolean).join("\n\n");
-      const { error: messageInsertError } = await supabase.from("messages").insert({
-        patient_id: patientId,
-        therapist_id: user.id,
-        week_id: weekId || null,
-        body: messageBody || "(rich feedback)",
-        sent_by: "therapist",
-      });
-      if (messageInsertError) throw messageInsertError;
 
       const getContextLabel = () => {
         if (exerciseTitle) return `for "${exerciseTitle}"`;
@@ -228,10 +182,7 @@ const TherapistFeedbackDialog = ({
 
       if (notifyError) {
         console.warn("Notification insert failed after feedback saved:", notifyError);
-        toast({
-          title: "Feedback Sent (notification failed)",
-          description: `Feedback saved for ${patientName}, but the patient notification could not be created: ${notifyError.message}`,
-        });
+        toast({ title: "Feedback Sent (notification failed)", description: `Feedback saved for ${patientName}, but the patient notification could not be created: ${notifyError.message}` });
       } else {
         toast({ title: "Feedback Sent", description: `Feedback sent to ${patientName}` });
       }
