@@ -19,27 +19,24 @@ const ResetPassword = () => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/update-password`,
-      });
+    const normalizedEmail = email.trim().toLowerCase();
 
-      if (error) throw error;
+    // Always show the same success message — never reveal whether an email
+    // exists in the system. Real Supabase errors are still logged for ops.
+    const { error } = await supabase.auth.resetPasswordForEmail(normalizedEmail, {
+      redirectTo: `${window.location.origin}/update-password`,
+    });
 
-      setSent(true);
-      toast({
-        title: "Check your email",
-        description: "We've sent you a link to reset your password.",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
+    if (error) {
+      console.error("resetPasswordForEmail failed:", error);
     }
+
+    setSent(true);
+    toast({
+      title: "Check your email",
+      description: "If this email exists in the system, a reset link has been sent. Please check spam/junk too.",
+    });
+    setLoading(false);
   };
 
   return (

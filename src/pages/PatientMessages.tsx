@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, MessageSquare, Send } from "lucide-react";
 import { MobileContainer } from "@/components/layout/MobileContainer";
@@ -11,6 +10,8 @@ import { PatientHeader } from "@/components/layout/PatientHeader";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
+import { FeedbackMediaButtons, cleanFeedbackBody } from "@/lib/feedbackMedia";
+import { patientRequiresVideo } from "@/lib/constants";
 
 const PatientMessages = () => {
   const [messages, setMessages] = useState<any[]>([]);
@@ -46,18 +47,22 @@ const PatientMessages = () => {
       if (!patientData) throw new Error("Patient not found");
       setPatient(patientData);
 
-      if (patientData.requires_video === false) {
-        navigate("/patient", { replace: true });
-        return;
-      }
-
+      // Load messages first — non-video patients may still have historical
+      // therapist feedback to read. Only redirect away if they truly have
+      // nothing to see AND can't message the therapist.
       const { data: messagesData } = await supabase
         .from("messages")
         .select("*")
         .eq("patient_id", patientData.id)
         .order("created_at", { ascending: true });
 
-      setMessages(messagesData || []);
+      const rows = messagesData || [];
+      setMessages(rows);
+
+      if ((patientData as any).requires_video === false && rows.length === 0) {
+        navigate("/patient", { replace: true });
+        return;
+      }
     } catch (error: any) {
       console.error("Error loading messages:", error);
       toast({
@@ -107,6 +112,8 @@ const PatientMessages = () => {
     );
   }
 
+  const canCompose = patientRequiresVideo(patient);
+
   return (
     <div className="min-h-screen bg-[#FDFDFD] pb-20">
       <PatientHeader />
@@ -119,61 +126,83 @@ const PatientMessages = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6 max-w-2xl">
+      <main className={`container mx-auto px-4 py-6 max-w-2xl ${canCompose ? "" : "pb-12"}`}>
         <MobileContainer>
-          <div className="space-y-4 mb-32">
+          <div className={`space-y-4 ${canCompose ? "mb-32" : ""}`}>
             {messages.length === 0 ? (
               <div className="text-center py-20 bg-white rounded-3xl border border-slate-100 italic">
                 <MessageSquare className="w-16 h-16 text-slate-100 mx-auto mb-4" />
-                <p className="text-slate-400">No messages yet. Send a message to your therapist!</p>
+                <p className="text-slate-400">
+                  {canCompose
+                    ? "No messages yet. Send a message to your therapist!"
+                    : "No messages yet."}
+                </p>
               </div>
             ) : (
-              messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${msg.therapist_id ? "justify-start" : "justify-end"}`}
-                >
+              messages.map((msg) => {
+                const fromPatient = msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id);
+                const isSystem = msg.sent_by === 'system';
+                return (
                   <div
-                    className={`max-w-[85%] p-4 rounded-3xl shadow-sm ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id))
-                        ? "bg-primary text-white rounded-br-none"
-                        : "bg-white border border-slate-100 rounded-bl-none"
-                      }`}
+                    key={msg.id}
+                    className={`flex ${fromPatient ? "justify-end" : "justify-start"}`}
                   >
-                    <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "text-white/70" : "text-primary"
-                      }`}>
-                      {(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "You" : msg.therapist?.name || "Therapist"}
-                    </p>
-                    <p className="text-sm leading-relaxed">{msg.body}</p>
-                    <p className={`text-[9px] mt-2 ${(msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id)) ? "text-white/50" : "text-slate-400"
-                      }`}>
-                      {format(new Date(msg.created_at), "MMM d, h:mm a")}
-                    </p>
+                    <div
+                      className={`max-w-[85%] p-4 rounded-3xl shadow-sm ${
+                        fromPatient
+                          ? "bg-primary text-white rounded-br-none"
+                          : isSystem
+                            ? "bg-blue-50 border border-blue-200 rounded-bl-none"
+                            : "bg-white border border-slate-100 rounded-bl-none"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3 mb-1">
+                        <p className={`text-[10px] font-black uppercase tracking-widest ${
+                          fromPatient ? "text-white/70" : isSystem ? "text-blue-600" : "text-primary"
+                        }`}>
+                          {isSystem ? "Notification" : fromPatient ? "You" : msg.therapist?.name || "Therapist"}
+                        </p>
+                        <p className={`text-[9px] ${fromPatient ? "text-white/50" : "text-slate-400"}`}>
+                          {format(new Date(msg.created_at), "MMM d, h:mm a")}
+                        </p>
+                      </div>
+                      <p className="text-sm leading-relaxed whitespace-pre-line">
+                        {cleanFeedbackBody(msg.body)}
+                      </p>
+                      <FeedbackMediaButtons
+                        videoUrl={msg.video_url}
+                        photoUrl={msg.photo_url}
+                        className="mt-3"
+                      />
+                    </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </MobileContainer>
       </main>
 
-      <div className="fixed bottom-20 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t">
-        <div className="container mx-auto max-w-2xl flex gap-3">
-          <Textarea
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type your message here..."
-            className="rounded-2xl resize-none shadow-sm border-slate-200"
-            rows={2}
-          />
-          <Button
-            onClick={handleSendMessage}
-            disabled={!newMessage.trim() || sending}
-            className="h-auto rounded-2xl px-6 bg-slate-900"
-          >
-            <Send className="h-5 w-5" />
-          </Button>
+      {canCompose && (
+        <div className="fixed bottom-20 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t">
+          <div className="container mx-auto max-w-2xl flex gap-3">
+            <Textarea
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type your message here..."
+              className="rounded-2xl resize-none shadow-sm border-slate-200"
+              rows={2}
+            />
+            <Button
+              onClick={handleSendMessage}
+              disabled={!newMessage.trim() || sending}
+              className="h-auto rounded-2xl px-6 bg-slate-900"
+            >
+              <Send className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       <BottomNav />
     </div>

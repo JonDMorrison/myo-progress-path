@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Stethoscope } from "lucide-react";
+import { Stethoscope, Eye, EyeOff } from "lucide-react";
 
 function withTimeout<T>(promiseLike: PromiseLike<T>, ms: number, label: string): Promise<T> {
   const promise = Promise.resolve(promiseLike);
@@ -21,6 +21,7 @@ function withTimeout<T>(promiseLike: PromiseLike<T>, ms: number, label: string):
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [useMagicLink, setUseMagicLink] = useState(false);
   const navigate = useNavigate();
@@ -103,12 +104,14 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
 
+    const normalizedEmail = email.trim().toLowerCase();
+
     try {
       if (useMagicLink) {
         // Magic link login
         const { error } = await withTimeout(
           supabase.auth.signInWithOtp({
-            email,
+            email: normalizedEmail,
             options: {
               emailRedirectTo: `${window.location.origin}/`,
             },
@@ -127,7 +130,7 @@ const Auth = () => {
         // Password login
         const { error, data } = await withTimeout(
           supabase.auth.signInWithPassword({
-            email,
+            email: normalizedEmail,
             password,
           }),
           15_000,
@@ -207,16 +210,26 @@ const Auth = () => {
                     Forgot Password?
                   </button>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  minLength={6}
-                  className="h-12 bg-slate-50 border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={6}
+                    className="h-12 bg-slate-50 border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </div>
             )}
           </CardContent>
