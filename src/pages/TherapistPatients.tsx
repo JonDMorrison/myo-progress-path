@@ -24,6 +24,14 @@ import { Search, Filter } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { TherapistLayout } from '@/components/layout/TherapistLayout';
 
+function pathwayLabel(programVariant: string | null | undefined, requiresVideo: boolean | null | undefined): string {
+  const base = programVariant === 'frenectomy' ? 'Frenectomy' : 'Non-Surgical';
+  // requires_video is the explicit tier override; default to video (true) when null
+  // to match patientRequiresVideo's safety-first fallback.
+  const tier = requiresVideo === false ? '(Self-guided)' : '+ Video';
+  return `${base} ${tier}`;
+}
+
 export default function TherapistPatients() {
   const [patients, setPatients] = useState<any[]>([]);
   const [filteredPatients, setFilteredPatients] = useState<any[]>([]);
@@ -229,7 +237,7 @@ export default function TherapistPatients() {
                         </TableCell>
                         <TableCell>
                           <span className="text-sm">
-                            {patient.program_variant === 'frenectomy' ? 'Frenectomy' : 'Non-Surgical'}
+                            {pathwayLabel(patient.program_variant, patient.requires_video)}
                           </span>
                         </TableCell>
                         <TableCell>
@@ -290,7 +298,7 @@ export default function TherapistPatients() {
                         : 'Never active'}
                     </span>
                     <span className="font-medium">
-                      {patient.program_variant === 'frenectomy' ? 'Frenectomy' : 'Non-Surgical'}
+                      {pathwayLabel(patient.program_variant, patient.requires_video)}
                     </span>
                   </div>
                   

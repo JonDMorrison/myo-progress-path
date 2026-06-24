@@ -130,8 +130,8 @@ export default function PatientOverview() {
     if (!patientId) return;
     if (!patientRequiresVideo(patient)) {
       toast({
-        title: "Messaging disabled for this patient",
-        description: "This patient is on the no-feedback pathway and won't see messages.",
+        title: "Self-guided plan",
+        description: "This patient is on a self-guided plan and does not receive therapist messages.",
         variant: "destructive",
       });
       return;
@@ -383,9 +383,13 @@ export default function PatientOverview() {
                 Recent Messages
               </CardTitle>
               <div className="flex items-center gap-2">
-                <Button size="sm" onClick={() => setReplyOpen(true)}>
-                  Reply
-                </Button>
+                {patientRequiresVideo(patient) ? (
+                  <Button size="sm" onClick={() => setReplyOpen(true)}>
+                    Reply
+                  </Button>
+                ) : (
+                  <span className="text-xs text-muted-foreground italic">Self-guided plan — no messaging</span>
+                )}
                 {messageCount > 5 && (
                   <Button
                     variant="ghost"
@@ -432,13 +436,15 @@ export default function PatientOverview() {
         </Card>
       </div>
 
-      <SendNoteDialog
-        open={replyOpen}
-        onOpenChange={setReplyOpen}
-        patientName={patient.user?.name || "patient"}
-        weekNumber={null}
-        onSend={handleSendReply}
-      />
+      {patientRequiresVideo(patient) && (
+        <SendNoteDialog
+          open={replyOpen}
+          onOpenChange={setReplyOpen}
+          patientName={patient.user?.name || "patient"}
+          weekNumber={null}
+          onSend={handleSendReply}
+        />
+      )}
     </TherapistLayout>
   );
 }

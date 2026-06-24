@@ -18,6 +18,7 @@ import { calculateTriageLevel, type TriageLevel } from "@/lib/triageUtils";
 import { getModuleInfo, cleanWeekTitle } from "@/lib/moduleUtils";
 import { buildExerciseTitleMap, resolveExerciseTitle } from "@/lib/exerciseTitles";
 import { canMessagePatient } from "@/lib/messaging";
+import { patientRequiresVideo } from "@/lib/constants";
 
 interface ReviewItem {
   id: string;
@@ -28,6 +29,7 @@ interface ReviewItem {
   patient: {
     id: string;
     program_variant: string;
+    requires_video: boolean | null;
     assigned_therapist_id: string | null;
     user: { name: string; email: string };
   };
@@ -172,6 +174,7 @@ const TherapistDashboard = () => {
           patient:patients!inner(
             id,
             program_variant,
+            requires_video,
             assigned_therapist_id,
             user:users!patients_user_id_fkey(name, email)
           ),
@@ -223,6 +226,7 @@ const TherapistDashboard = () => {
             patient:patients!inner(
               id,
               program_variant,
+              requires_video,
               assigned_therapist_id,
               user:users!patients_user_id_fkey(name, email)
             ),
@@ -584,6 +588,13 @@ const TherapistDashboard = () => {
   const handleOpenNoteDialog = (patientId: string, weekNumber: number) => {
     const review = reviews.find(r => r.patient.id === patientId && r.week?.number === weekNumber);
     if (!review) return;
+    if (!patientRequiresVideo(review.patient)) {
+      toast({
+        title: "Self-guided plan",
+        description: "This patient does not receive therapist messages.",
+      });
+      return;
+    }
     setNoteDialog({ open: true, patientId, patientName: review.patient.user.name, weekNumber, weekId: review.week_id });
   };
 
@@ -591,8 +602,8 @@ const TherapistDashboard = () => {
     if (!noteDialog || !userId) return;
     if (!(await canMessagePatient(noteDialog.patientId))) {
       toast({
-        title: "Messaging disabled for this patient",
-        description: "This patient is on the no-feedback pathway and won't see messages.",
+        title: "Self-guided plan",
+        description: "This patient is on a self-guided plan and does not receive therapist messages.",
         variant: "destructive",
       });
       return;
@@ -728,6 +739,7 @@ const TherapistDashboard = () => {
                     isUnassigned={!review.patient.assigned_therapist_id}
                     firstAttemptOnly={review.firstAttemptOnly}
                     firstAttemptExerciseTitles={review.firstAttemptExerciseTitles}
+                    requiresVideo={patientRequiresVideo(review.patient)}
                     onReview={handleOpenReviewPanel}
                     onApprove={handleQuickApprove}
                     onSendNote={handleOpenNoteDialog}
@@ -764,6 +776,7 @@ const TherapistDashboard = () => {
                     videoCount={review.uploads.length}
                     messageCount={review.messages.length}
                     isUnassigned={!review.patient.assigned_therapist_id}
+                    requiresVideo={patientRequiresVideo(review.patient)}
                     onReview={handleOpenReviewPanel}
                   />
                 );
