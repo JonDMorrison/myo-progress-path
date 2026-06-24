@@ -11,6 +11,7 @@ import { MasterPatientListItem } from "@/lib/masterAdmin";
 import { TherapistAssignmentSelect } from "./TherapistAssignmentSelect";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { toast } from "sonner";
+import { getModuleInfo } from "@/lib/moduleUtils";
 
 interface MasterPatientTableProps {
   patients: MasterPatientListItem[];
@@ -32,9 +33,7 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
       counts.set(key, (counts.get(key) || 0) + 1);
     });
     const dupes = new Set<string>();
-    counts.forEach((count, key) => {
-      if (count > 1) dupes.add(key);
-    });
+    counts.forEach((count, key) => { if (count > 1) dupes.add(key); });
     return dupes;
   }, [patients]);
 
@@ -46,8 +45,7 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
     const loadDuplicates = async () => {
       try {
         const { data, error } = await supabase.from('patients').select('users!patients_user_id_fkey(name)');
-        if (error) return;
-        if (cancelled || !data) return;
+        if (error || cancelled || !data) return;
         const counts: Record<string, number> = {};
         data.forEach((row: any) => {
           const name = row.users?.name?.toLowerCase().trim();
@@ -121,6 +119,13 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
     }
   };
 
+  const getModuleLabel = (patient: MasterPatientListItem) => {
+    if (!patient.current_week_number) return null;
+    const variant = pathways[patient.patient_id] || patient.program_variant || 'frenectomy';
+    const info = getModuleInfo(patient.current_week_number, variant);
+    return `Module ${info.moduleNumber}`;
+  };
+
   const renderPatientName = (patient: MasterPatientListItem) => (
     <div className="flex items-start gap-2">
       {!patient.therapist_id && <span className="mt-1.5 block h-2 w-2 shrink-0 rounded-full bg-destructive" title="No therapist assigned" aria-label="No therapist assigned" />}
@@ -143,6 +148,16 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
       <option value="standard">Standard</option>
     </select>
   );
+
+  const renderModuleStatus = (patient: MasterPatientListItem) => {
+    const label = getModuleLabel(patient);
+    return label ? (
+      <div className="flex items-center gap-2">
+        <span className="font-medium">{label}</span>
+        {patient.current_week_status && <Badge variant={getWeekStatusColor(patient.current_week_status)} className="text-xs">{patient.current_week_status}</Badge>}
+      </div>
+    ) : <span className="text-muted-foreground text-sm">—</span>;
+  };
 
   return (
     <div className="space-y-4">
@@ -167,7 +182,7 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
               <TableHead>Clinic</TableHead>
               <TableHead>Therapist</TableHead>
               <TableHead>Pathway</TableHead>
-              <TableHead>Current Week</TableHead>
+              <TableHead>Current Module</TableHead>
               <TableHead>Last Activity</TableHead>
               <TableHead>Video</TableHead>
               <TableHead>Status</TableHead>
@@ -184,15 +199,9 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
                   <TableCell>{patient.clinic_name}</TableCell>
                   <TableCell><TherapistAssignmentSelect patientId={patient.patient_id} currentTherapistId={patient.therapist_id} currentTherapistName={patient.therapist_name} onAssigned={onRefresh} /></TableCell>
                   <TableCell>{renderPathwaySelect(patient)}</TableCell>
-                  <TableCell>
-                    {patient.current_week_number ? (
-                      <div className="flex items-center gap-2"><span className="font-medium">Week {patient.current_week_number}</span>{patient.current_week_status && <Badge variant={getWeekStatusColor(patient.current_week_status)} className="text-xs">{patient.current_week_status}</Badge>}</div>
-                    ) : <span className="text-muted-foreground text-sm">—</span>}
-                  </TableCell>
+                  <TableCell>{renderModuleStatus(patient)}</TableCell>
                   <TableCell>{patient.last_activity ? <span className="text-sm">{formatDistanceToNow(new Date(patient.last_activity), { addSuffix: true })}</span> : <span className="text-muted-foreground text-sm">Never</span>}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2"><Switch checked={videoFlags[patient.patient_id] ?? true} onCheckedChange={(checked) => handleToggleVideo(patient.patient_id, checked)} /><span className="text-xs text-muted-foreground">{videoFlags[patient.patient_id] !== false ? 'On' : 'Off'}</span></div>
-                  </TableCell>
+                  <TableCell><div className="flex items-center gap-2"><Switch checked={videoFlags[patient.patient_id] ?? true} onCheckedChange={(checked) => handleToggleVideo(patient.patient_id, checked)} /><span className="text-xs text-muted-foreground">{videoFlags[patient.patient_id] !== false ? 'On' : 'Off'}</span></div></TableCell>
                   <TableCell><Badge variant={getStatusColor(patient.patient_status)}>{patient.patient_status}</Badge></TableCell>
                   <TableCell className="text-right"><Button asChild variant="ghost" size="sm"><Link to={`/therapist/patient/${patient.patient_id}`}><Eye className="h-4 w-4" /></Link></Button></TableCell>
                 </TableRow>
@@ -205,13 +214,10 @@ export const MasterPatientTable = ({ patients, onExport, onRefresh }: MasterPati
       <div className="grid grid-cols-1 gap-3 md:hidden">
         {patients.length === 0 ? <div className="text-center text-muted-foreground py-8 border rounded-lg">No patients found</div> : patients.map((patient) => (
           <div key={patient.patient_id} className="border rounded-xl p-4 space-y-3 bg-card hover:shadow-md transition-shadow">
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">{renderPatientName(patient)}</div>
-              <Badge variant={getStatusColor(patient.patient_status)}>{patient.patient_status}</Badge>
-            </div>
+            <div className="flex items-start justify-between gap-3"><div className="min-w-0">{renderPatientName(patient)}</div><Badge variant={getStatusColor(patient.patient_status)}>{patient.patient_status}</Badge></div>
             <div className="flex items-center justify-between"><span className="text-sm text-muted-foreground font-medium">{patient.clinic_name}</span><TherapistAssignmentSelect patientId={patient.patient_id} currentTherapistId={patient.therapist_id} currentTherapistName={patient.therapist_name} onAssigned={onRefresh} /></div>
             <div className="flex items-center justify-between"><span className="text-xs text-muted-foreground">Pathway</span>{renderPathwaySelect(patient)}</div>
-            <div className="flex items-center justify-between text-sm"><div className="flex items-center gap-2">{patient.current_week_number ? <><span>Week {patient.current_week_number}</span>{patient.current_week_status && <Badge variant={getWeekStatusColor(patient.current_week_status)} className="text-xs">{patient.current_week_status}</Badge>}</> : <span className="text-muted-foreground">—</span>}</div></div>
+            <div className="flex items-center justify-between text-sm"><div className="flex items-center gap-2">{renderModuleStatus(patient)}</div></div>
             <div className="flex items-center justify-between"><span className="text-sm text-muted-foreground">{patient.last_activity ? formatDistanceToNow(new Date(patient.last_activity), { addSuffix: true }) : 'Never active'}</span><Button asChild variant="outline" size="sm"><Link to={`/therapist/patient/${patient.patient_id}`}><Eye className="h-4 w-4 mr-2" />View</Link></Button></div>
           </div>
         ))}
