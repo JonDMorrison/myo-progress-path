@@ -6,12 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Stethoscope } from "lucide-react";
+import { Stethoscope, Eye, EyeOff } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,9 +47,11 @@ const Register = () => {
 
     setLoading(true);
 
+    const normalizedEmail = email.trim().toLowerCase();
+
     try {
       const { data, error } = await supabase.auth.signUp({
-        email,
+        email: normalizedEmail,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/`,
@@ -64,7 +67,7 @@ const Register = () => {
       // If email confirmation is disabled, session is returned immediately
       if (data.session) {
         const userId = data.session.user.id;
-        const userEmail = data.session.user.email || email;
+        const userEmail = data.session.user.email || normalizedEmail;
         const userName = name;
 
         // Call edge function to create profile rows (bypasses RLS)
@@ -199,19 +202,29 @@ const Register = () => {
 
             <div className="space-y-2">
               <Label htmlFor="password" className="text-slate-700 font-semibold ml-1">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setPasswordError(validatePassword(e.target.value));
-                }}
-                required
-                minLength={8}
-                className={`h-12 bg-slate-50 border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all ${passwordError && password ? 'border-destructive' : ''}`}
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setPasswordError(validatePassword(e.target.value));
+                  }}
+                  required
+                  minLength={8}
+                  className={`h-12 bg-slate-50 border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all pr-12 ${passwordError && password ? 'border-destructive' : ''}`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
               {passwordError && password ? (
                 <p className="text-xs text-destructive mt-1 ml-1">{passwordError}</p>
               ) : (
