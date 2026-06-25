@@ -47,16 +47,13 @@ const PatientMessages = () => {
       if (!patientData) throw new Error("Patient not found");
       setPatient(patientData);
 
-      // Load messages first — non-video patients may still have historical
-      // therapist feedback to read. Only redirect away if they truly have
-      // nothing to see AND can't message the therapist.
       const { data: messagesData } = await supabase
         .from("messages")
         .select("*")
         .eq("patient_id", patientData.id)
         .order("created_at", { ascending: true });
 
-      const rows = messagesData || [];
+      const rows = (messagesData || []).filter((message: any) => message.sent_by !== 'system');
       setMessages(rows);
 
       if ((patientData as any).requires_video === false && rows.length === 0) {
@@ -141,7 +138,6 @@ const PatientMessages = () => {
             ) : (
               messages.map((msg) => {
                 const fromPatient = msg.sent_by === 'patient' || (!msg.sent_by && !msg.therapist_id);
-                const isSystem = msg.sent_by === 'system';
                 return (
                   <div
                     key={msg.id}
@@ -151,16 +147,14 @@ const PatientMessages = () => {
                       className={`max-w-[85%] p-4 rounded-3xl shadow-sm ${
                         fromPatient
                           ? "bg-primary text-white rounded-br-none"
-                          : isSystem
-                            ? "bg-blue-50 border border-blue-200 rounded-bl-none"
-                            : "bg-white border border-slate-100 rounded-bl-none"
+                          : "bg-white border border-slate-100 rounded-bl-none"
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3 mb-1">
                         <p className={`text-[10px] font-black uppercase tracking-widest ${
-                          fromPatient ? "text-white/70" : isSystem ? "text-blue-600" : "text-primary"
+                          fromPatient ? "text-white/70" : "text-primary"
                         }`}>
-                          {isSystem ? "Notification" : fromPatient ? "You" : msg.therapist?.name || "Therapist"}
+                          {fromPatient ? "You" : msg.therapist?.name || "Therapist"}
                         </p>
                         <p className={`text-[9px] ${fromPatient ? "text-white/50" : "text-slate-400"}`}>
                           {format(new Date(msg.created_at), "MMM d, h:mm a")}
