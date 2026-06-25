@@ -30,10 +30,22 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 const AUTH_DEBUG = false;
+const PASSWORD_RECOVERY_FLAG = "myocoach:password-recovery";
 
 function authLog(...args: any[]) {
   if (AUTH_DEBUG) {
     console.log("[Auth]", ...args);
+  }
+}
+
+function routePasswordRecoveryToUpdateScreen() {
+  if (typeof window === "undefined") return;
+
+  sessionStorage.setItem(PASSWORD_RECOVERY_FLAG, "true");
+
+  if (window.location.pathname !== "/update-password") {
+    const hash = window.location.hash || "";
+    window.location.replace(`/update-password${hash}`);
   }
 }
 
@@ -91,6 +103,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } = supabase.auth.onAuthStateChange((event, newSession) => {
       if (cancelled) return;
       authLog("Auth state change:", event, newSession?.user?.id ?? "no-user");
+
+      if (event === "PASSWORD_RECOVERY") {
+        routePasswordRecoveryToUpdateScreen();
+      }
 
       const authUser = newSession?.user ?? null;
       setUser(authUser);
@@ -173,7 +189,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
   if (!ctx) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth must be used within AuthProvider");
   }
   return ctx;
 }

@@ -158,9 +158,9 @@ const PatientDashboard = () => {
         .select("*")
         .eq("patient_id", patientData.id)
         .order("created_at", { ascending: false })
-        .limit(10);
+        .limit(20);
 
-      setMessages((messagesData || []).reverse());
+      setMessages((messagesData || []).filter((message: any) => message.sent_by !== 'system').slice(0, 10).reverse());
     } catch (error: any) {
       console.error("Error loading patient data:", error);
       toast({ title: "Error", description: "Failed to load your data. Please try again.", variant: "destructive" });
